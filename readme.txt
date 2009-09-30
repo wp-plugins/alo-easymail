@@ -19,7 +19,7 @@ The plugin lets you to send e-mails, with these features:
 == Installation ==
 
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Activate the plugin through the `Plugins` menu in WordPress
 1. Go to `Tools > Alo EasyMail` to start
 
 == Frequently Asked Questions ==
