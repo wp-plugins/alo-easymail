@@ -29,7 +29,7 @@ Author URI: http://www.eventualo.net
 /**
  * Settings
  */
-define("ALO_EM_FOOTER","&raquo; <em>Please visit my site and leave your feedback: <a href='http://www.eventualo.net' target='_blank'>www.eventualo.net</a></em>");
+define("ALO_EM_FOOTER","&raquo; <em>Please visit my site and leave your feedback: <a href='http://www.eventualo.net/blog/?p=365' target='_blank'>www.eventualo.net</a></em>");
 
 
 /**
