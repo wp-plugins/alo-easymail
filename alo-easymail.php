@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: ALO Easy Mail
-Plugin URI: http://www.eventualo.net
-Description: Allows you to send e-mail to your registered users and to other e-mail addresses.
+Plugin URI: http://www.eventualo.net/blog/?p=365
+Description: Allows you to send e-mails to your registered users and to other e-mail addresses.
 Version: 0.9
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
