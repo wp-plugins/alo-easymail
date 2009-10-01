@@ -10,7 +10,7 @@ A simple plugin to send e-mails and newsletters to your registered users and to 
 
 == Description ==
 
-The plugin lets you to send e-mails, with these features:
+The plugin lets you to send e-mails and newsletters, with these features:
 
 * you can send to registered users and/or to other e-mail addresses
 * you can use some tags in the e-mail content (post title, post excerpt, user name, site link)
