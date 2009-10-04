@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== ALO EasyMail ===
 Contributors: eventualo
 Donate link: http://www.eventualo.net/
 Tags: mail, newsletter
