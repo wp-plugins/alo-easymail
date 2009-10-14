@@ -3,7 +3,7 @@
 Plugin Name: ALO Easy Mail
 Plugin URI: http://www.eventualo.net/blog/?p=365
 Description: Allows you to send e-mails and newsletters to your registered users and to other e-mail addresses.
-Version: 0.9
+Version: 0.9.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -62,9 +62,14 @@ add_action('admin_menu', 'ALO_em_add_admin_menu');
  * Option page 
  */
 function ALO_em_option_page() { 
-
+    global $wp_version;
+    
     if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
-	    if(isset($_POST['content'])) update_option('ALO_em_template', trim($_POST['content']));
+	    if(isset($_POST['content'])) {
+	        $main_content = stripslashes($_REQUEST['content']);
+            $main_content = str_replace("\n", "<br />", $main_content);
+	        update_option('ALO_em_template', $main_content);
+	    }
 	    if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));
 	    echo '<div id="message" class="updated fade"><p>Updated.</p></div>';
     }?>
@@ -77,15 +82,32 @@ function ALO_em_option_page() {
     <input type="text" name="lastposts" value="<?php echo get_option('ALO_em_lastposts') ?>" id="lastposts" size="2" maxlength="2" />
     <p><?php echo 'Text for the mail template:'; ?></p>
     <?php
-    // include found at: http://blog.zen-dreams.com/en/2008/11/06/how-to-include-tinymce-in-your-wp-plugin/ 
-    wp_admin_css('thickbox');
-    wp_print_scripts('jquery-ui-core');
-    wp_print_scripts('jquery-ui-tabs');
-    wp_print_scripts('post');
-    wp_print_scripts('editor');
-    add_thickbox();
-    wp_print_scripts('media-upload');
-    if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+    // include found at http://blog.zen-dreams.com/en/2008/11/06/how-to-include-tinymce-in-your-wp-plugin/ 
+    // and http://blog.zen-dreams.com/en/2009/06/30/integrate-tinymce-into-your-wordpress-plugins/
+
+    if($wp_version >= '2.8') {
+        wp_enqueue_script( 'common' );
+	    wp_enqueue_script( 'jquery-color' );
+	    wp_print_scripts('editor');
+	    if (function_exists('add_thickbox')) add_thickbox();
+	    wp_print_scripts('media-upload');
+	    if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+	    wp_admin_css();
+	    wp_enqueue_script('utils');
+	    do_action("admin_print_styles-post-php");
+	    do_action('admin_print_styles');
+
+    } else {
+
+        wp_admin_css('thickbox');
+        wp_print_scripts('jquery-ui-core');
+        wp_print_scripts('jquery-ui-tabs');
+        wp_print_scripts('post');
+        wp_print_scripts('editor');
+        add_thickbox();
+        wp_print_scripts('media-upload');
+        if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+    }
     ?>
 	<div id="poststuff">
     <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">

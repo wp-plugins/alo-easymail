@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/
 Tags: mail, newsletter
 Requires at least: 2.6.2
 Tested up to: 2.8.4
-Stable tag: 0.9
+Stable tag: 0.9.1
 
 A simple plugin to send e-mails and newsletters to your registered users and to other e-mail addresses.
 
@@ -33,6 +33,10 @@ Sure, it's the only thing this plugin does.
 1. The EasyMail panel
 
 == Changelog ==
+
+= 0.9.1 =
+* Updated: tinymce's media buttons compatible with WP v.2.8.4
+* Fixed: correct stripslashing when updating content in option page
 
 = 0.9 =
 * First release
