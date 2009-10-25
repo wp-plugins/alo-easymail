@@ -40,6 +40,8 @@ function ALO_em_install() {
 	    add_option('ALO_em_template', 'Hi [USER-NAME],<br /><br />
 	    I have published a new post <strong>[POST-TITLE]</strong>.<br />[POST-EXCERPT]<br />Please visit my site [SITE-LINK] to read it and leave your comment about it.<br />
         Hope to see you online!<br /><br />[SITE-LINK]');
+	if (!get_option('ALO_em_list'))
+	    add_option('ALO_em_list', '');
     if (!get_option('ALO_em_lastposts'))
 	    add_option('ALO_em_lastposts', 10);
 }
@@ -70,6 +72,7 @@ function ALO_em_option_page() {
             $main_content = str_replace("\n", "<br />", $main_content);
 	        update_option('ALO_em_template', $main_content);
 	    }
+	    if(isset($_POST['emails_add'])) update_option('ALO_em_list', trim($_POST['emails_add']));
 	    if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));
 	    echo '<div id="message" class="updated fade"><p>Updated.</p></div>';
     }?>
@@ -113,6 +116,10 @@ function ALO_em_option_page() {
     <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
     <?php the_editor(get_option('ALO_em_template')); ?>
     </div></div>
+    
+    <p style='margin-top:20px;'>List of e-mail addresses, separated by <strong>comma</strong> (,):</p>
+    <textarea id="emails_add" value="" name="emails_add" rows="5" cols="70"><?php echo get_option('ALO_em_list'); ?></textarea>
+    
     <p class="submit">
     <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
     <span id="autosave"></span>
