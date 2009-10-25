@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/
 Tags: mail, newsletter
 Requires at least: 2.6.2
 Tested up to: 2.8.4
-Stable tag: 0.9.2
+Stable tag: 0.9.1
 
 A simple plugin to send e-mails and newsletters to your registered users and to other e-mail addresses.
 
