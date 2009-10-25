@@ -72,6 +72,9 @@ if(isset($_REQUEST['submit'])) {
     // Save content for next sending, if request
     if ($_REQUEST['ck_save_template']) update_option('ALO_em_template', $main_content);
     
+    // Save emails'list for next sending, if request
+    if ($_REQUEST['ck_save_list']) update_option('ALO_em_list', trim($_REQUEST['emails_add']) );
+    
     $r = 0; // count sent
     $s = 0; // count success sent
     $listnosent = ""; // list no sent mails
@@ -109,7 +112,8 @@ if(isset($_REQUEST['submit'])) {
         $updated_content = str_replace("[SITE-LINK]", "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>", $updated_content);       
             
         // ---- Send MAIL ----
-        $mail_engine = @mail($recipient, $subject, $updated_content, $headers); 
+        //$mail_engine = @mail($recipient, $subject, $updated_content, $headers);
+        $mail_engine = @wp_mail($recipient, $subject, $updated_content, $headers);  
         
         // DEBUG
         //echo "<br />".$headers."<br />".$recipient."<br />". $subject."<br />".  $updated_content ."<hr />" ;

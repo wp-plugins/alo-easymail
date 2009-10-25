@@ -61,7 +61,22 @@ if($_REQUEST['message'] == 'error') { // Generic error during sending
 
 <form name="post" action="<?php echo get_option ('siteurl').'/' ?>wp-content/plugins/alo-easymail/alo-easymail_action.php" method="post" id="post">
 
-<h3>Type of e-mail</h3>
+
+<h3>Recipients</h3>
+
+<p style='margin-top:20px;'>To send to all users registered to the blog check this option:</p>
+<p><input type="checkbox" name="ck_all_users" id="ck_all_users" value="checked" checked="checked" />
+<label for="ck_all_users">All registered users</label></p>
+
+<p style='margin-top:20px;'>To send to non-registered people insert a list of e-mail addresses, separated by <strong>comma</strong> (,):</p>
+<textarea id="emails_add" value="" name="emails_add" rows="5" cols="70"><?php echo get_option('ALO_em_list'); ?></textarea>
+
+<p><input type="checkbox" name="ck_save_list" id="ck_save_list" value="checked" checked="checked" />
+<label for="ck_save_list">Save the emails' list for next sending (always available on <em>Settings</em>)</label></p>
+
+<p>&nbsp;</p>
+
+<h3>Subject and text of the e-mail</h3>
 <p style='margin-top:20px;'>Choose to send a simple generic e-mail or one concerning a specific post (in this case you can use specific tags listed below).
 </p>
 
@@ -87,17 +102,6 @@ if ($tot_posts) {
 echo '</select>';
 ?>
 
-<h3>Recipients</h3>
-
-<p style='margin-top:20px;'>To send to all users registered to the blog check this option:</p>
-<p><input type="checkbox" name="ck_all_users" id="ck_all_users" value="checked" checked="checked" />
-<label for="ck_all_users">All registered users</label></p>
-
-<p style='margin-top:20px;'>To send to non-registered people insert a list of e-mail addressed, separated by <strong>comma</strong> (,):</p>
-<textarea id="emails_add" value="" name="emails_add" rows="5" cols="70"></textarea>
-
-
-<h3>Text</h3>
 
 <p style='margin-top:20px;'><strong>Subject</strong>:</p>
 <input type="text" size="70" name="input_subject" id="input_subject" value="" maxlength="150" />
@@ -148,11 +152,11 @@ if($wp_version >= '2.8') {
 <tr><td>[SITE-LINK]</td><td style='font-size:80%'><i>The link to the site.</i>E.g.: <?php echo "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>" ?></td></tr>
 </table>
 
-
-<h3 style='margin-top:30px;'>Send</h3>
-
 <p><input type="checkbox" name="ck_save_template" id="ck_save_template" value="checked" checked="checked" />
 <label for="ck_save_template">Save the main body as template for next sending (template always available on <em>Settings</em>)</label></p>
+
+
+<h3 style='margin-top:30px;'>Send</h3>
 
 <p>Click <strong>once</strong> and <strong>wait</strong> while sending.</p>
 
