@@ -96,7 +96,7 @@ if(isset($_REQUEST['submit'])) {
 
         // TAG: [POST-EXCERPT] - if any
         if ($pID && !empty($obj_post->post_excerpt)) {
-            $updated_content = str_replace("[POST-EXCERPT]", "<br />".$obj_post->post_excerpt."<br />", $updated_content);       
+            $updated_content = str_replace("[POST-EXCERPT]", $obj_post->post_excerpt, $updated_content);       
         } else {
             $updated_content = str_replace("[POST-EXCERPT]", "", $updated_content);
         }

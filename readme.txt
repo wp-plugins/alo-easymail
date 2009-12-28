@@ -1,10 +1,9 @@
 === ALO EasyMail ===
 Contributors: eventualo
-Donate link: http://www.eventualo.net/
-Tags: mail, newsletter
+Tags: send, mail, newsletter
 Requires at least: 2.6.2
-Tested up to: 2.8.4
-Stable tag: 0.9.2
+Tested up to: 2.9
+Stable tag: 0.9.3
 
 A simple plugin to send e-mails and newsletters to your registered users and to other e-mail addresses.
 
@@ -33,6 +32,10 @@ Sure, it's the only thing this plugin does.
 1. The EasyMail panel
 
 == Changelog ==
+
+= 0.9.3 =
+* Fixed: delete line breaks in tag POST-EXCERPT
+* Tested with WP 2.9
 
 = 0.9.2 =
 * Added: using wp_mail() function instead of mail()
