@@ -3,7 +3,7 @@
 Plugin Name: ALO Easy Mail
 Plugin URI: http://www.eventualo.net/blog/?p=365
 Description: Allows you to send e-mails and newsletters to your registered users and to other e-mail addresses.
-Version: 0.9.2
+Version: 0.9.3
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
