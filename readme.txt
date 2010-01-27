@@ -10,7 +10,7 @@ To send e-mails and newsletters to your subscribers, to registered users and to 
 == Description ==
 
 With this plugin you can send e-mails and newsletters to your subscribers, to registered users and to other e-mail addresses.
-The plugin include a widget (1) to allow subscription: your registered users can subscribe/unsubscribe using a widget or profile page (1); not-registered users can subscribe using the widget.
+The plugin includes a widget (1) to allow subscription: your registered users can subscribe/unsubscribe using a widget or profile page (1); not-registered users can subscribe using the widget.
 You have an admin page to manage subscribers (search, activate, delete).
 The blog admin (or editors too, if you setup option (1)) can send newsletters inserting some post/user tags in the content: post title, post excerpt, post content, site link, user first name (1), user name.
 You can save an e-mail template and the e-mail addresses for next sending.
@@ -42,7 +42,7 @@ Use the ALO EasyMail widget (`Appearance > Widget`) to let pubblic users to subs
 = What about subscription/unsubscription procedures? =
 
 The registered users can use a widget to subscribe/unsubscribe. They can do it in profile page too.
-The new subscriber can insert name and email address in widget, then he'll receive an email with an activation link and he have to click this link to activate his subscription. To unsubscribe: at the end of newsletters there is always a link to unsubscribe.
+The new subscriber can insert name and email address in widget, then he'll receive an email with an activation link and he have to click this link to activate his subscription (the new subscribers will be deleted if don't activate in 4 days). To unsubscribe: at the end of newsletters there is always a link to unsubscribe.
 
 == Screenshots ==
 
