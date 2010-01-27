@@ -311,7 +311,7 @@ function ALO_init_delete_page() {
 }
 add_action( 'init', 'ALO_init_delete_page' );
 
-function ALO_exclude_page( & $pages ) {
+function ALO_exclude_page( $pages ) {
     for ( $i=0; $i<count($pages); $i++ ) {
 		$page = & $pages[$i];
         if ($page->ID == get_option('ALO_em_subsc_page')) unset ($pages[$i]);
