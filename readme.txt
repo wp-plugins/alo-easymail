@@ -1,5 +1,6 @@
 === ALO EasyMail Newsletter ===
 Contributors: eventualo
+Donate link: http://www.eventualo.net/blog/?p=365
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe
 Requires at least: 2.8.4
 Tested up to: 2.9.1
@@ -10,10 +11,14 @@ To send e-mails and newsletters to your subscribers, to registered users and to 
 == Description ==
 
 With this plugin you can send e-mails and newsletters to your subscribers, to registered users and to other e-mail addresses.
+
 The plugin includes a widget (1) to allow subscription: your registered users can subscribe/unsubscribe using a widget or profile page (1); not-registered users can subscribe using the widget.
+
 You have an admin page to manage subscribers (search, activate, delete).
+
 The blog admin (or editors too, if you setup option (1)) can send newsletters inserting some post/user tags in the content: post title, post excerpt, post content, site link, user first name (1), user name.
-You can save an e-mail template and the e-mail addresses for next sending.
+
+You can save an e-mail template for next sending.
 
 (1) added by GREG LAMBERT (greg4@mskiana.com). See `Changelog` for full details. Many thanks!
 
@@ -23,10 +28,12 @@ You can save an e-mail template and the e-mail addresses for next sending.
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the `Plugins` menu in WordPress
 
-= USAGE =
-1. Go to `Option > Alo EasyMail` to setup
+= QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
 1. Go to `Tools > Alo EasyMail` to send newsletter
+
+= MORE OPTIONS =
+1. Go to `Option > Alo EasyMail` to setup options
 1. Go to `Users > Alo EasyMail` to manage subscribers
 
 == Frequently Asked Questions ==
@@ -43,6 +50,14 @@ Use the ALO EasyMail widget (`Appearance > Widget`) to let pubblic users to subs
 
 The registered users can use a widget to subscribe/unsubscribe. They can do it in profile page too.
 The new subscriber can insert name and email address in widget, then he'll receive an email with an activation link and he have to click this link to activate his subscription (the new subscribers will be deleted if don't activate in 4 days). To unsubscribe: at the end of newsletters there is always a link to unsubscribe.
+
+= Why don't I see the subscription form in thw widget, but yes/no radio buttons ? =
+
+The widget shows different content if you are logged in or not. If you are registered and logged in (as admin too) the widget shows radio buttons (yes/no). If you are not registered or not logged in, the widget shows the subscription form (name, email) and submit button.
+
+= And... ? =
+
+More info on [plugin homepage](http://www.eventualo.net/blog/?p=365).
 
 == Screenshots ==
 
