@@ -18,7 +18,7 @@ ALO EasyMail newsletter lets you write and send newsletters, collect and manage 
 * The **recipients** are: the registered users, public subscribers (not registered users), other e-mail addresses entered by the administrator.
 * You can select a published post and use **some tags** to enter information in the text of the newsletter: title, excerpt, content.
 * Tags are also available for recipients (username, firstname) and for the blog (link to homepage).
-* To send the newsletter the plugin uses the **WP cron system**: it makes partial sendings at small time intervals (20 minutes) until it sends to all recipients. It allows you to send a large amount of email without overloading the server or exceed the limits imposed by the provide.
+* To send the newsletter the plugin uses the **WP cron system**: it makes partial sendings at small time intervals (10 minutes) until it sends to all recipients. It allows you to send a large amount of email without overloading the server or exceed the limits imposed by the provide.
 * After the sending is available a **report** with the outcome of transmission to each recipient.
 * Administrator users have access to a page for **managing subscribers** (search, enable/disable, delete) and the general options for the plugin.
 
