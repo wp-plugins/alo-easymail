@@ -520,12 +520,12 @@ function ALO_em_send_activation_email($email, $name, $unikey) {
     // Subject
     $subject = "Confirm your subscription to " .get_option('blogname') . " Newsletter";
     // Main content
-    $content = "Hi ". $name ."\r\nto complete your subscription to ".get_option('blogname') ."'s newsletter you need to click the follow link (or paste it in the address bar of your browser):\r\n";
+    $content = "Hi ". $name ."\r\nto complete your subscription to ".get_option('blogname') ." newsletter you need to click on the following link (or paste it in the address bar of your browser):\r\n";
 
  	$div_email = explode("@", $email); // for link
 
     $content .= get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page'). "&ac=activate&em1=" . $div_email[0] . "&em2=" . $div_email[1] . "&uk=" . $unikey . "\r\n";
-    $content .= "If you didn't require this subscription simply ignore this message.\r\n";
+    $content .= "If you didn't ask for this subscription ignore this message.\r\n";
     $content .= "Thank you\r\n".get_option('blogname')."\r\n";
     
     //echo "<br />".$headers."<br />".$subscriber->email."<br />". $subject."<br />".  $content ."<hr />" ; // DEBUG
@@ -628,7 +628,7 @@ function ALO_em_pubblic_form_callback() {
             $error_on_adding .= "The e-email address is not correct.<br />";
         }
         if ( stripslashes(trim($_POST['alo_em_opt_name'])) == "") {
-            $error_on_adding .= "The name field is blank.<br />";
+            $error_on_adding .= "The name field is empty.<br />";
         }
         if ($error_on_adding == "") { // if no error
             // try to add new subscriber (and send mail if necessary) and return TRUE if success
@@ -639,7 +639,7 @@ function ALO_em_pubblic_form_callback() {
             }
         } 
         if ($just_added == true) {
-			$output = "<strong>Success!</strong><br />Now we are sending an e-mail to you. Check your e-mail account and click the activation link in the e-mail to complete your subscription.";        
+			$output = "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.";   
        		$classfeedback = "alo_easymail_widget_ok";
         } else {
 			$output = $error_on_adding;
@@ -728,7 +728,7 @@ function ALO_em_batch_sending () {
 	    // Unsubscribe link, only if subscriber
 		if ($recipient['unikey']) {
 			$div_email = explode("@", $recipients[$r]['email']); // for link
-		    $updated_content .= "<p><em>You have received this message because you subscribed our newsletter. If you want to unsubscribe please ";
+		    $updated_content .= "<p><em>You have received this message because you subscribed to our newsletter. If you want to unsubscribe please ";
 		    $updated_content .= "<a href='".get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page');
 		    $updated_content .= "&amp;ac=unsubscribe&amp;em1=" .$div_email[0] . "&amp;em2=" .$div_email[1] . "&amp;uk=" .$recipients[$r]['unikey']."'>click here</a>.";            
 		    $updated_content .= "</em></p>";
