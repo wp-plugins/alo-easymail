@@ -9,7 +9,7 @@ if($_REQUEST['task'] == 'active' && is_numeric($_REQUEST['subscriber_id'])) {
     if ( ALO_em_edit_subscriber_state_by_id($_REQUEST['subscriber_id'], $_REQUEST['act']) ) {
 	    print '<div id="message" class="updated fade"><p>Activation state updated.</p></div>';
 	} else {
-	    print '<div id="message" class="updated fade"><p>Error during operation. No updated.</p></div>';
+	    print '<div id="message" class="error"><p>Error during operation. Not updated.</p></div>';
 	}
 }
 
@@ -18,7 +18,7 @@ if($_REQUEST['task'] == 'delete' && is_numeric($_REQUEST['subscriber_id'])) {
     if ( ALO_em_delete_subscriber_by_id ($_REQUEST['subscriber_id']) ) {
 	    print '<div id="message" class="updated fade"><p>Subscriber deleted.</p></div>';
 	} else {
-	    print '<div id="message" class="updated fade"><p>Error during operation. No deleted.</p></div>';
+	    print '<div id="message" class="error"><p>Error during operation. Not deleted.</p></div>';
 	}
 }
 
@@ -194,13 +194,13 @@ if (count($all_subscribers)) {
 		    <?php echo date("d/m/Y", strtotime($subscriber->join_date))." h.".date("H:i", strtotime($subscriber->join_date)) ?></td>
 		<td><?php // Check the state (active/no-active)
     		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=".$_GET['order']. "' title='Modify activation state' ";
-		    echo " onclick=\"return confirm('Do you really modify the activation state ".(($subscriber->active == 1)? " from Active to INACTIVE": "from Inactive to ACTIVE")."?');\">";
+		    echo " onclick=\"return confirm('Do you really want to modify the activation state ".(($subscriber->active == 1)? " from Active to INACTIVE": "from Inactive to ACTIVE")."?');\">";
 		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($subscriber->active == 1)? "yes.png":"no.png") ."' />";
     		?>
         </td>
 		<td><?php // Delete subscriber
     		echo "<a href='".$link_string."&amp;task=delete&amp;subscriber_id=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".$_GET['order']. "' title='Delete subscriber' ";
-		    echo " onclick=\"return confirm('Do you really DELETE this subscriber?');\">";
+		    echo " onclick=\"return confirm('Do you really want to DELETE this subscriber?');\">";
 		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/trash.png' />";
     		?>
 		</td>
@@ -210,7 +210,7 @@ if (count($all_subscribers)) {
 	} else {
 ?>
 	<tr>
-		<td colspan="8">No subscribers yet</td>
+		<td colspan="8">No subscribers yet.</td>
 	</tr>
 <?php
 }

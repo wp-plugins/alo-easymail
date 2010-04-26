@@ -4,15 +4,69 @@ define('ALO_EM_OPT_METAKEY','alo_easymail_optin_setting');
 
 //============= Widget functions ==============================================
 
-// Get the optin/out option for the user
-// if user id is not supplied uses current user
-// returns 'yes' or 'no', default is yes
-function ALO_easymail_get_optin($uid=FALSE){
+
+/**
+ * Get the optin/out option for the user
+ */
+function ALO_easymail_get_optin ($uid=FALSE) {
     global $user_ID;
     if (!$uid) $uid = $user_ID;
     $optin = get_usermeta( $uid, ALO_EM_OPT_METAKEY );
     if (!$optin) return 'yes'; // default setting
     return $optin;
+}
+
+/**
+ * Show the widget form for registered/pubblic
+ */
+function ALO_em_show_widget_form ($optin_msg , $optout_msg) {
+	global $user_ID, $user_email, $wpdb;
+	
+	if (is_user_logged_in()) {
+        // For REGISTERED USER
+        if (ALO_em_is_subscriber($user_email)){
+            $optin_checked = "checked='checked'";            
+            $optout_checked = "";            
+        }
+        else{
+            $optin_checked = "";            
+            $optout_checked = "checked='checked'";            
+        }        
+        
+        $html = "<div id='alo_easymail_widget_feedback'></div>"; // if any
+        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
+        $html .= "<table>\n";
+        $html .= "  <tr>\n";
+        $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' /></td>\n";
+        $html .= "    <td>$optin_msg</td>\n";
+        $html .= "  </tr><tr>\n";
+        $html .= "    <td><input onchange='alo_em_user_form(\"no\");return false;' type='radio' $optout_checked name='alo_easymail_option' value='no' /></td>\n";
+        $html .= "    <td>$optout_msg</td>\n";
+        $html .= "  </tr>\n";
+        $html .= "</table>\n";        
+        $html .= "</form>\n";
+        
+    } else {
+        // For NOT-REGISTERED, PUBBLIC SUBSCRIBER
+        $html = "<div id='alo_easymail_widget_feedback'></div>"; // if any
+        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
+        $html .= "<table>\n";
+        $html .= "  <tr>\n";
+        $html .= "    <td>Name</td>";
+        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". stripslashes($_POST['alo_em_opt_name'])."' id='opt_name' size='10' maxlength='50' /></td>\n";
+        $html .= "  </tr>\n";
+        $html .= "  <tr>\n";
+        $html .= "    <td>E-mail</td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". stripslashes($_POST['alo_em_opt_email'])."' id='opt_email' size='10' maxlength='50' /></td>\n";
+        $html .= "  </tr>\n";
+        $html .= "</table>\n";        
+        $html .= "<input type='submit' name='submit' id='submit' value='Subscribe' />\n";
+        $html .= "</form>\n";    
+    } 
+    
+    // and output it
+    return $html;
+
 }
 
 //============= Widget Class ==============================================
@@ -48,51 +102,23 @@ class ALO_Easymail_Widget extends WP_Widget {
         
 		extract( $args );
         
-        //For NOT-REGISTERED, PUBBLIC SUBSCRIBER
-        if (isset($_POST['alo_em_opt_name']) && isset($_POST['alo_em_opt_email'])){
-
-            $error_on_adding = "";
-            $just_added = false;
-            if (!ereg("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", trim($_POST['alo_em_opt_email']) )) {
-                $error_on_adding .= "The e-email address is not correct.<br />";
-            }
-            if ( stripslashes(trim($_POST['alo_em_opt_name'])) == "") {
-                $error_on_adding .= "The name field is blank.<br />";
-            }
-            if ($error_on_adding == "") { // if no error
-                // try to add new subscriber (and send mail if necessary) and return TRUE if success
-                if ( ALO_em_add_subscriber( stripslashes(trim($_POST['alo_em_opt_email'])), trim($_POST['alo_em_opt_name']), 0) ) {
-                    $just_added = true;
-                } else {
-                    $error_on_adding = "Error during sending: please try again.<br />";
-                }
-            } 
-        }
+        // add ALO: hide the widget in subscriber page
+        if ( is_page(get_option('ALO_em_subsc_page')) ) return;
         
-        // For REGISTERED USER
-        if ( is_user_logged_in() && isset($_POST['alo_easymail_option'])) {
-            if ( $_POST['alo_easymail_option'] == "yes") {
-                ALO_em_add_subscriber($user_email, get_usermeta($user_ID, 'first_name')." ".get_usermeta($user_ID,'last_name') , 1);
-            } else{
-            //if ( $_POST['alo_easymail_option'] == "no") {
-                ALO_em_delete_subscriber_by_id( ALO_em_is_subscriber($user_email) );
-            }
-        }
-
-		// Our variables from the widget settings.
+ 		// Our variables from the widget settings.
 		$title = apply_filters('widget_title', $instance['title'] );
-
+		
         // Get the the user's optin setting
         //if (ALO_easymail_get_optin()=='yes'){
         if (ALO_em_is_subscriber($user_email)){
-            $optin_checked = 'checked';            
-            $optout_checked = '';            
+            $optin_checked = "checked='checked'";            
+            $optout_checked = "";            
         }
         else{
-            $optin_checked = '';            
-            $optout_checked = 'checked';            
+            $optin_checked = "";            
+            $optout_checked = "checked='checked'";            
         }        
-
+		
 		// Before widget (defined by themes). 
 		echo $before_widget;
 
@@ -103,50 +129,9 @@ class ALO_Easymail_Widget extends WP_Widget {
         // get the message optin/out messages
         $optin_msg = $instance['alo_easymail_optin_msg'];
         $optout_msg = $instance['alo_easymail_optout_msg'];
-                  
-        if (is_user_logged_in()) {
-            // For REGISTERED USER
-            
-            $html = "<form name='alo_easymail_widget_form' method='post' action='{$_SERVER['REQUEST_URI']}'>\n";
-            $html .= "<table>\n";
-            $html .= "  <tr>\n";
-            $html .= "    <td><input onchange='alo_easymail_widget_form_submit()' type='radio' $optin_checked name='alo_easymail_option' id='alo_easymail_option' value='yes'\></td>\n";
-            $html .= "    <td>$optin_msg</td>\n";
-            $html .= "  </tr><tr>\n";
-            $html .= "    <td><input onchange='alo_easymail_widget_form_submit()' type='radio' $optout_checked name='alo_easymail_option' id='alo_easymail_option' value='no'\></td>\n";
-            $html .= "    <td>$optout_msg</td>\n";
-            $html .= "  </tr>\n";
-            $html .= "</table>\n";        
-            $html .= "</form>\n";
-            $html .= "<script type='text/javascript'>function alo_easymail_widget_form_submit(){document.alo_easymail_widget_form.submit()}</script>\n";
-            
-        } else {
-            // For NOT-REGISTERED, PUBBLIC SUBSCRIBER
-            
-            if ( $just_added == false) { // if not success
-                
-                $html = ( ($error_on_adding !="") ? "<div style='color:#f00'>$error_on_adding</div>" : "" ); // if any
-                $html .= "<form name='alo_easymail_widget_form' method='post' action='{$_SERVER['REQUEST_URI']}'>\n";
-                $html .= "<table>\n";
-                $html .= "  <tr>\n";
-                $html .= "    <td><label for='alo_em_opt_name'>Name</label></td>";
-                $html .= "    <td><input type='text' name='alo_em_opt_name' value='". stripslashes($_POST['alo_em_opt_name'])."' id='opt_name' size='10' maxlength='50' /></td>\n";
-                $html .= "  </tr>\n";
-                $html .= "  <tr>\n";
-                $html .= "    <td><label for='alo_em_opt_email'>E-mail</label></td>\n";
-                $html .= "    <td><input type='text' name='alo_em_opt_email' value='". stripslashes($_POST['alo_em_opt_email'])."' id='opt_email' size='10' maxlength='50' /></td>\n";
-                $html .= "  </tr>\n";
-                $html .= "</table>\n";        
-                $html .= "<input type='submit' name='submit' id='submit' value='Subscribe' />\n";
-                $html .= "</form>\n";
-                
-            } else { // if success!
-                
-                $html = "<div style='color:#0f0'>Success!<br />\n";
-                $html .= "Now we are sending an e-mail to you. Check your e-mail account and click the activation link in the e-mail to complete your subscription.";
-                $html .= "</div>";
-            }
-        } 
+        
+        // add ALO: print the form
+        echo ALO_em_show_widget_form ($optin_msg , $optout_msg);
         
         // and output it
         echo $html;
@@ -165,7 +150,11 @@ class ALO_Easymail_Widget extends WP_Widget {
 		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['alo_easymail_optin_msg'] = strip_tags( $new_instance['alo_easymail_optin_msg'] );
 		$instance['alo_easymail_optout_msg'] = strip_tags( $new_instance['alo_easymail_optout_msg'] );
-
+		
+		// add ALO: add option text to use form outside widget
+		update_option( "ALO_em_optin_msg", $instance['alo_easymail_optin_msg'] );
+		update_option( "ALO_em_optout_msg", $instance['alo_easymail_optout_msg'] );
+		
 		return $instance;
 	}
 

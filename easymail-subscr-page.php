@@ -8,11 +8,15 @@ $unikey = stripslashes($wpdb->escape($_GET['uk']));
 $action = stripslashes($wpdb->escape($_GET['ac']));
 
 
-// CHECK IF CAN ACCESS
+// If there is not an activation/unsubscribe request
 if (ALO_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
-
-    echo "<p>Sorry, but you cannot enter the requested page.</p>";
-
+	
+	$optin_msg = get_option('ALO_em_optin_msg');
+	$optout_msg = get_option('ALO_em_optout_msg');
+    echo "<div id='alo_easymail_page'>";
+	echo ALO_em_show_widget_form($optin_msg , $optout_msg);
+	echo "</div>";
+	
 else: // if can go on
  
 

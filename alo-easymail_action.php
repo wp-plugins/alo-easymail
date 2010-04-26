@@ -8,7 +8,7 @@ auth_redirect();
 if($wp_version >= '2.6.5') check_admin_referer('alo-easymail_main');
 
 if(isset($_REQUEST['submit'])) {
-        
+
     // prepare array with recipients' addresses
     $recipients = array();
 
@@ -47,203 +47,113 @@ if(isset($_REQUEST['submit'])) {
         $non_reg_emails = explode(",", $_REQUEST['emails_add']);
         foreach ($non_reg_emails as $non_reg_email) {
             $trim_non_reg_email = trim($non_reg_email);
-            if (ereg("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $trim_non_reg_email )) {
+            $recipients[$trim_non_reg_email]['email'] = $trim_non_reg_email; // no check, add
+            /*
+            //if (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/' , $trim_non_reg_email )) {
+            if (is_email($trim_non_reg_email)) {
                 $recipients[$trim_non_reg_email]['email'] = $trim_non_reg_email;
             } else {
-                $wrong_add_email .= $trim_non_reg_email." ";
+                $wrong_add_email .= $trim_non_reg_email."; ";
             }
+            */
         }
     }
-     
-    // ------------------
-    // PREPARE THE E-MAIL
-    // ------------------
-    
-    // From
-    $mail_sender = "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
-    
-    // Headers
-    $headers =  "MIME-Version: 1.0\n";
-    $headers .= "From: ".get_option('blogname')." <".$mail_sender.">\n";
-    //$headers .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\n";
-    $headers .= "Content-Transfer-Encoding: 7bit\n\n";
     
     // Subject
     $subject = stripslashes($wpdb->escape($_REQUEST['input_subject']));
     
     // Main content
     $main_content = stripslashes($_REQUEST['content']);
-    $main_content = str_replace("\n", "<br />", $main_content);
+    //$main_content = str_replace("\n", "<br />", $main_content);
     
-    // check input error: if any stop here  
-    if ($subject == "" || $main_content == "")  $error .= "- Fill 'subject' and 'main body' fields.<br />";
-    if ($_REQUEST['select_recipients'] == 'none' && trim($_REQUEST['emails_add']) == "") $error .= "- No recipients specified.<br />";
+      
+    // --------------------------------------
+    // check input error: if any stop here 
+    // --------------------------------------
+     
+    if ($subject == "" || $main_content == "")  $error .= "Fill subject and main body fields";
+    if ($_REQUEST['select_recipients'] == 'none' && trim($_REQUEST['emails_add']) == "") $error .= "No recipients specified";
     if ($error != "" || $wrong_add_email != "") {
-        //wp_redirect( get_option ('siteurl')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message='.$error);
-        echo " <script type='text/javascript'> opener.document.getElementById('submit').value='Send'; </script> ";
-        echo "<div id='message' class='updated fade'><h3>Error.</h3>";
-        if ($error !="") echo "<p>$error</p>";
-        if ($wrong_add_email !="") echo "<p>- Some inserted email addesses are incorrect, please check:<br /><strong>$wrong_add_email</strong>.</p>";
-        echo "</div>";
-        echo "<p><a href='javascript:window.close()' >close</a> </p>";
+        wp_redirect( get_option ('home')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=error');
         exit;
     }
+    
+    
+    // ----------------------------------------------------
+    //           PREPARE THE MAIL & THE BATCH
+    // ----------------------------------------------------
+    
+    // From
+    $mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
+    
+    // Headers
+    $headers =  "MIME-Version: 1.0\n";
+    $headers .= "From: ".get_option('blogname')." <".$mail_sender.">\n";
+    //$headers .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\n";
+    $headers .= "Content-Transfer-Encoding: 7bit\n\n";   
 
     // Save content for next sending, if request
-    if ($_REQUEST['ck_save_template']) update_option('ALO_em_template', $main_content);
+    if ($_REQUEST['ck_save_template']) update_usermeta( $user_ID, 'ALO_em_template', $main_content); 
     
     // Save emails'list for next sending, if request
-    if ($_REQUEST['ck_save_list']) update_option('ALO_em_list', trim($_REQUEST['emails_add']) );
+    if ($_REQUEST['ck_save_list']) update_usermeta( $user_ID, 'ALO_em_list', trim($_REQUEST['emails_add']) ); 
     
-    $r = 0; // count sent
-    $s = 0; // count sending success
-    $e = 0; // count sending error
-    $listnosent = ""; // list no sent mails
-        
-    // SEND EMAIL TO EACH RECIPIENT
-    foreach ($recipients as $recipient) {
-        
-        $r ++; // add this send to count
-        
-        // For each recipient delete TAGs update
-        $updated_content = $main_content;
-       
-        // TAG: [POST-TITLE]
-        if ($pID) {
-            $updated_content = str_replace("[POST-TITLE]", $obj_post->post_title, $updated_content);       
-        } else {
-            $updated_content = str_replace("[POST-TITLE]", "", $updated_content);
-        }
-
-        // TAG: [POST-CONTENT]
-        if ($pID) {
-            $updated_content = str_replace("[POST-CONTENT]", $obj_post->post_content, $updated_content);       
-        } else {
-            $updated_content = str_replace("[POST-CONTENT]", "", $updated_content);
-        }
-        
-        // TAG: [POST-EXCERPT] - if any
-        if ($pID && !empty($obj_post->post_excerpt)) {
-            $updated_content = str_replace("[POST-EXCERPT]", $obj_post->post_excerpt, $updated_content);       
-        } else {
-            $updated_content = str_replace("[POST-EXCERPT]", "", $updated_content);
-        }
-             
-        // TAG: [USER-NAME]
-        if ($recipient['name']) {
-            $updated_content = str_replace("[USER-NAME]", $recipient['name'], $updated_content);       
-        } else {
-            $updated_content = str_replace("[USER-NAME]", "", $updated_content);
-        }            
-        
-        //>>>>>>> added GAL
-        // TAG: [USER-FIRST-NAME]
-        if ($recipient['firstname']) {
-            $updated_content = str_replace("[USER-FIRST-NAME]", $recipient['firstname'], $updated_content);       
-        } else {
-            $updated_content = str_replace("[USER-FIRST-NAME]", "", $updated_content);
-        }            
-        //<<<<<<<<< end added GAL
-        
-        // TAG: [SITE-LINK]
-        $updated_content = str_replace("[SITE-LINK]", "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>", $updated_content);       
-        
-        // Unsubscribe link, only if subscriber
-        if ($recipient['unikey']) {
-			$div_email = explode("@", $recipient['email']); // for link
-            $updated_content .= "<p><em>You have received this message because you subscribed our newsletter. If you want to unsubscribe please ";
-            $updated_content .= "<a href='".get_option ('siteurl') . "/?page_id=". get_option('ALO_em_subsc_page');
-            $updated_content .= "&amp;ac=unsubscribe&amp;em1=" .$div_email[0] . "&amp;em2=" .$div_email[1] . "&amp;uk=" .$recipient['unikey']."'>click here</a>.";            
-            $updated_content .= "</em></p>";
-        }
-            
-        // ---- Send MAIL ----
-        $mail_engine = @wp_mail($recipient['email'], $subject, $updated_content, $headers);  
-        
-        if($mail_engine) {
-            $s ++;   // add to success count
-            $recipients[$recipient['email']]['result'] = 1;
-        } else {
-            $listnosent .= $recipient['email'].",";
-            $e ++;  // add to error count
-            $recipients[$recipient['email']]['result'] = 0;
-        }
-        
-        // some rest for the processor...
-        if ( ($r % 50) == 0) {
-			sleep(10); // every n° sent wait a little
-		}
-		
-        // DEBUG
-        //echo "<br />".$headers."<br />".$recipient['email']."<br />". $subject."<br />".  $updated_content ."<hr />" ;
-    }
     
-    // format
-    // $listnosent = str_replace("@", ";at;", $listnosent);
-   
     // DEBUG
-    //print_r ($recipients);
-    //print_r ($name_for_tag);
-    //print_r ($_REQUEST);
-    //echo $listnosent;                    
-    /*foreach ($recipients as $rec) {
+    /*
+    echo "HEADERS: ".$headers."<br />";
+    echo "SUBJECT: ".$subject."<br />";
+    echo "CONTENT: ".$main_content."<br />";
+    foreach ($recipients as $rec) {
         echo "<pre>";print_r ($rec);echo "</pre>";
-    }*/
-    
-    // At the end: redirect
-    //wp_redirect( get_option ('siteurl')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=success&nsent='.$r.'&nsucc='.$s.'&listnosent='.$listnosent);
-    
-    echo "
-    <script type='text/javascript'>
-        	opener.document.getElementById('submit').value='Send';
-    </script>
-    "; // reset Submit text
-    
-    //wp_enqueue_script( 'listman' );
-    //wp_print_scripts();
-
-    // REPORT
-    echo "<h2>RESULT</h2>";
-    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/email.png' /> <strong>$r sent</strong>";
-    echo "<br /><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/yes.png' /> $s successful delivered";
-    if ($e > 0 && $r!=$s) echo "<br /><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/no.png' /> $e not delivered";
-    
-    // Summary table ?>
-    <br />
-    <br />
-    <table >
-        <thead>
-	    <tr>
-		    <th scope="col"></th>
-		    <th scope="col">E-mail</th>
-		    <th scope="col">Name</th>
-		    <th scope="col">Delivered</th>
-		</tr>
-	</thead>
-
-	<tbody>
-
-	<?php
-	$class = "";
-    $n = 0;
-    foreach ($recipients as $recipient) {
-        $class = ('' == $class) ? "style='background-color:#eee;'" : "";
-        $n ++;
-        echo "<tr $class ><td>".$n."</td><td>".$recipient['email']."</td><td>".$recipient['name']."</td>";
-        echo "<td><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td></tr>";
     }
-    echo "</tbody></table>";
+    */
     
-    // $listnosent (cut last comma)
-	if ($listnosent != "") {
-		echo "<br /><br />If you want you can copy the not delivered addresses from box below and paste them in recipients' field of the previous page to try again:<br />";
-		echo "<br /><textarea cols='70' rows='3' onClick='this.select();'>".substr($listnosent,0,-1) ."</textarea>";
-	}
+    // need a numeric index array
+    $num_rec = array();
+    $n =0;
+    foreach($recipients as $rec) {
+    	$num_rec[$n]= $rec;
+    	$n ++;
+    }
     
-    // go back
-    //echo "<p><a href='javascript:history.back()' >&laquo; back</a> ";
-    echo "<p><a href='javascript:window.close()' >close</a> </p>";
+    // adjust post tags
+    $updated_content = $main_content;
+   
+    // TAG: [POST-TITLE]
+    if ($pID) {
+        $updated_content = str_replace("[POST-TITLE]", "<a href='".get_permalink($obj_post->ID). "'>".$obj_post->post_title."</a>", $updated_content);      
+    } else {
+        $updated_content = str_replace("[POST-TITLE]", "", $updated_content);
+    }
+
+    // TAG: [POST-CONTENT]
+    if ($pID) {
+        $updated_content = str_replace("[POST-CONTENT]", $obj_post->post_content, $updated_content);      
+    } else {
+        $updated_content = str_replace("[POST-CONTENT]", "", $updated_content);
+    }
+    
+    // TAG: [POST-EXCERPT] - if any
+    if ($pID && !empty($obj_post->post_excerpt)) {
+        $updated_content = str_replace("[POST-EXCERPT]", $obj_post->post_excerpt, $updated_content);       
+    } else {
+        $updated_content = str_replace("[POST-EXCERPT]", "", $updated_content);
+    }
+    
+    // TAG: [SITE-LINK]
+    $updated_content = str_replace("[SITE-LINK]", "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>", $updated_content);       
+       
+    //echo "<pre>";print_r($num_rec);echo "</pre>";
+    
+    // add the newsletter to db
+    if ( ALO_em_add_new_batch ($headers, $user_ID, $subject, $updated_content, serialize($num_rec) ) == true) {
+	    wp_redirect( get_option ('home').'/wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=success');
+	} else {
+		wp_redirect( get_option ('home').'/wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=nosending');
+	}	
+    exit;
 }
 exit;
 ?>
