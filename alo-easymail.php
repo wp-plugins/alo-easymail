@@ -34,7 +34,7 @@ define("ALO_EM_FOOTER","<p style='margin-top:25px'>&raquo; <em>Please visit my s
 	<input name='cmd' value='_s-xclick' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
 	<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal' border='0' type='image'>
 	<img alt='' src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>");
-define("ALO_EM_INTERVAL_MIN", 20); 	// cron interval in minutes (default: 20) (NOTE: to apply the change you need to reactivate the plugin)
+define("ALO_EM_INTERVAL_MIN", 10); 	// cron interval in minutes (default: 10) (NOTE: to apply the change you need to reactivate the plugin)
 define("ALO_EM_MAX_ONE_SEND", 100);	// max mails sent in one sending (default: 100)
 
 /**
