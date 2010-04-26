@@ -39,11 +39,11 @@ ALO EasyMail newsletter lets you write and send newsletters, collect and manage 
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
-1. Go to `Tools > Alo EasyMail` to send newsletter
+1. Go to `Tools > EasyMail Newsletter` to send newsletter
 
 = MORE OPTIONS =
-1. Go to `Option > Alo EasyMail` to setup options
-1. Go to `Users > Alo EasyMail` to manage subscribers
+1. Go to `Option > EasyMail Newsletter` to setup options
+1. Go to `Users > Subscribers` to manage subscribers
 
 == Frequently Asked Questions ==
 
