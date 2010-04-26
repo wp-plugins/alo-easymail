@@ -47,36 +47,10 @@ ALO EasyMail newsletter lets you write and send newsletters, collect and manage 
 
 == Frequently Asked Questions ==
 
-= Why won't my newsletter be sent? (Problem with cron batch sending) =
-Maybe you are using a WP version with a known BUG in the wp_cron system (a WP bug, not an EasyMail bug). The EasyMail v.1.6 (the first with cron batch sending) **works** on WP 2.9.1 and 3.0-beta1. It **DOESN'T work** on WP 2.9 and 2.9.2. (It seems to work with WP 2.8.x series, but I've not tested it enough and however I advise to upgrade). Maybe you could try to run it on these WP versions (for details read [here](http://wordpress.org/support/topic/343174) and [here](http://wordpress.org/support/topic/296236?replies=13#post-1175405)) or try and install another WP version. 
-
-= What about subscription/unsubscription procedures? =
-Registered users can subscribe/unsubscribe either using a widget or through their profile page.
-If you are a new subscriber you can insert your name and email address in widget: you'll receive an email with an activation link; click on this link to activate your subscription (the new subscribers will be deleted if they don't activate the subscription in 5 days). To unsubscribe: at the end of newsletters there is always a link to unsubscribe.
-
-= Why don't I see the subscription form in thw widget, but yes/no radio buttons ? =
-The widget shows different contents according to whether you are logged in or not. If you are registered and logged in (as admin too) the widget shows radio buttons (yes/no). If you are not registered or not logged in, the widget shows the subscription form (name, email) and the submit button.
-
-= Can I modify the style of the subscription form? =
-Yes, you can use some available css id and class.
-About the form:
-
-`#alo_easymail_widget_form { /* the form */`
-`	color:#000;`
-`}`
-`.alo_easymail_widget_error { /* error msg */`
-`	color:#f00;`
-`}`
-`.alo_easymail_widget_ok { /* success msg */`
-`	color:#0f0;`
-`}`
-Then, the form is included in the widget and in the *Newsletter subscription* page. If you want to use different styles, use the id of the container div that include form: for the page the id is always *alo_easymail_page*, for the widget is something like *alo-easymail-widget-[n]* where [n] is the widget number.
-
-= Wonderful plugin! / I'm using it in all my sites! / It would be great if it also had this feature...  =
-You can support me by donating some money.
-
-= And...? =
-For more info, please visit [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/).
+On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
+[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
+[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/)
+[the forum](http://www.eventualo.net/forum/forum/1)
 
 == Screenshots ==
 
