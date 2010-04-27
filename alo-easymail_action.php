@@ -70,9 +70,16 @@ if(isset($_REQUEST['submit'])) {
     // --------------------------------------
     // check input error: if any stop here 
     // --------------------------------------
-     
-    if ($subject == "" || $main_content == "")  $error .= "Fill subject and main body fields";
-    if ($_REQUEST['select_recipients'] == 'none' && trim($_REQUEST['emails_add']) == "") $error .= "No recipients specified";
+
+    if (count($recipients) < 1 ) {
+        wp_redirect( get_option ('home')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=norecipients');
+        exit;    
+    }
+    //if ($subject == "" || $main_content == "")  $error .= "Fill subject and main body fields";
+    if ($subject == "" || $main_content == "") {
+        wp_redirect( get_option ('home')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=error');
+        exit;    
+    }
     if ($error != "" || $wrong_add_email != "") {
         wp_redirect( get_option ('home')."/".'wp-admin/edit.php?page=alo-easymail/alo-easymail_main.php&message=error');
         exit;
@@ -90,7 +97,8 @@ if(isset($_REQUEST['submit'])) {
     $headers =  "MIME-Version: 1.0\n";
     $headers .= "From: ".get_option('blogname')." <".$mail_sender.">\n";
     //$headers .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\n";
+    //$headers .= "Content-Type: text/html; charset=UTF-8\n";
+    $headers .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
     $headers .= "Content-Transfer-Encoding: 7bit\n\n";   
 
     // Save content for next sending, if request

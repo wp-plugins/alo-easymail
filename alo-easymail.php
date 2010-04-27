@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: Allows you to send e-mails and newsletters to your subscribers, to registered users and to other e-mail addresses. Includes a widget to collect subscribers.
-Version: 1.6
+Version: 1.6.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -726,7 +726,7 @@ function ALO_em_batch_sending () {
         //<<<<<<<<< end added GAL
 
 	    // Unsubscribe link, only if subscriber
-		if ($recipient['unikey']) {
+		if ($recipients[$r]['unikey']) {
 			$div_email = explode("@", $recipients[$r]['email']); // for link
 		    $updated_content .= "<p><em>You have received this message because you subscribed to our newsletter. If you want to unsubscribe please ";
 		    $updated_content .= "<a href='".get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page');
