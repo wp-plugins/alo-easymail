@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch, mail throttling
 Requires at least: 2.8.4
 Tested up to: 3.0-beta1  
-Stable tag: 1.6
+Stable tag: 1.6.1
 
 To send e-mails and newsletters. Including an ajax widget and a page to collect subscribers. Using a cron batch sending.
 
@@ -60,6 +60,10 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 4. The list of newsletters in queue and already sent
 
 == Changelog ==
+
+= 1.6.1 =
+* Fixed: now unsubscribe link is printed
+* Added: the mail charset is not UTF-8 but the same of the blog
 
 = 1.6 =
 * NEW FEATURES

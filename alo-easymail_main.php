@@ -55,6 +55,12 @@ if ( isset( $_REQUEST['message'])) :
 			$fbk_msg .= '<strong>Inputs are incompled or wrong. Please check and try again.</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
+		case 'norecipients': // no recipients selected
+			$fbk_msg = '<div id="message" class="error">';
+			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
+			$fbk_msg .= '<strong>No recipients selected.</strong></p>';
+			$fbk_msg .= "</div>";
+			break;
 		case 'nosending':	// error on sending
 			$fbk_msg = '<div id="message" class="error">';
 			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
