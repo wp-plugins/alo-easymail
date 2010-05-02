@@ -30,7 +30,7 @@ Author URI: http://www.eventualo.net
  * Settings
  */
 define("ALO_EM_FOOTER","<p style='margin-top:25px'>&raquo; <em>Please visit my site and leave your feedback: <a href='http://www.eventualo.net/blog/wp-alo-easymail-newsletter/' target='_blank'>www.eventualo.net</a></em></p>
-	<p>&raquo; <em>If you use this plugin consider the idea of donating and supporting its development:</em></p><form action='https://www.paypal.com/cgi-bin/webscr' method='post style='display:inline'>
+	<p>&raquo; <em>If you use this plugin consider the idea of donating and supporting its development:</em></p><form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
 	<input name='cmd' value='_s-xclick' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
 	<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal' border='0' type='image'>
 	<img alt='' src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>");
