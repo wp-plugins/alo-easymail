@@ -10,25 +10,26 @@ To send e-mails and newsletters. Including an ajax widget and a page to collect 
 
 == Description ==
 
-ALO EasyMail newsletter lets you write and send newsletters, collect and manage subcribers. 
+ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers.
 
 **Admin side Features**
 
-* The administrator users (and, if set, even the editor users) have access to a page to **send the newsletter** very quickly by choosing: recipient, subject, main text.
-* The **recipients** are: the registered users, public subscribers (not registered users), other e-mail addresses entered by the administrator.
-* You can select a published post and use **some tags** to enter information in the text of the newsletter: title, excerpt, content.
-* Tags are also available for recipients (username, firstname) and for the blog (link to homepage).
-* To send the newsletter the plugin uses the **WP cron system**: it makes partial sendings at small time intervals (10 minutes) until it sends to all recipients. It allows you to send a large amount of email without overloading the server or exceed the limits imposed by the provide.
-* After the sending is available a **report** with the outcome of transmission to each recipient.
-* Administrator users have access to a page for **managing subscribers** (search, enable/disable, delete) and the general options for the plugin.
+* Administrator users (and, if previously set, also editor users) can use a page to **send newsletters** very quickly and choosing recipients, subject and main text.
+* **Recipients** can be: registered users, public subscribers (i.e. non registered users) and any other email addresses chosen by the administrator.
+* You may choose one of the latest published articles and use **some tags** to enter information about it: title, excerpt, content. 
+* Tags for recipients (username, first name) and for the blog (link to the home page) are also available.
+* The plugin sends the newsletter by means of the **WordPress cron system**, so as to send a number of emails every 10 minutes, until all recipients have been included. This system allows to send an enormous number of emails without overloading the server or going beyond the limits set by providers. 
+* At the end of the sending the plugin provides a **report** of the outcome of the sending to each recipient.
+* Administrator users also have a page to **manage subscribers** (search, activate/disactivate, cancel) and another one for the plugin general options.
 
 **Pubblic side Features**
 
-* To manage the subscriptions the plugin uses **a widget plugin (ajax)** and a dedicated page for registered and unregistered users.
-* Registered users can subscribe / unsubscribe through an option on the dedicated page, in the widget and in their profile page.
-* Instead, public visitors (not registered users) use a simple form (name, email) to register in the widget and the dedicated page. After sending their data the new subscribers will receive an activation email with a link to click to confirm the subscription. To unsubscribe the subscribers can click on the link attached at the bottom of every newsletter.
+* To manage subscriptions to the newsletters the plugin uses a **widget (in ajax)** and a **page** that behaves differently for registered and non-registered users.
+* **Registered users** can subscribe/unsubscribe through an option that can be found in the page, in the widget and in their user profile.
+* **Public (non-registered) users** can use a simple form (name and email) in order to subscribe; the form is in the widget and in the page. Safter sending their data, they will receive an email with an activation link. To confirm their subscription they just have to click the link.
+* In order to unsubscribe, the users can simply click the link they find at the bottom of every newsletter.
 
-**IMPORTANT NOTE:** there is a BUG in the cron of some WP last versions and the plugin could not work on them. See See `Faq` for details.
+**IMPORTANT NOTE:** there is a BUG in the cron of some of the latest versions of WP (it is a WP bug, not an easymail bug). See `Faq` for details.
 
 == Installation ==
 
@@ -48,9 +49,9 @@ ALO EasyMail newsletter lets you write and send newsletters, collect and manage 
 == Frequently Asked Questions ==
 
 On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
-[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
-[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/)
-[the forum](http://www.eventualo.net/forum/forum/1)
+* [the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/),
+* [the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/),
+* [the forum](http://www.eventualo.net/forum/forum/1).
 
 == Screenshots ==
 
