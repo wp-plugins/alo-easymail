@@ -335,7 +335,7 @@ msgstr "Attenzione! I seguenti indirizzi e-mail potrebbero essere sbagliati"
 
 #: .././alo-easymail_main.php:287
 msgid "Recipients"
-msgstr "Iscritti"
+msgstr "Destinatari"
 
 #: .././alo-easymail_main.php:289
 msgid "Choose the kind of recipients"
