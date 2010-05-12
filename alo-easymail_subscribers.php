@@ -7,18 +7,18 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('You ca
 // change state activity of subscriber
 if($_REQUEST['task'] == 'active' && is_numeric($_REQUEST['subscriber_id'])) {
     if ( ALO_em_edit_subscriber_state_by_id($_REQUEST['subscriber_id'], $_REQUEST['act']) ) {
-	    print '<div id="message" class="updated fade"><p>Activation state updated.</p></div>';
+	    print '<div id="message" class="updated fade"><p>'.__("Activation state updated", "alo-easymail").'.</p></div>';
 	} else {
-	    print '<div id="message" class="error"><p>Error during operation. Not updated.</p></div>';
+	    print '<div id="message" class="error"><p>'.__("Error during operation.", "alo-easymail") ." ". __("Not updated", "alo-easymail").'.</p></div>';
 	}
 }
 
 // delete partecipation
 if($_REQUEST['task'] == 'delete' && is_numeric($_REQUEST['subscriber_id'])) {
     if ( ALO_em_delete_subscriber_by_id ($_REQUEST['subscriber_id']) ) {
-	    print '<div id="message" class="updated fade"><p>Subscriber deleted.</p></div>';
+	    print '<div id="message" class="updated fade"><p>'.__("Subscriber deleted", "alo-easymail").'.</p></div>';
 	} else {
-	    print '<div id="message" class="error"><p>Error during operation. Not deleted.</p></div>';
+	    print '<div id="message" class="error"><p>'.__("Error during operation.", "alo-easymail") ." ". __("Not deleted", "alo-easymail").'.</p></div>';
 	}
 }
 
@@ -26,7 +26,7 @@ if($_REQUEST['task'] == 'delete' && is_numeric($_REQUEST['subscriber_id'])) {
 
 <div class="wrap">
     <div id="icon-index" class="icon32"><br /></div>
-    <h2>Alo EasyMail 's Subscribers</h2>
+    <h2>Alo EasyMail Newsletter: <?php _e("Subscribers", "alo-easymail") ?></h2>
     <div id="dashboard-widgets-wrap">
     
     
@@ -76,9 +76,9 @@ $s = wp_specialchars( trim( $_GET[ 's' ] ) );
 	<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
 	<input  type="hidden" name="order"  value="<?php echo ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC'; ?>" />
 	
-	<input type="submit" value="<?php _e('Search') ?> email or name" class="button" />
+	<input type="submit" value="<?php _e("Search e-mail or name", "alo-easymail") ?>" class="button" />
 	
-	<?php if ($_GET['s']) echo "&nbsp;&nbsp;<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;pid=".$post_id."'>Show all</a>" ?>
+	<?php if ($_GET['s']) echo "&nbsp;&nbsp;<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;pid=".$post_id."'>".__("Show all", "alo-easymail")."</a>" ?>
 	
 	</p>
 </form>
@@ -111,7 +111,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 
 <?php
 $array_num = array(10,20,50,100,200);
-echo "Per page: <select name='select_num' id='select_num' onchange=\"MM_jumpMenu('parent',this,0)\" style='vertical-align:middle'>";
+echo __("Per page", "alo-easymail").": <select name='select_num' id='select_num' onchange=\"MM_jumpMenu('parent',this,0)\" style='vertical-align:middle'>";
 foreach($array_num as $n) {
     $selected_test = ($id_test == $test->ID ? ' selected="selected" ': '');
     echo "<option value='$n' ".($items_per_page == $n ? "selected='selected'": "").">$n</option>";
@@ -124,12 +124,12 @@ echo "</select>";
 	<tr>
 		<th scope="col"><div style="text-align: center;">#</div></th>
 		<th scope="col"><div style="text-align: center;"><!-- Avatar --></div></th>
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=email".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='Order by email'>Email</a>"; ?>	</th>
-		<th scope="col"><?php echo "Name"; ?></th>
-		<th scope="col"><?php echo "User"; ?></th>
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=join_date".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='Order by date'>Join date</a>"; ?></th>
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=active".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='Order by state'>Active</a>"; ?></th>
-		<th scope="col">Delete</th>
+		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=email".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by e-mail", "alo-easymail")."'>".__("E-mail", "alo-easymail")."</a>"; ?>	</th>
+		<th scope="col"><?php _e("Name", "alo-easymail") ?></th>
+		<th scope="col"><?php echo __("Username", "alo-easymail") . ALO_em_help_tooltip( __("The username of registered users. It is blank for public subscribers.", "alo-easymail") ) ?></th>
+		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=join_date".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by join date", "alo-easymail")."'>".__("Join date", "alo-easymail")."</a>"; ?></th>
+		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=active".( ($_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by activation state", "alo-easymail")."'>".__("Activated", "alo-easymail")."</a>" .ALO_em_help_tooltip(__("For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail.", "alo-easymail")); ?></th>
+		<th scope="col"><?php _e("Delete", "alo-easymail") ?></th>
 	</tr>
 	</thead>
 
@@ -186,21 +186,21 @@ if (count($all_subscribers)) {
 		<td><?php // search for user detail (if user)
 		    if ( email_exists($subscriber->email) ) {
 		        $user_info = get_userdata( email_exists($subscriber->email) );
-                echo "<a href='".get_option ('siteurl')."/wp-admin/profile.php?user_id={$user_info->ID}' title='View user profile'>{$user_info->user_login}</a>";
+                echo "<a href='".get_option ('siteurl')."/wp-admin/profile.php?user_id={$user_info->ID}' title='".__("View user profile", "alo-easymail")."'>{$user_info->user_login}</a>";
 		    }
 		?>
 		</td>
 		<td>
 		    <?php echo date("d/m/Y", strtotime($subscriber->join_date))." h.".date("H:i", strtotime($subscriber->join_date)) ?></td>
 		<td><?php // Check the state (active/no-active)
-    		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=".$_GET['order']. "' title='Modify activation state' ";
-		    echo " onclick=\"return confirm('Do you really want to modify the activation state ".(($subscriber->active == 1)? " from Active to INACTIVE": "from Inactive to ACTIVE")."?');\">";
+    		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=".$_GET['order']. "' title='".__("Modify activation state", "alo-easymail")."' ";
+		    echo " onclick=\"return confirm('". __("Do you really want to modify the activation state?", "alo-easymail") ."');\">";
 		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($subscriber->active == 1)? "yes.png":"no.png") ."' />";
     		?>
         </td>
 		<td><?php // Delete subscriber
-    		echo "<a href='".$link_string."&amp;task=delete&amp;subscriber_id=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".$_GET['order']. "' title='Delete subscriber' ";
-		    echo " onclick=\"return confirm('Do you really want to DELETE this subscriber?');\">";
+    		echo "<a href='".$link_string."&amp;task=delete&amp;subscriber_id=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".$_GET['order']. "' title='".__("Delete subscriber", "alo-easymail")."' ";
+		    echo " onclick=\"return confirm('".__("Do you really want to DELETE this subscriber?", "alo-easymail")."');\">";
 		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/trash.png' />";
     		?>
 		</td>
@@ -210,7 +210,7 @@ if (count($all_subscribers)) {
 	} else {
 ?>
 	<tr>
-		<td colspan="8">No subscribers yet.</td>
+		<td colspan="8"><?php _e("No subscribers", "alo-easymail") ?>.</td>
 	</tr>
 <?php
 }
