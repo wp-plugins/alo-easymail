@@ -28,9 +28,9 @@ if ( isset( $_REQUEST['task']) && $_REQUEST['task'] == "del_send" && isset( $_RE
 	$check_id = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d {$where_user}", $_REQUEST['id'], $user_ID ) );
 	if ($check_id) {
 		if ( $wpdb->query($wpdb->prepare( "DELETE FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d", $_REQUEST['id'], $user_ID )) ) {		
-			echo '<div id="message" class="updated fade"><p><strong>Newsletter successfully deleted</strong></p></div>';
+			echo '<div id="message" class="updated fade"><p><strong>'.__("Newsletter successfully deleted", "alo-easymail").'</strong></p></div>';
 		} else {
-			echo '<div id="message" class="error"><p><strong>Impossible to delete the selected newsletter</strong></p></div>';		
+			echo '<div id="message" class="error"><p><strong>'.__("Impossible to delete the selected newsletter", "alo-easymail").'</strong></p></div>';		
 		}
 		
 	}
@@ -46,25 +46,25 @@ if ( isset( $_REQUEST['message'])) :
 		case 'success':		// ok, sending scheduled
 			$fbk_msg = '<div id="message" class="updated fade">';
 			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-add.png" /> ';
-			$fbk_msg .= '<strong>New sending added with success!</strong></p>';
+			$fbk_msg .= '<strong>'.__("New sending added with success!", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'error':		// error in inputs
 			$fbk_msg = '<div id="message" class="error">';
 			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
-			$fbk_msg .= '<strong>Inputs are incompled or wrong. Please check and try again.</strong></p>';
+			$fbk_msg .= '<strong>'.__("Inputs are incompled or wrong. Please check and try again.", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'norecipients': // no recipients selected
 			$fbk_msg = '<div id="message" class="error">';
 			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
-			$fbk_msg .= '<strong>No recipients selected.</strong></p>';
+			$fbk_msg .= '<strong>'.__("No recipients selected.", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'nosending':	// error on sending
 			$fbk_msg = '<div id="message" class="error">';
 			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
-			$fbk_msg .= '<strong>Impossible to send. Please try again.</strong></p>';
+			$fbk_msg .= '<strong>'.__("Impossible to send. Please try again.", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
 		default:
@@ -95,14 +95,14 @@ $news_on_queue =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}easymail_send
 //echo "<pre>";print_r($news_on_queue);echo "</pre>";
 if (count($news_on_queue)) { ?>
 	<table class="widefat" style='margin-top:10px'>
-		<caption><strong>Newsletters scheduled for sending</strong> (<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>?page=alo-easymail/alo-easymail_main.php">refresh&raquo;</a>)</caption>
+		<caption><strong><?php _e("Newsletters scheduled for sending", "alo-easymail") ?></strong> (<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>?page=alo-easymail/alo-easymail_main.php"><?php _e("refresh", "alo-easymail") ?>&raquo;</a>)</caption>
 		<thead><tr>
-			<th scope="col" style="width:5%"><div style="text-align: center;">Queue</div></th>
-			<th scope="col" style="width:15%">Scheduled by</th>
-			<th scope="col" >Added on</th>
-			<th scope="col">Subject</th>
-			<th scope="col" style="width:10%">Progress</th>			
-			<th scope="col" style="width:15%">Action</th>
+			<th scope="col" style="width:5%"><div style="text-align: center;"><?php _e("Queue", "alo-easymail") ?></div></th>
+			<th scope="col" style="width:15%"><?php _e("Scheduled by", "alo-easymail") ?></th>
+			<th scope="col" ><?php _e("Added on", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Subject", "alo-easymail") ?></th>
+			<th scope="col" style="width:10%"><?php _e("Progress", "alo-easymail") ?></th>			
+			<th scope="col" style="width:15%"><?php _e("Action", "alo-easymail") ?></th>
 		</tr></thead>
 		<tbody id="the-list">
 	<?php
@@ -114,7 +114,7 @@ if (count($news_on_queue)) { ?>
 		echo "<tr id='que-{$q->ID}' class='$class'>\n"; ?>
 		<th scope="row" style="text-align: center;">
 		    <?php if ($row_count == 0) {
-		    	echo '<img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-forward.png" title="now sending" alt="" />';
+		    	echo '<img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-forward.png" title="'.__("now sending", "alo-easymail").'" alt="" />';
 			   } else {
 			    echo $row_count; 
 			   }
@@ -122,12 +122,12 @@ if (count($news_on_queue)) { ?>
         </th>
 		<td><?php 
 			if ($q->user == $user_ID) {
-				echo "<strong>you</strong>";
+				echo "<strong>".__("you", "alo-easymail")."</strong>";
 			} else {
 				if ($can_see_all) {
 					echo get_usermeta($q->user, 'nickname');
 				} else {
-					echo"<em>another user</em>";
+					echo"<em>".__("another user", "alo-easymail")."</em>";
 				}
 			}
 		?></td>
@@ -144,9 +144,9 @@ if (count($news_on_queue)) { ?>
 		?></td>
 		<td>
 			<?php if ($q->user == $user_ID || $can_see_all) {
-				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='Stop and cancel' ";
-				echo " onclick=\"return confirm('Do you really want to stop and cancel this sending');\">";
-				echo "Cancel</a>";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='".__("Cancel", "alo-easymail")."' ";
+				echo " onclick=\"return confirm('".__("Do you really want to stop and cancel this sending?", "alo-easymail")."');\">";
+				echo __("Cancel", "alo-easymail"). "</a>";
 			} 
 		?></td>
 		<?
@@ -167,14 +167,14 @@ $news_done =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}easymail_sendings
 //echo "<pre>";print_r($news_on_queue);echo "</pre>";
 if (count($news_done)) { ?>
 	<table class="widefat" style='margin-top:10px'>
-		<caption><strong>Newsletters sent BY <?php echo ($can_see_all==false)? "YOU" : "ALL USERS" ?></strong></caption>
+		<caption><strong><?php echo ($can_see_all==false)? __("Newsletters sent BY YOU", "alo-easymail") : __("Newsletters sent BY ALL USERS", "alo-easymail") ?></strong></caption>
 		<thead><tr>
 			<th scope="col" style="width:5%"><div style="text-align: center;">#</div></th>
-			<?php if ($can_see_all) echo '<th scope="col" style="width:15%">Scheduled by</th>'; ?>
-			<th scope="col">Added on</th>
-			<th scope="col">Completed</th>
-			<th scope="col">Subject</th>
-			<th scope="col" style="width:15%">Report</th>
+			<?php if ($can_see_all) echo '<th scope="col" style="width:15%">'.__("Scheduled by", "alo-easymail").'</th>'; ?>
+			<th scope="col"><?php _e("Added on", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Completed", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Subject", "alo-easymail") ?></th>
+			<th scope="col" style="width:15%"><?php _e("Report", "alo-easymail") ?></th>
 		</tr></thead>
 		<tbody id="the-list">
 	<?php
@@ -187,19 +187,19 @@ if (count($news_done)) { ?>
 		    <?php echo count($news_done) - $row_count;?>
         </th>
 		<?php if ($can_see_all) {
-			echo "<td>". ( ($q->user == $user_ID)? "<strong>you</strong>": get_usermeta($q->user, 'nickname') ). "</td>";
+			echo "<td>". ( ($q->user == $user_ID)? "<strong>".__("you", "alo-easymail")."</strong>": get_usermeta($q->user, 'nickname') ). "</td>";
 		} ?>
 		<td><?php echo date("d/m/Y", strtotime($q->start_at))." h.".date("H:i", strtotime($q->start_at)) ?></td>
 		<td><?php echo date("d/m/Y", strtotime($q->last_at))." h.".date("H:i", strtotime($q->last_at)) ?></td>
 		<td><?php echo ($q->user == $user_ID || $can_see_all)? $q->subject : "" ?></td>
 		<td>
 			<?php if ($q->user == $user_ID || $can_see_all) {
-				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='Delete the report' ";
-				echo " onclick=\"return confirm('Do you really want to delete the report of this newsletter?');\">";
-				echo "Cancel</a> - ";
-				echo "<a href='' title='View the report' ";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='".__("Delete", "alo-easymail")."' ";
+				echo " onclick=\"return confirm('".__("Do you really want to delete the report of this newsletter?", "alo-easymail")."');\">";
+				echo __("Delete", "alo-easymail"). "</a> - ";
+				echo "<a href='' title='".__("View", "alo-easymail")."' ";
 				echo " onclick=\"return openReport({$q->ID})\">";
-				echo "View</a>";
+				echo __("View", "alo-easymail"). "</a>";
 			} 
 		?></td>
 		<?
@@ -259,7 +259,7 @@ function checkEmailList () {
 	}
 	var wrong_list = "";
 	if (emaillist) {
-		document.getElementById("response-emails-add").innerHTML = "Checking...";
+		document.getElementById("response-emails-add").innerHTML = "<?php _e("Checking...", "alo-easymail") ?>";
 		// each addresses
 		var lines = emaillist.split(",");
 		
@@ -273,7 +273,7 @@ function checkEmailList () {
 	}
 	if (wrong_list != "") {
 		wrong_list = wrong_list.slice(0, -2);
-		document.getElementById("response-emails-add").innerHTML = "<p style='color:#f00'>WARNING: some addresses seem to be wrong:<br />" + wrong_list + ".</p>";
+		document.getElementById("response-emails-add").innerHTML = "<p style='color:#f00;'><em><?php _e("Warning! Some addresses seem to be wrong", "alo-easymail") ?>:</em><br />" + wrong_list + ".</p>";
 	} else {
 		document.getElementById("response-emails-add").innerHTML = "";
 	}
@@ -284,26 +284,26 @@ function checkEmailList () {
 
 <form name="post" action="<?php echo get_option ('siteurl').'/' ?>wp-content/plugins/alo-easymail/alo-easymail_action.php" method="post" id="post" name="post" >
 
-<h3>Recipients</h3>
+<h3><?php _e("Recipients", "alo-easymail") ?></h3>
 
-<p style='margin-top:20px;'>Choose the kind of recipients (people who subscribe the newsletter or the registered users):</p>
+<p style='margin-top:20px;'><?php _e("Choose the kind of recipients", "alo-easymail") ?>:</p>
 <p><select name="select_recipients" id="select_recipients" >
-    <option value="subscr" selected="selected">Subscribers</option>';
-    <option value="users">Registered users</option>';
-    <option value="none">None of the above</option>';
+    <option value="subscr" selected="selected"><?php _e("Subscribers", "alo-easymail") ?></option>';
+    <option value="users"><?php _e("Registered users", "alo-easymail") ?></option>';
+    <option value="none"><?php _e("None of the above", "alo-easymail") ?></option>';
 </select></p>
 
-<p style='margin-top:20px;'>To send to other people insert a list of e-mail addresses separated by <strong>comma</strong> (,):</p>
+<p style='margin-top:20px;'><?php _e("To send to other people insert a list of e-mail addresses separated by comma (,)", "alo-easymail") ?>:</p>
 <textarea id="emails_add" value="" name="emails_add" rows="3" cols="70" onblur="checkEmailList()"><?php echo get_usermeta($user_ID,'ALO_em_list'); ?></textarea>
 <div id="response-emails-add"></div>
 
 <p><input type="checkbox" name="ck_save_list" id="ck_save_list" value="checked" checked="checked" />
-<label for="ck_save_list">Save the list of email addresses for next sending</label></p>
+<label for="ck_save_list"><?php _e("Save the list of email addresses for next sending", "alo-easymail") ?></label></p>
 
 <p>&nbsp;</p>
 
-<h3>Subject and text of the e-mail</h3>
-<p style='margin-top:20px;'>Choose to send a simple generic e-mail or one about a specific post (in the latter case you can use the specific tags listed below).
+<h3><?php _e("Subject and text of the e-mail", "alo-easymail") ?></h3>
+<p style='margin-top:20px;'><?php _e("Choose to send a simple generic e-mail or one about a specific post (in the latter case you can use the specific tags listed below)", "alo-easymail") ?>
 </p>
 
 <?php
@@ -318,7 +318,7 @@ $get_posts = get_posts($args);
 $tot_posts = count($get_posts);
 
 echo '<select name="select_post" id="select_post" >';
-echo '<option value="0">[generic e-mail: no post selected]</option>';
+echo '<option value="0">['.__("generic e-mail: no post selected", "alo-easymail").']</option>';
 if ($tot_posts) { 
     foreach($get_posts as $post) :
         $pID = $post->ID; // course ID
@@ -329,11 +329,11 @@ echo '</select>';
 ?>
 
 
-<p style='margin-top:20px;'><strong>Subject</strong>:</p>
+<p style='margin-top:20px;'><strong><?php _e("Subject", "alo-easymail") ?></strong>:</p>
 <input type="text" size="70" name="input_subject" id="input_subject" value="" maxlength="150" />
 
 
-<p style='margin-top:20px;'><strong>Main body</strong> (you can use the tags listed below):</p>
+<p style='margin-top:20px;'><strong><?php _e("Main body", "alo-easymail") ?></strong> (<?php _e("you can use the tags listed below", "alo-easymail") ?>):</p>
 
 <div id="poststuff">
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
@@ -346,32 +346,32 @@ the_editor ($main_content); ?>
 </div></div>
 
 <table style='background-color:#ffffff;padding:3px;width:100%;border:1px grey dotted;'>
-<tr><td>[POST-TITLE]</td><td style='font-size:80%'><em>The link to the title of the selected post.</em></td></tr>
+<tr><td>[POST-TITLE]</td><td style='font-size:80%'><em><?php _e("The link to the title of the selected post.", "alo-easymail") ?></em></td></tr>
 <tr><td colspan='2' style='border-bottom:1px grey dotted;padding-bottom:5px'></td></tr>
-<tr><td>[POST-EXCERPT]</td><td style='font-size:80%'><em>The excerpt (if any) of the post.</em></td></tr>
+<tr><td>[POST-EXCERPT]</td><td style='font-size:80%'><em><?php _e("The excerpt (if any) of the post.", "alo-easymail") ?></em></td></tr>
 <tr><td colspan='2' style='border-bottom:1px grey dotted;padding-bottom:5px'></td></tr>
-<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><em>The main content of the post. Warning: this tag inserts the test as it is, including shortcodes from other plugins.</em></td></tr>
+<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><em><?php _e("The main content of the post.", "alo-easymail") ?> <?php _e("Warning: this tag inserts the test as it is, including shortcodes from other plugins.", "alo-easymail") ?></em></td></tr>
 <tr><td colspan='2' style='border-bottom:1px grey dotted;padding-bottom:5px'></td></tr>
-<tr><td>[USER-NAME]</td><td style='font-size:80%'><em>Name and surname of registered user. (For subscribers: the name used for registration)</em></td></tr>
+<tr><td>[USER-NAME]</td><td style='font-size:80%'><em><?php _e("Name and surname of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>)</em></td></tr>
 <tr><td colspan='2' style='border-bottom:1px grey dotted;padding-bottom:5px'></td></tr>
-<!-- Following two lines [USER-FIRST-NAME] added GAL -->
-<tr><td>[USER-FIRST-NAME]</td><td style='font-size:80%'><em>First name of registered user. (For subscribers: the name used for registration).</em></td></tr>
+<!-- Following [USER-FIRST-NAME] added GAL -->
+<tr><td>[USER-FIRST-NAME]</td><td style='font-size:80%'><em><?php _e("First name of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>).</em></td></tr>
 <tr><td colspan='2' style='border-bottom:1px grey dotted;padding-bottom:5px'></td></tr>
-<tr><td>[SITE-LINK]</td><td style='font-size:80%'><i>The link to the site.</i>E.g.: <?php echo "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>" ?></td></tr>
+<tr><td>[SITE-LINK]</td><td style='font-size:80%'><em><?php _e("The link to the site", "alo-easymail") ?>: <?php echo "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>" ?></em></td></tr>
 </table>
 
 <p><input type="checkbox" name="ck_save_template" id="ck_save_template" value="checked" checked="checked" />
-<label for="ck_save_template">Save the main body as template for next sending</label></p>
+<label for="ck_save_template"><?php _e("Save the main body as template for next sending", "alo-easymail") ?></label></p>
 
 
-<h3 style='margin-top:30px;'>Send</h3>
+<h3 style='margin-top:30px;'><?php _e("Send", "alo-easymail") ?></h3>
 
-<p>Click <strong>once</strong> and <strong>wait</strong> for the sending to be over.</p>
+<p><strong><?php _e("Click ONCE and wait for the sending to be over", "alo-easymail") ?>.</strong></p>
 
 <?php // Submit ?>
     <span class="submit">
     <?php wp_nonce_field('alo-easymail_main'); ?>
-    <input type="submit" name="submit" id="submit" value="<?php echo (count($news_on_queue))? 'Add to sending queue' : 'Send';?>" style='font-weight:bold' onclick="this.value='PLEASE WAIT: sending...';"/>
+    <input type="submit" name="submit" id="submit" value="<?php echo (count($news_on_queue))? __('Add to sending queue', 'alo-easymail') : __('Send', 'alo-easymail'); ?>" style='font-weight:bold' onclick="this.value='<?php _e("PLEASE WAIT: sending...", "alo-easymail") ?>';"/>
     </span>     
 </form>
 

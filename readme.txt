@@ -3,14 +3,14 @@ Contributors: eventualo
 Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch, mail throttling
 Requires at least: 2.8.4
-Tested up to: 3.0-beta1  
-Stable tag: 1.6.1
+Tested up to: 3.0-beta2  
+Stable tag: 1.7
 
 To send e-mails and newsletters. Including an ajax widget and a page to collect subscribers. Using a cron batch sending.
 
 == Description ==
 
-ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers.
+ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers. It supports internationalization.
 
 **Admin side Features**
 
@@ -29,7 +29,16 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 * **Public (non-registered) users** can use a simple form (name and email) in order to subscribe; the form is in the widget and in the page. Safter sending their data, they will receive an email with an activation link. To confirm their subscription they just have to click the link.
 * In order to unsubscribe, the users can simply click the link they find at the bottom of every newsletter.
 
-**IMPORTANT NOTE:** there is a BUG in the cron of some of the latest versions of WP (it is a WP bug, not an easymail bug). See `Faq` for details.
+**Internationalization**
+
+Available languages:
+
+* English
+* Italian
+
+You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot).
+
+**IMPORTANT NOTE** - Some of the latest WP versions have a known bug in the wp_cron system (a WP bug, not an EasyMail bug). The latest EasyMail versions (v.1.6.x and v.1.7.x) WORK on WP 2.9.1 and 3.0-beta2. They DON'T work on WP 2.9 and 2.9.2. (It seems to work with WP 2.8.x series, but I advise to upgrade). More info on [plugin FAQ page](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/).
 
 == Installation ==
 
@@ -49,9 +58,9 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 == Frequently Asked Questions ==
 
 On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
-* [the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/),
-* [the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/),
-* [the forum](http://www.eventualo.net/forum/forum/1).
+[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/), 
+[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/), 
+[the forum](http://www.eventualo.net/forum/forum/1).
 
 == Screenshots ==
 
@@ -61,6 +70,14 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 4. The list of newsletters in queue and already sent
 
 == Changelog ==
+
+= 1.7 =
+* NEW FEATURES
+* Added: internationalization (with .mo and .po files)
+* MINOR CHANGES
+* Added: tabs navigation in options page
+* Fixed: forced collation on db tables installation
+* Fixed: optin/optout texts move from widget options to main option page
 
 = 1.6.1 =
 * Fixed: now unsubscribe link is printed
@@ -116,4 +133,5 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 = 1.5 =
 Very important release with new features.
 
-
+= 1.6 =
+Now the plugin uses the wp_cron system. Please read about a known bug of the wp_cron of some WP versions.
