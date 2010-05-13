@@ -35,7 +35,7 @@ Available languages:
 
 * English
 * Italian (it_IT)
-* Romanian (ro_RO)
+* Romanian (ro_RO - by Richard Vencu)
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot).
 
