@@ -1,0 +1,725 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ALO EasyMail Newsletter v1.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2010-05-13 07:00+0000\n"
+"Last-Translator: rvencu <richard.vencu@richardconsulting.ro>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: alo-easymail-widget.php:35
+#: alo-easymail.php:393
+#@ alo-easymail
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "Da, doresc să mă abonez la newsletter"
+
+#: alo-easymail-widget.php:36
+#: alo-easymail.php:396
+#@ alo-easymail
+msgid "No, please do not email me"
+msgstr "Nu, vă rog nu îmi trimiteţi mesaje"
+
+#: alo-easymail-widget.php:57
+#: alo-easymail_report.php:118
+#: alo-easymail_subscribers.php:128
+#@ alo-easymail
+msgid "Name"
+msgstr "Nume"
+
+#: alo-easymail-widget.php:61
+#: alo-easymail_report.php:117
+#: alo-easymail_subscribers.php:127
+#@ alo-easymail
+msgid "E-mail"
+msgstr ""
+
+#: alo-easymail-widget.php:65
+#: alo-easymail.php:766
+#@ alo-easymail
+msgid "Subscribe"
+msgstr "Abonare"
+
+#: alo-easymail-widget.php:79
+#@ alo_easymail
+msgid "Allow users to opt in/out of email"
+msgstr ""
+
+#: alo-easymail-widget.php:85
+#@ alo_easymail
+msgid "ALO Easymail Widget"
+msgstr ""
+
+#: alo-easymail-widget.php:174
+#@ alo_easymail
+msgid "Newsletter"
+msgstr ""
+
+#: alo-easymail.php:200
+#@ alo-easymail
+msgid "Newsletter subscribers"
+msgstr "Abonaţi newsletter"
+
+#: alo-easymail.php:228
+#@ alo-easymail
+msgid "Receive Newsletters?"
+msgstr "Primeşte newsletter?"
+
+#: alo-easymail.php:231
+#@ alo-easymail
+msgid "Yes"
+msgstr "Da"
+
+#: alo-easymail.php:232
+#@ alo-easymail
+msgid "No"
+msgstr "Nu"
+
+#: alo-easymail.php:300
+#@ alo-easymail
+msgid "Updated"
+msgstr "Actualizat"
+
+#: alo-easymail.php:323
+#: alo-easymail.php:334
+#@ alo-easymail
+msgid "General"
+msgstr ""
+
+#: alo-easymail.php:324
+#@ alo-easymail
+msgid "Texts"
+msgstr "Texte"
+
+#: alo-easymail.php:325
+#: alo-easymail.php:411
+#@ alo-easymail
+msgid "Batch sending"
+msgstr "Trimitere la pachet"
+
+#: alo-easymail.php:326
+#: alo-easymail.php:437
+#@ alo-easymail
+msgid "Permissions"
+msgstr "Permisiuni"
+
+#: alo-easymail.php:335
+#@ alo-easymail
+msgid "Number of last posts to display"
+msgstr "Număr de articole recente de afişat"
+
+#: alo-easymail.php:338
+#@ alo-easymail
+msgid "Sender's email address"
+msgstr "Adresa de e-mail a expeditorului"
+
+#: alo-easymail.php:341
+#@ alo-easymail
+msgid "Default template for the email content"
+msgstr "Şablonul implicit pentru conţinutul mesajului"
+
+#: alo-easymail.php:378
+#: alo-easymail.php:401
+#: alo-easymail.php:426
+#: alo-easymail.php:447
+#@ alo-easymail
+msgid "Update"
+msgstr "Actualizează"
+
+#: alo-easymail.php:389
+#@ alo-easymail
+msgid "Widget/Page Texts"
+msgstr "Widget/Pagini text"
+
+#: alo-easymail.php:390
+#@ alo-easymail
+msgid "For registered users"
+msgstr "Pentru utilizatorii înregistraţi"
+
+#: alo-easymail.php:391
+#@ alo-easymail
+msgid "Optin message"
+msgstr "Mesaj de înscriere"
+
+#: alo-easymail.php:393
+#: alo-easymail.php:396
+#@ alo-easymail
+msgid "Default"
+msgstr "Implicit"
+
+#: alo-easymail.php:394
+#@ alo-easymail
+msgid "Optout message"
+msgstr "Mesaj de dezabonare"
+
+#: alo-easymail.php:412
+#@ alo-easymail
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "Numărul maxim de mesaje ce se pot trimite în 24 de ore"
+
+#: alo-easymail.php:414
+#@ alo-easymail
+msgid "Important advice to calculate the best limit"
+msgstr "Recomandare importantă pentru calculul limitelor"
+
+#: alo-easymail.php:416
+#@ alo-easymail
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "Întreabă furnizorul de internet care este numărul maxim de mesaje email trimise care este permis pe zi. Dacă multiplici numărul maxim permis pe oră cu 24 vei obţine un număr mult supradimensionat."
+
+#: alo-easymail.php:417
+#@ alo-easymail
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "Scade din acest număr numărul de mesaje email pe care doreşti să le trimită blogul (înregistrare, activare şi dezabonare, notificări de la alte module, etc)"
+
+#: alo-easymail.php:418
+#@ alo-easymail
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "Dacă eşti în dubiu alege un număr consistent mai mic decât cel maxim permis pe zi. Vei avea mai multe şanse să trimiţi mesajele şi să nu fii listat pe listele negre cu spameri"
+
+#: alo-easymail.php:419
+#@ alo-easymail
+msgid "For more info, visit the FAQ of the site."
+msgstr "Pentru mai multe informaţii vizitează FAQ pe site"
+
+#: alo-easymail.php:439
+#@ alo-easymail
+msgid "To allow editors to send emails, check this option"
+msgstr "Pentru a permite editorilor să trimită mesaje email, bifează această opţiune"
+
+#: alo-easymail.php:441
+#@ alo-easymail
+msgid "Editors can send emails"
+msgstr "Editorii pot trimite emailuri"
+
+#: alo-easymail.php:635
+#, php-format
+#@ alo-easymail
+msgid "Confirm your subscription to %s Newsletter"
+msgstr "Confirmă abonamentul la newsletter %s"
+
+#: alo-easymail.php:638
+#, php-format
+#@ alo-easymail
+msgid ""
+"Hi %s\n"
+"to complete your subscription to %s newsletter you need to click on the following link (or paste it in the address bar of your browser):\n"
+msgstr ""
+"Salut %s\n"
+"pentru a completa abonamentul la newsletter %s trebuie să accesezi următorul link (sau să-l copiezi în bara de navigare a browserului tău web):\n"
+
+#: alo-easymail.php:643
+#@ alo-easymail
+msgid "If you did not ask for this subscription ignore this message."
+msgstr "Dacă nu ai solicitat acest abonament ignoră acest mesaj."
+
+#: alo-easymail.php:644
+#@ alo-easymail
+msgid "Thank you"
+msgstr "Mulţumim"
+
+#: alo-easymail.php:672
+#@ alo-easymail
+msgid "Updating..."
+msgstr "Actualizare..."
+
+#: alo-easymail.php:690
+#@ alo-easymail
+msgid "sending..."
+msgstr "trimtere..."
+
+#: alo-easymail.php:728
+#@ alo-easymail
+msgid "Successfully updated"
+msgstr "Actualizare reuşită"
+
+#: alo-easymail.php:743
+#@ alo-easymail
+msgid "The e-email address is not correct"
+msgstr "Adresa e-mail nu este corectă"
+
+#: alo-easymail.php:746
+#@ alo-easymail
+msgid "The name field is empty"
+msgstr "Numele nu a fost completat"
+
+#: alo-easymail.php:753
+#@ alo-easymail
+msgid "Error during sending: please try again"
+msgstr "Eroare la trimtere: încearcă din nou"
+
+#: alo-easymail.php:757
+#@ alo-easymail
+msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
+msgstr "Abonare făcută cu succes. Veţi primi un e-mail cu un link. Va trebui să accesaţi acel link pentru a activa abonamentul."
+
+#: alo-easymail.php:846
+#@ alo-easymail
+msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
+msgstr "Ai primit acest mesaj pentru că eşti abonat la newsletter-ul nostru. Dacă doreşti să te dezabonezi:"
+
+#: alo-easymail.php:848
+#@ alo-easymail
+msgid "click here"
+msgstr "accesează acest link"
+
+#: alo-easymail_main.php:31
+#@ alo-easymail
+msgid "Newsletter successfully deleted"
+msgstr "Newsletter-ul a fost şters cu succes"
+
+#: alo-easymail_main.php:33
+#@ alo-easymail
+msgid "Impossible to delete the selected newsletter"
+msgstr "Imposibil de şters newsletter-ele selectate"
+
+#: alo-easymail_main.php:49
+#@ alo-easymail
+msgid "New sending added with success!"
+msgstr "O nouă trimitere a fost adăugată cu succes!"
+
+#: alo-easymail_main.php:55
+#@ alo-easymail
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "Introducerile sunt incomplete sau greşite. Verificaţi şi reîncercaţi."
+
+#: alo-easymail_main.php:61
+#@ alo-easymail
+msgid "No recipients selected."
+msgstr "Nu ai selectat destinatari."
+
+#: alo-easymail_main.php:67
+#@ alo-easymail
+msgid "Impossible to send. Please try again."
+msgstr "Imposibil de trimis. Reîncearcă."
+
+#: alo-easymail_main.php:98
+#@ alo-easymail
+msgid "Newsletters scheduled for sending"
+msgstr "Newsletter-ul a fost programat pentru trimitere"
+
+#: alo-easymail_main.php:98
+#@ alo-easymail
+msgid "refresh"
+msgstr "împrospătare"
+
+#: alo-easymail_main.php:100
+#@ alo-easymail
+msgid "Queue"
+msgstr "Coadă"
+
+#: alo-easymail_main.php:101
+#: alo-easymail_main.php:173
+#: alo-easymail_report.php:66
+#@ alo-easymail
+msgid "Scheduled by"
+msgstr "Programat de"
+
+#: alo-easymail_main.php:102
+#: alo-easymail_main.php:174
+#: alo-easymail_report.php:70
+#@ alo-easymail
+msgid "Added on"
+msgstr "Adăugat în"
+
+#: alo-easymail_main.php:103
+#: alo-easymail_main.php:176
+#: alo-easymail_main.php:332
+#: alo-easymail_report.php:62
+#@ alo-easymail
+msgid "Subject"
+msgstr "Subiect"
+
+#: alo-easymail_main.php:104
+#@ alo-easymail
+msgid "Progress"
+msgstr "Progres"
+
+#: alo-easymail_main.php:105
+#@ alo-easymail
+msgid "Action"
+msgstr "Acţiune"
+
+#: alo-easymail_main.php:117
+#@ alo-easymail
+msgid "now sending"
+msgstr "acum se trimite"
+
+#: alo-easymail_main.php:125
+#: alo-easymail_main.php:190
+#@ alo-easymail
+msgid "you"
+msgstr "tu"
+
+#: alo-easymail_main.php:130
+#@ alo-easymail
+msgid "another user"
+msgstr "alt utilizator"
+
+#: alo-easymail_main.php:147
+#: alo-easymail_main.php:149
+#@ alo-easymail
+msgid "Cancel"
+msgstr "Renunţă"
+
+#: alo-easymail_main.php:148
+#@ alo-easymail
+msgid "Do you really want to stop and cancel this sending?"
+msgstr "Doreşti cu adevărat să opreşti şi să renunţi la această trimitere?"
+
+#: alo-easymail_main.php:170
+#@ alo-easymail
+msgid "Newsletters sent BY YOU"
+msgstr "Nwesletter-e trimise de tine"
+
+#: alo-easymail_main.php:170
+#@ alo-easymail
+msgid "Newsletters sent BY ALL USERS"
+msgstr "Newsletter-e trimise de toţi utilizatorii"
+
+#: alo-easymail_main.php:175
+#: alo-easymail_report.php:74
+#@ alo-easymail
+msgid "Completed"
+msgstr "Finalizat"
+
+#: alo-easymail_main.php:177
+#@ alo-easymail
+msgid "Report"
+msgstr "Raport"
+
+#: alo-easymail_main.php:197
+#: alo-easymail_main.php:199
+#: alo-easymail_subscribers.php:132
+#@ alo-easymail
+msgid "Delete"
+msgstr "Şterge"
+
+#: alo-easymail_main.php:198
+#@ alo-easymail
+msgid "Do you really want to delete the report of this newsletter?"
+msgstr "Vrei cu adevărat să ştergi raportul acestui newsletter?"
+
+#: alo-easymail_main.php:200
+#: alo-easymail_main.php:202
+#@ alo-easymail
+msgid "View"
+msgstr "Vezi"
+
+#: alo-easymail_main.php:262
+#@ alo-easymail
+msgid "Checking..."
+msgstr "Verificare..."
+
+#: alo-easymail_main.php:276
+#@ alo-easymail
+msgid "Warning! Some addresses seem to be wrong"
+msgstr "Atenţie! Unele adrese par greşite"
+
+#: alo-easymail_main.php:287
+#@ alo-easymail
+msgid "Recipients"
+msgstr "Destinatari"
+
+#: alo-easymail_main.php:289
+#@ alo-easymail
+msgid "Choose the kind of recipients"
+msgstr "Alege tipul destinatarilor"
+
+#: alo-easymail_main.php:291
+#: alo-easymail_subscribers.php:29
+#@ alo-easymail
+msgid "Subscribers"
+msgstr "Abonaţi"
+
+#: alo-easymail_main.php:292
+#@ alo-easymail
+msgid "Registered users"
+msgstr "Utilizatori înregistraţi"
+
+#: alo-easymail_main.php:293
+#@ alo-easymail
+msgid "None of the above"
+msgstr "Nici unul dintre cei de sus"
+
+#: alo-easymail_main.php:296
+#@ alo-easymail
+msgid "To send to other people insert a list of e-mail addresses separated by comma (,)"
+msgstr "Pentru a trimite şi altor persoane, adăugaţi aici adresele e-mail separate cu virgule (,)"
+
+#: alo-easymail_main.php:301
+#@ alo-easymail
+msgid "Save the list of email addresses for next sending"
+msgstr "Salvează lista de adrese pentru trimiterile viitoare"
+
+#: alo-easymail_main.php:305
+#@ alo-easymail
+msgid "Subject and text of the e-mail"
+msgstr "Subiectul şi textul mesajului"
+
+#: alo-easymail_main.php:306
+#@ alo-easymail
+msgid "Choose to send a simple generic e-mail or one about a specific post (in the latter case you can use the specific tags listed below)"
+msgstr "Alege să trimiţi un e-mail generic sau unul despre un articol specific (în ultimul caz poţi utiliza etichetele specifice listate mai jos)"
+
+#: alo-easymail_main.php:321
+#@ alo-easymail
+msgid "generic e-mail: no post selected"
+msgstr "e-mail generic. nici un articol selectat"
+
+#: alo-easymail_main.php:336
+#: alo-easymail_report.php:78
+#@ alo-easymail
+msgid "Main body"
+msgstr "Corpul principal"
+
+#: alo-easymail_main.php:336
+#@ alo-easymail
+msgid "you can use the tags listed below"
+msgstr "poţi utiliza etichetele listate în continuare"
+
+#: alo-easymail_main.php:349
+#@ alo-easymail
+msgid "The link to the title of the selected post."
+msgstr "Link către titlul articolului selectat."
+
+#: alo-easymail_main.php:351
+#@ alo-easymail
+msgid "The excerpt (if any) of the post."
+msgstr "Extras (dacă există) din articolul selectat."
+
+#: alo-easymail_main.php:353
+#@ alo-easymail
+msgid "The main content of the post."
+msgstr "Conţinutul articolului selectat."
+
+#: alo-easymail_main.php:353
+#@ alo-easymail
+msgid "Warning: this tag inserts the test as it is, including shortcodes from other plugins."
+msgstr "Atenţie: această etichetă inserează textul aşa cum este, inclusiv codurile scurte ale altor module."
+
+#: alo-easymail_main.php:355
+#@ alo-easymail
+msgid "Name and surname of registered user."
+msgstr "Numele şi prenumele utilizatorului înregistrat."
+
+#: alo-easymail_main.php:355
+#: alo-easymail_main.php:358
+#@ alo-easymail
+msgid "For subscribers: the name used for registration"
+msgstr "Pentru abonaţi: numele utilizat la abonare"
+
+#: alo-easymail_main.php:358
+#@ alo-easymail
+msgid "First name of registered user."
+msgstr "Prenumele utilizatorului înregistrat."
+
+#: alo-easymail_main.php:360
+#@ alo-easymail
+msgid "The link to the site"
+msgstr "Link către blog"
+
+#: alo-easymail_main.php:364
+#@ alo-easymail
+msgid "Save the main body as template for next sending"
+msgstr "Salvează corpul principal pentru trimiterea viitoare"
+
+#: alo-easymail_main.php:367
+#: alo-easymail_main.php:374
+#@ alo-easymail
+msgid "Send"
+msgstr "Trimite"
+
+#: alo-easymail_main.php:369
+#@ alo-easymail
+msgid "Click ONCE and wait for the sending to be over"
+msgstr "Apasă O DATĂ şi aşteaptă să se efectueze trimiterea"
+
+#: alo-easymail_main.php:374
+#@ alo-easymail
+msgid "Add to sending queue"
+msgstr "Adaugă la coada de trimitere"
+
+#: alo-easymail_main.php:374
+#@ alo-easymail
+msgid "PLEASE WAIT: sending..."
+msgstr "AŞTEAPTĂ: se trimite..."
+
+#: alo-easymail_report.php:78
+#@ alo-easymail
+msgid "plain text"
+msgstr "text simplu"
+
+#: alo-easymail_report.php:101
+#@ alo-easymail
+msgid "Total sent"
+msgstr "Total trimiteri"
+
+#: alo-easymail_report.php:105
+#@ alo-easymail
+msgid "Succesful sendings"
+msgstr "Trimiteri reuşite"
+
+#: alo-easymail_report.php:109
+#@ alo-easymail
+msgid "Failed sendings"
+msgstr "Trimteri eşuate"
+
+#: alo-easymail_report.php:119
+#@ alo-easymail
+msgid "Sent"
+msgstr "Trimis"
+
+#: alo-easymail_subscribers.php:10
+#@ alo-easymail
+msgid "Activation state updated"
+msgstr "Starea de activare actualizată"
+
+#: alo-easymail_subscribers.php:12
+#: alo-easymail_subscribers.php:21
+#: easymail-subscr-page.php:14
+#@ alo-easymail
+msgid "Error during operation."
+msgstr "Eroare în timpul operaţiei."
+
+#: alo-easymail_subscribers.php:12
+#@ alo-easymail
+msgid "Not updated"
+msgstr "Nu s-a actualizat"
+
+#: alo-easymail_subscribers.php:19
+#@ alo-easymail
+msgid "Subscriber deleted"
+msgstr "Abonatul a fost şters"
+
+#: alo-easymail_subscribers.php:21
+#@ alo-easymail
+msgid "Not deleted"
+msgstr "Nu s-a şters"
+
+#: alo-easymail_subscribers.php:79
+#@ alo-easymail
+msgid "Search e-mail or name"
+msgstr "Caută e-mail sau nume"
+
+#: alo-easymail_subscribers.php:81
+#@ alo-easymail
+msgid "Show all"
+msgstr "Arată toată lista"
+
+#: alo-easymail_subscribers.php:114
+#@ alo-easymail
+msgid "Per page"
+msgstr "Pe pagină"
+
+#: alo-easymail_subscribers.php:127
+#@ alo-easymail
+msgid "Order by e-mail"
+msgstr "Sortare după e-mail"
+
+#: alo-easymail_subscribers.php:129
+#@ alo-easymail
+msgid "Username"
+msgstr "Nume utilizator"
+
+#: alo-easymail_subscribers.php:129
+#@ alo-easymail
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "Numele de utilizator a celor înregistraţi. Este vid pentru abonaţii publici."
+
+#: alo-easymail_subscribers.php:130
+#@ alo-easymail
+msgid "Order by join date"
+msgstr "Sortare după data înscrierii"
+
+#: alo-easymail_subscribers.php:130
+#@ alo-easymail
+msgid "Join date"
+msgstr "Data înscrierii"
+
+#: alo-easymail_subscribers.php:131
+#@ alo-easymail
+msgid "Order by activation state"
+msgstr "Sortare după starea de activare"
+
+#: alo-easymail_subscribers.php:131
+#@ alo-easymail
+msgid "Activated"
+msgstr "Activat"
+
+#: alo-easymail_subscribers.php:131
+#@ alo-easymail
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "Pentru utilizatorii înregistraţi, starea implicită este cea activată. Pentru abonaţii publici starea implicită este cea dezactivată. Activarea se face prin link de activare trimis pe e-mail."
+
+#: alo-easymail_subscribers.php:189
+#@ alo-easymail
+msgid "View user profile"
+msgstr "Vezi profilul utilizatorului"
+
+#: alo-easymail_subscribers.php:196
+#@ alo-easymail
+msgid "Modify activation state"
+msgstr "Modifică starea de activare"
+
+#: alo-easymail_subscribers.php:197
+#@ alo-easymail
+msgid "Do you really want to modify the activation state?"
+msgstr "Sigur vrei să modifici starea de activare?"
+
+#: alo-easymail_subscribers.php:202
+#@ alo-easymail
+msgid "Delete subscriber"
+msgstr "Şterge abonatul"
+
+#: alo-easymail_subscribers.php:203
+#@ alo-easymail
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "Sigur vrei să ştergi acest abonat?"
+
+#: alo-easymail_subscribers.php:213
+#@ alo-easymail
+msgid "No subscribers"
+msgstr "Nu există abonaţi"
+
+#: easymail-subscr-page.php:26
+#@ alo-easymail
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "Abonamentul tău a fost activat cu succes. Vei primi următorul newsletter. Mulţumim."
+
+#: easymail-subscr-page.php:28
+#@ alo-easymail
+msgid "Error during activation. Please check the activation link."
+msgstr "Eroare în timpul activării. Verifică linkul de activare."
+
+#: easymail-subscr-page.php:35
+#@ alo-easymail
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "Abonamentul tău a fost şters cu succes. La revedere."
+
+#: easymail-subscr-page.php:37
+#@ alo-easymail
+msgid "Error during unsubscription."
+msgstr "Eroare în timpul dezabonării."
+
+#: easymail-subscr-page.php:37
+#@ alo-easymail
+msgid "Try again."
+msgstr "Încearcă din nou."
+
+#: easymail-subscr-page.php:38
+#@ alo-easymail
+msgid "If it fails again you can contact the administrator"
+msgstr "Dacă nu reuşeşti nici a doua oară te rugăm să contactezi administratorul"
+
