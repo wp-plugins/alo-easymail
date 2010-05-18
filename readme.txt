@@ -26,7 +26,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 * To manage subscriptions to the newsletters the plugin uses a **widget (in ajax)** and a **page** that behaves differently for registered and non-registered users.
 * **Registered users** can subscribe/unsubscribe through an option that can be found in the page, in the widget and in their user profile.
-* **Public (non-registered) users** can use a simple form (name and email) in order to subscribe; the form is in the widget and in the page. Safter sending their data, they will receive an email with an activation link. To confirm their subscription they just have to click the link.
+* **Public (non-registered) users** can use a simple form (name and email) in order to subscribe; the form is in the widget and in the page. After sending their data, they will receive an email with an activation link. To confirm their subscription they just have to click the link.
 * In order to unsubscribe, the users can simply click the link they find at the bottom of every newsletter.
 
 **Internationalization**
