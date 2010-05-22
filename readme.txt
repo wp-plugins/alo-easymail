@@ -37,6 +37,7 @@ Available languages:
 * French - fr_FR (by Therese Lachance)
 * German - de_DE (by Thomas Kokusnuss)
 * Italian - it_IT
+* Polish - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Romanian - ro_RO (by Richard Vencu)
 * Spanish - es_ES (by Mauro Macchiaroli)
 
