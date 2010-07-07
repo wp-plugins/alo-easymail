@@ -33,6 +33,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 Available languages:
 
+* Brazilian Portuguese - pt_BR (by Douglas Venâncio Crispim)
 * Dutch - nl_NL (by Arnoud Huberts)
 * English (by Francesca Bovone)
 * French - fr_FR (by Therese Lachance)
