@@ -38,6 +38,7 @@ Available languages:
 * English (by Francesca Bovone)
 * French - fr_FR (by Therese Lachance)
 * German - de_DE (by Thomas Kokusnuss)
+* Hungarian (by Daniel Bozo)
 * Italian - it_IT
 * Polish - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Romanian - ro_RO (by Richard Vencu)
