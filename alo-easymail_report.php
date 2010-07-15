@@ -2,6 +2,7 @@
 include('../../../wp-blog-header.php');
 //require_once('alo-easymail-widget.php'); // added GAL
 auth_redirect();
+if ( !current_user_can('send_easymail_newsletters') && !current_user_can('manage_easymail_newsletters') ) 	wp_die(__('Cheatin&#8217; uh?'));
 
 //print_r ($_REQUEST); // DEBUG
 
@@ -13,7 +14,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
     $id = $_REQUEST['id'];
     
     // If admin he can see
-	$can_see_all = ($user_level >= 8)? true: false;
+	$can_see_all = ( current_user_can('manage_easymail_newsletters') && current_user_can('manage_easymail_subscribers') ) ? true: false;//($user_level >= 8)? true: false;
     
     $where_user = ($can_see_all)? "" : " AND user = %d ";
 	$newsletter = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}easymail_sendings WHERE sent=1 AND ID = %d {$where_user}", $id, $user_ID ) );
@@ -30,11 +31,12 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 	
 			#tabs-2 {padding:10px 12px;}
 			.tot {font-weight:bold;}
-			.success {color:#0c6;}
-			.error {color:#f00;}
+			.success {color:#0c6;font-weight:bold;}
+			.error {color:#f00;font-weight:bold;}
 			table {font-size:75%;width:400px;margin:0 auto;}
 			td {padding:4px}
 			td.center {text-align:center}
+			#mailbody img { height: 5em; width: auto; display: block; }
 		</style>
 		
 		<!--
@@ -60,11 +62,11 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			<div id="tabs-1">
 				<dl>
 					<dt><?php _e("Subject", "alo-easymail") ?>:</dt>
-					<dd><?php echo $newsletter->subject ?></dd>
+					<dd><?php echo stripslashes ( $newsletter->subject ) ?></dd>
 				</dl>
 				<?php if ($newsletter->user != $user_ID) {
 					echo "<dl><dt>".__("Scheduled by", "alo-easymail").":</dt>";
-					echo "<dd>".get_usermeta($newsletter->user, 'nickname') . "</dd></dl>";
+					echo "<dd>".get_user_meta($newsletter->user, 'nickname',true) . "</dd></dl>";
 				} ?>
 				<dl>
 					<dt><?php _e("Added on", "alo-easymail") ?>:</dt>
@@ -75,8 +77,8 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 					<dd><?php echo $newsletter->last_at ?></dd>
 				</dl>		
 				<dl>
-					<dt><?php _e("Main body", "alo-easymail") ?> (<?php _e("plain text", "alo-easymail") ?>):</dt>
-					<dd style="font-weight:normal;font-size:90%"><?php echo strip_tags($newsletter->content) ?></dd>
+					<dt><?php _e("Main body", "alo-easymail") ?> (<?php _e("without formatting", "alo-easymail") ?>):</dt>
+					<dd style="font-weight:normal;font-size:90%" id="mailbody"><?php echo strip_tags($newsletter->content, "<img>") ?></dd>
 				</dl>	
 			</div>
 		
@@ -89,34 +91,42 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			
 				$ok_rec = 0; // count success
 				$ko_rec = 0; // count failed
+				$vi_rec = 0; // count view
 				foreach ($recipients as $recipient) {
 	   				if ( $recipient['result'] >= 1) {
 	   					$ok_rec ++;
+	   					if ( ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ) ) {
+	   						$vi_rec ++;
+	   					}
 	   				} else {
 	   					$ko_rec ++;
 	   				}
 	   			}
 				?>	
-				<dl>
-					<dt><?php _e("Total sent", "alo-easymail") ?>:</dt>
-					<dd class="tot"><?php echo $tot_rec ?></dd>
-				</dl>
-				<dl>
-					<dt><?php _e("Succesful sendings", "alo-easymail") ?>:</dt>
-					<dd class="success"><?php echo $ok_rec ?></dd>
-				</dl>
-				<dl>
-					<dt><?php _e("Failed sendings", "alo-easymail") ?>:</dt>
-					<dd class="error"><?php echo $ko_rec ?></dd>
-				</dl>
-			
-				<table >
+				
+				<table style="width:100%;margin-top:10px">
+					<thead><tr>
+						<th scope="col"><?php _e("Total sendings", "alo-easymail") ?></th>
+						<th scope="col"><?php _e("Sendings succesful", "alo-easymail") ?></th>
+						<th scope="col"><?php _e("Sendings viewed", "alo-easymail"); echo " ". ALO_em_help_tooltip( __("The plugin tries to count how many recipients open the newsletter", "alo-easymail") . ". ". __("Available only for subscribers; for other e-mail addresses the value is always negative", "alo-easymail") ); ?></th>
+						<th scope="col"><?php _e("Sendings failed", "alo-easymail") ?></th>
+					</tr></thead>
+				<tbody><tr>
+					<td class="tot center" style="width:25%"><?php echo $tot_rec ?>
+					<td class="success center" style="width:25%"><?php echo $ok_rec ?>
+					<td class="success center" style="width:25%"><?php echo $vi_rec ?>
+					<td class="error center" style="width:25%"><?php echo $ko_rec ?>	
+					</tr></tbody>
+				</table>
+											
+				<table style="margin-top:25px">
 					<thead>
 					<tr>
 						<th scope="col"></th>
 						<th scope="col"><?php _e("E-mail", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Name", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Sent", "alo-easymail") ?></th>
+						<th scope="col"><?php _e("Viewed", "alo-easymail") ?></th>						
 					</tr>
 				</thead>
 
@@ -128,10 +138,14 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 					$class = ('' == $class) ? "style='background-color:#eee;'" : "";
 					$n ++;
 					echo "<tr $class ><td>".$n."</td><td>".$recipient['email']."</td><td>".$recipient['name']."</td>";
-					echo "<td class='center'><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td></tr>";
+					echo "<td class='center'><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td>";
+					echo "<td class='center'>";
+					echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1 && ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ))? "yes.png":"no.png") ."' />";
+					echo "</td></tr>";
+					//echo "<pre>"; print_r($recipient);echo "</pre>";
 				}
-				echo "</tbody></table>";
-			?>
+				?>
+			</tbody></table>
 			</div>
 			
 		</div> <!-- end slider -->

@@ -157,3 +157,6 @@
     display: inline-block;
 }
 
+.ui-corner-bottom {
+	border: 1px solid #97a5b0 !important;
+}
