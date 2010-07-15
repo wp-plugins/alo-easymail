@@ -1,12 +1,12 @@
 === ALO EasyMail Newsletter ===
 Contributors: eventualo
 Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
-Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch, mail throttling
+Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup
 Requires at least: 2.8.4
 Tested up to: 3.0  
-Stable tag: 1.7
+Stable tag: 1.8
 
-To send e-mails and newsletters. Including an ajax widget and a page to collect subscribers. Using a cron batch sending.
+To send e-mails and newsletters. Features: subscription on registration or with an ajax widget, mailing lists, cron batch sending.
 
 == Description ==
 
@@ -14,20 +14,22 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 **Admin side Features**
 
-* Administrator users (and, if previously set, also editor users) can use a page to **send newsletters** very quickly and choosing recipients, subject and main text.
-* **Recipients** can be: registered users, public subscribers (i.e. non registered users) and any other email addresses chosen by the administrator.
-* You may choose one of the latest published articles and use **some tags** to enter information about it: title, excerpt, content. 
-* Tags for recipients (username, first name) and for the blog (link to the home page) are also available.
-* The plugin sends the newsletter by means of the **WordPress cron system**, so as to send a number of emails every 10 minutes, until all recipients have been included. This system allows to send an enormous number of emails without overloading the server or going beyond the limits set by providers. 
-* At the end of the sending the plugin provides a **report** of the outcome of the sending to each recipient.
-* Administrator users also have a page to **manage subscribers** (search, activate/disactivate, cancel) and another one for the plugin general options.
+* **write an html newsletter, choose a post, use post/subscribers/site tags and send to your recipients** (registered users, subscribers, mailing lists, any other email addresses)
+* **batch sending using WP cron system**: it sends a number of emails every 10 minutes, until all recipients have been included
+* **collect subscribers**: on registration form and with an ajax widget/page
+* **import subscribers**: from existing registered users or from a CSV file
+* **create and manage mailing lists**: only admin can assign subscribers to them, or subscribers can freely choose them
+* **manage subscribers**: search, delete, edit subscription to mailing lists 
+* **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
+* **view sending report**: how many subscribers have opened the newsletter
 
 **Pubblic side Features**
 
-* To manage subscriptions to the newsletters the plugin uses a **widget (in ajax)** and a **page** that behaves differently for registered and non-registered users.
-* **Registered users** can subscribe/unsubscribe through an option that can be found in the page, in the widget and in their user profile.
-* **Public (non-registered) users** can use a simple form (name and email) in order to subscribe; the form is in the widget and in the page. After sending their data, they will receive an email with an activation link. To confirm their subscription they just have to click the link.
-* In order to unsubscribe, the users can simply click the link they find at the bottom of every newsletter.
+* **subscription on registration form**: including mailing lists choice
+* **subscription using an ajax widget**: after sending their data using the widget, they will receive an email with an activation link
+* **handy for registered users**: they have the optin/optout (including mailing lists choice) in their profile page and in an ajax widget
+* **easy subscription management for all subscribers**: to modify their subscription to mailing lists or to unsubscribe they can use a page reachable by a link at the bottom of each newsletter
+
 
 **Internationalization**
 
@@ -38,7 +40,7 @@ Available languages:
 * English (by Francesca Bovone)
 * French - fr_FR (by Therese Lachance)
 * German - de_DE (by Thomas Kokusnuss)
-* Hungarian (by Daniel Bozo)
+* Hungarian - hu_HU (by Daniel Bozo)
 * Italian - it_IT
 * Polish - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Romanian - ro_RO (by Richard Vencu)
@@ -46,7 +48,7 @@ Available languages:
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
 
-**IMPORTANT NOTE** - Some of the latest WP versions have a known bug in the wp_cron system (a WP bug, not an EasyMail bug). The EasyMail v.1.7 properly WORKS on WP 3.0 and 2.9.1. It probably DOESN'T work on WP 2.9 and 2.9.2. (It seems to work with WP 2.8.x series, but I advise to upgrade). More info on [plugin FAQ page](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/).
+IMPORTANT NOTE - *Some of the latest WP versions have a known bug in the wp_cron system (a WP bug, not an EasyMail bug). The EasyMail (v.1.7 and newer) properly WORKS on WP 3.0 and 2.9.1. It probably DOESN'T work on WP 2.9 and 2.9.2. (It seems to work with WP 2.8.x series, but I advise to upgrade). More info on [plugin FAQ page](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/).*
 
 == Installation ==
 
@@ -57,11 +59,16 @@ You can add or update the translation in your language. You can send [gettext PO
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
-1. Go to `Tools > EasyMail Newsletter` to send newsletter
+1. Go to `Tools > Send newsletter` to send newsletter
 
 = MORE OPTIONS =
-1. Go to `Option > EasyMail Newsletter` to setup options
-1. Go to `Users > Subscribers` to manage subscribers
+1. Go to `Option > Newsletter` to setup options
+1. Go to `Users > Newsletter subscribers` to manage subscribers
+
+More info on [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
+[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/), 
+[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/), 
+[the forum](http://www.eventualo.net/forum/forum/1).
 
 == Frequently Asked Questions ==
 
@@ -72,12 +79,31 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 
 == Screenshots ==
 
-1. A section of the sending panel
-2. The subscribers' management page
-3. The EasyMail widget for registered (left side) and not-registered (right side) users
-4. The list of newsletters in queue and already sent
+1. The subscription option on registration form
+2. The widget for registered (left side) and not-registered (right side) users
+3. A section of the sending panel
+4. List of newsletters scheduled for sending and already sent
+5. Report of sent newsletter
+6. The subscribers' management page
+7. The widget on administration dashboard 
 
 == Changelog ==
+
+= 1.8 =
+* NEW FEATURES
+* Added: mailing lists
+* Added: subscription choice on registration form
+* Added: tracking system when subscribers open newsletter
+* Added: subscribers importation from existing members or from a csv file
+* Added: use capabilities and not user_level, so better permission managing
+* MINOR CHANGES
+* Added: an option to show subscription page
+* Added: dashboard widget and favorite menu link
+* Updated: a better formatting in admin side
+* Fixed: now admin can modify subscription on user profile page
+* Fixed: now easymail page and its option are properly deleted on deactivation
+* Fixed: encode entities in newsletter header and subject
+* Fixed: a lot of php warnings and wp notices
 
 = 1.7 =
 * NEW FEATURES
@@ -142,7 +168,10 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 Very important release with new features.
 
 = 1.6 =
-Now the plugin uses the wp_cron system. Please read about a known bug of the wp_cron of some WP versions.
+New feature: now the plugin uses the wp_cron system. Please read about a known bug of the wp_cron of some WP versions.
 
 = 1.7 =
-Upgrade your WP installation to 3.0. The wp_cron bug seems to be solved.
+Upgrade your WP installation to 3.0: the wp_cron bug seems to be solved. New feature: internationalization.
+
+= 1.8 =
+New features: mailing lists, subscribers importation, tracking system.

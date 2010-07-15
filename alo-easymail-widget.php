@@ -8,6 +8,7 @@ define('ALO_EM_OPT_METAKEY','alo_easymail_optin_setting');
 /**
  * Get the optin/out option for the user
  */
+ /* // TODO to delete NOT USED
 function ALO_easymail_get_optin ($uid=FALSE) {
     global $user_ID;
     if (!$uid) $uid = $user_ID;
@@ -15,16 +16,41 @@ function ALO_easymail_get_optin ($uid=FALSE) {
     if (!$optin) return 'yes'; // default setting
     return $optin;
 }
-
+*/
 /**
  * Show the widget form for registered/pubblic
  */
 function ALO_em_show_widget_form () {
 	global $user_ID, $user_email, $wpdb;
 	
+	// If registerd user check if subscriber
+	$subscriber_id = ALO_em_is_subscriber($user_email);
+	
+	// prepare mailing lists table
+	$lists_msg 	= (get_option('ALO_em_lists_msg') !="")? get_option('ALO_em_lists_msg') : __("You can also sign up for specific lists", "alo-easymail");  
+    $mailinglists = ALO_em_get_mailinglists( 'public' );
+    $lists_table = "";
+    if ( $mailinglists ) {
+	    $user_lists = ALO_em_get_user_mailinglists ( $subscriber_id );
+	  	$lists_table .= "<div class='alo_easymail_lists_table'>" . $lists_msg .":<br />"; 
+		$lists_table .= "<table><tbody>\n";  
+		foreach ( $mailinglists as $list => $val ) {
+			$checked = ( $user_lists && in_array ( $list, $user_lists )) ? "checked='checked'" : "";
+			// if registered add js to ajax subscribe/unsubscribe
+			if (is_user_logged_in()) {
+				$checkbox_js = "onchange='alo_em_user_form(\"lists\");'";
+			} else {
+				$checkbox_js = "";
+			}
+			$lists_table .= "<tr><td><input type='checkbox' name='alo_em_form_lists[]' id='alo_em_form_list_$list' value='$list' $checked $checkbox_js /></td><td>" . $val["name"] . "</td></tr>\n";
+		}
+		$lists_table .= "</tbody></table>\n";
+		$lists_table .= "</div>\n";
+	}
+    	
 	if (is_user_logged_in()) {
         // For REGISTERED USER
-        if (ALO_em_is_subscriber($user_email)){
+        if ( $subscriber_id ){
             $optin_checked = "checked='checked'";            
             $optout_checked = "";            
         }
@@ -35,9 +61,10 @@ function ALO_em_show_widget_form () {
         $optin_msg 	= (get_option('ALO_em_optin_msg') !="")? get_option('ALO_em_optin_msg') : __("Yes, I would like to receive the Newsletter", "alo-easymail");        
         $optout_msg = (get_option('ALO_em_optout_msg') !="")? get_option('ALO_em_optout_msg') : __("No, please do not email me", "alo-easymail");
         
-        $html = "<div id='alo_easymail_widget_feedback'></div>"; // if any
+        $html = "<div id='alo_em_widget_loading' style='display:none;'><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("Updating...", "alo-easymail") ."</div>\n";
+        $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
         $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
-        $html .= "<table>\n";
+        $html .= "<table class='alo_easymail_form_table'>\n";
         $html .= "  <tr>\n";
         $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' /></td>\n";
         $html .= "    <td>$optin_msg</td>\n";
@@ -45,24 +72,29 @@ function ALO_em_show_widget_form () {
         $html .= "    <td><input onchange='alo_em_user_form(\"no\");return false;' type='radio' $optout_checked name='alo_easymail_option' value='no' /></td>\n";
         $html .= "    <td>$optout_msg</td>\n";
         $html .= "  </tr>\n";
-        $html .= "</table>\n";        
+        $html .= "</table>\n";      
+        $html .= $lists_table; // add lists table 
         $html .= "</form>\n";
         
     } else {
         // For NOT-REGISTERED, PUBBLIC SUBSCRIBER
-        $html = "<div id='alo_easymail_widget_feedback'></div>"; // if any
+        $alo_em_opt_name	= ( isset($_POST['alo_em_opt_name']) ) ? stripslashes($_POST['alo_em_opt_name']) : "";
+        $alo_em_opt_email	= ( isset($_POST['alo_em_opt_email']) ) ? stripslashes($_POST['alo_em_opt_email']) : "";
+        $html = "<div id='alo_em_widget_loading' style='display:none;'><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("sending...", "alo-easymail") ."</div>\n";
+        $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
         $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
-        $html .= "<table>\n";
+        $html .= "<table class='alo_easymail_form_table'><tbody>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("Name", "alo-easymail")."</td>";
-        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". stripslashes($_POST['alo_em_opt_name'])."' id='opt_name' size='10' maxlength='50' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". $alo_em_opt_name ."' id='opt_name' size='10' maxlength='50' /></td>\n";
         $html .= "  </tr>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("E-mail", "alo-easymail")."</td>\n";
-        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". stripslashes($_POST['alo_em_opt_email'])."' id='opt_email' size='10' maxlength='50' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' size='10' maxlength='50' /></td>\n";
         $html .= "  </tr>\n";
-        $html .= "</table>\n";        
-        $html .= "<input type='submit' name='submit' id='submit' value='".__("Subscribe", "alo-easymail")."' />\n";
+        $html .= "</tbody></table>\n";        
+ 		$html .= $lists_table; // add lists table     	
+        $html .= "<input type='submit' name='submit' value='".__("Subscribe", "alo-easymail")."' />\n";
         $html .= "</form>\n";    
     } 
     
@@ -139,7 +171,7 @@ class ALO_Easymail_Widget extends WP_Widget {
         echo ALO_em_show_widget_form ();
         
         // and output it
-        echo $html;
+        //echo $html;
 		
 		// After widget (defined by themes). 
 		echo $after_widget;
@@ -200,4 +232,5 @@ class ALO_Easymail_Widget extends WP_Widget {
 		echo $html;
 
 	}
-}//=========== End  Widget Class ==========================================?>
+}//=========== End  Widget Class ==========================================
+?>
