@@ -35,16 +35,16 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 Available languages:
 
-* Brazilian Portuguese - pt_BR (by Douglas Venâncio Crispim)
-* Dutch - nl_NL (by Arnoud Huberts)
-* English (by Francesca Bovone)
-* French - fr_FR (by Therese Lachance)
-* German - de_DE (by Thomas Kokusnuss)
-* Hungarian - hu_HU (by Daniel Bozo)
-* Italian - it_IT
-* Polish - pl_PL (by [Danny D](http://www.ddfoto.pl))
-* Romanian - ro_RO (by Richard Vencu)
-* Spanish - es_ES (by Mauro Macchiaroli)
+* Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
+* Dutch v.1.8 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
+* English v.1.8 (by Francesca Bovone)
+* French v.1.7 - fr_FR (by Therese Lachance)
+* German v.1.8 - de_DE (by Thomas Kokusnuss)
+* Hungarian v.1.7 - hu_HU (by Daniel Bozo)
+* Italian v.1.8 - it_IT
+* Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
+* Romanian v.1.8 - ro_RO (by Richard Vencu)
+* Spanish v.1.7 - es_ES (by Mauro Macchiaroli)
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
 
