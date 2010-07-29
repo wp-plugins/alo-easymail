@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-15 15:33+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Alex <groucho75@email.it>\n"
+"Last-Translator: Dániel Bozó <daniel.bozo@amegrant.hu>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,9 +21,8 @@ msgstr "Hírlevél"
 
 #: .././alo-easymail.php:250
 #: .././alo-easymail_main.php:291
-#, fuzzy
 msgid "Send newsletter"
-msgstr "Hírlevél"
+msgstr "Hírlevél küldés"
 
 #: .././alo-easymail.php:251
 #: .././alo-easymail_subscribers.php:186
@@ -45,9 +44,8 @@ msgid "No"
 msgstr "Nem"
 
 #: .././alo-easymail.php:389
-#, fuzzy
 msgid "Newsletters"
-msgstr "Hírlevél"
+msgstr "Hírlevelek"
 
 #: .././alo-easymail.php:402
 #: .././alo-easymail_main.php:104
@@ -80,7 +78,7 @@ msgstr "Létrehozó"
 
 #: .././alo-easymail.php:431
 msgid "There are no newsletters in queue"
-msgstr ""
+msgstr "Nincsenek hírlevelek a sorban"
 
 #: .././alo-easymail.php:433
 #: .././alo-easymail_options.php:570
@@ -91,7 +89,7 @@ msgstr "Feliratkozottak"
 #: .././alo-easymail.php:436
 #, php-format
 msgid "There are %d subscribers: %d activated, %d not activated"
-msgstr ""
+msgstr "Feliratkozottak száma: %d. Ebből aktivált: %d, inaktivált: %d"
 
 #: .././alo-easymail.php:438
 #: .././alo-easymail_subscribers.php:646
@@ -102,7 +100,7 @@ msgstr "Nincsenek feliratkozottak"
 #: .././alo-easymail_options.php:257
 #: .././alo-easymail_functions.php:712
 msgid "You can also sign up for specific lists"
-msgstr ""
+msgstr "Ön is feliratkozhat a listákra"
 
 #: .././alo-easymail-widget.php:61
 #: .././alo-easymail_options.php:240
@@ -156,7 +154,7 @@ msgstr "Hírlevél"
 #: .././alo-easymail_options.php:3
 #: .././alo-easymail_subscribers.php:3
 msgid "Cheatin&#8217; uh?"
-msgstr ""
+msgstr "Csalsz mi?"
 
 #: .././alo-easymail_main.php:37
 msgid "Newsletter successfully deleted"
@@ -184,9 +182,8 @@ msgid "Impossible to send. Please try again."
 msgstr "Sikertelen kikldés. Próbálja újra"
 
 #: .././alo-easymail_main.php:90
-#, fuzzy
 msgid "Newsletter report"
-msgstr "Hírlevél"
+msgstr "Hírlevél riport"
 
 #: .././alo-easymail_main.php:104
 msgid "refresh"
@@ -235,7 +232,7 @@ msgstr "A hírlevelet Ön küldte"
 
 #: .././alo-easymail_main.php:176
 msgid "Newsletters sent BY ALL USERS"
-msgstr "A hírlevelet kiküldtük az összes címzettnek"
+msgstr "Az összes felhasználó által kiküldött hírlevelek"
 
 #: .././alo-easymail_main.php:181
 #: .././alo-easymail_report.php:76
@@ -278,19 +275,16 @@ msgid "Choose the kind of recipients"
 msgstr "Válasszon egy címzett csoportot"
 
 #: .././alo-easymail_main.php:303
-#, fuzzy
 msgid "Main groups"
-msgstr "Levéltörzs"
+msgstr "Fő csoportok"
 
 #: .././alo-easymail_main.php:304
-#, fuzzy
 msgid "All subscribers"
-msgstr "Nincsenek feliratkozottak"
+msgstr "Minden feliratkozott"
 
 #: .././alo-easymail_main.php:305
-#, fuzzy
 msgid "All registered users"
-msgstr "Regisztrált felhasználóknak"
+msgstr "Minden regisztrált felhasználó"
 
 #: .././alo-easymail_main.php:310
 #: .././alo-easymail_options.php:115
@@ -299,15 +293,15 @@ msgstr "Regisztrált felhasználóknak"
 #: .././alo-easymail_options.php:563
 #: .././alo-easymail_subscribers.php:526
 msgid "Mailing Lists"
-msgstr ""
+msgstr "Levelezési listák"
 
 #: .././alo-easymail_main.php:319
 msgid "Between brackets the number of recipients belonging to each group or list"
-msgstr ""
+msgstr "A záróljelben lévő szám az adott csoportban vagy listán lévő címzettek száma"
 
 #: .././alo-easymail_main.php:320
 msgid "Do not worry about recipients belonging to more than one group or list: the plugin avoids sending twice to the same recipient"
-msgstr ""
+msgstr "Ne törődjön azzal, ha valaki több csoportban vagy listán szerepel. A program figyel arra, hogy ne küldje el ugyanarra a címre kétszer"
 
 #: .././alo-easymail_main.php:326
 msgid "To send to other people insert a list of e-mail addresses separated by comma (,)"
@@ -322,9 +316,8 @@ msgid "Subject and text of the e-mail"
 msgstr "A levél tárgya és szövege"
 
 #: .././alo-easymail_main.php:344
-#, fuzzy
 msgid "Choose to send a simple generic e-mail or one about a specific post"
-msgstr "Válasszon, hogy vagy egy egyszerű levelet küld ki, vagy  csatol egy bejegyzést. (A levélben használhat majd speciális tag-eket)"
+msgstr "Válasszon, hogy vagy egy egyszerű levelet küld ki, vagy  csatol egy bejegyzést."
 
 #: .././alo-easymail_main.php:360
 msgid "generic e-mail: no post selected"
@@ -332,7 +325,7 @@ msgstr "Egyszerű levél: nincs csatolt bejegyzés"
 
 #: .././alo-easymail_main.php:369
 msgid "If you choose a post you can use the post tags (see below) in the main content"
-msgstr ""
+msgstr "Ha kiválaszt egy bejegyzést, akkor használhatja az alábbi \"bejegyzés tageket\" a levéltörzsben"
 
 #: .././alo-easymail_main.php:380
 #: .././alo-easymail_report.php:80
@@ -345,7 +338,7 @@ msgstr "Az alábbi tag-eket használhatja"
 
 #: .././alo-easymail_main.php:393
 msgid "Post tags"
-msgstr ""
+msgstr "Bejegyzés tagek"
 
 #: .././alo-easymail_main.php:395
 msgid "The link to the title of the selected post."
@@ -364,9 +357,8 @@ msgid "Warning: this tag inserts the test as it is, including shortcodes from ot
 msgstr "Figyelem: Ez tag a bejegyzés szövegét úgy rakja be ahogy van! Beleértve más pluginok shortcode-jait is!"
 
 #: .././alo-easymail_main.php:401
-#, fuzzy
 msgid "Subscriber tags"
-msgstr "Feliratkozottak"
+msgstr "Feliratkozott tag-ek"
 
 #: .././alo-easymail_main.php:403
 msgid "Name and surname of registered user."
@@ -383,7 +375,7 @@ msgstr "A regisztrált felhasználó keresztneve"
 
 #: .././alo-easymail_main.php:409
 msgid "Other tags"
-msgstr ""
+msgstr "Egyéb tagek"
 
 #: .././alo-easymail_main.php:411
 msgid "The link to the site"
@@ -400,16 +392,16 @@ msgstr "Küldés"
 
 #: .././alo-easymail_main.php:429
 msgid "Track when viewed"
-msgstr ""
+msgstr "Megtekintés nyomonkövetése"
 
 #: .././alo-easymail_main.php:431
 #: .././alo-easymail_report.php:111
 msgid "The plugin tries to count how many recipients open the newsletter"
-msgstr ""
+msgstr "A bővítmény megpróbálja nyomon követni, hogy hányan nyitották meg a levelet"
 
 #: .././alo-easymail_main.php:431
 msgid "This feedback depends on recipients&#39; e-mail client, so the result is approximate and probably undersized"
-msgstr ""
+msgstr "Ez a visszajelzés a címzettek e-mail kliensétől függ. Ezért az eredmény csak tájékoztató jellegű és valószinűleg kevesebb a valós számnál"
 
 #: .././alo-easymail_main.php:439
 msgid "Add to sending queue"
@@ -446,23 +438,20 @@ msgid "Error during activation. Please check the activation link."
 msgstr "Hiba történt az aktiválás során. Kérem ellenőrizze az aktiváló linket!"
 
 #: .././easymail-subscr-page.php:39
-#, fuzzy
 msgid "To modify your subscription to mailing lists use this form"
-msgstr "Megerősítés a %s hírlevélre való feliratkozásra"
+msgstr "Itt módosíthatja a levelezési listákra való feliratkozásait"
 
 #: .././easymail-subscr-page.php:48
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: .././easymail-subscr-page.php:52
-#, fuzzy
 msgid "To unsubscribe the newsletter for good click this button"
-msgstr "Feliratkozóknak: A név, amit feliratkozáskor adott meg"
+msgstr "A feliratkozás törléséhez kattintson ide"
 
 #: .././easymail-subscr-page.php:58
-#, fuzzy
 msgid "Unsubscribe me"
-msgstr "Feliratkozás"
+msgstr "Leiratkozás"
 
 #: .././easymail-subscr-page.php:65
 msgid "Your subscription was successfully deleted. Bye bye."
@@ -481,43 +470,40 @@ msgid "If it fails again you can contact the administrator"
 msgstr "Ha újból sem sikerül, vegye fel a kapcsolatot az adminisztrátorral"
 
 #: .././easymail-subscr-page.php:85
-#, fuzzy
 msgid "Your subscription to mailing lists successfully updated"
-msgstr "A feliratkozását sikeresen töröltük! Viszontlátásra!"
+msgstr "A feliratkozás módosítását sikeresen mentettük"
 
 #: .././alo-easymail_report.php:80
 msgid "without formatting"
-msgstr ""
+msgstr "formázás nélkül"
 
 #: .././alo-easymail_report.php:109
-#, fuzzy
 msgid "Total sendings"
-msgstr "Hibás kiküldsek"
+msgstr "Össze kiküldés"
 
 #: .././alo-easymail_report.php:110
 msgid "Sendings succesful"
-msgstr ""
+msgstr "Sikeres"
 
 #: .././alo-easymail_report.php:111
 msgid "Sendings viewed"
-msgstr ""
+msgstr "Olvasott"
 
 #: .././alo-easymail_report.php:111
 msgid "Available only for subscribers; for other e-mail addresses the value is always negative"
-msgstr ""
+msgstr "Csak a feliratkozottaknak elérhető. Más e-mail címeknél az érték mindig negatív lesz"
 
 #: .././alo-easymail_report.php:112
 msgid "Sendings failed"
-msgstr ""
+msgstr "Hibás"
 
 #: .././alo-easymail_report.php:128
 msgid "Sent"
 msgstr "Elküldve"
 
 #: .././alo-easymail_report.php:129
-#, fuzzy
 msgid "Viewed"
-msgstr "Részletek"
+msgstr "Olvasott"
 
 #: .././alo-easymail_options.php:91
 #: .././alo-easymail_options.php:488
@@ -552,7 +538,7 @@ msgstr "A megjelenő utolsó bejegyzések száma"
 
 #: .././alo-easymail_options.php:134
 msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
-msgstr ""
+msgstr "Azon friss bejegyzések száma, melyekből a hírlevél küldés űrlapon választhat"
 
 #: .././alo-easymail_options.php:138
 msgid "Sender's email address"
@@ -564,30 +550,30 @@ msgstr "A levéltartalom alapsablona"
 
 #: .././alo-easymail_options.php:188
 msgid "Show subscription page"
-msgstr ""
+msgstr "Feliratkozó oldal mutatása"
 
 #: .././alo-easymail_options.php:189
 #, php-format
 msgid "If yes, the subscription page ('%s') appears in menu or widget that list all blog pages"
-msgstr ""
+msgstr "Ha igen, akkor a feliratkozó oldal ('%s') megjelenik abban a menüben vagy widgetben ami az összes blog oldalt listázza"
 
 #: .././alo-easymail_options.php:200
 #: .././alo-easymail_options.php:202
 #: .././alo-easymail_options.php:203
 msgid "Delete all plugin data on deactivation"
-msgstr ""
+msgstr "Deaktiválásnál a bővítmény minden adatának törlése"
 
 #: .././alo-easymail_options.php:201
 msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
-msgstr ""
+msgstr "A bővítmény deaktiválásakor minden bővítmény beállítás és adatbázis tartalom (levelezési listák, feliratkozók) is törlődjenek"
 
 #: .././alo-easymail_options.php:201
 msgid "If you need these data make sure you do a database backup before plugin deactivation"
-msgstr ""
+msgstr "Ha szüksége lenne ezekre az adatokra, akkor mindenképp készítsen egy biztonsági mentést az adatbázisról mielőtt a bővítményt deaktiválja"
 
 #: .././alo-easymail_options.php:203
 msgid "Yes, I understand"
-msgstr ""
+msgstr "Igen, megértettem"
 
 #: .././alo-easymail_options.php:213
 #: .././alo-easymail_options.php:265
@@ -619,13 +605,12 @@ msgid "Optout message"
 msgstr "Leiratkozó üzenet"
 
 #: .././alo-easymail_options.php:251
-#, fuzzy
 msgid "For all subscribers"
-msgstr "Nincsenek feliratkozottak"
+msgstr "Minden feliratkozottnak"
 
 #: .././alo-easymail_options.php:255
 msgid "Invite to join mailing lists"
-msgstr ""
+msgstr "Meghívás levelező listára"
 
 #: .././alo-easymail_options.php:284
 msgid "Maximum number of emails that can be sent in a 24-hr period"
@@ -653,125 +638,122 @@ msgstr "Több információért látogassa meg a GyIK-t a weboldalon"
 
 #: .././alo-easymail_options.php:329
 msgid "The lowest role can send newsletters"
-msgstr ""
+msgstr "A legalacsonyabb szerepkör, amivel lehet hírlevelet kiküldeni"
 
 #: .././alo-easymail_options.php:351
 msgid "The user with this capability can only send newletters, but cannot manage them (view the report, delete)"
-msgstr ""
+msgstr "Ezzel a felhasználó csak kiküldeni tudja a levelet. de nem tudja karbantartani (riportolni, törölni) azokat"
 
 #: .././alo-easymail_options.php:357
 msgid "The lowest role can manage newsletters"
-msgstr ""
+msgstr "A legalacsonyabb szerepkör, amivel hírleveleket lehet karbantartani"
 
 #: .././alo-easymail_options.php:372
 msgid "The user with this capability can manage own newsletters (view the report, delete)"
-msgstr ""
+msgstr "Ezzel a felhasználó tudja a hírleveleket karbantartani. (riport megtekintés, törlés)"
 
 #: .././alo-easymail_options.php:373
 msgid "Note: to let a user manage newsletters of other users, this user must have the capability to manage subscribers too"
-msgstr ""
+msgstr "Megjegyzés: Ahhoz, hogy egy felhasználó tudja karbantartani más felhasználók hírleveleit ennek a felhasználónak képesnek kell lennie a felirakozókat is kezelni"
 
 #: .././alo-easymail_options.php:379
-#, fuzzy
 msgid "The lowest role can manage subscribers"
-msgstr "Hírlevélre feliratkozottak"
+msgstr "A legalacsonyabb szerepkör amivel karbantarhatják a feliratkozottakat"
 
 #: .././alo-easymail_options.php:395
 msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
-msgstr ""
+msgstr "A felhasználó ezzel a lehetőséggel karbantarthatja a feliratkozókat (újat vehet föl, törölhet, hozzárendelheti levelezési listázhoz...)"
 
 #: .././alo-easymail_options.php:401
 msgid "The lowest role can manage options"
-msgstr ""
+msgstr "A legalacsonyabb szerepkör a beállítások megváltoztathatásáhou"
 
 #: .././alo-easymail_options.php:416
 msgid "The user with this capability can set up these setting sections"
-msgstr ""
+msgstr "Ezzel a felhasználók a következőket tudják beálítani"
 
 #: .././alo-easymail_options.php:419
 msgid "Other sections can be modified only by administrators"
-msgstr ""
+msgstr "A többit csak az adminisztrátorok"
 
 #: .././alo-easymail_options.php:520
 msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
-msgstr ""
+msgstr "Beállíthatja a levelezési listákat. Mindegyiiknek beállíthatja a nevét, sorrendjét és elérhetőségét"
 
 #: .././alo-easymail_options.php:522
 #: .././alo-easymail_options.php:540
 #: .././alo-easymail_options.php:587
 msgid "hidden"
-msgstr ""
+msgstr "rejtett"
 
 #: .././alo-easymail_options.php:522
 msgid "the list can be shown only here in settings and nowhere in the site"
-msgstr ""
+msgstr "A lista csak itt a beállításokban jeleníthető meg, sehol máshol az oldalon"
 
 #: .././alo-easymail_options.php:523
 #: .././alo-easymail_options.php:541
 #: .././alo-easymail_options.php:590
 msgid "admin side only"
-msgstr ""
+msgstr "csak az admin felületen"
 
 #: .././alo-easymail_options.php:523
 msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
-msgstr ""
+msgstr "A lista csak adminisztrációs célra érhető el (beállítások, levélküldés, feliratkozók), tehát a felirakozottak nem láthatják"
 
 #: .././alo-easymail_options.php:524
 #: .././alo-easymail_options.php:542
 #: .././alo-easymail_options.php:593
 msgid "entire site"
-msgstr ""
+msgstr "A teljes oldal"
 
 #: .././alo-easymail_options.php:524
 msgid "the list is available in the whole site, so subscribers can see it"
-msgstr ""
+msgstr "A lista a teljes oldalon elérhető. Tehát a feliratkozottak is láthatják"
 
 #: .././alo-easymail_options.php:528
 #: .././alo-easymail_options.php:604
 msgid "Edit list"
-msgstr ""
+msgstr "Lista szerkesztése"
 
 #: .././alo-easymail_options.php:528
 msgid "New list"
-msgstr ""
+msgstr "Új lista"
 
 #: .././alo-easymail_options.php:533
 #: .././alo-easymail_options.php:567
 msgid "List name"
-msgstr ""
+msgstr "Lista neve"
 
 #: .././alo-easymail_options.php:534
 #: .././alo-easymail_options.php:568
 msgid "Availability"
-msgstr ""
+msgstr "Elérhetőség"
 
 #: .././alo-easymail_options.php:535
 #: .././alo-easymail_options.php:569
 msgid "Order"
-msgstr ""
+msgstr "Rendezés"
 
 #: .././alo-easymail_options.php:553
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: .././alo-easymail_options.php:566
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: .././alo-easymail_options.php:607
-#, fuzzy
 msgid "Delete list"
-msgstr "Töröl"
+msgstr "Lista törlése"
 
 #: .././alo-easymail_options.php:608
-#, fuzzy
 msgid "Do you really want to DELETE this list?"
-msgstr "Valóban törölni akarja ezeket a feliratkozókat?"
+msgstr "Valóban törölni akarja ezt a listát?"
 
 #: .././alo-easymail_options.php:616
 #: .././alo-easymail_subscribers.php:145
 msgid "There are no available lists"
-msgstr ""
+msgstr "Nincs elérhető lista"
 
 #: .././alo-easymail_subscribers.php:12
 msgid "Activation state updated"
@@ -794,127 +776,119 @@ msgstr "Törlés sikertelen"
 #: .././alo-easymail_subscribers.php:220
 #: .././alo-easymail_subscribers.php:236
 #: .././alo-easymail_subscribers.php:455
-#, fuzzy
 msgid "No subscriber selected"
-msgstr "A feliratkozót töröltük"
+msgstr "Nincs kiválasztva feliratkozó"
 
 #: .././alo-easymail_subscribers.php:93
 #: .././alo-easymail_subscribers.php:237
-#, fuzzy
 msgid "No list selected"
-msgstr "Törlés sikertelen"
+msgstr "Nincs lista kiválasztva"
 
 #: .././alo-easymail_subscribers.php:99
 #: .././alo-easymail_subscribers.php:497
 msgid "Edit subscription to mailing lists"
-msgstr ""
+msgstr "A listára feliratkozások szerkesztése"
 
 #: .././alo-easymail_subscribers.php:100
-#, fuzzy
 msgid "Selected subscribers"
-msgstr "Feliratkozók törlése"
+msgstr "Kiválasztott feliratkozottak"
 
 #: .././alo-easymail_subscribers.php:111
 msgid "Choose mailing lists"
-msgstr ""
+msgstr "Levelezési lista választása"
 
 #: .././alo-easymail_subscribers.php:122
 msgid "Choose an action"
-msgstr ""
+msgstr "Válasszon műveletet"
 
 #: .././alo-easymail_subscribers.php:124
 msgid "Add to selected lists"
-msgstr ""
+msgstr "Hozzáadás a kiválasztott listákhoz"
 
 #: .././alo-easymail_subscribers.php:124
 #: .././alo-easymail_subscribers.php:127
 msgid "ignore not selected lists"
-msgstr ""
+msgstr "A nem kiválasztott listák figyelmen kívül hagyása"
 
 #: .././alo-easymail_subscribers.php:127
 msgid "Remove from selected lists"
-msgstr ""
+msgstr "Eltávolítás a kiválasztott listákból"
 
 #: .././alo-easymail_subscribers.php:131
 msgid "Add to selected lists and remove from not selected lists"
-msgstr ""
+msgstr "Hozzáadás a kiválasztott listákhoz, és eltávolítás a nem kiválasztott listákból"
 
 #: .././alo-easymail_subscribers.php:138
 #: .././alo-easymail_subscribers.php:510
 msgid "Apply"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: .././alo-easymail_subscribers.php:160
-#, fuzzy
 msgid "Subscribers deleted"
 msgstr "A feliratkozót töröltük"
 
 #: .././alo-easymail_subscribers.php:182
-#, fuzzy
 msgid "Import from WP registered users"
-msgstr "Regisztrált felhasználóknak"
+msgstr "Importálás a WordPress felhasználói közül"
 
 #: .././alo-easymail_subscribers.php:183
 msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
-msgstr ""
+msgstr "A WordPress regisztrált felhasználóit importálhatja hírlevélre feliratkozónak. Minden tag feliratkozik hírlevélre"
 
 #: .././alo-easymail_subscribers.php:184
 msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
-msgstr ""
+msgstr "Ezt a funkciót akkor használja, ha most telepítette a bővítményt, és a már létező felhasználókat szeretné feliratkoztatni"
 
 #: .././alo-easymail_subscribers.php:185
 msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
-msgstr ""
+msgstr "De vigyázzon a későbbi használattal, mert a már feliratkozott felhasználókat is újra fel fogja iratkoztatni"
 
 #: .././alo-easymail_subscribers.php:187
-#, fuzzy
 msgid "Blog registered users"
-msgstr "Regisztrált felhasználóknak"
+msgstr "Regisztrált felhasználók"
 
 #: .././alo-easymail_subscribers.php:191
 msgid "Import from WP members"
-msgstr ""
+msgstr "WP felhasználók importálása"
 
 #: .././alo-easymail_subscribers.php:195
 msgid "Import from uploaded CSV file"
-msgstr ""
+msgstr "Importálás CSV-ből"
 
 #: .././alo-easymail_subscribers.php:196
 msgid "You can import new subscribers from a CSV file."
-msgstr ""
+msgstr "Új feliratkozottakat importálhat be CSV fájlból"
 
 #: .././alo-easymail_subscribers.php:197
 msgid "For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample."
-msgstr ""
+msgstr "A soroknak a következőket kell tartalmaznia: email cím (kötelező), név (opcionális). A mezőket pontosvesszővel (;) kell elválasztani."
 
 #: .././alo-easymail_subscribers.php:201
 msgid "Test mode (no importation, show records on screen)"
-msgstr ""
+msgstr "Teszt mód (csak előnézet, nincs importálás)"
 
 #: .././alo-easymail_subscribers.php:204
 msgid "Upload CSV file"
-msgstr ""
+msgstr "CSV fájl feltöltése"
 
 #: .././alo-easymail_subscribers.php:209
-#, fuzzy
 msgid "Add a subscriber"
-msgstr "Nincsenek feliratkozottak"
+msgstr "Feliratkozó hozzáadása"
 
 #: .././alo-easymail_subscribers.php:219
 #: .././alo-easymail_subscribers.php:357
 #: .././alo-easymail_subscribers.php:459
-#, fuzzy
 msgid "No action selected"
-msgstr "Nincs kiválasztva címzett!"
+msgstr "Nincs kiválasztva művelet"
 
 #: .././alo-easymail_subscribers.php:274
 #: .././alo-easymail_subscribers.php:309
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: .././alo-easymail_subscribers.php:276
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: .././alo-easymail_subscribers.php:287
 #: .././alo-easymail_functions.php:386
@@ -923,46 +897,46 @@ msgstr "A e-mail cím nem megfelelő"
 
 #: .././alo-easymail_subscribers.php:289
 msgid "There is already a subscriber with this e-email address"
-msgstr ""
+msgstr "Már van feliratkozó ilyen e-mail címmel"
 
 #: .././alo-easymail_subscribers.php:306
 #, php-format
 msgid "Found %d records"
-msgstr ""
+msgstr "Találat: %d rekord"
 
 #: .././alo-easymail_subscribers.php:307
 msgid "Check the Error column to modify records that otherwise will not be imported"
-msgstr ""
+msgstr "Ellenőrizze a hibás oszlopot és módosítsa, küldönben nem fog importálódni"
 
 #: .././alo-easymail_subscribers.php:312
 #, php-format
 msgid "Successfully import: %d records out of %d total"
-msgstr ""
+msgstr "Sikeres importálás %d/%d rekord"
 
 #: .././alo-easymail_subscribers.php:314
 msgid "Some records have not been imported"
-msgstr ""
+msgstr "Néhány rekord nem importálódott"
 
 #: .././alo-easymail_subscribers.php:331
 msgid "Not valid CSV file uploaded"
-msgstr ""
+msgstr "Hibás CSV fájlt töltött fel"
 
 #: .././alo-easymail_subscribers.php:349
 #, php-format
 msgid "%d new subscribers successfully added from blog members"
-msgstr ""
+msgstr "%d filiratkozottat sikeresen importáltunk a blog felhasználóiból"
 
 #: .././alo-easymail_subscribers.php:351
 msgid "No subscribers added from blog members"
-msgstr ""
+msgstr "Nincs új feliratkozó a blog felhasználóiból"
 
 #: .././alo-easymail_subscribers.php:378
 msgid "Select a mailing list"
-msgstr ""
+msgstr "Válasszon egy levelezési listát"
 
 #: .././alo-easymail_subscribers.php:385
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 #: .././alo-easymail_subscribers.php:387
 msgid "Show all"
@@ -970,19 +944,17 @@ msgstr "Összes"
 
 #: .././alo-easymail_subscribers.php:401
 msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;Add/import subscribers&#39; button"
-msgstr ""
+msgstr "Előfordulhat, hogy importáli szeretné a feliratkozottakat a blog felhasználóiból vagy egy külső rendszerből egy CSV fájl segítségével. Ehhez kattintson a &#39;Feliratkozók hozzáadása importálása&#39; gombra"
 
 #: .././alo-easymail_subscribers.php:402
 msgid "Do not show it again"
-msgstr ""
+msgstr "Ne jelenjen meg újra"
 
 #: .././alo-easymail_subscribers.php:409
-#, fuzzy
 msgid "Add/import subscribers"
-msgstr "Nincsenek feliratkozottak"
+msgstr "Feliratkozó hozzáadása/Importálása"
 
 #: .././alo-easymail_subscribers.php:463
-#, fuzzy
 msgid "Do you really want to DELETE these subscribers?"
 msgstr "Valóban törölni akarja ezeket a feliratkozókat?"
 
@@ -991,9 +963,8 @@ msgid "Per page"
 msgstr "Darab/Oldal"
 
 #: .././alo-easymail_subscribers.php:496
-#, fuzzy
 msgid "Bulk Actions"
-msgstr "Művelet"
+msgstr "Tömeges művelet"
 
 #: .././alo-easymail_subscribers.php:521
 msgid "Order by e-mail"
@@ -1029,12 +1000,11 @@ msgstr "A regisztrált felhasználóknak az alapértelmezett állapot az aktivá
 
 #: .././alo-easymail_subscribers.php:525
 msgid "A subscriber will be deleted if not activated in 5 days."
-msgstr ""
+msgstr "A feliratkozó törlődik, ha nem aktiválja a feliratkozást 5 napon belül"
 
 #: .././alo-easymail_subscribers.php:527
-#, fuzzy
 msgid "Actions"
-msgstr "Művelet"
+msgstr "Művele"
 
 #: .././alo-easymail_subscribers.php:597
 msgid "View user profile"
@@ -1106,18 +1076,24 @@ msgstr "Kattintson ide"
 #~ msgstr ""
 #~ "Ahhoz, hogy a szerkesztők tudjanak kiküldeni levelet, nézze meg ezt a "
 #~ "lehetőséger"
+
 #~ msgid "Editors can send emails"
 #~ msgstr "A szerkesztők küldhetnek e-maileket"
+
 #~ msgid "Registered users"
 #~ msgstr "Regisztrált felhasználók"
+
 #~ msgid "None of the above"
 #~ msgstr "A fenntiek közül egyik sem"
+
 #~ msgid "plain text"
 #~ msgstr "Sima szöveg"
+
 #~ msgid "Total sent"
 #~ msgstr "Összes kiküldés"
+
 #~ msgid "Succesful sendings"
 #~ msgstr "Sikeres kiküldések"
+
 #~ msgid "Search e-mail or name"
 #~ msgstr "E-mail vagy név alapján keresés"
-

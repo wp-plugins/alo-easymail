@@ -40,7 +40,7 @@ Available languages:
 * English v.1.8 (by Francesca Bovone)
 * French v.1.7 - fr_FR (by Therese Lachance)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
-* Hungarian v.1.7 - hu_HU (by Daniel Bozo)
+* Hungarian v.1.8 - hu_HU (by Daniel Bozo)
 * Italian v.1.8 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Romanian v.1.8 - ro_RO (by Richard Vencu)
