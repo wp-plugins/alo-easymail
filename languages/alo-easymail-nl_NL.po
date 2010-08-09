@@ -126,7 +126,7 @@ msgstr "Toegevoegd op"
 #: alo-easymail_main.php:179
 #: alo-easymail_report.php:68
 msgid "Scheduled by"
-msgstr "Gepland op"
+msgstr "Gepland door"
 
 #: alo-easymail.php:431
 msgid "There are no newsletters in queue"
