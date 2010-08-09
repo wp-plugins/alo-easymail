@@ -343,15 +343,12 @@ function ALO_em_user_form_callback() {
 				
 				$mailinglists = ALO_em_get_mailinglists( 'public' );
 				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) ) : array();
-				$l = "";
 				if ($mailinglists) {
 					foreach ( $mailinglists as $mailinglist => $val) {					
 						if ( in_array ( $mailinglist, $lists ) ) {
 							ALO_em_add_subscriber_to_list ( $subscriber_id, $mailinglist );	  // add to list
-							//$l .= "ADD=".$mailinglist .",";
 						} else {
 							ALO_em_delete_subscriber_from_list ( $subscriber_id, $mailinglist ); // remove from list
-							//$l .= "REM=".$mailinglist .",";
 						}
 					}
 				}
@@ -359,7 +356,7 @@ function ALO_em_user_form_callback() {
 		}
 		// Compose JavaScript for return
 		$feedback = "";
-		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". __("Successfully updated", "alo-easymail"). $l.".';";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". __("Successfully updated", "alo-easymail"). ".';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = 'alo_easymail_widget_ok';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		// if unsubscribe deselect all lists
