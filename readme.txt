@@ -38,7 +38,7 @@ Available languages:
 * Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
 * Dutch v.1.8 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
 * English v.1.8 (by Francesca Bovone)
-* French v.1.7 - fr_FR (by Therese Lachance)
+* French v.1.8 - fr_FR (by Nicolas Trubert, Therese Lachance)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8 - hu_HU (by Daniel Bozo)
 * Italian v.1.8 - it_IT
