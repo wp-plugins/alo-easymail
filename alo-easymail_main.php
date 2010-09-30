@@ -155,7 +155,7 @@ if (count($news_on_queue)) { ?>
 				echo __("Cancel", "alo-easymail"). "</a>";
 			} 
 		?></td>
-		<?
+		<?php
 		echo "</tr>";
 		$row_count++;
 	}
@@ -208,7 +208,7 @@ if (count($news_done)) { ?>
 				echo __("View", "alo-easymail"). "</a>";
 			} 
 		?></td>
-		<?
+		<?php
 		echo "</tr>";
 		$row_count++;
 	}

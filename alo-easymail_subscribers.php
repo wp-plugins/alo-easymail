@@ -197,6 +197,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<p><?php _e("For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample.", "alo-easymail") ?></p>
 			 	<code>email_address1@domain.ltd;name1 surname1</code><br /><code>email_address2@domain.ltd;name2 surname2</code><br />
 			 	<code>email_address3@domain.ltd;name3</code><br /><code>email_address4@domain.ltd</code>
+			 	<p><?php _e("Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)", "alo-easymail") ?>.</p>
 			 	<form enctype="multipart/form-data" action="" method="POST">
 			 		<p><input type="checkbox" name="test_only" id="test_only" value="yes" /><label for="test_only"><?php _e('Test mode (no importation, show records on screen)', 'alo-easymail') ?></label></p>
 					<input name="uploaded_csv" type="file"  />
@@ -265,7 +266,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 				
 			// Upload csv and insert new subscribers into db
 			case "import_step2":	
-				if (($handle = fopen($_FILES['uploaded_csv']['tmp_name'], "r")) !== FALSE && $_FILES['uploaded_csv']['type'] == "text/csv" ) {
+				if (($handle = fopen($_FILES['uploaded_csv']['tmp_name'], "r")) !== FALSE && ($_FILES['uploaded_csv']['type'] == "text/csv" || $_FILES['uploaded_csv']['type'] == "text/plain") ) {
 					$row = 0;
 					$success = 0; // success
 					$not_imported = array(); // list not imported and why
@@ -281,7 +282,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						// check data
 						$email	= stripslashes ( $wpdb->escape ( $data[0] ) );
 						$email 	= ( is_email( $email )) ? $email : false;
-						$name 	= stripslashes ( $wpdb->escape ( $data[1] ) );
+						$name 	= ( isset($data[1]) ) ? stripslashes ( $wpdb->escape ( $data[1] ) ) : "";
 						// error
 						if ( $email == false ) { // error: email incorrect
 							 $not_imported[$data[0]] = __("The e-email address is not correct", "alo-easymail") ; 
@@ -292,7 +293,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 							//if ( $row > 10 ) continue; // print only the 1st 10
 							$span_email = ( isset($not_imported[$data[0]])) ? "<span style='color:#f00'>".$data[0]."</span>" : $data[0] ;							
 							$html .= "<tr><td>$row: </td>";
-							$html .= "<td>". $span_email ."</td><td>".$data[1]."</td>";
+							$html .= "<td>". $span_email ."</td><td>".$name."</td>";
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
 							if ( $email && ALO_em_add_subscriber( $email , $name , 1 ) ) {
@@ -381,7 +382,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 			echo '<option value="'.$list.'" '.$selected.'>'.$val['name'].'</option>';
 		} ?>
 	</select>
-	<? } // end if mailingslist ?>
+	<?php } // end if mailingslist ?>
 	<input type="submit" value="<?php _e("Search") ?>" class="button" />
 	
 	<?php if ( $s || $filter_list ) echo "&nbsp;&nbsp;<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;num=".$items_per_page."'>".__("Show all", "alo-easymail")."</a>" ?>

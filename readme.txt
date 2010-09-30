@@ -3,8 +3,8 @@ Contributors: eventualo
 Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup
 Requires at least: 2.8.4
-Tested up to: 3.0  
-Stable tag: 1.8
+Tested up to: 3.0.1  
+Stable tag: 1.8.1
 
 To send e-mails and newsletters. Features: subscription on registration or with an ajax widget, mailing lists, cron batch sending.
 
@@ -93,6 +93,12 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 
 == Changelog ==
 
+= 1.8.1 =
+* Fixed: the "updating..." msg should not get stuck anymore
+* Fixed: in subscription page the list form appears only if there is at least a list
+* Fixed: the csv importation system should work better
+* The subscription page generated on installation now is titled simply "Newsletter"
+
 = 1.8 =
 * NEW FEATURES
 * Added: mailing lists
@@ -179,3 +185,6 @@ Upgrade your WP installation to 3.0: the wp_cron bug seems to be solved. New fea
 
 = 1.8 =
 New features: mailing lists, subscribers importation, tracking system.
+
+= 1.8.1 =
+Release to fix some bugs.

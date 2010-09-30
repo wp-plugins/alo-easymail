@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alo-easymail\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-15 15:33+0100\n"
+"POT-Creation-Date: 2010-09-30 11:06+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Alex <groucho75@email.it>\n"
 "Language-Team: eViz - www.eViz.pl\n"
@@ -15,94 +15,94 @@ msgstr ""
 "X-Poedit-Country: POLAND\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././alo-easymail.php:249
-#: .././alo-easymail.php:276
+#: .././alo-easymail.php:247
+#: .././alo-easymail.php:274
 #: .././alo-easymail-widget.php:206
 msgid "Newsletter"
 msgstr "Newsletter"
 
-#: .././alo-easymail.php:250
+#: .././alo-easymail.php:248
 #: .././alo-easymail_main.php:291
 #, fuzzy
 msgid "Send newsletter"
 msgstr "Newsletter"
 
-#: .././alo-easymail.php:251
+#: .././alo-easymail.php:249
 #: .././alo-easymail_subscribers.php:186
 msgid "Newsletter subscribers"
 msgstr "Zapisani do Newslettera"
 
-#: .././alo-easymail.php:279
-#: .././alo-easymail.php:455
+#: .././alo-easymail.php:277
+#: .././alo-easymail.php:453
 #: .././easymail-subscr-page.php:20
 msgid "Receive Newsletters?"
 msgstr "Chcesz otrzymywać Newsletter?"
 
-#: .././alo-easymail.php:282
+#: .././alo-easymail.php:280
 msgid "Yes"
 msgstr "Tak"
 
-#: .././alo-easymail.php:283
+#: .././alo-easymail.php:281
 msgid "No"
 msgstr "Nie"
 
-#: .././alo-easymail.php:389
+#: .././alo-easymail.php:387
 #, fuzzy
 msgid "Newsletters"
 msgstr "Newsletter"
 
-#: .././alo-easymail.php:402
+#: .././alo-easymail.php:400
 #: .././alo-easymail_main.php:104
 msgid "Newsletters scheduled for sending"
 msgstr "Newsletter zaplanowany do wysłania"
 
-#: .././alo-easymail.php:410
+#: .././alo-easymail.php:408
 #: .././alo-easymail_main.php:123
 msgid "now sending"
 msgstr "trwa wysyłanie"
 
-#: .././alo-easymail.php:422
+#: .././alo-easymail.php:420
 #: .././alo-easymail_main.php:110
 msgid "Progress"
 msgstr "Postęp"
 
-#: .././alo-easymail.php:424
+#: .././alo-easymail.php:422
 #: .././alo-easymail_main.php:108
 #: .././alo-easymail_main.php:180
 #: .././alo-easymail_report.php:72
 msgid "Added on"
 msgstr "Dodane w"
 
-#: .././alo-easymail.php:425
+#: .././alo-easymail.php:423
 #: .././alo-easymail_main.php:107
 #: .././alo-easymail_main.php:179
 #: .././alo-easymail_report.php:68
 msgid "Scheduled by"
 msgstr "Zaplanowane przez"
 
-#: .././alo-easymail.php:431
+#: .././alo-easymail.php:429
 msgid "There are no newsletters in queue"
 msgstr ""
 
-#: .././alo-easymail.php:433
+#: .././alo-easymail.php:431
 #: .././alo-easymail_options.php:570
 #: .././alo-easymail_subscribers.php:40
 msgid "Subscribers"
 msgstr "Zapisani do Newslettera"
 
-#: .././alo-easymail.php:436
+#: .././alo-easymail.php:434
 #, php-format
 msgid "There are %d subscribers: %d activated, %d not activated"
 msgstr ""
 
-#: .././alo-easymail.php:438
-#: .././alo-easymail_subscribers.php:646
+#: .././alo-easymail.php:436
+#: .././alo-easymail_subscribers.php:647
 msgid "No subscribers"
 msgstr "Brak osób zapisanych do newslettera"
 
 #: .././alo-easymail-widget.php:30
 #: .././alo-easymail_options.php:257
-#: .././alo-easymail_functions.php:712
+#: .././alo-easymail_functions.php:698
 msgid "You can also sign up for specific lists"
 msgstr ""
 
@@ -127,20 +127,20 @@ msgstr "Wysyłam..."
 
 #: .././alo-easymail-widget.php:88
 #: .././alo-easymail_report.php:127
-#: .././alo-easymail_subscribers.php:276
-#: .././alo-easymail_subscribers.php:522
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:523
 msgid "Name"
 msgstr "Imię/nazwa"
 
 #: .././alo-easymail-widget.php:92
 #: .././alo-easymail_report.php:126
-#: .././alo-easymail_subscribers.php:276
-#: .././alo-easymail_subscribers.php:521
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:522
 msgid "E-mail"
 msgstr "E-mail"
 
 #: .././alo-easymail-widget.php:97
-#: .././alo-easymail_functions.php:418
+#: .././alo-easymail_functions.php:405
 msgid "Subscribe"
 msgstr "Zapisz się"
 
@@ -223,7 +223,7 @@ msgstr "Inni użytkownicy"
 #: .././alo-easymail_main.php:155
 #: .././alo-easymail_options.php:555
 #: .././alo-easymail_subscribers.php:139
-#: .././alo-easymail_subscribers.php:213
+#: .././alo-easymail_subscribers.php:214
 msgid "Cancel"
 msgstr "Zatrzymaj"
 
@@ -250,7 +250,7 @@ msgstr "Raport"
 
 #: .././alo-easymail_main.php:203
 #: .././alo-easymail_main.php:205
-#: .././alo-easymail_subscribers.php:498
+#: .././alo-easymail_subscribers.php:499
 msgid "Delete"
 msgstr "Usuń"
 
@@ -299,7 +299,7 @@ msgstr "dla zarejestrowanych użytkowników"
 #: .././alo-easymail_options.php:418
 #: .././alo-easymail_options.php:442
 #: .././alo-easymail_options.php:563
-#: .././alo-easymail_subscribers.php:526
+#: .././alo-easymail_subscribers.php:527
 msgid "Mailing Lists"
 msgstr ""
 
@@ -434,8 +434,8 @@ msgstr "Kliknij RAZ i czekaj aż zakończy się proces wysyłania"
 #: .././alo-easymail_subscribers.php:23
 #: .././alo-easymail_subscribers.php:91
 #: .././alo-easymail_subscribers.php:152
-#: .././alo-easymail_subscribers.php:218
-#: .././alo-easymail_subscribers.php:235
+#: .././alo-easymail_subscribers.php:219
+#: .././alo-easymail_subscribers.php:236
 msgid "Error during operation."
 msgstr "Błąd podczas wykonywania zadania"
 
@@ -447,42 +447,42 @@ msgstr "Operacja zakończona powodzeniem. Jesteś teraz aktywnym odbiorca naszyc
 msgid "Error during activation. Please check the activation link."
 msgstr "Błąd podczas procesu aktywacji. Sprawdź ponownie link aktywacyjny"
 
-#: .././easymail-subscr-page.php:39
+#: .././easymail-subscr-page.php:41
 #, fuzzy
 msgid "To modify your subscription to mailing lists use this form"
 msgstr "Prosimy o potwierdzenia chęci zapisania się do %s Newslettera"
 
-#: .././easymail-subscr-page.php:48
+#: .././easymail-subscr-page.php:50
 msgid "Edit"
 msgstr ""
 
-#: .././easymail-subscr-page.php:52
+#: .././easymail-subscr-page.php:55
 #, fuzzy
 msgid "To unsubscribe the newsletter for good click this button"
 msgstr "Dla zapisanych do Newslettera - nazwa/imię podane przy rejestrowaniu się"
 
-#: .././easymail-subscr-page.php:58
+#: .././easymail-subscr-page.php:61
 #, fuzzy
 msgid "Unsubscribe me"
 msgstr "Zapisz się"
 
-#: .././easymail-subscr-page.php:65
+#: .././easymail-subscr-page.php:68
 msgid "Your subscription was successfully deleted. Bye bye."
 msgstr "Zostałeś wypisany z naszego newslettera. Pozdrawiamy"
 
-#: .././easymail-subscr-page.php:67
+#: .././easymail-subscr-page.php:70
 msgid "Error during unsubscription."
 msgstr "Błąd podczas wypisywania się z newslettera"
 
-#: .././easymail-subscr-page.php:67
+#: .././easymail-subscr-page.php:70
 msgid "Try again."
 msgstr "Spróbuj ponownie"
 
-#: .././easymail-subscr-page.php:68
+#: .././easymail-subscr-page.php:71
 msgid "If it fails again you can contact the administrator"
 msgstr "Jeżeli znów wystapi błąd skontaktuj się proszę z administratorem"
 
-#: .././easymail-subscr-page.php:85
+#: .././easymail-subscr-page.php:88
 #, fuzzy
 msgid "Your subscription to mailing lists successfully updated"
 msgstr "Zostałeś wypisany z naszego newslettera. Pozdrawiamy"
@@ -524,7 +524,7 @@ msgstr "Zobacz"
 #: .././alo-easymail_options.php:91
 #: .././alo-easymail_options.php:488
 #: .././alo-easymail_options.php:507
-#: .././alo-easymail_subscribers.php:263
+#: .././alo-easymail_subscribers.php:264
 msgid "Updated"
 msgstr "Uaktualniono"
 
@@ -793,21 +793,21 @@ msgstr "Nie usunięte"
 
 #: .././alo-easymail_subscribers.php:92
 #: .././alo-easymail_subscribers.php:153
-#: .././alo-easymail_subscribers.php:220
-#: .././alo-easymail_subscribers.php:236
-#: .././alo-easymail_subscribers.php:455
+#: .././alo-easymail_subscribers.php:221
+#: .././alo-easymail_subscribers.php:237
+#: .././alo-easymail_subscribers.php:456
 #, fuzzy
 msgid "No subscriber selected"
 msgstr "Usunietę subskrypcje"
 
 #: .././alo-easymail_subscribers.php:93
-#: .././alo-easymail_subscribers.php:237
+#: .././alo-easymail_subscribers.php:238
 #, fuzzy
 msgid "No list selected"
 msgstr "Nie usunięte"
 
 #: .././alo-easymail_subscribers.php:99
-#: .././alo-easymail_subscribers.php:497
+#: .././alo-easymail_subscribers.php:498
 msgid "Edit subscription to mailing lists"
 msgstr ""
 
@@ -842,7 +842,7 @@ msgid "Add to selected lists and remove from not selected lists"
 msgstr ""
 
 #: .././alo-easymail_subscribers.php:138
-#: .././alo-easymail_subscribers.php:510
+#: .././alo-easymail_subscribers.php:511
 msgid "Apply"
 msgstr ""
 
@@ -889,172 +889,176 @@ msgstr ""
 msgid "For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample."
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:201
+#: .././alo-easymail_subscribers.php:200
+msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+msgstr ""
+
+#: .././alo-easymail_subscribers.php:202
 msgid "Test mode (no importation, show records on screen)"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:204
+#: .././alo-easymail_subscribers.php:205
 msgid "Upload CSV file"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:209
+#: .././alo-easymail_subscribers.php:210
 #, fuzzy
 msgid "Add a subscriber"
 msgstr "Brak osób zapisanych do newslettera"
 
-#: .././alo-easymail_subscribers.php:219
-#: .././alo-easymail_subscribers.php:357
-#: .././alo-easymail_subscribers.php:459
+#: .././alo-easymail_subscribers.php:220
+#: .././alo-easymail_subscribers.php:358
+#: .././alo-easymail_subscribers.php:460
 #, fuzzy
 msgid "No action selected"
 msgstr "Nie wybrano grupy adresatów wiadomości"
 
-#: .././alo-easymail_subscribers.php:274
-#: .././alo-easymail_subscribers.php:309
+#: .././alo-easymail_subscribers.php:275
+#: .././alo-easymail_subscribers.php:310
 msgid "Back"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:276
+#: .././alo-easymail_subscribers.php:277
 msgid "Error"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:287
-#: .././alo-easymail_functions.php:386
+#: .././alo-easymail_subscribers.php:288
+#: .././alo-easymail_functions.php:373
 msgid "The e-email address is not correct"
 msgstr "Podany adres e-mail jest nieprawidłowy"
 
-#: .././alo-easymail_subscribers.php:289
+#: .././alo-easymail_subscribers.php:290
 msgid "There is already a subscriber with this e-email address"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:306
+#: .././alo-easymail_subscribers.php:307
 #, php-format
 msgid "Found %d records"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:307
+#: .././alo-easymail_subscribers.php:308
 msgid "Check the Error column to modify records that otherwise will not be imported"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:312
+#: .././alo-easymail_subscribers.php:313
 #, php-format
 msgid "Successfully import: %d records out of %d total"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:314
+#: .././alo-easymail_subscribers.php:315
 msgid "Some records have not been imported"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:331
+#: .././alo-easymail_subscribers.php:332
 msgid "Not valid CSV file uploaded"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:349
+#: .././alo-easymail_subscribers.php:350
 #, php-format
 msgid "%d new subscribers successfully added from blog members"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:351
+#: .././alo-easymail_subscribers.php:352
 msgid "No subscribers added from blog members"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:378
+#: .././alo-easymail_subscribers.php:379
 msgid "Select a mailing list"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:385
+#: .././alo-easymail_subscribers.php:386
 msgid "Search"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:387
+#: .././alo-easymail_subscribers.php:388
 msgid "Show all"
 msgstr "pokaż wszystkie"
 
-#: .././alo-easymail_subscribers.php:401
+#: .././alo-easymail_subscribers.php:402
 msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;Add/import subscribers&#39; button"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:402
+#: .././alo-easymail_subscribers.php:403
 msgid "Do not show it again"
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:409
+#: .././alo-easymail_subscribers.php:410
 #, fuzzy
 msgid "Add/import subscribers"
 msgstr "Brak osób zapisanych do newslettera"
 
-#: .././alo-easymail_subscribers.php:463
+#: .././alo-easymail_subscribers.php:464
 #, fuzzy
 msgid "Do you really want to DELETE these subscribers?"
 msgstr "Naprawdę chcesz usunąć zapisanego do otrzymywania newsletterów?"
 
-#: .././alo-easymail_subscribers.php:473
+#: .././alo-easymail_subscribers.php:474
 msgid "Per page"
 msgstr "na stronę"
 
-#: .././alo-easymail_subscribers.php:496
+#: .././alo-easymail_subscribers.php:497
 #, fuzzy
 msgid "Bulk Actions"
 msgstr "Działanie"
 
-#: .././alo-easymail_subscribers.php:521
+#: .././alo-easymail_subscribers.php:522
 msgid "Order by e-mail"
 msgstr "sortuj według adresu e-mail"
 
-#: .././alo-easymail_subscribers.php:523
+#: .././alo-easymail_subscribers.php:524
 msgid "Username"
 msgstr "Użytkownik"
 
-#: .././alo-easymail_subscribers.php:523
+#: .././alo-easymail_subscribers.php:524
 msgid "The username of registered users. It is blank for public subscribers."
 msgstr "Nazwa uzytkownika dla zarejestrowanych uzytkowników. Pozostaje puste dla osób zapisanych nie będących użytkownikami"
 
-#: .././alo-easymail_subscribers.php:524
+#: .././alo-easymail_subscribers.php:525
 msgid "Order by join date"
 msgstr "Sortuj według daty przyłączenia się"
 
-#: .././alo-easymail_subscribers.php:524
+#: .././alo-easymail_subscribers.php:525
 msgid "Join date"
 msgstr "Data przyłączenia"
 
-#: .././alo-easymail_subscribers.php:525
+#: .././alo-easymail_subscribers.php:526
 msgid "Order by activation state"
 msgstr "Sortuj według stanu aktywacji"
 
-#: .././alo-easymail_subscribers.php:525
+#: .././alo-easymail_subscribers.php:526
 msgid "Activated"
 msgstr "Aktywny"
 
-#: .././alo-easymail_subscribers.php:525
+#: .././alo-easymail_subscribers.php:526
 msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
 msgstr "Dla zarejestrowanych użytkowników domyslny stan jest \"aktywny\". Dla osób spoza grona użytkowników domyślny stan to \"nieaktywny\" - do momentu klikniecie przez nich w link aktywacyjny"
 
-#: .././alo-easymail_subscribers.php:525
+#: .././alo-easymail_subscribers.php:526
 msgid "A subscriber will be deleted if not activated in 5 days."
 msgstr ""
 
-#: .././alo-easymail_subscribers.php:527
+#: .././alo-easymail_subscribers.php:528
 #, fuzzy
 msgid "Actions"
 msgstr "Działanie"
 
-#: .././alo-easymail_subscribers.php:597
+#: .././alo-easymail_subscribers.php:598
 msgid "View user profile"
 msgstr "Zobacz profil użytkownika"
 
-#: .././alo-easymail_subscribers.php:604
+#: .././alo-easymail_subscribers.php:605
 msgid "Modify activation state"
 msgstr "Zmień stan aktywacji"
 
-#: .././alo-easymail_subscribers.php:605
+#: .././alo-easymail_subscribers.php:606
 msgid "Do you really want to modify the activation state?"
 msgstr "Naprawdę chcesz zmienić stan aktywacji?"
 
-#: .././alo-easymail_subscribers.php:635
+#: .././alo-easymail_subscribers.php:636
 msgid "Delete subscriber"
 msgstr "Usuń zapisanego do otrzymywania newsletterów"
 
-#: .././alo-easymail_subscribers.php:636
+#: .././alo-easymail_subscribers.php:637
 msgid "Do you really want to DELETE this subscriber?"
 msgstr "Naprawdę chcesz usunąć zapisanego do otrzymywania newsletterów?"
 
@@ -1080,27 +1084,27 @@ msgstr "Jeżeli nie prosiłeś o zapisanie do newslettera, zignoruj proszę tą 
 msgid "Thank you"
 msgstr "Dziękujemy"
 
-#: .././alo-easymail_functions.php:362
+#: .././alo-easymail_functions.php:349
 msgid "Successfully updated"
 msgstr "Uaktualnianie powiodło się..."
 
-#: .././alo-easymail_functions.php:389
+#: .././alo-easymail_functions.php:376
 msgid "The name field is empty"
 msgstr "Pole nazwa/imię należy wypełnić"
 
-#: .././alo-easymail_functions.php:396
+#: .././alo-easymail_functions.php:383
 msgid "Error during sending: please try again"
 msgstr "Błąd podczas wysyłania. Spróbuj ponownie"
 
-#: .././alo-easymail_functions.php:408
+#: .././alo-easymail_functions.php:395
 msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
 msgstr "Zapisywanie do newslettera zakończone. Otrzymasz od nas e-mail z linkiem, który należy kliknąć aby aktywować Newslettera"
 
-#: .././alo-easymail_functions.php:513
+#: .././alo-easymail_functions.php:500
 msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
 msgstr "Otrzymujesz tą wiadomość ponieważ twój adres e-mail został zapisany w naszej bazie osób zainteresowanych naszym newsletterem. Jeżeli chcesz wypisać się:"
 
-#: .././alo-easymail_functions.php:515
+#: .././alo-easymail_functions.php:502
 msgid "click here"
 msgstr "kliknij tutaj"
 

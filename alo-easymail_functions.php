@@ -331,16 +331,6 @@ function ALO_em_user_form_callback() {
 				break;
         	case "lists":
 				$subscriber_id = ALO_em_is_subscriber ( $user_email );
-				
-				/*
-				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) ) : false;
-				if ( $lists && is_array($lists) ) {
-					foreach ( $lists as $list ) {
-						ALO_em_add_subscriber_to_list ( $subscriber_id, $list );
-					}
-				}
-				*/
-				
 				$mailinglists = ALO_em_get_mailinglists( 'public' );
 				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) ) : array();
 				if ($mailinglists) {
@@ -356,7 +346,7 @@ function ALO_em_user_form_callback() {
 		}
 		// Compose JavaScript for return
 		$feedback = "";
-		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". __("Successfully updated", "alo-easymail"). ".';";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". __("Successfully updated", "alo-easymail").".';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = 'alo_easymail_widget_ok';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		// if unsubscribe deselect all lists
@@ -669,7 +659,6 @@ function ALO_em_delete_subscriber_from_list ( $subscriber, $list ) {
  */
 function ALO_em_delete_all_subscribers_from_lists ( $lists ) {
 	global $wpdb;
-	//UPDATE TabellaDb SET CampDb = REPLACE(CampoDb, 'Vecchio', 'Nuovo')
 	if ( !is_array($lists) ) $lists = array ( $lists );
 	foreach ( $lists as $list ) {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}easymail_subscribers SET lists = REPLACE(lists, '_%d_', '_')", $list ) );

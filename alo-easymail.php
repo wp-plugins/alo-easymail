@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send e-mails and newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending.
-Version: 1.8
+Version: 1.8.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -137,7 +137,7 @@ function ALO_em_install() {
 	$my_page_id = get_option('ALO_em_subsc_page');
 	
 	$my_page = array();
-    $my_page['post_title'] = 'Newsletter Subscription';
+    $my_page['post_title'] = 'Newsletter';
     $my_page['post_content'] = '[ALO-EASYMAIL-PAGE]';
     $my_page['post_status'] = 'publish';
     $my_page['post_author'] = 1;
@@ -151,8 +151,7 @@ function ALO_em_install() {
     } else {
         // insert the post into the database
         $my_page_id = wp_insert_post( $my_page );
-        // The page's ID for later updates
-        add_option('ALO_em_subsc_page', $my_page_id);
+        update_option('ALO_em_subsc_page', $my_page_id);
     }
     
     // add scheduled cleaner
@@ -176,7 +175,7 @@ register_activation_hook(__FILE__,'ALO_em_install');
 
 function ALO_em_more_reccurences() {
 	return array(
-		'ALO_em_interval' => array('interval' => 60*(ALO_EM_INTERVAL_MIN), 'display' => 'ALO EasyMail interval')
+		'ALO_em_interval' => array('interval' => 59*(ALO_EM_INTERVAL_MIN), 'display' => 'EasyMail every ' .ALO_EM_INTERVAL_MIN. ' minutes' )
 	);
 }
 add_filter('cron_schedules', 'ALO_em_more_reccurences');
@@ -221,7 +220,6 @@ function ALO_em_uninstall() {
     
     // if required delete all plugin data (options, db tables)
    	if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
-   		global $wpdb;
    		$tables = array ( "easymail_sendings", "easymail_subscribers", "easymail_trackings" );
    		foreach ( $tables as $tab ) {
    			$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}$tab");
