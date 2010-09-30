@@ -6,167 +6,1042 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: alo-easymail\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/alo-easymail\n"
-"POT-Creation-Date: 2010-07-15 14:00+0000\n"
-"PO-Revision-Date: 2010-09-25 18:26+0330\n"
-"Last-Translator: ka1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-30 11:02+0100\n"
+"PO-Revision-Date: 2010-09-30 11:02+0100\n"
+"Last-Translator: Alex <groucho75@email.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: /home/atrash/www/wordpress3.0.1/wp-content/plugins/alo-easymail\n"
-"X-Poedit-SearchPath-0: /home/atrash/www/wordpress3.0.1/wp-content/plugins/alo-easymail\n"
+"X-Poedit-SearchPath-0: ../.\n"
 
-#: alo-easymail-widget.php:30
-#: alo-easymail_functions.php:712
-#: alo-easymail_options.php:257
-msgid "You can also sign up for specific lists"
-msgstr "شما همچنین می‌توانید برای لیست مخصوصی ثبت نام کنید"
-
-#: alo-easymail-widget.php:61
-#: alo-easymail_options.php:240
-msgid "Yes, I would like to receive the Newsletter"
-msgstr "بله، مایلم خبرنامه دریافت کنم"
-
-#: alo-easymail-widget.php:62
-#: alo-easymail_options.php:246
-msgid "No, please do not email me"
-msgstr "خیر، لطفا ایمیلی ارسال نکنید."
-
-#: alo-easymail-widget.php:64
-msgid "Updating..."
-msgstr "در حال به روز رسانی..."
-
-#: alo-easymail-widget.php:83
-#: alo-easymail_functions.php:282
-msgid "sending..."
-msgstr "ارسال..."
-
-#: alo-easymail-widget.php:88
-#: alo-easymail_report.php:127
-#: alo-easymail_subscribers.php:276
-#: alo-easymail_subscribers.php:522
-msgid "Name"
-msgstr "نام"
-
-#: alo-easymail-widget.php:92
-#: alo-easymail_report.php:126
-#: alo-easymail_subscribers.php:276
-#: alo-easymail_subscribers.php:521
-msgid "E-mail"
-msgstr "ایمیل"
-
-#: alo-easymail-widget.php:97
-#: alo-easymail_functions.php:418
-msgid "Subscribe"
-msgstr "مشترک شدن"
-
-#: alo-easymail-widget.php:111
-msgid "Allow users to opt in/out of email"
-msgstr "اجازه دادن به اعضا برای ملحق شدن / خروج از ایمیل"
-
-#: alo-easymail-widget.php:117
-msgid "ALO Easymail Widget"
-msgstr "ابزارک ALO EasyMail"
-
-#: alo-easymail-widget.php:206
-#: alo-easymail.php:249
-#: alo-easymail.php:276
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:249
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:276
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:206
+#: .././alex/alo-easymail/alo-easymail/tags/1.5/alo-easymail-widget.php:180
 msgid "Newsletter"
 msgstr "خبرنامه"
 
-#: alo-easymail.php:250
-#: alo-easymail_main.php:291
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:250
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:291
 msgid "Send newsletter"
 msgstr "ارسال خبرنامه"
 
-#: alo-easymail.php:251
-#: alo-easymail_subscribers.php:186
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:251
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:186
 msgid "Newsletter subscribers"
 msgstr "مشترکین خبرنامه"
 
-#: alo-easymail.php:279
-#: alo-easymail.php:455
-#: easymail-subscr-page.php:20
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:279
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:455
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:20
 msgid "Receive Newsletters?"
 msgstr "دریافت خبرنامه؟"
 
-#: alo-easymail.php:282
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:282
 msgid "Yes"
 msgstr "بله"
 
-#: alo-easymail.php:283
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:283
 msgid "No"
 msgstr "خیر"
 
-#: alo-easymail.php:389
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:389
 msgid "Newsletters"
 msgstr "خبرنامه"
 
-#: alo-easymail.php:402
-#: alo-easymail_main.php:104
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:402
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:104
 msgid "Newsletters scheduled for sending"
 msgstr "فهرست زمان‌بندی خبرنامه برای ارسال"
 
-#: alo-easymail.php:410
-#: alo-easymail_main.php:123
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:410
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:123
 msgid "now sending"
 msgstr "در حال ارسال"
 
-#: alo-easymail.php:422
-#: alo-easymail_main.php:110
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:422
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:110
 msgid "Progress"
 msgstr "پیشرفت"
 
-#: alo-easymail.php:424
-#: alo-easymail_main.php:108
-#: alo-easymail_main.php:180
-#: alo-easymail_report.php:72
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:424
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:108
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:180
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:72
 msgid "Added on"
 msgstr "ارسال در"
 
-#: alo-easymail.php:425
-#: alo-easymail_main.php:107
-#: alo-easymail_main.php:179
-#: alo-easymail_report.php:68
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:425
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:107
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:179
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:68
 msgid "Scheduled by"
 msgstr "برنامه‌ریزی شده توسط"
 
-#: alo-easymail.php:431
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:431
 msgid "There are no newsletters in queue"
 msgstr "هیچ خبرنامه‌ایی در صف قرار ندارد"
 
-#: alo-easymail.php:433
-#: alo-easymail_options.php:570
-#: alo-easymail_subscribers.php:40
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:433
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:570
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:40
 msgid "Subscribers"
 msgstr "مشترکین"
 
-#: alo-easymail.php:436
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:436
 #, php-format
 msgid "There are %d subscribers: %d activated, %d not activated"
 msgstr "%d  مشترک وجود دارد: %d  فعال شده است، %d  فعال نشده است"
 
-#: alo-easymail.php:438
-#: alo-easymail_subscribers.php:646
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail.php:438
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:646
 msgid "No subscribers"
 msgstr "مشترکی وجود ندارد"
 
-#: alo-easymail_action.php:5
-#: alo-easymail_main.php:3
-#: alo-easymail_options.php:3
-#: alo-easymail_report.php:5
-#: alo-easymail_subscribers.php:3
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:30
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:257
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:709
+msgid "You can also sign up for specific lists"
+msgstr "شما همچنین می‌توانید برای لیست مخصوصی ثبت نام کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:61
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:240
+#: .././alex/alo-easymail/alo-easymail/tags/1.5/alo-easymail-widget.php:181
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "بله، مایلم خبرنامه دریافت کنم"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:62
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:246
+#: .././alex/alo-easymail/alo-easymail/tags/1.5/alo-easymail-widget.php:182
+msgid "No, please do not email me"
+msgstr "خیر، لطفا ایمیلی ارسال نکنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:64
+msgid "Updating..."
+msgstr "در حال به روز رسانی..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:83
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:282
+msgid "sending..."
+msgstr "ارسال..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:88
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:127
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:276
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:522
+msgid "Name"
+msgstr "نام"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:92
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:126
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:276
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:521
+msgid "E-mail"
+msgstr "ایمیل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:97
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:415
+msgid "Subscribe"
+msgstr "مشترک شدن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:111
+#: .././alex/alo-easymail/alo-easymail/tags/1.5/alo-easymail-widget.php:23
+msgid "Allow users to opt in/out of email"
+msgstr "اجازه دادن به اعضا برای ملحق شدن / خروج از ایمیل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail-widget.php:117
+#: .././alex/alo-easymail/alo-easymail/tags/1.5/alo-easymail-widget.php:29
+msgid "ALO Easymail Widget"
+msgstr "ابزارک ALO EasyMail"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:3
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_action.php:5
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:5
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:3
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:3
 msgid "Cheatin&#8217; uh?"
 msgstr "حقه می‌زنی &#8217; آره؟"
 
-#: alo-easymail_functions.php:217
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:37
+msgid "Newsletter successfully deleted"
+msgstr "خبرنامه با موفقیت حذف شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:39
+msgid "Impossible to delete the selected newsletter"
+msgstr "حذف خبرنامه انتخاب شده ممکن نیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:55
+msgid "New sending added with success!"
+msgstr "ارسال جدید با موفقیت اضافه شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:61
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:493
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "ورودی‌ها ناکامل یا غلط است. لطفا چک کرده و دوباره سعی کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:67
+msgid "No recipients selected."
+msgstr "هیچ گیرنده‌ای انتخاب نشده است."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:73
+msgid "Impossible to send. Please try again."
+msgstr "ارسال ممکن نیست. لطفا دوباره سعی کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:90
+msgid "Newsletter report"
+msgstr "گزارش خبرنامه"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:104
+msgid "refresh"
+msgstr "تازه کردن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:106
+msgid "Queue"
+msgstr "صف"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:109
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:182
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:374
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:64
+msgid "Subject"
+msgstr "موضوع"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:111
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:571
+msgid "Action"
+msgstr "عمل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:131
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:196
+msgid "you"
+msgstr "شما"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:136
+msgid "another user"
+msgstr "یک عضو دیگر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:153
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:155
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:555
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:139
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:213
+msgid "Cancel"
+msgstr "لغو"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:154
+msgid "Do you really want to stop and cancel this sending?"
+msgstr "آیا واقعا می‌خواهید این ارسال را متوقف و لغو کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:176
+msgid "Newsletters sent BY YOU"
+msgstr "خبرنامه‌هایی که توسط شما ارسال شده اند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:176
+msgid "Newsletters sent BY ALL USERS"
+msgstr "خبرنامه‌هایی که توسط تمامی اعضا ارسال شده اند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:181
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:76
+msgid "Completed"
+msgstr "کامل شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:183
+msgid "Report"
+msgstr "گزارش"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:203
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:205
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:498
+msgid "Delete"
+msgstr "حذف"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:204
+msgid "Do you really want to delete the report of this newsletter?"
+msgstr "واقعا می‌خواهید گزارش این خبرنامه را حذف کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:206
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:208
+msgid "View"
+msgstr "نمایش"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:268
+msgid "Checking..."
+msgstr "در حال چک کردن..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:282
+msgid "Warning! Some addresses seem to be wrong"
+msgstr "هشدار! به نظر می‌رسد برخی از آدرس‌ها اشتباه باشند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:295
+msgid "Recipients"
+msgstr "گیرندگان"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:301
+msgid "Choose the kind of recipients"
+msgstr "نوع گیرندگان را انتخاب کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:303
+msgid "Main groups"
+msgstr "گروه‌های اصلی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:304
+msgid "All subscribers"
+msgstr "تمام مشترکین"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:305
+msgid "All registered users"
+msgstr "تمام اعضای ثبت نام کرده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:310
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:115
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:418
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:442
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:563
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:526
+msgid "Mailing Lists"
+msgstr "لیست میل‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:319
+msgid "Between brackets the number of recipients belonging to each group or list"
+msgstr "در میان پرانتز تعداد دریافت‌کنندگان متعلق به هر گروه یا لیست درج شده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:320
+msgid "Do not worry about recipients belonging to more than one group or list: the plugin avoids sending twice to the same recipient"
+msgstr "در مورد گیرندگانی که به بیش از یک گروه یا لیست تعلق دارند نگران نباشید: افزونه از ارسال جندباره به یک گیرنده جلوگیری می‌کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:326
+msgid "To send to other people insert a list of e-mail addresses separated by comma (,)"
+msgstr "برای ارسال به افراد دیگر لیستی از آدرس ایمیل‌ها را که با کاما (,) از هم جدا شده اند وارد کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:332
+msgid "Save the list of email addresses for next sending"
+msgstr "لیست آدرس ایمیل‌ها را برای ارسال بعدی ذخیره کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:338
+msgid "Subject and text of the e-mail"
+msgstr "موضوع و متن ایمیل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:344
+msgid "Choose to send a simple generic e-mail or one about a specific post"
+msgstr "انتخاب کنید که یک ایمیل کلی و ساده ارسال شود یا ایمیلی در مورد پستی خاص"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:360
+msgid "generic e-mail: no post selected"
+msgstr "ایمیلی کلی: پستی انتخاب نشده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:369
+msgid "If you choose a post you can use the post tags (see below) in the main content"
+msgstr "اگر شما یک پست را انتخاب کنید می‌توانید از برچسب‌های پست (پایین را ببینید) در متن اصلی استفاده کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:380
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:80
+msgid "Main body"
+msgstr "متن اصلی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:380
+msgid "you can use the tags listed below"
+msgstr "شما می‌توانید از برچسب‌های لیست شده در زیر استفاده کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:393
+msgid "Post tags"
+msgstr "برچسب‌های پست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:395
+msgid "The link to the title of the selected post."
+msgstr "پیوند به عنوان پست انتخاب شده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:396
+msgid "The excerpt (if any) of the post."
+msgstr "گزیده‌ای (اگر باشد) از پست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:397
+msgid "The main content of the post."
+msgstr "محتوای اصلی پست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:397
+msgid "Warning: this tag inserts the test as it is, including shortcodes from other plugins."
+msgstr "هشدار: این برچسب متن را آنگونه که هست، شامل میانبر‌هایی از دیگر افزونه‌ها، وارد می‌کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:401
+msgid "Subscriber tags"
+msgstr "برچسب‌های مشترکین"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:403
+msgid "Name and surname of registered user."
+msgstr "نام و لقب کاربر عضو شده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:403
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:405
+msgid "For subscribers: the name used for registration"
+msgstr "برای مشترکین: نام امنتخاب شده برای ثبت نام"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:405
+msgid "First name of registered user."
+msgstr "نام عضو ثبت‌نام کرده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:409
+msgid "Other tags"
+msgstr "برچسب‌های دیگر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:411
+msgid "The link to the site"
+msgstr "لینک به سایت"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:418
+msgid "Save the main body as template for next sending"
+msgstr "متن اصلی را بعنوان الگو برای ارسال بعدی ذخیره کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:424
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:439
+msgid "Send"
+msgstr "ارسال"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:429
+msgid "Track when viewed"
+msgstr "رویت شدن را ردگیری کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:431
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:111
+msgid "The plugin tries to count how many recipients open the newsletter"
+msgstr "افزونه سعی می‌کند تعداد گیرندگانی که خبرنامه را باز می‌کنند بشمارد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:431
+msgid "This feedback depends on recipients&#39; e-mail client, so the result is approximate and probably undersized"
+msgstr "این بازخورد به سرویس ایمیل گیرندگان بستگی دارد درنتیجه نتایج آن تقریبی و احتمالا کمتر از مقدار اصلی است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:439
+msgid "Add to sending queue"
+msgstr "اضافه کن به صف ارسال"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:439
+msgid "PLEASE WAIT: sending..."
+msgstr "لطفا صبر کنید: در حال ارسال..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_main.php:442
+msgid "Click ONCE and wait for the sending to be over"
+msgstr "یک بار کلیک کنید و منتظر بمانید تا ارسال انجام پذیرد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:18
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:465
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:490
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:509
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:512
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:14
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:23
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:91
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:152
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:218
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:235
+msgid "Error during operation."
+msgstr "خطا در زمان عملیات."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:31
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "اشتراک شما با موفقیت فعال شد. شما خبرنامه بعدی را دریافت خواهید نمود. با تشکر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:33
+msgid "Error during activation. Please check the activation link."
+msgstr "خطا در هنگام فعال سازی. لطفا لینک فعال سازی را چک کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:39
+msgid "To modify your subscription to mailing lists use this form"
+msgstr "برای جرح و تعدیل مشترکین‌تان به لیست میل‌ّا از این فرم استفاده کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:48
+msgid "Edit"
+msgstr "ویرایش"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:52
+msgid "To unsubscribe the newsletter for good click this button"
+msgstr "برای اینکه به خیر و خوشی اشتراک خود را از خبرنامه لغو کنید بر روی این دکمه کلیک کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:58
+msgid "Unsubscribe me"
+msgstr "من را از مشترک بودن خارج کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:65
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "اشتراک شما با موفقیت حذف شد. اگر بار گران بودیم رفتیم..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:67
+msgid "Error during unsubscription."
+msgstr "خطا در حین از اشتراک خارج کردن."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:67
+msgid "Try again."
+msgstr "دوباره تلاش کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:68
+msgid "If it fails again you can contact the administrator"
+msgstr "اگر باز هم با شکست مواجهه شدید می‌توانید با مدیریت تماس بگیرید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/easymail-subscr-page.php:85
+msgid "Your subscription to mailing lists successfully updated"
+msgstr "اشتراک شما به لیست میل‌ها با موفقیت به روز شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:80
+msgid "without formatting"
+msgstr "بدون قالب بندی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:109
+msgid "Total sendings"
+msgstr "کل ارسال‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:110
+msgid "Sendings succesful"
+msgstr "ارسال‌ها موفقیت آمیز بود"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:111
+msgid "Sendings viewed"
+msgstr "ارسال ها رویت شده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:111
+msgid "Available only for subscribers; for other e-mail addresses the value is always negative"
+msgstr "فقط برای مشترکین در دسترس است؛ برای دیگر ایمیل آدرس‌ها مقدار همیشه منفی است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:112
+msgid "Sendings failed"
+msgstr "ارسال‌ها با شکست مواجهه شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:128
+msgid "Sent"
+msgstr "ارسال"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_report.php:129
+msgid "Viewed"
+msgstr "رویت شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:91
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:488
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:507
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:263
+msgid "Updated"
+msgstr "به روز شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:111
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:128
+msgid "General"
+msgstr "عمومی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:112
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:417
+msgid "Texts"
+msgstr "متن‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:113
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:281
+msgid "Batch sending"
+msgstr "ارسال دسته‌ایی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:114
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:325
+msgid "Permissions"
+msgstr "سطح دسترسی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:132
+msgid "Number of last posts to display"
+msgstr "تعداد آخرین پست‌های برای نمایش"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:134
+msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
+msgstr "تعداد پست‌های اخیر برای نمایش در لیست کرکره‌ایی فرم ارسال خبرنامه"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:138
+msgid "Sender's email address"
+msgstr "آدرس ایمیل ارسال کننده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:143
+msgid "Default template for the email content"
+msgstr "قالب پیش‌فرض برای محتوای ایمیل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:188
+msgid "Show subscription page"
+msgstr "صفحه‌ی اشتراک را نشان بده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:189
+#, php-format
+msgid "If yes, the subscription page ('%s') appears in menu or widget that list all blog pages"
+msgstr "اگر بلی، صفحه اشتراک ('%s') در منو یا ابزارکی که تمام صفحاتبلاگ را لیست می‌کند ظاهر می‌شود"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:200
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:202
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:203
+msgid "Delete all plugin data on deactivation"
+msgstr "حذف تمام اطلاعات افزونه در خنثی‌سازی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:201
+msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
+msgstr "در خنثی‌سازی افزونه، تمام تنظیمات افزونه، ترجیحات و جدول‌های پایگاه داده (شامل تمام خبرنامه‌ها و اطلاعات مشترکین) قطعا حذف خواهند شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:201
+msgid "If you need these data make sure you do a database backup before plugin deactivation"
+msgstr "اگر شما به این اطلاعات نیاز دارید حتما قبل از خنثی‌سازی افزونه از پایگاه داده خود یک پشتیبان بگیرید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:203
+msgid "Yes, I understand"
+msgstr "بله، من می‌فهمم"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:213
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:265
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:302
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:429
+msgid "Update"
+msgstr "به روز رسانی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:228
+msgid "Widget/Page Texts"
+msgstr "متن‌های ابزارک / صفحه"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:233
+msgid "For registered users"
+msgstr "برای اعضای ثبت نام کرده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:238
+msgid "Optin message"
+msgstr "پیغام ملحق شدن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:240
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:246
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:257
+msgid "Default"
+msgstr "حالت پیش‌فرض"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:244
+msgid "Optout message"
+msgstr "پیغام جدا شدن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:251
+msgid "For all subscribers"
+msgstr "برای تمام مشترکین"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:255
+msgid "Invite to join mailing lists"
+msgstr "دعوت به ملحق شدن به لیست میل‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:284
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "ماکزیمم تعداد ایمیل‌هایی که می‌توانند در طول ۲۴ ساعت ارسال شوند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:289
+msgid "Important advice to calculate the best limit"
+msgstr "توصیه مهم برای محاسبه بهترین تعداد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:291
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "از ارائه دهنده سرویس خود cut-off ایمیل‌هایی را که می‌توانید در روز بفرستید بپرسید. ضرب کردن محدودیت ساعت در ۲۴ راه درستی برای محاسبه نیست: در اغلب موارد عدد حاصله بسیار بیشتر از عدد حقیقی است."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:292
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "از رقم cut-off تعداد ایمیل‌هایی را که می‌خواهید از بلاگ خود بفرستید (یعنی قالب‌بندی ثبت‌نام‌ها، فعال‌سازی و از اشتراک خارج شدن خبرنامه، اطلاعیه‌های دیگر افزونه‌ها و غیره) کم کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:293
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "اگر مطمئن نیستید، عددی را بسیار کمتر از cut-off برگزینید: شما شانس بیشتری خواهید داشت که ایمیل‌تان به مقصد برسد تا اینکه سر از لیست سیاه دربیاورد..."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:294
+msgid "For more info, visit the FAQ of the site."
+msgstr "برای اطلاعات بیشتر FAQ سایت را ببینید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:329
+msgid "The lowest role can send newsletters"
+msgstr "پایین‌ترین نقشی که می‌تواند خبرنامه ارسال کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:351
+msgid "The user with this capability can only send newletters, but cannot manage them (view the report, delete)"
+msgstr "عضو با این توانایی می‌تواند فقط خبرنامه‌ها را ارسال کند اما نمی‌تواند آنها را مدیریت کند (گزارش را ببیند، حذف کند)"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:357
+msgid "The lowest role can manage newsletters"
+msgstr "پایین‌ترین نقشی که می‌تواند خبرنامه را مدیریت کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:372
+msgid "The user with this capability can manage own newsletters (view the report, delete)"
+msgstr "کاربر با این توانایی می‌تواند خبرنامه‌های خود را مدیریت کند (گزارش را ببیند، حذف کند)"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:373
+msgid "Note: to let a user manage newsletters of other users, this user must have the capability to manage subscribers too"
+msgstr "توجه: برای اینکه یک کاربر بتواند خبرنامه‌های دیگر کاربران را مدیریت کند، این کاربر بایستی توانایی مدیریت مشترکین را نیز داشته باشد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:379
+msgid "The lowest role can manage subscribers"
+msgstr "پایین‌ترین نقشی که می‌تواند مشترکین را مدیریت کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:395
+msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
+msgstr "کاربر با این توانایی می‌تواند مشترکین را مدیریت کند (اضافه، حذف، واگذار کردن لیست میل‌ها...)"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:401
+msgid "The lowest role can manage options"
+msgstr "پایین‌ترین نقشی که می‌تواند تنظیمات را انجام بدهد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:416
+msgid "The user with this capability can set up these setting sections"
+msgstr "کاربر با این توانایی می‌تواند این بخش‌ها را تنظیم کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:419
+msgid "Other sections can be modified only by administrators"
+msgstr "قسمت‌های دیگر فقط توسط مدیران تغییر می‌کند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:520
+msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
+msgstr "شما می‌توانید لیست میل‌ها را وضع کنید. برای هریک بایستی نام، ترتیب (پایین‌ترین در بالا ظاهر می‌شود) و سطح دسترسی آن را تعیین کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:522
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:540
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:587
+msgid "hidden"
+msgstr "مخفی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:522
+msgid "the list can be shown only here in settings and nowhere in the site"
+msgstr "لیست فقط در اینجا، قسمت تنظیمات نمایش داده می‌شود نه در هیچ جای دیگر سایت"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:523
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:541
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:590
+msgid "admin side only"
+msgstr "فقط در جانب مدیر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:523
+msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
+msgstr "لیست فقط برای استفاده مدیریت کردن در دسترس است (تنظیمات، ارسال صفحه، مشترکین) در نتیجه مشترکین نمی‌توانند آن را ببینند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:524
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:542
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:593
+msgid "entire site"
+msgstr "کل سایت"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:524
+msgid "the list is available in the whole site, so subscribers can see it"
+msgstr "لیست در تمام سایت در دسترس است، در نتیجه مشترکین می‌توانند آن را ببینند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:528
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:604
+msgid "Edit list"
+msgstr "ویرایش لیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:528
+msgid "New list"
+msgstr "لیست جدید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:533
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:567
+msgid "List name"
+msgstr "نام لیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:534
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:568
+msgid "Availability"
+msgstr "دسترسی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:535
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:569
+msgid "Order"
+msgstr "ترتیب"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:553
+msgid "Save"
+msgstr "ذخیره"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:566
+msgid "ID"
+msgstr "ID"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:607
+msgid "Delete list"
+msgstr "حذف لیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:608
+msgid "Do you really want to DELETE this list?"
+msgstr "آیا واقعا می‌خواهید این لیست را حذف کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_options.php:616
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:145
+msgid "There are no available lists"
+msgstr "هیچ لیستی در دسترس نیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:12
+msgid "Activation state updated"
+msgstr "وضعیت فعال‌سازی به روز شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:14
+msgid "Not updated"
+msgstr "به روز نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:21
+msgid "Subscriber deleted"
+msgstr "مشترک حذف شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:23
+msgid "Not deleted"
+msgstr "حذف نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:92
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:153
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:220
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:236
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:455
+msgid "No subscriber selected"
+msgstr "مشترکی انتخاب نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:93
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:237
+msgid "No list selected"
+msgstr "هیچ لیستی انتخاب نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:99
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:497
+msgid "Edit subscription to mailing lists"
+msgstr "ویرایش مشترکین لیست میل‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:100
+msgid "Selected subscribers"
+msgstr "مشترکین انتخاب شده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:111
+msgid "Choose mailing lists"
+msgstr "لیست ایمیل را انتخاب کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:122
+msgid "Choose an action"
+msgstr "یک عمل را انتخاب کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:124
+msgid "Add to selected lists"
+msgstr "به لیست انتخاب شده اضافه کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:124
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:127
+msgid "ignore not selected lists"
+msgstr "لیست‌های انتخاب نشده را نادیده بگیر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:127
+msgid "Remove from selected lists"
+msgstr "از لیست انتخاب شده خارج کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:131
+msgid "Add to selected lists and remove from not selected lists"
+msgstr "به لیست های انتخاب شده اضافه کن و از لیست‌های انتخاب نشده خارج من"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:138
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:510
+msgid "Apply"
+msgstr "اعمال کن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:160
+msgid "Subscribers deleted"
+msgstr "مشترکین حذف شدند"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:182
+msgid "Import from WP registered users"
+msgstr "وارد کردن از کاربران ثبت‌نام کرده WP"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:183
+msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
+msgstr "شما می‌توانید مشترکین جدید را از اعضای ثبت نام کرده وردپرس وارد کنید. هر عضو به خبرنامه مشترک خواهد شد."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:184
+msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
+msgstr "این ویژگی مفید است اگر شما هم اکنون افزونه را نصب کرده‌اید و می‌خواهید بصورت خودکار کاربران موجود را مشترک کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:185
+msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
+msgstr "اما مراقب باشید وقتی بعدا از آن استفاده می‌کنید: این کار تمام کاربران ثبت‌نام کرده، من‌جمله اعضایی که از مشترک بودن خارج شده اند، را مشترک می‌کند!"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:187
+msgid "Blog registered users"
+msgstr "کاربران ثبت‌نام کرده بلاگ"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:191
+msgid "Import from WP members"
+msgstr "وارد کردن از اعضای WP"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:195
+msgid "Import from uploaded CSV file"
+msgstr "وارد کردن از فایل CSV آپلود شده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:196
+msgid "You can import new subscribers from a CSV file."
+msgstr "شما می‌توانید مشترکین جدید را از یک فایل CSV وارد کنید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:197
+msgid "For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample."
+msgstr "برای هر خط شما بایستی: آدرس ایمیل (ضروری)، نام (اختیاری) را مشخص کنید. از نقطه ویرگول (؛) برای جداکردن زمینه‌ها استفاده کنید. نمونه را ببینید."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:201
+msgid "Test mode (no importation, show records on screen)"
+msgstr "حالت آزمایشی ( بدون وارد کردن، نشان دادن مدارک بر روی صفحه)"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:204
+msgid "Upload CSV file"
+msgstr "آپلود فایل CSV"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:209
+msgid "Add a subscriber"
+msgstr "اضافه کردن یک مشترک"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:219
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:357
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:459
+msgid "No action selected"
+msgstr "هیچ عملی انتخاب نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:274
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:309
+msgid "Back"
+msgstr "بازگشت"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:276
+msgid "Error"
+msgstr "خطا"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:287
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:383
+msgid "The e-email address is not correct"
+msgstr "آدرس ایمیل صحیحی نیست"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:289
+msgid "There is already a subscriber with this e-email address"
+msgstr "در حال حاضر یک مشترک با همین آدرس ایمیل وجود دارد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:306
+#, php-format
+msgid "Found %d records"
+msgstr "%d مدرک پیدا شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:307
+msgid "Check the Error column to modify records that otherwise will not be imported"
+msgstr "ستون خطا را برای اصلاح رکورد‌ها چک کنید در غیر اینصورت برون ریزی نخواهند شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:312
+#, php-format
+msgid "Successfully import: %d records out of %d total"
+msgstr "با موفقیت درون ریزی شد: %d مورد از %d کل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:314
+msgid "Some records have not been imported"
+msgstr "برخی از رکوردها درون‌ریزی نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:331
+msgid "Not valid CSV file uploaded"
+msgstr "فایل CSV معتبری آپلود نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:349
+#, php-format
+msgid "%d new subscribers successfully added from blog members"
+msgstr "%d مشترک جدید با موفقیت از اعضای بلاگ اضافه شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:351
+msgid "No subscribers added from blog members"
+msgstr "اشتراکی از اعضای بلاگ اضافه نشده است"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:378
+msgid "Select a mailing list"
+msgstr "یک لیست میل را انتخاب کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:385
+msgid "Search"
+msgstr "جستجو"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:387
+msgid "Show all"
+msgstr "همه را نمایش بده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:401
+msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;Add/import subscribers&#39; button"
+msgstr "اگر می‌خواهید مشترکین خود را از میان اعضای ثبت‌نام کرده بلاگ یا یک آرشیو خارجی (با استفاده از CSV) وارد کنید بر روی دکمه اضافه کردن / وارد کردن مشترکین کلیک کنید"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:402
+msgid "Do not show it again"
+msgstr "دیگر این پیغام را نشان نده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:409
+msgid "Add/import subscribers"
+msgstr "اضافه کردن / وارد کردن مشترکین"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:463
+msgid "Do you really want to DELETE these subscribers?"
+msgstr "آیا واقعا می‌خواهید این مشترکین را حذف کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:473
+msgid "Per page"
+msgstr "در هر صفحه"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:496
+msgid "Bulk Actions"
+msgstr "عمل‌های توده‌ایی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:521
+msgid "Order by e-mail"
+msgstr "ترتیب بر اساس ایمیل"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:523
+msgid "Username"
+msgstr "نام عضو"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:523
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "نام کاربران ثبت‌نام کرده. این محل برای مشترکین عمومی خالی است."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:524
+msgid "Order by join date"
+msgstr "ترتیب بر اساس تاریخ ملحق شدن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:524
+msgid "Join date"
+msgstr "تاریخ ملحق شدن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:525
+msgid "Order by activation state"
+msgstr "ترتیب بر اساس حالت فعال بودن"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:525
+msgid "Activated"
+msgstr "فعال شده"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:525
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "برای اعضای ثبت‌نام کرده حالت پیش فرض فعال است. برای مشترکین عمومی حالت پیش فرض غیرفعال است: با کلیک بر روی لینک فعال‌سازی در ایمیل فعال می‌شود."
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:525
+msgid "A subscriber will be deleted if not activated in 5 days."
+msgstr "یک مشترک اگر در طول ۵ روز فعال نشود حذف خواهد شد"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:527
+msgid "Actions"
+msgstr "عمل‌ها"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:597
+msgid "View user profile"
+msgstr "رویت پروفایل کاربر"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:604
+msgid "Modify activation state"
+msgstr "اصلاح وضعیت فعال‌سازی"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:605
+msgid "Do you really want to modify the activation state?"
+msgstr "واقعا می‌خواهید وضعیت فعال‌سازی را اصلاح کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:635
+msgid "Delete subscriber"
+msgstr "حذف مشترک"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_subscribers.php:636
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "آیا واقعا می‌خواهید این مشترک را حذف کنید؟"
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:217
 #, php-format
 msgid "Confirm your subscription to %s Newsletter"
 msgstr "اشتراک خود را به %s خبرنامه تایید کنید"
 
-#: alo-easymail_functions.php:219
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:219
 #, php-format
 msgid ""
 "Hi %s\n"
@@ -175,925 +1050,262 @@ msgstr ""
 "سلام %s\n"
 "برای کامل شدن روند اشتراک شما به خبرنامه %s بایستی بر روی پیوند آمده کلیک کنید (یا در محل آدرس‌بار مرورگرتان پیست کنید):\n"
 
-#: alo-easymail_functions.php:224
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:224
 msgid "If you did not ask for this subscription ignore this message."
 msgstr "اگر شما درخواست این اشتراک را صادر نکرده اید این پیغام را نادیده بگیرید."
 
-#: alo-easymail_functions.php:225
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:225
 msgid "Thank you"
 msgstr "ممنون"
 
-#: alo-easymail_functions.php:362
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:359
 msgid "Successfully updated"
 msgstr "با موفقیت به روز رسانی شد."
 
-#: alo-easymail_functions.php:386
-#: alo-easymail_subscribers.php:287
-msgid "The e-email address is not correct"
-msgstr "آدرس ایمیل صحیحی نیست"
-
-#: alo-easymail_functions.php:389
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:386
 msgid "The name field is empty"
 msgstr "کادر نام خالی است"
 
-#: alo-easymail_functions.php:396
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:393
 msgid "Error during sending: please try again"
 msgstr "خطا در ارسال: لطفا دوباره سعی کنید"
 
-#: alo-easymail_functions.php:408
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:405
 msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
 msgstr "اشتراک با موفقیت انجام شد. شما یک ایمیل دریافت خواهید کرد که لینکی را ارائه می‌دهد. بایستی لینک را کلیک کنید تا اشتراک شما فعال شود."
 
-#: alo-easymail_functions.php:513
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:510
 msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
 msgstr "شما این پیغام را دریافت کرده‌اید بخاطر اینکه مشترک خبرنامه ما شده‌اید. اگر قصد دارید از مشترک بودن خارج شوید:"
 
-#: alo-easymail_functions.php:515
+#: .././alex/alo-easymail/alo-easymail/tags/1.8/alo-easymail_functions.php:512
 msgid "click here"
 msgstr "اینجا را کلیک کنید"
 
-#: alo-easymail_main.php:37
-msgid "Newsletter successfully deleted"
-msgstr "خبرنامه با موفقیت حذف شد"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail.php:439
+msgid "To allow editors to send emails, check this option"
+msgstr ""
 
-#: alo-easymail_main.php:39
-msgid "Impossible to delete the selected newsletter"
-msgstr "حذف خبرنامه انتخاب شده ممکن نیست"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail.php:441
+msgid "Editors can send emails"
+msgstr ""
 
-#: alo-easymail_main.php:55
-msgid "New sending added with success!"
-msgstr "ارسال جدید با موفقیت اضافه شد"
-
-#: alo-easymail_main.php:61
-#: alo-easymail_options.php:493
-msgid "Inputs are incompled or wrong. Please check and try again."
-msgstr "ورودی‌ها ناکامل یا غلط است. لطفا چک کرده و دوباره سعی کنید."
-
-#: alo-easymail_main.php:67
-msgid "No recipients selected."
-msgstr "هیچ گیرنده‌ای انتخاب نشده است."
-
-#: alo-easymail_main.php:73
-msgid "Impossible to send. Please try again."
-msgstr "ارسال ممکن نیست. لطفا دوباره سعی کنید."
-
-#: alo-easymail_main.php:90
-msgid "Newsletter report"
-msgstr "گزارش خبرنامه"
-
-#: alo-easymail_main.php:104
-msgid "refresh"
-msgstr "تازه کردن"
-
-#: alo-easymail_main.php:106
-msgid "Queue"
-msgstr "صف"
-
-#: alo-easymail_main.php:109
-#: alo-easymail_main.php:182
-#: alo-easymail_main.php:374
-#: alo-easymail_report.php:64
-msgid "Subject"
-msgstr "موضوع"
-
-#: alo-easymail_main.php:111
-#: alo-easymail_options.php:571
-msgid "Action"
-msgstr "عمل"
-
-#: alo-easymail_main.php:131
-#: alo-easymail_main.php:196
-msgid "you"
-msgstr "شما"
-
-#: alo-easymail_main.php:136
-msgid "another user"
-msgstr "یک عضو دیگر"
-
-#: alo-easymail_main.php:153
-#: alo-easymail_main.php:155
-#: alo-easymail_options.php:555
-#: alo-easymail_subscribers.php:139
-#: alo-easymail_subscribers.php:213
-msgid "Cancel"
-msgstr "لغو"
-
-#: alo-easymail_main.php:154
-msgid "Do you really want to stop and cancel this sending?"
-msgstr "آیا واقعا می‌خواهید این ارسال را متوقف و لغو کنید؟"
-
-#: alo-easymail_main.php:176
-msgid "Newsletters sent BY YOU"
-msgstr "خبرنامه‌هایی که توسط شما ارسال شده اند"
-
-#: alo-easymail_main.php:176
-msgid "Newsletters sent BY ALL USERS"
-msgstr "خبرنامه‌هایی که توسط تمامی اعضا ارسال شده اند"
-
-#: alo-easymail_main.php:181
-#: alo-easymail_report.php:76
-msgid "Completed"
-msgstr "کامل شد"
-
-#: alo-easymail_main.php:183
-msgid "Report"
-msgstr "گزارش"
-
-#: alo-easymail_main.php:203
-#: alo-easymail_main.php:205
-#: alo-easymail_subscribers.php:498
-msgid "Delete"
-msgstr "حذف"
-
-#: alo-easymail_main.php:204
-msgid "Do you really want to delete the report of this newsletter?"
-msgstr "واقعا می‌خواهید گزارش این خبرنامه را حذف کنید؟"
-
-#: alo-easymail_main.php:206
-#: alo-easymail_main.php:208
-msgid "View"
-msgstr "نمایش"
-
-#: alo-easymail_main.php:268
-msgid "Checking..."
-msgstr "در حال چک کردن..."
-
-#: alo-easymail_main.php:282
-msgid "Warning! Some addresses seem to be wrong"
-msgstr "هشدار! به نظر می‌رسد برخی از آدرس‌ها اشتباه باشند"
-
-#: alo-easymail_main.php:295
-msgid "Recipients"
-msgstr "گیرندگان"
-
-#: alo-easymail_main.php:301
-msgid "Choose the kind of recipients"
-msgstr "نوع گیرندگان را انتخاب کنید"
-
-#: alo-easymail_main.php:303
-msgid "Main groups"
-msgstr "گروه‌های اصلی"
-
-#: alo-easymail_main.php:304
-msgid "All subscribers"
-msgstr "تمام مشترکین"
-
-#: alo-easymail_main.php:305
-msgid "All registered users"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_main.php:292
+#, fuzzy
+msgid "Registered users"
 msgstr "تمام اعضای ثبت نام کرده"
 
-#: alo-easymail_main.php:310
-#: alo-easymail_options.php:115
-#: alo-easymail_options.php:418
-#: alo-easymail_options.php:442
-#: alo-easymail_options.php:563
-#: alo-easymail_subscribers.php:526
-msgid "Mailing Lists"
-msgstr "لیست میل‌ها"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_main.php:293
+msgid "None of the above"
+msgstr ""
 
-#: alo-easymail_main.php:319
-msgid "Between brackets the number of recipients belonging to each group or list"
-msgstr "در میان پرانتز تعداد دریافت‌کنندگان متعلق به هر گروه یا لیست درج شده است"
-
-#: alo-easymail_main.php:320
-msgid "Do not worry about recipients belonging to more than one group or list: the plugin avoids sending twice to the same recipient"
-msgstr "در مورد گیرندگانی که به بیش از یک گروه یا لیست تعلق دارند نگران نباشید: افزونه از ارسال جندباره به یک گیرنده جلوگیری می‌کند"
-
-#: alo-easymail_main.php:326
-msgid "To send to other people insert a list of e-mail addresses separated by comma (,)"
-msgstr "برای ارسال به افراد دیگر لیستی از آدرس ایمیل‌ها را که با کاما (,) از هم جدا شده اند وارد کنید"
-
-#: alo-easymail_main.php:332
-msgid "Save the list of email addresses for next sending"
-msgstr "لیست آدرس ایمیل‌ها را برای ارسال بعدی ذخیره کن"
-
-#: alo-easymail_main.php:338
-msgid "Subject and text of the e-mail"
-msgstr "موضوع و متن ایمیل"
-
-#: alo-easymail_main.php:344
-msgid "Choose to send a simple generic e-mail or one about a specific post"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_main.php:306
+#, fuzzy
+msgid "Choose to send a simple generic e-mail or one about a specific post (in the latter case you can use the specific tags listed below)"
 msgstr "انتخاب کنید که یک ایمیل کلی و ساده ارسال شود یا ایمیلی در مورد پستی خاص"
 
-#: alo-easymail_main.php:360
-msgid "generic e-mail: no post selected"
-msgstr "ایمیلی کلی: پستی انتخاب نشده"
-
-#: alo-easymail_main.php:369
-msgid "If you choose a post you can use the post tags (see below) in the main content"
-msgstr "اگر شما یک پست را انتخاب کنید می‌توانید از برچسب‌های پست (پایین را ببینید) در متن اصلی استفاده کنید"
-
-#: alo-easymail_main.php:380
-#: alo-easymail_report.php:80
-msgid "Main body"
-msgstr "متن اصلی"
-
-#: alo-easymail_main.php:380
-msgid "you can use the tags listed below"
-msgstr "شما می‌توانید از برچسب‌های لیست شده در زیر استفاده کنید"
-
-#: alo-easymail_main.php:393
-msgid "Post tags"
-msgstr "برچسب‌های پست"
-
-#: alo-easymail_main.php:395
-msgid "The link to the title of the selected post."
-msgstr "پیوند به عنوان پست انتخاب شده"
-
-#: alo-easymail_main.php:396
-msgid "The excerpt (if any) of the post."
-msgstr "گزیده‌ای (اگر باشد) از پست"
-
-#: alo-easymail_main.php:397
-msgid "The main content of the post."
-msgstr "محتوای اصلی پست"
-
-#: alo-easymail_main.php:397
-msgid "Warning: this tag inserts the test as it is, including shortcodes from other plugins."
-msgstr "هشدار: این برچسب متن را آنگونه که هست، شامل میانبر‌هایی از دیگر افزونه‌ها، وارد می‌کند"
-
-#: alo-easymail_main.php:401
-msgid "Subscriber tags"
-msgstr "برچسب‌های مشترکین"
-
-#: alo-easymail_main.php:403
-msgid "Name and surname of registered user."
-msgstr "نام و لقب کاربر عضو شده"
-
-#: alo-easymail_main.php:403
-#: alo-easymail_main.php:405
-msgid "For subscribers: the name used for registration"
-msgstr "برای مشترکین: نام امنتخاب شده برای ثبت نام"
-
-#: alo-easymail_main.php:405
-msgid "First name of registered user."
-msgstr "نام عضو ثبت‌نام کرده"
-
-#: alo-easymail_main.php:409
-msgid "Other tags"
-msgstr "برچسب‌های دیگر"
-
-#: alo-easymail_main.php:411
-msgid "The link to the site"
-msgstr "لینک به سایت"
-
-#: alo-easymail_main.php:418
-msgid "Save the main body as template for next sending"
-msgstr "متن اصلی را بعنوان الگو برای ارسال بعدی ذخیره کن"
-
-#: alo-easymail_main.php:424
-#: alo-easymail_main.php:439
-msgid "Send"
-msgstr "ارسال"
-
-#: alo-easymail_main.php:429
-msgid "Track when viewed"
-msgstr "رویت شدن را ردگیری کن"
-
-#: alo-easymail_main.php:431
-#: alo-easymail_report.php:111
-msgid "The plugin tries to count how many recipients open the newsletter"
-msgstr "افزونه سعی می‌کند تعداد گیرندگانی که خبرنامه را باز می‌کنند بشمارد"
-
-#: alo-easymail_main.php:431
-msgid "This feedback depends on recipients&#39; e-mail client, so the result is approximate and probably undersized"
-msgstr "این بازخورد به سرویس ایمیل گیرندگان بستگی دارد درنتیجه نتایج آن تقریبی و احتمالا کمتر از مقدار اصلی است"
-
-#: alo-easymail_main.php:439
-msgid "Add to sending queue"
-msgstr "اضافه کن به صف ارسال"
-
-#: alo-easymail_main.php:439
-msgid "PLEASE WAIT: sending..."
-msgstr "لطفا صبر کنید: در حال ارسال..."
-
-#: alo-easymail_main.php:442
-msgid "Click ONCE and wait for the sending to be over"
-msgstr "یک بار کلیک کنید و منتظر بمانید تا ارسال انجام پذیرد"
-
-#: alo-easymail_options.php:91
-#: alo-easymail_options.php:488
-#: alo-easymail_options.php:507
-#: alo-easymail_subscribers.php:263
-msgid "Updated"
-msgstr "به روز شد"
-
-#: alo-easymail_options.php:111
-#: alo-easymail_options.php:128
-msgid "General"
-msgstr "عمومی"
-
-#: alo-easymail_options.php:112
-#: alo-easymail_options.php:417
-msgid "Texts"
-msgstr "متن‌ها"
-
-#: alo-easymail_options.php:113
-#: alo-easymail_options.php:281
-msgid "Batch sending"
-msgstr "ارسال دسته‌ایی"
-
-#: alo-easymail_options.php:114
-#: alo-easymail_options.php:325
-msgid "Permissions"
-msgstr "سطح دسترسی"
-
-#: alo-easymail_options.php:132
-msgid "Number of last posts to display"
-msgstr "تعداد آخرین پست‌های برای نمایش"
-
-#: alo-easymail_options.php:134
-msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
-msgstr "تعداد پست‌های اخیر برای نمایش در لیست کرکره‌ایی فرم ارسال خبرنامه"
-
-#: alo-easymail_options.php:138
-msgid "Sender's email address"
-msgstr "آدرس ایمیل ارسال کننده"
-
-#: alo-easymail_options.php:143
-msgid "Default template for the email content"
-msgstr "قالب پیش‌فرض برای محتوای ایمیل"
-
-#: alo-easymail_options.php:188
-msgid "Show subscription page"
-msgstr "صفحه‌ی اشتراک را نشان بده"
-
-#: alo-easymail_options.php:189
-#, php-format
-msgid "If yes, the subscription page ('%s') appears in menu or widget that list all blog pages"
-msgstr "اگر بلی، صفحه اشتراک ('%s') در منو یا ابزارکی که تمام صفحاتبلاگ را لیست می‌کند ظاهر می‌شود"
-
-#: alo-easymail_options.php:200
-#: alo-easymail_options.php:202
-#: alo-easymail_options.php:203
-msgid "Delete all plugin data on deactivation"
-msgstr "حذف تمام اطلاعات افزونه در خنثی‌سازی"
-
-#: alo-easymail_options.php:201
-msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
-msgstr "در خنثی‌سازی افزونه، تمام تنظیمات افزونه، ترجیحات و جدول‌های پایگاه داده (شامل تمام خبرنامه‌ها و اطلاعات مشترکین) قطعا حذف خواهند شد"
-
-#: alo-easymail_options.php:201
-msgid "If you need these data make sure you do a database backup before plugin deactivation"
-msgstr "اگر شما به این اطلاعات نیاز دارید حتما قبل از خنثی‌سازی افزونه از پایگاه داده خود یک پشتیبان بگیرید"
-
-#: alo-easymail_options.php:203
-msgid "Yes, I understand"
-msgstr "بله، من می‌فهمم"
-
-#: alo-easymail_options.php:213
-#: alo-easymail_options.php:265
-#: alo-easymail_options.php:302
-#: alo-easymail_options.php:429
-msgid "Update"
-msgstr "به روز رسانی"
-
-#: alo-easymail_options.php:228
-msgid "Widget/Page Texts"
-msgstr "متن‌های ابزارک / صفحه"
-
-#: alo-easymail_options.php:233
-msgid "For registered users"
-msgstr "برای اعضای ثبت نام کرده"
-
-#: alo-easymail_options.php:238
-msgid "Optin message"
-msgstr "پیغام ملحق شدن"
-
-#: alo-easymail_options.php:240
-#: alo-easymail_options.php:246
-#: alo-easymail_options.php:257
-msgid "Default"
-msgstr "حالت پیش‌فرض"
-
-#: alo-easymail_options.php:244
-msgid "Optout message"
-msgstr "پیغام جدا شدن"
-
-#: alo-easymail_options.php:251
-msgid "For all subscribers"
-msgstr "برای تمام مشترکین"
-
-#: alo-easymail_options.php:255
-msgid "Invite to join mailing lists"
-msgstr "دعوت به ملحق شدن به لیست میل‌ها"
-
-#: alo-easymail_options.php:284
-msgid "Maximum number of emails that can be sent in a 24-hr period"
-msgstr "ماکزیمم تعداد ایمیل‌هایی که می‌توانند در طول ۲۴ ساعت ارسال شوند"
-
-#: alo-easymail_options.php:289
-msgid "Important advice to calculate the best limit"
-msgstr "توصیه مهم برای محاسبه بهترین تعداد"
-
-#: alo-easymail_options.php:291
-msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
-msgstr "از ارائه دهنده سرویس خود cut-off ایمیل‌هایی را که می‌توانید در روز بفرستید بپرسید. ضرب کردن محدودیت ساعت در ۲۴ راه درستی برای محاسبه نیست: در اغلب موارد عدد حاصله بسیار بیشتر از عدد حقیقی است."
-
-#: alo-easymail_options.php:292
-msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
-msgstr "از رقم cut-off تعداد ایمیل‌هایی را که می‌خواهید از بلاگ خود بفرستید (یعنی قالب‌بندی ثبت‌نام‌ها، فعال‌سازی و از اشتراک خارج شدن خبرنامه، اطلاعیه‌های دیگر افزونه‌ها و غیره) کم کنید."
-
-#: alo-easymail_options.php:293
-msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
-msgstr "اگر مطمئن نیستید، عددی را بسیار کمتر از cut-off برگزینید: شما شانس بیشتری خواهید داشت که ایمیل‌تان به مقصد برسد تا اینکه سر از لیست سیاه دربیاورد..."
-
-#: alo-easymail_options.php:294
-msgid "For more info, visit the FAQ of the site."
-msgstr "برای اطلاعات بیشتر FAQ سایت را ببینید."
-
-#: alo-easymail_options.php:329
-msgid "The lowest role can send newsletters"
-msgstr "پایین‌ترین نقشی که می‌تواند خبرنامه ارسال کند"
-
-#: alo-easymail_options.php:351
-msgid "The user with this capability can only send newletters, but cannot manage them (view the report, delete)"
-msgstr "عضو با این توانایی می‌تواند فقط خبرنامه‌ها را ارسال کند اما نمی‌تواند آنها را مدیریت کند (گزارش را ببیند، حذف کند)"
-
-#: alo-easymail_options.php:357
-msgid "The lowest role can manage newsletters"
-msgstr "پایین‌ترین نقشی که می‌تواند خبرنامه را مدیریت کند"
-
-#: alo-easymail_options.php:372
-msgid "The user with this capability can manage own newsletters (view the report, delete)"
-msgstr "کاربر با این توانایی می‌تواند خبرنامه‌های خود را مدیریت کند (گزارش را ببیند، حذف کند)"
-
-#: alo-easymail_options.php:373
-msgid "Note: to let a user manage newsletters of other users, this user must have the capability to manage subscribers too"
-msgstr "توجه: برای اینکه یک کاربر بتواند خبرنامه‌های دیگر کاربران را مدیریت کند، این کاربر بایستی توانایی مدیریت مشترکین را نیز داشته باشد"
-
-#: alo-easymail_options.php:379
-msgid "The lowest role can manage subscribers"
-msgstr "پایین‌ترین نقشی که می‌تواند مشترکین را مدیریت کند"
-
-#: alo-easymail_options.php:395
-msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
-msgstr "کاربر با این توانایی می‌تواند مشترکین را مدیریت کند (اضافه، حذف، واگذار کردن لیست میل‌ها...)"
-
-#: alo-easymail_options.php:401
-msgid "The lowest role can manage options"
-msgstr "پایین‌ترین نقشی که می‌تواند تنظیمات را انجام بدهد"
-
-#: alo-easymail_options.php:416
-msgid "The user with this capability can set up these setting sections"
-msgstr "کاربر با این توانایی می‌تواند این بخش‌ها را تنظیم کند"
-
-#: alo-easymail_options.php:419
-msgid "Other sections can be modified only by administrators"
-msgstr "قسمت‌های دیگر فقط توسط مدیران تغییر می‌کند"
-
-#: alo-easymail_options.php:465
-#: alo-easymail_options.php:490
-#: alo-easymail_options.php:509
-#: alo-easymail_options.php:512
-#: alo-easymail_subscribers.php:14
-#: alo-easymail_subscribers.php:23
-#: alo-easymail_subscribers.php:91
-#: alo-easymail_subscribers.php:152
-#: alo-easymail_subscribers.php:218
-#: alo-easymail_subscribers.php:235
-#: easymail-subscr-page.php:18
-msgid "Error during operation."
-msgstr "خطا در زمان عملیات."
-
-#: alo-easymail_options.php:520
-msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
-msgstr "شما می‌توانید لیست میل‌ها را وضع کنید. برای هریک بایستی نام، ترتیب (پایین‌ترین در بالا ظاهر می‌شود) و سطح دسترسی آن را تعیین کنید"
-
-#: alo-easymail_options.php:522
-#: alo-easymail_options.php:540
-#: alo-easymail_options.php:587
-msgid "hidden"
-msgstr "مخفی"
-
-#: alo-easymail_options.php:522
-msgid "the list can be shown only here in settings and nowhere in the site"
-msgstr "لیست فقط در اینجا، قسمت تنظیمات نمایش داده می‌شود نه در هیچ جای دیگر سایت"
-
-#: alo-easymail_options.php:523
-#: alo-easymail_options.php:541
-#: alo-easymail_options.php:590
-msgid "admin side only"
-msgstr "فقط در جانب مدیر"
-
-#: alo-easymail_options.php:523
-msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
-msgstr "لیست فقط برای استفاده مدیریت کردن در دسترس است (تنظیمات، ارسال صفحه، مشترکین) در نتیجه مشترکین نمی‌توانند آن را ببینند"
-
-#: alo-easymail_options.php:524
-#: alo-easymail_options.php:542
-#: alo-easymail_options.php:593
-msgid "entire site"
-msgstr "کل سایت"
-
-#: alo-easymail_options.php:524
-msgid "the list is available in the whole site, so subscribers can see it"
-msgstr "لیست در تمام سایت در دسترس است، در نتیجه مشترکین می‌توانند آن را ببینند"
-
-#: alo-easymail_options.php:528
-#: alo-easymail_options.php:604
-msgid "Edit list"
-msgstr "ویرایش لیست"
-
-#: alo-easymail_options.php:528
-msgid "New list"
-msgstr "لیست جدید"
-
-#: alo-easymail_options.php:533
-#: alo-easymail_options.php:567
-msgid "List name"
-msgstr "نام لیست"
-
-#: alo-easymail_options.php:534
-#: alo-easymail_options.php:568
-msgid "Availability"
-msgstr "دسترسی"
-
-#: alo-easymail_options.php:535
-#: alo-easymail_options.php:569
-msgid "Order"
-msgstr "ترتیب"
-
-#: alo-easymail_options.php:553
-msgid "Save"
-msgstr "ذخیره"
-
-#: alo-easymail_options.php:566
-msgid "ID"
-msgstr "ID"
-
-#: alo-easymail_options.php:607
-msgid "Delete list"
-msgstr "حذف لیست"
-
-#: alo-easymail_options.php:608
-msgid "Do you really want to DELETE this list?"
-msgstr "آیا واقعا می‌خواهید این لیست را حذف کنید؟"
-
-#: alo-easymail_options.php:616
-#: alo-easymail_subscribers.php:145
-msgid "There are no available lists"
-msgstr "هیچ لیستی در دسترس نیست"
-
-#: alo-easymail_report.php:80
-msgid "without formatting"
-msgstr "بدون قالب بندی"
-
-#: alo-easymail_report.php:109
-msgid "Total sendings"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_report.php:78
+msgid "plain text"
+msgstr ""
+
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_report.php:101
+#, fuzzy
+msgid "Total sent"
 msgstr "کل ارسال‌ها"
 
-#: alo-easymail_report.php:110
-msgid "Sendings succesful"
-msgstr "ارسال‌ها موفقیت آمیز بود"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_report.php:105
+#, fuzzy
+msgid "Succesful sendings"
+msgstr "با موفقیت به روز رسانی شد."
 
-#: alo-easymail_report.php:111
-msgid "Sendings viewed"
-msgstr "ارسال ها رویت شده است"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_report.php:109
+#, fuzzy
+msgid "Failed sendings"
+msgstr "کل ارسال‌ها"
 
-#: alo-easymail_report.php:111
-msgid "Available only for subscribers; for other e-mail addresses the value is always negative"
-msgstr "فقط برای مشترکین در دسترس است؛ برای دیگر ایمیل آدرس‌ها مقدار همیشه منفی است"
+#: .././alex/alo-easymail/alo-easymail/tags/1.7/alo-easymail_subscribers.php:79
+msgid "Search e-mail or name"
+msgstr ""
 
-#: alo-easymail_report.php:112
-msgid "Sendings failed"
-msgstr "ارسال‌ها با شکست مواجهه شد"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:571
+msgid "SPIEGA MAILING LIST"
+msgstr ""
 
-#: alo-easymail_report.php:128
-msgid "Sent"
-msgstr "ارسال"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:580
+#: Me/alo-easymail/alo-easymail.php:610
+#, fuzzy
+msgid "Available"
+msgstr "دسترسی"
 
-#: alo-easymail_report.php:129
-msgid "Viewed"
-msgstr "رویت شد"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:585
+#: Me/alo-easymail/alo-easymail.php:627
+msgid "in Settings (here)"
+msgstr ""
 
-#: alo-easymail_subscribers.php:12
-msgid "Activation state updated"
-msgstr "وضعیت فعال‌سازی به روز شد"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:586
+#: Me/alo-easymail/alo-easymail.php:630
+msgid "and in Users"
+msgstr ""
 
-#: alo-easymail_subscribers.php:14
-msgid "Not updated"
-msgstr "به روز نشده است"
-
-#: alo-easymail_subscribers.php:21
-msgid "Subscriber deleted"
-msgstr "مشترک حذف شد"
-
-#: alo-easymail_subscribers.php:23
-msgid "Not deleted"
-msgstr "حذف نشده است"
-
-#: alo-easymail_subscribers.php:92
-#: alo-easymail_subscribers.php:153
-#: alo-easymail_subscribers.php:220
-#: alo-easymail_subscribers.php:236
-#: alo-easymail_subscribers.php:455
-msgid "No subscriber selected"
-msgstr "مشترکی انتخاب نشده است"
-
-#: alo-easymail_subscribers.php:93
-#: alo-easymail_subscribers.php:237
-msgid "No list selected"
-msgstr "هیچ لیستی انتخاب نشده است"
-
-#: alo-easymail_subscribers.php:99
-#: alo-easymail_subscribers.php:497
-msgid "Edit subscription to mailing lists"
-msgstr "ویرایش مشترکین لیست میل‌ها"
-
-#: alo-easymail_subscribers.php:100
-msgid "Selected subscribers"
-msgstr "مشترکین انتخاب شده"
-
-#: alo-easymail_subscribers.php:111
-msgid "Choose mailing lists"
-msgstr "لیست ایمیل را انتخاب کنید"
-
-#: alo-easymail_subscribers.php:122
-msgid "Choose an action"
-msgstr "یک عمل را انتخاب کنید"
-
-#: alo-easymail_subscribers.php:124
-msgid "Add to selected lists"
-msgstr "به لیست انتخاب شده اضافه کن"
-
-#: alo-easymail_subscribers.php:124
-#: alo-easymail_subscribers.php:127
-msgid "ignore not selected lists"
-msgstr "لیست‌های انتخاب نشده را نادیده بگیر"
-
-#: alo-easymail_subscribers.php:127
-msgid "Remove from selected lists"
-msgstr "از لیست انتخاب شده خارج کن"
-
-#: alo-easymail_subscribers.php:131
-msgid "Add to selected lists and remove from not selected lists"
-msgstr "به لیست های انتخاب شده اضافه کن و از لیست‌های انتخاب نشده خارج من"
-
-#: alo-easymail_subscribers.php:138
-#: alo-easymail_subscribers.php:510
-msgid "Apply"
-msgstr "اعمال کن"
-
-#: alo-easymail_subscribers.php:160
-msgid "Subscribers deleted"
-msgstr "مشترکین حذف شدند"
-
-#: alo-easymail_subscribers.php:182
-msgid "Import from WP registered users"
-msgstr "وارد کردن از کاربران ثبت‌نام کرده WP"
-
-#: alo-easymail_subscribers.php:183
-msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
-msgstr "شما می‌توانید مشترکین جدید را از اعضای ثبت نام کرده وردپرس وارد کنید. هر عضو به خبرنامه مشترک خواهد شد."
-
-#: alo-easymail_subscribers.php:184
-msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
-msgstr "این ویژگی مفید است اگر شما هم اکنون افزونه را نصب کرده‌اید و می‌خواهید بصورت خودکار کاربران موجود را مشترک کنید."
-
-#: alo-easymail_subscribers.php:185
-msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
-msgstr "اما مراقب باشید وقتی بعدا از آن استفاده می‌کنید: این کار تمام کاربران ثبت‌نام کرده، من‌جمله اعضایی که از مشترک بودن خارج شده اند، را مشترک می‌کند!"
-
-#: alo-easymail_subscribers.php:187
-msgid "Blog registered users"
-msgstr "کاربران ثبت‌نام کرده بلاگ"
-
-#: alo-easymail_subscribers.php:191
-msgid "Import from WP members"
-msgstr "وارد کردن از اعضای WP"
-
-#: alo-easymail_subscribers.php:195
-msgid "Import from uploaded CSV file"
-msgstr "وارد کردن از فایل CSV آپلود شده"
-
-#: alo-easymail_subscribers.php:196
-msgid "You can import new subscribers from a CSV file."
-msgstr "شما می‌توانید مشترکین جدید را از یک فایل CSV وارد کنید."
-
-#: alo-easymail_subscribers.php:197
-msgid "For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample."
-msgstr "برای هر خط شما بایستی: آدرس ایمیل (ضروری)، نام (اختیاری) را مشخص کنید. از نقطه ویرگول (؛) برای جداکردن زمینه‌ها استفاده کنید. نمونه را ببینید."
-
-#: alo-easymail_subscribers.php:201
-msgid "Test mode (no importation, show records on screen)"
-msgstr "حالت آزمایشی ( بدون وارد کردن، نشان دادن مدارک بر روی صفحه)"
-
-#: alo-easymail_subscribers.php:204
-msgid "Upload CSV file"
-msgstr "آپلود فایل CSV"
-
-#: alo-easymail_subscribers.php:209
-msgid "Add a subscriber"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:587
+#: Me/alo-easymail/alo-easymail.php:633
+#, fuzzy
+msgid "and in subscribers form"
 msgstr "اضافه کردن یک مشترک"
 
-#: alo-easymail_subscribers.php:219
-#: alo-easymail_subscribers.php:357
-#: alo-easymail_subscribers.php:459
-msgid "No action selected"
-msgstr "هیچ عملی انتخاب نشده است"
+#: .././alex/Ubuntu One/Shared With Me/alo-easymail/alo-easymail.php:652
+#, fuzzy
+msgid "No lists"
+msgstr "لیست جدید"
 
-#: alo-easymail_subscribers.php:274
-#: alo-easymail_subscribers.php:309
-msgid "Back"
-msgstr "بازگشت"
+#: .././alex/elp_INTEDUCA/post-expirator.inc.php:120
+msgid "Data di Chiusura"
+msgstr ""
 
-#: alo-easymail_subscribers.php:276
-msgid "Error"
-msgstr "خطا"
+#: .././alex/elp_INTEDUCA/post-expirator.inc.php:365
+msgid "Post Expirator Options"
+msgstr ""
 
-#: alo-easymail_subscribers.php:289
-msgid "There is already a subscriber with this e-email address"
-msgstr "در حال حاضر یک مشترک با همین آدرس ایمیل وجود دارد"
-
-#: alo-easymail_subscribers.php:306
-#, php-format
-msgid "Found %d records"
-msgstr "%d مدرک پیدا شد"
-
-#: alo-easymail_subscribers.php:307
-msgid "Check the Error column to modify records that otherwise will not be imported"
-msgstr "ستون خطا را برای اصلاح رکورد‌ها چک کنید در غیر اینصورت برون ریزی نخواهند شد"
-
-#: alo-easymail_subscribers.php:312
-#, php-format
-msgid "Successfully import: %d records out of %d total"
-msgstr "با موفقیت درون ریزی شد: %d مورد از %d کل"
-
-#: alo-easymail_subscribers.php:314
-msgid "Some records have not been imported"
-msgstr "برخی از رکوردها درون‌ریزی نشده است"
-
-#: alo-easymail_subscribers.php:331
-msgid "Not valid CSV file uploaded"
-msgstr "فایل CSV معتبری آپلود نشده است"
-
-#: alo-easymail_subscribers.php:349
-#, php-format
-msgid "%d new subscribers successfully added from blog members"
-msgstr "%d مشترک جدید با موفقیت از اعضای بلاگ اضافه شد"
-
-#: alo-easymail_subscribers.php:351
-msgid "No subscribers added from blog members"
-msgstr "اشتراکی از اعضای بلاگ اضافه نشده است"
-
-#: alo-easymail_subscribers.php:378
-msgid "Select a mailing list"
-msgstr "یک لیست میل را انتخاب کنید"
-
-#: alo-easymail_subscribers.php:385
-msgid "Search"
+#: .././alex/elp_INTEDUCA/admin-partecipants2.php:99
+#, fuzzy
+msgid "Search Users"
 msgstr "جستجو"
 
-#: alo-easymail_subscribers.php:387
-msgid "Show all"
-msgstr "همه را نمایش بده"
+#: .././alex/elp_INTEDUCA/admin-main.php:147
+msgid "&laquo;"
+msgstr ""
 
-#: alo-easymail_subscribers.php:401
-msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;Add/import subscribers&#39; button"
-msgstr "اگر می‌خواهید مشترکین خود را از میان اعضای ثبت‌نام کرده بلاگ یا یک آرشیو خارجی (با استفاده از CSV) وارد کنید بر روی دکمه اضافه کردن / وارد کردن مشترکین کلیک کنید"
+#: .././alex/elp_INTEDUCA/admin-main.php:148
+msgid "&raquo;"
+msgstr ""
 
-#: alo-easymail_subscribers.php:402
-msgid "Do not show it again"
-msgstr "دیگر این پیغام را نشان نده"
+#: .././alex/elp_INTEDUCA/admin-main.php:155
+#, php-format
+msgid "Displaying %s&#8211;%s of %s"
+msgstr ""
 
-#: alo-easymail_subscribers.php:409
-msgid "Add/import subscribers"
-msgstr "اضافه کردن / وارد کردن مشترکین"
+#: .././alex/elp_INTEDUCA/elp-admin.php:14
+msgid "Opzioni E-Learning"
+msgstr ""
 
-#: alo-easymail_subscribers.php:463
-msgid "Do you really want to DELETE these subscribers?"
-msgstr "آیا واقعا می‌خواهید این مشترکین را حذف کنید؟"
+#: .././alex/elp_INTEDUCA/elp-admin.php:645
+msgid "Download richiesto:"
+msgstr ""
 
-#: alo-easymail_subscribers.php:473
-msgid "Per page"
-msgstr "در هر صفحه"
+#: .././alex/elp_INTEDUCA/elp-admin.php:662
+msgid "URL embed:"
+msgstr ""
 
-#: alo-easymail_subscribers.php:496
-msgid "Bulk Actions"
-msgstr "عمل‌های توده‌ایی"
+#: .././alex/elp_INTEDUCA/elp-admin.php:679
+msgid "Dimensioni Floatbox Multimedia:"
+msgstr ""
 
-#: alo-easymail_subscribers.php:521
-msgid "Order by e-mail"
-msgstr "ترتیب بر اساس ایمیل"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:22
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:65
+msgid "Sidebar Login"
+msgstr ""
 
-#: alo-easymail_subscribers.php:523
-msgid "Username"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:54
+msgid "<p>Changes saved</p>"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:70
+msgid "Login redirect URL"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:71
+msgid "Url to redirect the user to after login. Leave blank to use their current page."
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:74
+msgid "Logout redirect URL"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:75
+msgid "Url to redirect the user to after logout. Leave blank to use their current page."
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:78
+msgid "Show Register Link"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:82
+msgid "User registrations must also be turned on for this to work ('Anyone can register' checkbox in settings)."
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:85
+msgid "Show Lost Password Link"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:92
+msgid "Logged in links"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:93
+msgid "One link per line. Note: Logout link will always show regardless. Tip: Add <code>|true</code> after a link to only show it to admin users. Default: <br/>&lt;a href=\""
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:97
+msgid "Save Changes"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:136
+msgid "Login"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:137
+msgid "Ciao"
+msgstr ""
+
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:138
+#, fuzzy
+msgid "Username:"
 msgstr "نام عضو"
 
-#: alo-easymail_subscribers.php:523
-msgid "The username of registered users. It is blank for public subscribers."
-msgstr "نام کاربران ثبت‌نام کرده. این محل برای مشترکین عمومی خالی است."
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:139
+msgid "Password:"
+msgstr ""
 
-#: alo-easymail_subscribers.php:524
-msgid "Order by join date"
-msgstr "ترتیب بر اساس تاریخ ملحق شدن"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:140
+msgid "Ricordami"
+msgstr ""
 
-#: alo-easymail_subscribers.php:524
-msgid "Join date"
-msgstr "تاریخ ملحق شدن"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:141
+msgid "Nuovo Utente"
+msgstr ""
 
-#: alo-easymail_subscribers.php:525
-msgid "Order by activation state"
-msgstr "ترتیب بر اساس حالت فعال بودن"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:142
+msgid "Password Lost and Found"
+msgstr ""
 
-#: alo-easymail_subscribers.php:525
-msgid "Activated"
-msgstr "فعال شده"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:143
+msgid "Recupera password"
+msgstr ""
 
-#: alo-easymail_subscribers.php:525
-msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
-msgstr "برای اعضای ثبت‌نام کرده حالت پیش فرض فعال است. برای مشترکین عمومی حالت پیش فرض غیرفعال است: با کلیک بر روی لینک فعال‌سازی در ایمیل فعال می‌شود."
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:144
+msgid "Logout"
+msgstr ""
 
-#: alo-easymail_subscribers.php:525
-msgid "A subscriber will be deleted if not activated in 5 days."
-msgstr "یک مشترک اگر در طول ۵ روز فعال نشود حذف خواهد شد"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:314
+msgid "<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."
+msgstr ""
 
-#: alo-easymail_subscribers.php:527
-msgid "Actions"
-msgstr "عمل‌ها"
+#: .././alex/elp_INTEDUCA/sidebar-login.inc.php:322
+msgid "<strong>ERROR</strong>: Please enter a username & password."
+msgstr ""
 
-#: alo-easymail_subscribers.php:597
-msgid "View user profile"
-msgstr "رویت پروفایل کاربر"
-
-#: alo-easymail_subscribers.php:604
-msgid "Modify activation state"
-msgstr "اصلاح وضعیت فعال‌سازی"
-
-#: alo-easymail_subscribers.php:605
-msgid "Do you really want to modify the activation state?"
-msgstr "واقعا می‌خواهید وضعیت فعال‌سازی را اصلاح کنید؟"
-
-#: alo-easymail_subscribers.php:635
-msgid "Delete subscriber"
-msgstr "حذف مشترک"
-
-#: alo-easymail_subscribers.php:636
-msgid "Do you really want to DELETE this subscriber?"
-msgstr "آیا واقعا می‌خواهید این مشترک را حذف کنید؟"
-
-#: easymail-subscr-page.php:31
-msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
-msgstr "اشتراک شما با موفقیت فعال شد. شما خبرنامه بعدی را دریافت خواهید نمود. با تشکر"
-
-#: easymail-subscr-page.php:33
-msgid "Error during activation. Please check the activation link."
-msgstr "خطا در هنگام فعال سازی. لطفا لینک فعال سازی را چک کنید."
-
-#: easymail-subscr-page.php:39
-msgid "To modify your subscription to mailing lists use this form"
-msgstr "برای جرح و تعدیل مشترکین‌تان به لیست میل‌ّا از این فرم استفاده کنید"
-
-#: easymail-subscr-page.php:48
-msgid "Edit"
-msgstr "ویرایش"
-
-#: easymail-subscr-page.php:52
-msgid "To unsubscribe the newsletter for good click this button"
-msgstr "برای اینکه به خیر و خوشی اشتراک خود را از خبرنامه لغو کنید بر روی این دکمه کلیک کنید"
-
-#: easymail-subscr-page.php:58
-msgid "Unsubscribe me"
-msgstr "من را از مشترک بودن خارج کن"
-
-#: easymail-subscr-page.php:65
-msgid "Your subscription was successfully deleted. Bye bye."
-msgstr "اشتراک شما با موفقیت حذف شد. اگر بار گران بودیم رفتیم..."
-
-#: easymail-subscr-page.php:67
-msgid "Error during unsubscription."
-msgstr "خطا در حین از اشتراک خارج کردن."
-
-#: easymail-subscr-page.php:67
-msgid "Try again."
-msgstr "دوباره تلاش کنید."
-
-#: easymail-subscr-page.php:68
-msgid "If it fails again you can contact the administrator"
-msgstr "اگر باز هم با شکست مواجهه شدید می‌توانید با مدیریت تماس بگیرید"
-
-#: easymail-subscr-page.php:85
-msgid "Your subscription to mailing lists successfully updated"
-msgstr "اشتراک شما به لیست میل‌ها با موفقیت به روز شد"
-
-#. Plugin Name of the plugin/theme
-msgid "ALO EasyMail Newsletter"
-msgstr "خبرنامه ALO EasyMail"
-
-#. Plugin URI of the plugin/theme
-msgid "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
-msgstr "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
-
-#. Description of the plugin/theme
-msgid "To send e-mails and newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending."
-msgstr "برای ارسال ایمیل و خبرنامه. خصوصیات: جمع‌آوری مشترکین در ثبت نام یا بوسیله ابزارک آجاکس، لیست میل‌ها، ارسال خوشه‌ایی."
-
-#. Author of the plugin/theme
-msgid "Alessandro Massasso"
-msgstr "Alessandro Massasso"
-
-#. Author URI of the plugin/theme
-msgid "http://www.eventualo.net"
-msgstr "http://www.eventualo.net"
+#~ msgid "ALO EasyMail Newsletter"
+#~ msgstr "خبرنامه ALO EasyMail"
+#~ msgid "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
+#~ msgstr "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
+#~ msgid ""
+#~ "To send e-mails and newsletters. Features: collect subcribers on "
+#~ "registration or with an ajax widget, mailing lists, cron batch sending."
+#~ msgstr ""
+#~ "برای ارسال ایمیل و خبرنامه. خصوصیات: جمع‌آوری مشترکین در ثبت نام یا بوسیله "
+#~ "ابزارک آجاکس، لیست میل‌ها، ارسال خوشه‌ایی."
+#~ msgid "Alessandro Massasso"
+#~ msgstr "Alessandro Massasso"
+#~ msgid "http://www.eventualo.net"
+#~ msgstr "http://www.eventualo.net"
 

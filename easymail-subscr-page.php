@@ -36,17 +36,20 @@ if ($action == 'activate') {
     
 // Request unsubscribe/modify subsription (step #1)
 if ($action == 'unsubscribe') {
-    echo "<h3>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . ":</h3>";
-    echo '<form method="post" action="'. get_permalink() .'">';
-    echo '<div class="alo_easymail_lists_table">';
-    echo ALO_em_html_mailinglists_table_to_edit ( $email, "" );
-    echo '</div>';
-   	echo '<input type="hidden" name="ac" value="do_editlists" />';
-    echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
-    echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
-    echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
-    echo '<input type="submit" name="submit" value="'. __('Edit'). '" />';
-    echo '</form>'; 
+	$mailinglists = ALO_em_get_mailinglists( 'public' );
+	if ($mailinglists) { // only if there are public lists
+		echo "<h3>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . ":</h3>";
+		echo '<form method="post" action="'. get_permalink() .'">';
+		echo '<div class="alo_easymail_lists_table">';
+		echo ALO_em_html_mailinglists_table_to_edit ( $email, "" );
+		echo '</div>';
+	   	echo '<input type="hidden" name="ac" value="do_editlists" />';
+		echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
+		echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
+		echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
+		echo '<input type="submit" name="submit" value="'. __('Edit'). '" />';
+		echo '</form>'; 
+    }
     
     echo "<p>&nbsp;</p>";
     echo "<h3>".__("To unsubscribe the newsletter for good click this button", "alo-easymail") . ":</h3>";
