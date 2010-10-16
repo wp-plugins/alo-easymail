@@ -43,7 +43,7 @@ Available languages:
 * English v.1.8 (by Francesca Bovone)
 * Farsi v.1.8 - fa_IR (by Ka1 Bashiri)
 * French v.1.8 - fr_FR (by Eric Savalli, Nicolas Trubert, Therese Lachance)
-* German v.1.8 - de_DE (by Thomas Kokusnuss)
+* German v.1.8 - de_DE (by mark, Thomas Kokusnuss)
 * Hungarian v.1.8 - hu_HU (by Daniel Bozo)
 * Italian v.1.8 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
