@@ -73,10 +73,6 @@ $s = ( isset( $_GET[ 's' ] ) ) ? esc_html ( trim( $_GET[ 's' ] ) ) : "";
 $filter_list = ( isset( $_GET[ 'filter_list' ] ) ) ? (int)$_GET[ 'filter_list' ] : "";
 ?>
 
-<?php //TODO ?
-//<p><a href='#new'>Add new subscribers</a></p>
-?>
-
 <?php 
 /**
  * Bulk action: Step #1/2
@@ -200,17 +196,26 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<p><?php _e("Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)", "alo-easymail") ?>.</p>
 			 	<form enctype="multipart/form-data" action="" method="POST">
 			 		<p><input type="checkbox" name="test_only" id="test_only" value="yes" /><label for="test_only"><?php _e('Test mode (no importation, show records on screen)', 'alo-easymail') ?></label></p>
-					<input name="uploaded_csv" type="file"  />
+					<input name="uploaded_csv" type="file" class="button" />
 					<input  type="hidden" name="action"  value="import_step2" /> <?php // the action ?>
 					<input type="submit" value="<?php _e('Upload CSV file', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>
 				<hr class="break" />
 				
+			 	<h3 style="margin-top:20px"><?php _e("Export subscribers", "alo-easymail") ?></h3>
+			 	<p><?php _e("You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application", "alo-easymail") ?></p>
+			 	<form action="" method="get">			 	
+					<input type="hidden" name="action"  value="export_step2" /> <?php // the action ?>
+					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input type="submit" value="<?php _e('Export', 'alo-easymail') ?>" class="button" name="doaction_step2" />
+				</form>		
+			 	<hr class="break" />
+			 	
 				<?php //TODO ?>
 			 	<!--<h3 style="margin-top:20px"><?php _e("Add a subscriber", "alo-easymail") ?></h3>
 			 	<p>.............</p>
 			 	<hr class="close" />-->
-			 					
+			 				 					
 		 		<a href="javascript:history.back()"><?php _e("Cancel", "alo-easymail"); ?></a>
 			 	<?php	
 		 		exit();
@@ -296,7 +301,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 							$html .= "<td>". $span_email ."</td><td>".$name."</td>";
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
-							if ( $email && ALO_em_add_subscriber( $email , $name , 1 ) ) {
+							if ( $email && ALO_em_add_subscriber( $email , $name , 1 ) == "OK" ) {
 								$success ++;
 							}
 						}
@@ -342,7 +347,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						$email = $reg_user->user_email;
 						if ( ALO_em_is_subscriber($email) == false ){ // if not already subscriber, add
 							$name = ucfirst(get_user_meta($reg_user->UID, 'first_name', true))." " .ucfirst(get_user_meta($reg_user->UID,'last_name', true));
-							if (ALO_em_add_subscriber( $email , $name , 1 ) ) $add ++;
+							if ( ALO_em_add_subscriber( $email , $name , 1 ) == "OK" ) $add ++;
 						}
 					}
 				}
@@ -351,6 +356,23 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 				} else {
 					echo '<div id="message" class="updated fade"><p>'. __("No subscribers added from blog members", "alo-easymail") .'.</p></div>';
 				}
+				break;
+			
+			// Export: show subscribers on screen
+			case "export_step2":
+				$all_subs = $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}easymail_subscribers" );
+				if ( $all_subs ) {
+					echo '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
+					echo "<pre style='font-family:Courier,Monospace;width:50%;height:300px;border:1px dotted grey;background-color:white;padding:5px 25px;list-style-type:none;overflow:auto;'>\r\n";
+					foreach ( $all_subs as $sub ) {
+						echo $sub->email . ";". $sub->name. "\r\n";
+					}
+					echo "\r\n</pre>";
+				} else {
+					echo '<div id="message" class="error"><p>'. __("No subscribers", "alo-easymail") . '.</p></div>';
+				}
+				echo '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
+				exit();
 				break;
 					
 		} // end switch action
@@ -397,17 +419,18 @@ $link_string = $link_base . "&amp;paged=".$page."&amp;num=".$items_per_page. (($
 ?>
 
 <?php // Import alert 
+$impexp_butt = __("Import/export subscribers", "alo-easymail");
 if ( get_option('ALO_em_import_alert') == "show" ) { 
 	echo '<div class="updated fade" style="background-color:#99FF66">';
-	echo '<p>'. __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;Add/import subscribers&#39; button', 'alo-easymail') .'.</p>';
+	echo '<p>'. sprintf( __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button', 'alo-easymail'), $impexp_butt) .'.</p>';
 	echo "<p>(<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;import_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
 	echo '</div>';
 }
 ?>
 <div style="margin-top:15px">
-	<img src="<?php echo get_option ('siteurl') ?>/wp-content/plugins/alo-easymail/images/24-users.png" style="vertical-align:middle" />
-	<?php $import_link = wp_nonce_url( get_option ('home'). "/wp-admin/".$link_base . "&amp;doaction_step1=true&amp;action=import", 'alo-easymail_subscribers'); ?>
-	<a href="<?php echo $import_link ?>" title=""><?php _e("Add/import subscribers", "alo-easymail") ?></a>
+	<img src="<?php echo ALO_EM_PLUGIN_URL ?>/images/24-users.png" style="vertical-align:middle" />
+	<?php $import_link = wp_nonce_url( admin_url() . $link_base . "&amp;doaction_step1=true&amp;action=import", 'alo-easymail_subscribers'); ?>
+	<a href="<?php echo $import_link ?>" title=""><?php echo $impexp_butt; ?></a>
 </div>
 <?php  
 
@@ -419,10 +442,12 @@ if ( get_option('ALO_em_import_alert') == "show" ) {
 // prepare url string
 $link_string_js = str_replace("&amp;", "&", $link_string);
 // use regexpr to set always page 1
-if(preg_match('/\s*paged=\s*(\d+)\s*/', $link_string_js, $matches)) {
-	$link_string_js = str_replace($matches[1], "1", $link_string_js);
-	//print_r($matches[1]);
-}
+//if(preg_match('/\s*paged=\s*(\d+)\s*/', $link_string_js, $matches)) {
+//	$link_string_js = str_replace($matches[1], "1", $link_string_js);
+//	//print_r($matches[1]);
+//}
+$link_string_js = remove_query_arg( "paged", $link_string_js );
+$link_string_js = add_query_arg( "paged", "1", $link_string_js );
 ?>
 
 <script type="text/JavaScript">
@@ -595,7 +620,7 @@ if (count($all_subscribers)) {
 		<td><?php // search for user detail (if user)
 		    if ( email_exists($subscriber->email) ) {
 		        $user_info = get_userdata( email_exists($subscriber->email) );
-                echo "<a href='".get_option ('siteurl')."/wp-admin/profile.php?user_id={$user_info->ID}' title='".__("View user profile", "alo-easymail")."'>{$user_info->user_login}</a>";
+                echo "<a href='". admin_url() ."/profile.php?user_id={$user_info->ID}' title='".__("View user profile", "alo-easymail")."'>{$user_info->user_login}</a>";
 		    }
 		?>
 		</td>
@@ -604,7 +629,7 @@ if (count($all_subscribers)) {
 		<td><?php // Check the state (active/no-active)
     		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=". ( ( isset($_GET['order']) ) ? $_GET['order'] : "" ). "' title='".__("Modify activation state", "alo-easymail")."' ";
 		    echo " onclick=\"return confirm('". __("Do you really want to modify the activation state?", "alo-easymail") ."');\">";
-		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($subscriber->active == 1)? "yes.png":"no.png") ."' /></a>";
+		    echo "<img src='".ALO_EM_PLUGIN_URL."/images/".(($subscriber->active == 1)? "yes.png":"no.png") ."' /></a>";
     		?>
         </td>
         
@@ -621,21 +646,10 @@ if (count($all_subscribers)) {
     		?>
 		</td>
         
-		<td><?php // Actions
-			/*
-			// TODO NON form, ma link GET: modifica liste, elimina
-			
-			echo "<input type='image' src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/16-lists.png' alt='" . __("Lists", "alo-easymail") . "' title='" . __("Edit subscription to mailing lists", "alo-easymail") . "' value='Submit' />";
-
-			echo "<input type='image' src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/trash.png' alt='" . __("Delete", "alo-easymail") . "' title='" . __("Delete subscriber", "alo-easymail") . "' value='Submit'  onclick=\"return confirm('".__("Do you really want to DELETE this subscriber?", "alo-easymail")."');\" />";
-			
-			echo "<a href='".$link_string."&amp;doaction_step1=true&amp;action=lists&amp;subscribers=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".$_GET['order']. "' title='".__("Edit lists", "alo-easymail")."' >";
-		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/16-lists.png' /></a>";
-		    */
-		    		
+		<td><?php // Actions   		
     		echo "<a href='".$link_string."&amp;task=delete&amp;subscriber_id=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".( ( isset($_GET['order']) ) ? $_GET['order'] : "" ). "' title='".__("Delete subscriber", "alo-easymail")."' ";
 		    echo " onclick=\"return confirm('".__("Do you really want to DELETE this subscriber?", "alo-easymail")."');\">";
-		    echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/trash.png' /></a>";
+		    echo "<img src='".ALO_EM_PLUGIN_URL."/images/trash.png' /></a>";
     		?>
 		</td>
 		</tr>
@@ -671,14 +685,7 @@ $page_links = paginate_links( array(
 	'show_all' => true,
 	'current' => $page
 ));
-/*
-$page_links = paginate_links( array(
-	'base' => $link_base ."&amp;num=".$items_per_page. (($_GET['s'])? "&amp;s=".$s : "") ,
-	'format' => '&amp;paged=%#%',
-	'total' => $total_pages,
-	'show_all' => true,
-	'current' => $page
-));*/
+
 if ( $page_links ) echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 </div>

@@ -138,9 +138,9 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 					$class = ('' == $class) ? "style='background-color:#eee;'" : "";
 					$n ++;
 					echo "<tr $class ><td>".$n."</td><td>".$recipient['email']."</td><td>".$recipient['name']."</td>";
-					echo "<td class='center'><img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td>";
+					echo "<td class='center'><img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td>";
 					echo "<td class='center'>";
-					echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/".(($recipient['result'] == 1 && ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ))? "yes.png":"no.png") ."' />";
+					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1 && ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ))? "yes.png":"no.png") ."' />";
 					echo "</td></tr>";
 					//echo "<pre>"; print_r($recipient);echo "</pre>";
 				}

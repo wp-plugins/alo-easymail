@@ -21,10 +21,18 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 		if(isset($_POST['sender_email'])) update_option('ALO_em_sender_email', trim($_POST['sender_email']));
 		if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));	
 		if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('ALO_em_dayrate', trim($_POST['dayrate']));
+		if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('ALO_em_batchrate', trim($_POST['batchrate']));
+		if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('ALO_em_subsc_page', trim($_POST['subsc_page']));
+		
 		if ( isset($_POST['show_subscripage']) ) {
 			update_option('ALO_em_show_subscripage', "yes");
 		} else {
 			update_option('ALO_em_show_subscripage', "no") ;
+		}
+		if ( isset($_POST['embed_css']) ) {
+			update_option('ALO_em_embed_css', "yes");
+		} else {
+			update_option('ALO_em_embed_css', "no") ;
 		}
 
 		if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
@@ -93,11 +101,8 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 
 <script type="text/javascript">
 	jQuery(function() {
-		jQuery('#slider').tabs({ fxFade: true, fxSpeed: 'fast' });
+		jQuery('#slider').tabs({ fx: { opacity: 'toggle', duration:'fast' }  });
 	});
-	function setcolor(fileid,color) {
-		jQuery(fileid).css("background", color );
-	};
 </script>
 
 <!--<div class="wrap">-->
@@ -139,42 +144,35 @@ GENERAL
 <td><input type="text" name="sender_email" value="<?php echo get_option('ALO_em_sender_email') ?>" id="sender_email" size="30" maxlength="100" /></td>
 </tr>
 
-<tr valign="top">
-<th scope="row"><?php _e("Default template for the email content", "alo-easymail") ?>:</th>
-<td>    
-<?php
-// include found at http://blog.zen-dreams.com/en/2008/11/06/how-to-include-tinymce-in-your-wp-plugin/ 
-// and http://blog.zen-dreams.com/en/2009/06/30/integrate-tinymce-into-your-wordpress-plugins/
-
-if($wp_version >= '2.8') {
-    wp_enqueue_script( 'common' );
-    wp_enqueue_script( 'jquery-color' );
-    wp_print_scripts('editor');
-    if (function_exists('add_thickbox')) add_thickbox();
-    wp_print_scripts('media-upload');
-    if (function_exists('wp_tiny_mce')) wp_tiny_mce();
-    wp_admin_css();
-    wp_enqueue_script('utils');
-    do_action("admin_print_styles-post-php");
-    do_action('admin_print_styles');
-
+<?php 
+if ( get_option('ALO_em_subsc_page') ) {
+	$selected_subscripage = get_option('ALO_em_subsc_page');
 } else {
-
-    wp_admin_css('thickbox');
-    wp_print_scripts('jquery-ui-core');
-    wp_print_scripts('jquery-ui-tabs');
-    wp_print_scripts('post');
-    wp_print_scripts('editor');
-    add_thickbox();
-    wp_print_scripts('media-upload');
-    if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+	$selected_subscripage = "";
 }
 ?>
-<div id="poststuff">
-<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-<?php the_editor(get_option('ALO_em_template')); ?>
-</div></div>
-</td></tr>
+<tr valign="top">
+<th scope="row"><?php _e("Subscription page", "alo-easymail") ?>:</th>
+<td>
+<?php
+$args = array(
+	'numberposts' => -1,
+	'post_type' => 'page',
+	'order' => 'ASC',
+	'orderby' => 'title'
+); 
+$get_pages = get_posts($args);
+if ( count($get_pages) ) {
+	echo "<select name='subsc_page' id='subsc_page'>";
+	foreach($get_pages as $page) :
+		echo "<option value='".$page->ID."' ". ( ($page->ID == $selected_subscripage)? " selected='selected'": "") .">#". $page->ID ." ". get_the_title ($page->ID) ." </option>";
+	endforeach;
+	echo "</select>\n";
+}
+?>
+<br /><span class="description"><?php _e("This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;", "alo-easymail") ?>.</span></td>
+</tr>
+
 
 <?php 
 if ( get_option('ALO_em_show_subscripage') == "yes" ) {
@@ -182,12 +180,36 @@ if ( get_option('ALO_em_show_subscripage') == "yes" ) {
 } else {
 	$checked_show_subscripage = "";
 }
-$subcripage_link = "<a href='" . get_permalink(get_option('ALO_em_subsc_page')) . "'>" . get_the_title (get_option('ALO_em_subsc_page')) . "</a>";
+//$subcripage_link = "<a href='" . get_permalink(get_option('ALO_em_subsc_page')) . "'>" . get_the_title (get_option('ALO_em_subsc_page')) . "</a>";
 ?>
 <tr valign="top">
 <th scope="row"><?php _e("Show subscription page", "alo-easymail") ?>:</th>
-<td><input type="checkbox" name="show_subscripage" id="show_subscripage" value="yes" <?php echo $checked_show_subscripage ?> /> <span class="description"><?php printf( __("If yes, the subscription page ('%s') appears in menu or widget that list all blog pages", "alo-easymail"), $subcripage_link ) ?>.</span></td>
+<td><input type="checkbox" name="show_subscripage" id="show_subscripage" value="yes" <?php echo $checked_show_subscripage ?> /> <span class="description"><?php _e("If yes, the subscription page appears in menu or widget that list all blog pages", "alo-easymail") ?>.</span></td>
 </tr>
+
+<?php 
+if ( get_option('ALO_em_embed_css') == "yes" ) {
+	$checked_embed_css = 'checked="checked"';
+} else {
+	$checked_embed_css = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Embed CSS file", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="embed_css" id="embed_css" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, the plugin loads the CSS styles from a file in its directory", "alo-easymail") ?>. <?php _e("Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin", "alo-easymail") ?>.</span></td>
+</tr>
+
+
+<tr valign="top">
+<th scope="row"><?php _e("Default template for the email content", "alo-easymail") ?>:</th>
+<td>    
+
+<div id="poststuff">
+<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
+<?php the_editor(get_option('ALO_em_template')); ?>
+</div></div>
+</td></tr>
+
 
 <?php 
 if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
@@ -280,18 +302,28 @@ BATCH SENDING
 <form action="#batchsending" method="post">
 <h2><?php _e("Batch sending", "alo-easymail") ?></h2>
 
-<div style="padding: 10px">
-<label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label>
-<input type="text" name="dayrate" value="<?php echo get_option('ALO_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
-<span class="description">(300 - 10000)</span>
-</div>
 
-<div style="background-color:#ddd;padding:10px 20px 15px 20px"><h4><?php _e("Important advice to calculate the best limit", "alo-easymail") ?></h4>
+
+<table class="form-table"><tbody>
+<tr valign="top">
+<th scope="row"><label for="batchrate"><?php _e("Maximum number of emails that can be sent per batch", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="batchrate" value="<?php echo get_option('ALO_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
+<span class="description">(10 - 300)</span></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="dayrate" value="<?php echo get_option('ALO_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
+<span class="description">(300 - 10000)</span></td>
+</tr>
+</tbody> </table>
+
+<div style="background-color:#ddd;margin-top:15px;padding:10px 20px 15px 20px"><h4><?php _e("Important advice to calculate the best limit", "alo-easymail") ?></h4>
 <ol style="font-size:80%;">
 	<li><?php _e("Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off.", "alo-easymail") ?></li>
 	<li><?php _e("Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.).", "alo-easymail") ?></li>
 	<li><?php _e("If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist...", "alo-easymail") ?></li>
-	<li><?php _e("For more info, visit the FAQ of the site.", "alo-easymail") ?></li>      	  
+	<li><?php _e("For more info, visit the FAQ of the site.", "alo-easymail") ?> <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-8" target="_blank" title="<?php _e("For more info, visit the FAQ of the site.", "alo-easymail") ?>">&raquo;</a></li>      	  
 </ol>
 </div>
 
@@ -602,11 +634,11 @@ if ($tab_mailinglists) {
 			
 			<td><?php
 				echo "<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;task=edit_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Edit list", "alo-easymail")."' >";
-				echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/16-edit.png' /></a>";
+				echo "<img src='".ALO_EM_PLUGIN_URL."/images/16-edit.png' /></a>";
 				echo " ";
 				echo "<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;task=del_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Delete list", "alo-easymail")."' ";
 				echo " onclick=\"return confirm('".__("Do you really want to DELETE this list?", "alo-easymail")."');\">";
-				echo "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/trash.png' /></a>";
+				echo "<img src='".ALO_EM_PLUGIN_URL."/images/trash.png' /></a>";
 				?>
 			</td>
 		</tr>

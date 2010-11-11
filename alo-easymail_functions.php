@@ -5,7 +5,7 @@
  */
 function ALO_em_help_tooltip ( $text ) {
 	$text = str_replace( array("'", '"'), "", $text );
-	$html = "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/images/12-help.png' title='$text' style='cursor:help;vertical-align:middle;margin-left:3px' />";
+	$html = "<img src='".ALO_EM_PLUGIN_URL."/images/12-help.png' title='$text' style='cursor:help;vertical-align:middle;margin-left:3px' />";
 	return $html;
 }
 
@@ -46,6 +46,52 @@ function ALO_em_msort  ($array, $key, $order = "ASC") {
 	return $tmp2; 
 }
         
+
+/**
+ * Remove HTML tags, including invisible text such as style and
+ * script code, and embedded objects.  Add line breaks around
+ * block-level tags to prevent word joining after tag removal.
+ * (based on http://nadeausoftware.com/articles/2007/09/php_tip_how_strip_html_tags_web_page )
+ */
+function ALO_em_html2plain ( $text ) {
+	// transform in utf-8 if not yet
+	if ( mb_detect_encoding($text, "UTF-8") != "UTF-8" ) $text = utf8_encode($text);
+    $text = preg_replace(
+        array(
+          // Remove invisible content
+            '@<head[^>]*?>.*?</head>@siu',
+            '@<style[^>]*?>.*?</style>@siu',
+            '@<script[^>]*?.*?</script>@siu',
+            '@<object[^>]*?.*?</object>@siu',
+            '@<embed[^>]*?.*?</embed>@siu',
+            '@<applet[^>]*?.*?</applet>@siu',
+            '@<noframes[^>]*?.*?</noframes>@siu',
+            '@<noscript[^>]*?.*?</noscript>@siu',
+            '@<noembed[^>]*?.*?</noembed>@siu',
+          // Add line breaks before and after blocks
+            '@</?((address)|(blockquote)|(center)|(del))@iu',
+            '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+            '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+            '@</?((table)|(th)|(td)|(caption))@iu',
+            '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+            '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+            '@</?((frameset)|(frame)|(iframe))@iu',
+        ),
+        array(
+            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+            "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
+            "\n\$0" 
+        ),
+        $text );
+    // from <br> to \n
+   	$text = preg_replace('/<br(\s+)?\/?>/i', "\n", $text );
+	// reduce 2 or more consecutive <br> to one
+	$text = preg_replace ("|(\\n\s*){2,}|s","\n", $text);
+ 	
+    return strip_tags( $text );
+}
+
+
 
 /*************************************************************************
  * SUBSCRIPTION FUNCTIONS
@@ -121,44 +167,53 @@ function ALO_em_edit_subscriber_state_by_email($email, $newstate="1", $unikey) {
 
 /**
  * Add a new subscriber 
+ * return bol/str:
+ *		false					= generic error
+ *		"OK"					= success
+ *		"NO-ALREADYACTIVATED"	= not added because: email is already added and activated
+ *		"NO-ALREADYADDED"		= not added because: email is already added but not activated; so send activation msg again
  */
 function ALO_em_add_subscriber($email, $name, $newstate=0) {
     global $wpdb;
- 
+ 	$output = true;
     // if there is NOT a subscriber with this email address: add new subscriber and send activation email
     if (ALO_em_is_subscriber($email) == false){
         $unikey = substr(md5(uniqid(rand(), true)), 0,24);    // a personal key to manage the subscription
            
         // try to send activation mail, otherwise will not add subscriber
         if ($newstate == 0) {
-            if ( !ALO_em_send_activation_email($email, $name, $unikey) ) return false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
+            if ( !ALO_em_send_activation_email($email, $name, $unikey) ) $output = false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
         }
         
         $wpdb->insert   ("{$wpdb->prefix}easymail_subscribers",
-                        array( 'email' => $email, 'name' => $name, 'join_date' => date("Y-m-d H:i:s"), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "_")
+                        array( 'email' => $email, 'name' => $name, 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "_")
                         );
-        return true;
+        if ( $output ) $output = "OK"; //return true;
         
     } else {
         // if there is ALREADY a subscriber with this email address, and if is NOT confirmed yet: re-send an activation email
         if ( ALO_em_check_subscriber_state($email) == 0) {
             // retrieve existing unique key 
-            $exist_unikey = $wpdb->get_var( $wpdb->prepare("SELECT unikey FROM {$wpdb->prefix}easymail_subscribers WHERE ID='%s' LIMIT 1", ALO_em_is_subscriber($email) ) );
+            $exist_unikey = $wpdb->get_var( $wpdb->prepare("SELECT unikey FROM {$wpdb->prefix}easymail_subscribers WHERE ID='%d' LIMIT 1", ALO_em_is_subscriber($email) ) );
             
             if ( ALO_em_send_activation_email($email, $name, $exist_unikey) ) {
                 // update join date to today
                 $output = $wpdb->update(    "{$wpdb->prefix}easymail_subscribers",
-                                            array ( 'join_date' => date("Y-m-d H:i:s") ),
+                                            array ( 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ) ),
                                             array ( 'ID' => ALO_em_is_subscriber($email) )
                                         );
-                return true;
+             	// tell that there is already added but not active: so it has sent another activation mail.......
+                $output = "NO-ALREADYADDED";
             } else {
-                return false;
+                $output = false;
+                //$output = "NO-ALREADYADDED"; // DEBUG ON LOCALHOST: comment the previous line and uncomment this one to avoid error on sending mail
             }
         } else {
-            return false;
+	        // tell that there is already an activated subscriber.....
+            $output = "NO-ALREADYACTIVATED"; 
         }
     }
+    return $output;
 } 
 
 
@@ -220,15 +275,48 @@ function ALO_em_send_activation_email($email, $name, $unikey) {
 
  	$div_email = explode("@", $email); // for link
 
-    $content .= get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page'). "&ac=activate&em1=" . $div_email[0] . "&em2=" . $div_email[1] . "&uk=" . $unikey . "\r\n";
+    //$content .= get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page'). "&ac=activate&em1=" . $div_email[0] . "&em2=" . $div_email[1] . "&uk=" . $unikey . "\r\n";
+    $arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $unikey );
+	$uns_link = add_query_arg( $arr_params, get_page_link (get_option('ALO_em_subsc_page')) );
+    $content .=	$uns_link . "\r\n";
+    
     $content .= __("If you did not ask for this subscription ignore this message.", "alo-easymail"). "\n";
     $content .= __("Thank you", "alo-easymail")."\n". $blogname ."\n";
     
     //echo "<br />".$headers."<br />".$subscriber->email."<br />". $subject."<br />".  $content ."<hr />" ; // DEBUG
     $sending = @wp_mail( $email, $subject, $content, $headers);  
-    return ($sending ? true : false);
+    return $sending;
 } 
 
+
+/**
+ * Print table with tags summay
+ */
+function ALO_em_tags_table () { ?>
+	<table class="widefat">
+	<thead><tr><th scope="col" style="width:20%"><?php _e("Post tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
+	<tbody>
+	<tr><td>[POST-TITLE]</td><td style='font-size:80%'><span class="description"><?php _e("The link to the title of the selected post.", "alo-easymail") ?></span></td></tr>
+	<tr><td>[POST-EXCERPT]</td><td style='font-size:80%'><span class="description"><?php _e("The excerpt (if any) of the post.", "alo-easymail") ?></span></td></tr>
+	<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><span class="description"><?php _e("The main content of the post.", "alo-easymail") ?> <?php _e("Warning: this tag inserts the test as it is, including shortcodes from other plugins.", "alo-easymail") ?></span></td></tr>
+	</tbody></table>
+
+	<table class="widefat">
+	<thead><tr><th scope="col" style="width:20%"><?php _e("Subscriber tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
+	<tbody>
+	<tr><td>[USER-NAME]</td><td style='font-size:80%'><span class="description"><?php _e("Name and surname of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>)</span></td></tr>
+	<!-- Following [USER-FIRST-NAME] added GAL -->
+	<tr><td>[USER-FIRST-NAME]</td><td style='font-size:80%'><span class="description"><?php _e("First name of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>).</span></td></tr>
+	</tbody></table>
+
+	<table class="widefat">
+	<thead><tr><th scope="col" style="width:20%"><?php _e("Other tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
+	<tbody>
+	<tr><td>[SITE-LINK]</td><td style='font-size:80%'><span class="description"><?php _e("The link to the site", "alo-easymail") ?>: <?php echo "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>" ?></span></td></tr>
+	</tbody></table>
+<?php 
+}
+ 
 
 
 /*************************************************************************
@@ -243,10 +331,10 @@ function ALO_em_ajax_js()
   // use JavaScript SACK library for Ajax
   wp_print_scripts( array( 'sack' ));
 
-  // Define custom JavaScript function
 ?>
 <script type="text/javascript">
 //<![CDATA[
+<?php if ( is_user_logged_in() ) { // if logged in ?>
 function alo_em_user_form ( opt )
 {
   // updating...
@@ -255,7 +343,7 @@ function alo_em_user_form ( opt )
   document.getElementById('alo_em_widget_loading').style.display = "inline";  
   
    var mysack = new sack( 
-       "<?php echo get_option ('home'); ?>/wp-admin/admin-ajax.php" );    
+       "<?php echo admin_url() ?>admin-ajax.php" );       
 
   mysack.execute = 1;
   mysack.method = 'POST';
@@ -277,6 +365,7 @@ function alo_em_user_form ( opt )
   return true;
 
 } 
+<?php } else {  // if not is_user_logged_in() ?>
 function alo_em_pubblic_form ()
 {
   document.alo_easymail_widget_form.submit.value="<?php _e("sending...", "alo-easymail") ?>";
@@ -285,7 +374,7 @@ function alo_em_pubblic_form ()
   document.getElementById('alo_easymail_widget_feedback').innerHTML = "";
   
    var mysack = new sack( 
-       "<?php echo get_option ('home'); ?>/wp-admin/admin-ajax.php" );    
+       "<?php echo admin_url() ?>admin-ajax.php" );    
 
   mysack.execute = 1;
   mysack.method = 'POST';
@@ -309,12 +398,13 @@ function alo_em_pubblic_form ()
 
 } 
 //]]>
+<?php } // end if is_user_logged_in() ?>
 </script>
 <?php
 } // end ALO_em_ajax_js
 
 add_action('wp_ajax_alo_em_user_form_check', 'ALO_em_user_form_callback');				// logged in
-add_action('wp_ajax_nopriv_alo_em_pubblic_form_check', 'ALO_em_pubblic_form_callback'); 	// pubblic, no logged in
+add_action('wp_ajax_nopriv_alo_em_pubblic_form_check', 'ALO_em_pubblic_form_callback'); // pubblic, no logged in
 
 // For logged-in users
 function ALO_em_user_form_callback() {
@@ -368,24 +458,35 @@ function ALO_em_pubblic_form_callback() {
     if (isset($_POST['alo_em_opt_name']) && isset($_POST['alo_em_opt_email'])){
         $error_on_adding = "";
         $just_added = false;
-        //if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/' , trim($_POST['alo_em_opt_email']) )) {
-        if (!is_email(trim($_POST['alo_em_opt_email']))) {
+		$name 	= stripslashes(trim($_POST['alo_em_opt_name']));
+		$email	= stripslashes(trim($_POST['alo_em_opt_email']));
+        if ( !is_email($email) ) {
             $error_on_adding .= __("The e-email address is not correct", "alo-easymail"). "<br />";
         }
-        if ( stripslashes(trim($_POST['alo_em_opt_name'])) == "") {
+        if ( $name == "") {
             $error_on_adding .= __("The name field is empty", "alo-easymail") . ".<br />";
         }
         if ($error_on_adding == "") { // if no error
             // try to add new subscriber (and send mail if necessary) and return TRUE if success
-            if ( ALO_em_add_subscriber( stripslashes(trim($_POST['alo_em_opt_email'])), trim($_POST['alo_em_opt_name']), 0) ) {
-                $just_added = true;
-            } else {
-                $error_on_adding = __("Error during sending: please try again", "alo-easymail"). ".<br />";
+            $try_to_add = ALO_em_add_subscriber( $email, $name, 0); 
+            switch ($try_to_add) {
+            	case "OK":
+            		$just_added = true;
+            		break;
+            	case "NO-ALREADYADDED":
+            		$error_on_adding = __("Warning: this email address has already been subscribed, but not activated. We are now sending another activation email", "alo-easymail"). ".<br />";
+	            	break;
+               	case "NO-ALREADYACTIVATED":
+               		$error_on_adding = __("Warning: this email address has already been subscribed", "alo-easymail"). ".<br />";
+	            	break;
+	            default: // false
+	            	$error_on_adding = __("Error during sending: please try again", "alo-easymail"). ".<br />";
             }
+            
             // if requested, add to lists
             if ( isset($_POST['alo_em_form_lists']) && count($_POST['alo_em_form_lists']) ) {
 	            $lists = explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) );
-	            $subscriber = ALO_em_is_subscriber ( stripslashes(trim($_POST['alo_em_opt_email'])) );
+	            $subscriber = ALO_em_is_subscriber ( $email );
 	            foreach ( $lists as $list ) {
 					ALO_em_add_subscriber_to_list ( $subscriber, $list );
 				}
@@ -418,12 +519,12 @@ function ALO_em_pubblic_form_callback() {
 /**
  * Add a new newsletter to batch sending
  */
-function ALO_em_add_new_batch ( $headers, $user_ID, $subject, $content, $recipients, $tracking ) {
+function ALO_em_add_new_batch ( $user_ID, $subject, $content, $content_plain, $recipients, $tracking ) {
 	global $wpdb;
 	$add_newsletter = $wpdb->insert(
                 "{$wpdb->prefix}easymail_sendings", 
-                array( 'start_at' => date("Y-m-d H:i:s"), 'last_at' => date("Y-m-d H:i:s"), 'headers' => $headers, 'user' => $user_ID, 'subject' => $subject, 
-                'content' => $content, 'sent' => '0', 'recipients' => $recipients, 'tracking' => $tracking )
+                array( 'start_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'last_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'user' => $user_ID, 'subject' => $subject, 
+                'content' => $content, 'content_plain' => $content_plain, 'sent' => '0', 'recipients' => $recipients, 'tracking' => $tracking )
             );
     return $add_newsletter;
 }
@@ -458,7 +559,7 @@ function ALO_em_batch_sending () {
 	$recipients = unserialize( $sending_info->recipients );
 	
 	// search the interval between now and previous sending
-	$diff_time = strtotime(date("Y-m-d H:i:s")) - strtotime($sending_info->last_at);
+	$diff_time = strtotime( get_date_from_gmt( date("Y-m-d H:i:s") ) ) - strtotime($sending_info->last_at);
 	// so... how much recipients for this interval? // (86400 = seconds in a day)
 	$day_rate = get_option('ALO_em_dayrate');
 	$tot_recs = max ( floor(($day_rate * $diff_time / 86400)) , 1); 
@@ -475,47 +576,85 @@ function ALO_em_batch_sending () {
     	
         // For each recipient delete TAGs update
         $updated_content = $sending_info->content;
-
-		$updated_content = str_replace("\n", "<br />", $updated_content);
+        $updated_content_plain = $sending_info->content_plain;
 		       
         // TAG: [USER-NAME]
         if ($recipients[$r]['name']) {
-            $updated_content = str_replace("[USER-NAME]", $recipients[$r]['name'], $updated_content);       
+            $updated_content = str_replace("[USER-NAME]", $recipients[$r]['name'], $updated_content);     
+            $updated_content_plain = str_replace("[USER-NAME]", $recipients[$r]['name'], $updated_content_plain);    
         } else {
             $updated_content = str_replace("[USER-NAME]", "", $updated_content);
+            $updated_content_plain = str_replace("[USER-NAME]", "", $updated_content_plain);
         }            
         
         //>>>>>>> added GAL
         // TAG: [USER-FIRST-NAME]
         if ($recipients[$r]['firstname']) {
             $updated_content = str_replace("[USER-FIRST-NAME]", $recipients[$r]['firstname'], $updated_content);       
+            $updated_content_plain = str_replace("[USER-FIRST-NAME]", $recipients[$r]['firstname'], $updated_content_plain);    
         } else {
             $updated_content = str_replace("[USER-FIRST-NAME]", "", $updated_content);
+            $updated_content_plain = str_replace("[USER-FIRST-NAME]", "", $updated_content_plain);
         }            
         //<<<<<<<<< end added GAL
 
 	    // Unsubscribe link, only if subscriber
 		if ($recipients[$r]['unikey']) {
 			$div_email = explode("@", $recipients[$r]['email']); // for link
-		    $updated_content .= "<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail");
-		    $updated_content .= "<a href='".get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page');
-		    $updated_content .= "&amp;ac=unsubscribe&amp;em1=" .$div_email[0] . "&amp;em2=" .$div_email[1] . "&amp;uk=" .$recipients[$r]['unikey']."'>".__("click here", "alo-easymail") ."</a>.";            
+		    
+		    //$updated_content .= "<a href='".get_option ('home') . "/?page_id=". get_option('ALO_em_subsc_page');
+		    //$updated_content .= "&amp;ac=unsubscribe&amp;em1=" .$div_email[0] . "&amp;em2=" .$div_email[1] . "&amp;uk=" .$recipients[$r]['unikey']."'>".__("click here", "alo-easymail") ."</a>.";            
+		   	$arr_params = array ('ac' => 'unsubscribe', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $recipients[$r]['unikey'] );
+			$uns_link = add_query_arg( $arr_params, get_page_link (get_option('ALO_em_subsc_page')) );
+			
+		    $updated_content .= "<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
+			$updated_content .=	"<a href='" . $uns_link ."'>". __("click here", "alo-easymail") ."</a>.";
 		    $updated_content .= "</em></p>";
+		    
+   		    $updated_content_plain .= "\n\n". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
+			$updated_content_plain .= __("visit this link", "alo-easymail");
+		    $updated_content_plain .= "\n". $uns_link;
 		    
 		 	// TRACKING, if requested
 			if ( $sending_info->tracking ) {
 				switch ( $sending_info->tracking ) {
 					case "ALO_EM": 	// default tracking: add a png image through a link to a php tracking page
-						$updated_content .= "<img src='".get_option ('siteurl')."/wp-content/plugins/alo-easymail/tr.php?n=".$sending_info->ID."&amp;e1=".$div_email[0]."&amp;e2=".$div_email[1]."&amp;k=".$recipients[$r]['unikey']."' width='1' height='1' border='0' >";
+						$updated_content .= "<img src='". ALO_EM_PLUGIN_URL ."/tr.php?n=".$sending_info->ID."&amp;e1=".$div_email[0]."&amp;e2=".$div_email[1]."&amp;k=".$recipients[$r]['unikey']."' width='1' height='1' border='0' >";
 						break;
 				}
 			}
 	    }
 		
 		$subject = stripslashes ( $sending_info->subject );
+
+		// Generate a random boundary string
+		$mime_boundary = "_boundary_";//'_x'.sha1(time()).'x';
+
+		$headers_html  = "\n";
+		$headers_html  .= "--$mime_boundary\n";
+		$headers_html  .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
+		$headers_html  .= "Content-Transfer-Encoding: 8bit\n\n"; 
+
+		$headers_plain = "\n";
+		$headers_plain .= "--$mime_boundary\n";
+		$headers_plain .= "Content-Type: text/plain; charset=" . get_option('blog_charset') . "\n";
+		$headers_plain .= "Content-Transfer-Encoding: 8bit\n\n"; 
+				
+		// Initial headers
+		$mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
+		$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
+		$headers =  "MIME-Version: 1.0\n";
+		$headers .= "From: ". $from_name ." <".$mail_sender.">\n";
+		$headers .= "Content-Type: multipart/alternative; boundary=$mime_boundary\n\n" ; 
+		
+		// End
+		$close_msg = "\n\n--$mime_boundary--"; 
+		
+		// Set up the full mail content
+		$full_content = $headers_plain . $updated_content_plain . $headers_html . $updated_content . $close_msg;
 		
         // ---- Send MAIL ----
-        $mail_engine = @wp_mail($recipients[$r]['email'], $subject, $updated_content, $sending_info->headers);  
+        $mail_engine = @wp_mail($recipients[$r]['email'], $subject, $full_content, $headers );  
         
         if( $mail_engine && is_email($recipients[$r]['email']) ) {
             $recipients[$r]['result'] = 1;
@@ -527,7 +666,7 @@ function ALO_em_batch_sending () {
   		$n_recs ++;
   		
         // sent to all of this sending? or too much sending stop sending!
-        if ($n_recs == $tot_recs || $n_recs >= ALO_EM_MAX_ONE_SEND) break;
+        if ( $n_recs == $tot_recs || $n_recs >= get_option('ALO_em_batchrate') ) break;
         
         // after each email it sleep a little: (x')/n°recipients 
         //$timesleep = max (floor ( ALO_EM_INTERVAL_MIN *60 / $tot_recs ), 1);
@@ -546,7 +685,7 @@ function ALO_em_batch_sending () {
    		
 	// update sending info
 	$wpdb->update("{$wpdb->prefix}easymail_sendings",
-                  array( 'last_at' => date("Y-m-d H:i:s"), 'recipients' => serialize ($recipients), 'sent' => $has_finished ),
+                  array( 'last_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'recipients' => serialize ($recipients), 'sent' => $has_finished ),
                   array( 'ID' => $sending_info->ID )
                  );
    	   	
@@ -737,6 +876,47 @@ function ALO_em_recipient_is_tracked ( $email, $newsletter, $type='V' ) {
 function ALO_em_add_tracking ( $email, $newsletter, $type='V' ) {
 	global $wpdb;
 	$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}easymail_trackings ( newsletter, email, type ) VALUES ( %d, %s, %s )", array( $newsletter, $email, $type ) ) );
+}
+
+
+/*************************************************************************
+ * TEMPLATES
+ *************************************************************************/ 
+
+/**
+ * Add a new template
+ */
+function ALO_em_add_new_template ( $user_ID, $subject, $content ) {
+	global $wpdb;
+	$add_newsletter = $wpdb->insert(
+                "{$wpdb->prefix}easymail_sendings", 
+                array( 'start_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'last_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'user' => $user_ID, 'subject' => $subject, 
+                'content' => $content, 'sent' => '9', 'recipients' => '', 'tracking' => '' )
+            );
+    return $add_newsletter;
+}
+
+
+/**
+ * Update an existing template
+ */
+function ALO_em_update_template ( $tpl_id, $user_ID, $subject, $content ) {
+	global $wpdb;
+    $update = $wpdb->update(    "{$wpdb->prefix}easymail_sendings",
+                            array ( 'last_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'subject' => $subject, 'content' => $content ),
+                            array ( 'ID' => $tpl_id )
+                        );
+    return $update;
+}
+
+
+/**
+ * Count how many templates of an user
+ */
+function ALO_em_how_user_templates ( $user_ID ) {
+	global $wpdb;
+	$tpls = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) FROM {$wpdb->prefix}easymail_sendings WHERE sent='9' AND user='%d'", $user_ID ) );
+    return (int) $tpls;
 }
 
 ?>

@@ -6,8 +6,283 @@ if ( !current_user_can('send_easymail_newsletters') && !current_user_can('manage
 
 <div class="wrap">
     <div id="icon-tools" class="icon32"><br /></div>
-    <h2>Alo EasyMail Newsletter</h2>
+    <h2>ALO EasyMail Newsletter</h2>
+
+<?php
+// For Tabs
+$send_tab_active = $reports_tab_active = $templates_tab_active = "";
+$sel_active_class = "nav-tab-active";
+$active_tab = false;
+
+
+/*******************************************************************************
+ * Submit newsletter
+ ******************************************************************************/
+
+if(isset($_REQUEST['submit'])) {
+	if ( !current_user_can('send_easymail_newsletters') ) 	wp_die(__('Cheatin&#8217; uh?'));
+	check_admin_referer('alo-easymail_main');
+	
+    // prepare array with recipients' addresses
+    $recipients = array();
+
+    // prepare for error
+    $error = "";
+    
+    // Retrieve post info for TAG
+    $pID = ( isset($_POST['select_post'])) ? $_POST['select_post']: false;
+    if ((int)$pID) {
+        $obj_post = get_post($pID);
+    }
+    
+       // If any add NO-REGISTERED E-MAILS
+    if ($_POST['emails_add']) {
+        //$wrong_add_email = "";  // show them in error div
+        $non_reg_emails = explode(",", $_POST['emails_add']);
+        foreach ($non_reg_emails as $non_reg_email) {
+            $trim_non_reg_email = trim($non_reg_email);
+            $recipients[$trim_non_reg_email]['email'] = $trim_non_reg_email; // no check, add
+            $recipients[$trim_non_reg_email]['name'] = "";
+            $recipients[$trim_non_reg_email]['firstname'] = "";
+        }
+    }
+    
+    // If request add all SUBSCRIBERS
+    if ( isset($_POST['all_subscribers']) && $_POST['all_subscribers'] == 'checked') {
+        $subs = ALO_em_get_recipients_subscribers();
+        foreach ($subs as $sub) {
+            $recipients[$sub->email]['email'] = $sub->email;
+            $recipients[$sub->email]['name'] = $sub->name;
+            $recipients[$sub->email]['firstname'] = $sub->name;
+            $recipients[$sub->email]['unikey'] = $sub->unikey; 
+        }
+    } else { // if not requested all subcribers, maybe requested only by selected lists?
+		if ( isset($_POST['check_list']) && is_array ($_POST['check_list']) ) {
+			$subs = ALO_em_get_recipients_subscribers( $_POST['check_list'] );
+			if ( $subs) {
+				foreach ( $subs as $sub ) {
+		            $recipients[$sub->email]['email'] = $sub->email;
+		            $recipients[$sub->email]['name'] = $sub->name;
+		            $recipients[$sub->email]['firstname'] = $sub->name;
+		            $recipients[$sub->email]['unikey'] = $sub->unikey; 
+				}
+			}
+		}
+    }
+    
+    // If request add all REGISTERED users
+    if ( isset($_POST['all_regusers']) && $_POST['all_regusers'] == 'checked') {
+        $reg_users = ALO_em_get_recipients_registered ();
+        if ($reg_users) {
+		    foreach ($reg_users as $reg_user) {
+		        $recipients[$reg_user->user_email]['email'] = $reg_user->user_email;
+		        $recipients[$reg_user->user_email]['name'] = ucfirst(get_user_meta($reg_user->UID, 'first_name',true))." " .ucfirst(get_user_meta($reg_user->UID,'last_name',true)); 
+		        $recipients[$reg_user->user_email]['firstname'] = ucfirst(get_user_meta($reg_user->UID, 'first_name', true)); 
+		    }
+		}
+    }
+    
+    
+    // Subject
+    $subject = stripslashes($wpdb->escape($_POST['input_subject']));
+    $subject = apply_filters('the_title', $subject ); // the same filters of post title
+    
+    // Main content
+    $main_content = stripslashes($_POST['content']);
+
+	
+	// Check errors
+	$error_on_submit = false;
+	if ($subject == "" || $main_content == "") {
+		$fbk_msg = "error";
+		$error_on_submit = true;
+    }
+    if (count($recipients) < 1 ) {
+        $fbk_msg = "norecipients";
+        $error_on_submit = true;
+    }
+    
+    // If no errors let's go!
+    if ( $error_on_submit == false ) {
+
+		// From
+		//$mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
+		//$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
+		
+		// Headers
+		// $headers =  "MIME-Version: 1.0\r\n";
+		// $headers .= "From: ". $from_name ." <".$mail_sender.">\r\n";
+		//$headers .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
+		//$headers .= "Content-Transfer-Encoding: 8bit\n\n";   
+		
+		// Save emails'list for next sending, if request
+		if ( isset($_POST['ck_save_list']) ) update_option( 'ALO_em_list_user_'.$user_ID, trim($_POST['emails_add']) );
+		
+		// Tracking feature
+		$tracking  = ( isset($_POST['ck_tracking']) && $_POST['ck_tracking'] != "" ) ? $_POST['ck_tracking'] : "";
+	   
+		// need a numeric index array
+		$num_rec = array();
+		$n =0;
+		foreach($recipients as $rec) {
+			$num_rec[$n]= $rec;
+			$n ++;
+		}
+		
+		// adjust content (post tags)
+		$updated_content = $main_content;
+	   
+		$updated_content = str_replace("\n", "<br />", $updated_content);
+		// trim <br> added when rendering html tables (thanks to gunu)
+		$updated_content = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $updated_content);
+		$updated_content = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $updated_content);
+		
+		// Add/update template
+		if ( isset($_POST['ck_save_template']) ) {
+			$and_tpl = "";
+			if (isset($_POST['tpl_id']) && is_numeric($_POST['tpl_id']) ) {
+			  	if ( ALO_em_update_template ( $_POST['tpl_id'], $user_ID, $subject, $main_content ) ) $and_tpl = "saved";
+			} else {
+				if ( ALO_em_add_new_template ( $user_ID, $subject, $main_content ) ) $and_tpl = "saved";
+			}
+		}
+		
+		// TAG: [POST-TITLE]
+		if ($pID) {
+		    $updated_content = str_replace("[POST-TITLE]", "<a href='".get_permalink($obj_post->ID). "'>". get_the_title($obj_post->ID) ."</a>", $updated_content);      
+		} else {
+		    $updated_content = str_replace("[POST-TITLE]", "", $updated_content);
+		}
+
+		// TAG: [POST-CONTENT]
+		if ($pID) {
+		    $updated_content = str_replace("[POST-CONTENT]", $obj_post->post_content, $updated_content);
+		} else {
+		    $updated_content = str_replace("[POST-CONTENT]", "", $updated_content);
+		}
+		
+		// TAG: [POST-EXCERPT] - if any
+		if ($pID && !empty($obj_post->post_excerpt)) {
+		    $updated_content = str_replace("[POST-EXCERPT]", $obj_post->post_excerpt, $updated_content);       
+		} else {
+		    $updated_content = str_replace("[POST-EXCERPT]", "", $updated_content);
+		}
+		
+		// TAG: [SITE-LINK]
+		$updated_content = str_replace("[SITE-LINK]", "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>", $updated_content);       
+		      
+		//echo "<pre>";print_r($num_rec);echo "</pre>";
+		
+		// The plain text version
+		$updated_content_plain = ALO_em_html2plain ( $updated_content );
+		
+		// add the newsletter to db
+		if ( ALO_em_add_new_batch ( $user_ID, $subject, $updated_content, $updated_content_plain, serialize($num_rec), $tracking ) == true) {
+			$fbk_msg = "success";
+			$_REQUEST['tab'] = "reports"; // show report
+		} else {
+			$fbk_msg = "nosending";
+		}	
+		
+		/*
+		//---------
+		// DEBUG
+		//---------    
+		echo "HEADERS: ".$headers."<br />";
+		echo "SUBJECT: ".$subject."<br />";
+		echo "CONTENT: ".$updated_content."<br />";
+		echo "PLAIN CONTENT:<br /><pre>" . ALO_em_html2plain($updated_content) ."</pre><br />";
+		foreach ($recipients as $rec) {
+		    echo "<pre>";print_r ($rec);echo "</pre>";
+		}
+		// echo $wpdb->last_query;
+		//echo "<pre>";print_r ($_REQUEST);echo "</pre>";
+		*/
+	
+	} // end if $error_on_submit == false
+}
+
+
+
+/*******************************************************************************
+ * Submit template
+ ******************************************************************************/
+ 
+if(isset($_REQUEST['submit_tpl'])) {
+    if ( !current_user_can('send_easymail_newsletters') ) 	wp_die(__('Cheatin&#8217; uh?'));
+    check_admin_referer('alo-easymail_main');
+    
+    // Subject
+    $subject = stripslashes($wpdb->escape($_POST['tpl_subject']));
+    
+    // Main content
+    $main_content = stripslashes($_POST['content']);
+
+	// Check for errors
+	$error_on_submit = false;
+    if ($subject == "" || $main_content == "") {
+       	$fbk_msg = "tpl_error";  
+       	$error_on_submit = true;
+    }
+      
+    // If no errors let's go!
+    if ( $error_on_submit == false ) { 
+    
+	   	// UPDATE the template to db
+		if ( isset($_POST['task']) && $_POST['task'] == "update_tpl" && isset($_POST['tpl_id']) && is_numeric($_POST['tpl_id']) ) {
+		  	if ( ALO_em_update_template ( $_POST['tpl_id'], $user_ID, $subject, $main_content ) == true) {
+				$fbk_msg = "tpl_saved";
+			} else {
+				$fbk_msg = "tpl_nosaved";
+			}
+		} else {
+			// ADD the template to db
+			if ( ALO_em_add_new_template ( $user_ID, $subject, $main_content ) == true) {
+				$fbk_msg = "tpl_saved";
+			} else {
+				$fbk_msg = "tpl_nosaved";
+			}
+		}	
+		unset($_POST);
+		
+	} // end if $error_on_submit == false
+}
+
+
+/**
+ * Set Tabs
+ */
+if ( empty($active_tab) ) {
+	if ( isset( $_REQUEST['tab']) ) {
+		if ( $_REQUEST['tab'] == "reports") {
+			$active_tab = "reports";
+			$reports_tab_active = $sel_active_class;
+		} else if ( $_REQUEST['tab'] == "templates") {
+			$active_tab = "templates";
+			$templates_tab_active = $sel_active_class;		
+		} else { 
+			$active_tab = "send";
+			$send_tab_active = $sel_active_class;		
+		}
+	} else {
+		$active_tab = "send";
+		$send_tab_active = $sel_active_class;	
+	} 
+}
+
+
+// Reset base url (cut message vars...)
+$clean_url = remove_query_arg( array('tab', 'message', 'task', 'id') );
+?>
+
+	<h2 style="border-bottom:1px solid #CCCCCC">
+	<a href="<?php echo add_query_arg( 'tab', 'send', $clean_url) ?>" class="nav-tab <?php echo $send_tab_active ?>">&raquo; <?php _e("Send newsletter", "alo-easymail") ?></a>
+	<a href="<?php echo add_query_arg( 'tab', 'reports', $clean_url ) ?>" class="nav-tab <?php echo $reports_tab_active ?>">&raquo; <?php _e("Reports", "alo-easymail") ?></a>
+	<a href="<?php echo add_query_arg( 'tab', 'templates', $clean_url ) ?>" class="nav-tab <?php echo $templates_tab_active ?>">&raquo; <?php _e("Templates", "alo-easymail") ?></a>
+	</h2>
+
     <div id="dashboard-widgets-wrap">
+
 
     
 <?php 
@@ -23,72 +298,120 @@ $can_edit_own	= ( current_user_can('manage_easymail_newsletters') ) ? true: fals
 $can_see_own	= ( current_user_can('send_easymail_newsletters') ) ? true: false;
 
 // $can_see_all 	= ( current_user_can('manage_easymail_newsletters') ) ? true: false; //($user_level >= 8)?
-?>
 
-<?php
+
+
+
 /**
- * Cancel one of own newsletter in sending queue
+ * Other Requested actions
  */
-if ( isset( $_REQUEST['task']) && $_REQUEST['task'] == "del_send" && isset( $_REQUEST['id'])) {
-	$where_user = ( $can_edit_all )? "" : " AND user = %d ";
-	$check_id = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d {$where_user}", $_REQUEST['id'], $user_ID ) );
-	if ($check_id) {
-		if ( ALO_em_delete_newsletter ( $_REQUEST['id'] ) ) {		
-			echo '<div id="message" class="updated fade"><p><strong>'.__("Newsletter successfully deleted", "alo-easymail").'</strong></p></div>';
-		} else {
-			echo '<div id="message" class="error"><p><strong>'.__("Impossible to delete the selected newsletter", "alo-easymail").'</strong></p></div>';		
-		}
+if ( isset( $_REQUEST['task']) ) {
+	// Cancel one of own newsletter in sending queue
+	if ( $_REQUEST['task'] == "del_send" && isset( $_REQUEST['id'])) {
+		$where_user = ( $can_edit_all )? "" : " AND user = %d ";
+		$check_id = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d {$where_user}", $_REQUEST['id'], $user_ID ) );
+		if ($check_id) {
+			if ( ALO_em_delete_newsletter ( $_REQUEST['id'] ) ) {		
+				echo '<div id="message" class="updated fade"><p><strong>'.__("Newsletter successfully deleted", "alo-easymail").'</strong></p></div>';
+			} else {
+				echo '<div id="message" class="error"><p><strong>'.__("Impossible to delete the selected newsletter", "alo-easymail").'</strong></p></div>';		
+			}
 		
+		}
 	}
+	
+	// Delete a template
+	if ( $_REQUEST['task'] == "del_tpl" && isset( $_REQUEST['id'])) {
+		$where_user = ( $can_edit_all )? "" : " AND user = %d ";
+		$check_id = $wpdb->query( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d {$where_user} AND sent = 9", $_REQUEST['id'], $user_ID ) );
+		if ($check_id) {
+			if ( ALO_em_delete_newsletter ( $_REQUEST['id'] ) ) {		
+				echo '<div id="message" class="updated fade"><p><strong>'.__("Template successfully deleted", "alo-easymail").'</strong></p></div>';
+			} else {
+				echo '<div id="message" class="error"><p><strong>'.__("Impossible to delete the selected template", "alo-easymail").'</strong></p></div>';		
+			}
+		
+		}
+	}
+
+	// Send a newsletter from a template / Modify a template
+	if ( ($_REQUEST['task'] == "send_tpl" || $_REQUEST['task'] == "mod_tpl") && isset( $_REQUEST['id'])) {
+		$where_user = ( $can_edit_all )? "" : " AND user = %d ";
+		$from_template = $wpdb->get_row( $wpdb->prepare( "SELECT ID, subject, content, sent FROM {$wpdb->prefix}easymail_sendings WHERE ID = %d {$where_user} AND sent = 9", $_REQUEST['id'], $user_ID ) );
+	}	
 }
+
+
 /**
  * If feedback message 
  */
-if ( isset( $_REQUEST['message'])) :
-	switch($_REQUEST['message']) {
-		/*case 'inprogress':	// others newsletter in queue
-			$fbk_msg .= '<p><strong>Already sending a newsletter.</strong></p>';
-			break;*/
+if ( !empty( $fbk_msg )) :
+	switch( $fbk_msg ) {
 		case 'success':		// ok, sending scheduled
 			$fbk_msg = '<div id="message" class="updated fade">';
-			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-add.png" /> ';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/16-email-add.png" /> ';
 			$fbk_msg .= '<strong>'.__("New sending added with success!", "alo-easymail").'</strong></p>';
+			if ( isset( $and_tpl ) ) $fbk_msg .= '<p>'.__("Template saved", "alo-easymail").'.</p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'error':		// error in inputs
 			$fbk_msg = '<div id="message" class="error">';
-			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/no.png" /> ';
 			$fbk_msg .= '<strong>'.__("Inputs are incompled or wrong. Please check and try again.", "alo-easymail").'</strong></p>';
+			if ( isset( $and_tpl ) ) $fbk_msg .= '<p>'.__("Template saved", "alo-easymail").'.</p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'norecipients': // no recipients selected
 			$fbk_msg = '<div id="message" class="error">';
-			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/no.png" /> ';
 			$fbk_msg .= '<strong>'.__("No recipients selected.", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
 		case 'nosending':	// error on sending
 			$fbk_msg = '<div id="message" class="error">';
-			$fbk_msg .= '<p><img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/no.png" /> ';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/no.png" /> ';
 			$fbk_msg .= '<strong>'.__("Impossible to send. Please try again.", "alo-easymail").'</strong></p>';
 			$fbk_msg .= "</div>";
 			break;
+
+		case 'tpl_saved':	// template saved
+			$fbk_msg = '<div id="message" class="updated fade">';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/16-email-add.png" /> ';
+			$fbk_msg .= '<strong>'.__("Template saved", "alo-easymail").'</strong></p>';
+			$fbk_msg .= "</div>";
+			break;			
+		case 'tpl_nosaved':	// error on template saving
+			$fbk_msg = '<div id="message" class="error">';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/no.png" /> ';
+			$fbk_msg .= '<strong>'.__("Impossible to save the template. Please try again.", "alo-easymail").'</strong></p>';
+			$fbk_msg .= "</div>";
+			break;		
+		case 'tpl_error':	// error in template inputs
+			$fbk_msg = '<div id="message" class="error">';
+			$fbk_msg .= '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/no.png" /> ';
+			$fbk_msg .= '<strong>'.__("Inputs are incompled or wrong. Please check and try again.", "alo-easymail").'</strong></p>';
+			$fbk_msg .= "</div>";
+			break;				
 		default:
+			$fbk_msg = "";
 	}
-	// print feedback
 	echo $fbk_msg;
 endif; // end if ( isset( $_REQUEST['message']))
-?>
 
-<?php
-$linkthick = wp_nonce_url( get_option ('home').'/wp-content/plugins/alo-easymail/alo-easymail_report.php?', 'alo-easymail_main');
+
+/*--------------------------------------
+	REPORTS Tab
+--------------------------------------*/
+if ( $active_tab == "reports" ) :
+/*------------------------------------*/	
+
+
+$linkthick = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?', 'alo-easymail_main');
 ?>
 
 <script language="javascript">
 function openReport(id){
-    // tb_show('REPORT',"<?php echo get_option ('siteurl').'/' ?>wp-content/plugins/alo-easymail/alo-easymail_action.php?TB_iframe=true&height=430&width=600",false);
     tb_show( '<?php _e("Newsletter report", "alo-easymail") ?>',"<?php echo $linkthick ?>&id="+id+"&TB_iframe=true&height=430&width=600",false);
-    //alert("<?php echo $linkthick ?>&TB_iframe=true&height=430&width=600");
     return false;
 }
 </script>
@@ -101,7 +424,7 @@ $news_on_queue =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}easymail_send
 //echo "<pre>";print_r($news_on_queue);echo "</pre>";
 if (count($news_on_queue)) { ?>
 	<table class="widefat" style='margin-top:10px'>
-		<caption><strong><?php _e("Newsletters scheduled for sending", "alo-easymail") ?></strong> (<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>?page=alo-easymail/alo-easymail_main.php"><?php _e("refresh", "alo-easymail") ?>&raquo;</a>)</caption>
+		<caption style="margin:10px;"><strong><?php _e("Newsletters scheduled for sending", "alo-easymail") ?></strong> (<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>?page=alo-easymail/alo-easymail_main.php&amp;tab=reports"><?php _e("refresh", "alo-easymail") ?>&raquo;</a>)</caption>
 		<thead><tr>
 			<th scope="col" style="width:5%"><div style="text-align: center;"><?php _e("Queue", "alo-easymail") ?></div></th>
 			<th scope="col" style="width:15%"><?php _e("Scheduled by", "alo-easymail") ?></th>
@@ -120,7 +443,7 @@ if (count($news_on_queue)) { ?>
 		echo "<tr id='que-{$q->ID}' class='$class'>\n"; ?>
 		<th scope="row" style="text-align: center;">
 		    <?php if ($row_count == 0) {
-		    	echo '<img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-forward.png" title="'.__("now sending", "alo-easymail").'" alt="" />';
+		    	echo '<img src="'.ALO_EM_PLUGIN_URL.'/images/16-email-forward.png" title="'.__("now sending", "alo-easymail").'" alt="" />';
 			   } else {
 			    echo $row_count; 
 			   }
@@ -150,7 +473,7 @@ if (count($news_on_queue)) { ?>
 		?></td>
 		<td>
 			<?php if ( ( $q->user == $user_ID && $can_edit_own ) || $can_edit_all ) {
-				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='".__("Cancel", "alo-easymail")."' ";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=reports&amp;task=del_send&amp;id=".$q->ID."' title='".__("Cancel", "alo-easymail")."' ";
 				echo " onclick=\"return confirm('".__("Do you really want to stop and cancel this sending?", "alo-easymail")."');\">";
 				echo __("Cancel", "alo-easymail"). "</a>";
 			} 
@@ -173,7 +496,7 @@ $news_done =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}easymail_sendings
 //echo "<pre>";print_r($news_on_queue);echo "</pre>";
 if (count($news_done)) { ?>
 	<table class="widefat" style='margin-top:10px'>
-		<caption><strong><?php echo ( $can_edit_all ==false)? __("Newsletters sent BY YOU", "alo-easymail") : __("Newsletters sent BY ALL USERS", "alo-easymail") ?></strong></caption>
+		<caption style="margin:10px;"><strong><?php echo ( $can_edit_all ==false)? __("Newsletters sent BY YOU", "alo-easymail") : __("Newsletters sent BY ALL USERS", "alo-easymail") ?></strong></caption>
 		<thead><tr>
 			<th scope="col" style="width:5%"><div style="text-align: center;">#</div></th>
 			<?php if ( $can_edit_all ) echo '<th scope="col" style="width:15%">'.__("Scheduled by", "alo-easymail").'</th>'; ?>
@@ -200,7 +523,7 @@ if (count($news_done)) { ?>
 		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( $q->subject ) : "" ?></td>
 		<td>
 			<?php if ( ($q->user == $user_ID && $can_edit_own ) || $can_edit_all ) {
-				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;task=del_send&amp;id=".$q->ID."' title='".__("Delete", "alo-easymail")."' ";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=reports&amp;task=del_send&amp;id=".$q->ID."' title='".__("Delete", "alo-easymail")."' ";
 				echo " onclick=\"return confirm('".__("Do you really want to delete the report of this newsletter?", "alo-easymail")."');\">";
 				echo __("Delete", "alo-easymail"). "</a> - ";
 				echo "<a href='' title='".__("View", "alo-easymail")."' ";
@@ -218,36 +541,16 @@ if (count($news_done)) { ?>
 ?>
 
 <?php
-// include found at http://blog.zen-dreams.com/en/2008/11/06/how-to-include-tinymce-in-your-wp-plugin/ 
-// and http://blog.zen-dreams.com/en/2009/06/30/integrate-tinymce-into-your-wordpress-plugins/
 
-if($wp_version >= '2.8') {
-    wp_enqueue_script( 'common' );
-	wp_enqueue_script( 'jquery-color' );
-	wp_print_scripts('editor');
-	if (function_exists('add_thickbox')) add_thickbox();
-	wp_print_scripts('media-upload');
-	if (function_exists('wp_tiny_mce')) wp_tiny_mce();
-	wp_admin_css();
-	wp_enqueue_script('utils');
-	do_action("admin_print_styles-post-php");
-	do_action('admin_print_styles');
 
-} else {
+/*--------------------------------------
+	SEND Tab
+--------------------------------------*/
+endif; // end reports tab
+if ( $active_tab == "send" ) :
+/*------------------------------------*/	
 
-    wp_admin_css('thickbox');
-    wp_print_scripts('jquery-ui-core');
-    wp_print_scripts('jquery-ui-tabs');
-    wp_print_scripts('post');
-    wp_print_scripts('editor');
-    add_thickbox();
-    wp_print_scripts('media-upload');
-    if (function_exists('wp_tiny_mce')) wp_tiny_mce();
-}
 ?>
-
-
-<?php wp_enqueue_script( 'jquery-form' );?>
 
 <script type="text/javascript">
 function openPopup(){
@@ -268,14 +571,12 @@ function checkEmailList () {
 		document.getElementById("response-emails-add").innerHTML = "<?php _e("Checking...", "alo-easymail") ?>";
 		// each addresses
 		var lines = emaillist.split(",");
-		
 		for (x=0; x < lines.length; x++){
 			var regmail = /^[_a-z0-9+-]+(\.[_a-z0-9+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
 			if (!regmail.test(lines[x]))	{
 				wrong_list += lines[x] + ", ";
 			}
 		}
-
 	}
 	if (wrong_list != "") {
 		wrong_list = wrong_list.slice(0, -2);
@@ -288,9 +589,7 @@ function checkEmailList () {
 
 </script>
 
-<h2><?php _e("Send newsletter", "alo-easymail") ?></h2>
-
-<form name="post" action="<?php echo get_option ('siteurl').'/' ?>wp-content/plugins/alo-easymail/alo-easymail_action.php" method="post" id="post" name="post" >
+<form name="post" action="" method="post" id="post" name="post" >
 
 <h3><?php _e("Recipients", "alo-easymail") ?></h3>
 
@@ -324,7 +623,8 @@ if ($mailinglists) { ?>
 
 <tr valign="top">
 <th scope="row"><?php _e("To send to other people insert a list of e-mail addresses separated by comma (,)", "alo-easymail") ?>:</th>
-<td><textarea id="emails_add" value="" name="emails_add" rows="3" cols="70" onblur="checkEmailList()"><?php echo get_option ( 'ALO_em_list_user_'.$user_ID, "" ); ?></textarea>
+<?php $list_emails = ( isset($_POST['emails_add']) ) ? $_POST['emails_add'] : get_option ( 'ALO_em_list_user_'.$user_ID, "" ); ?>
+<td><textarea id="emails_add" value="" name="emails_add" rows="3" cols="70" onblur="checkEmailList()"><?php echo $list_emails; ?></textarea>
 <div id="response-emails-add"></div></td>
 </tr>
 
@@ -360,8 +660,8 @@ echo '<select name="select_post" id="select_post" >';
 echo '<option value="0">['.__("generic e-mail: no post selected", "alo-easymail").']</option>';
 if ($tot_posts) { 
     foreach($get_posts as $post) :
-        $pID = $post->ID; // course ID
-        echo '<option value="'.$post->ID.'" >&middot; '. $post->post_title.' </option>';
+        $select_post_selected = ( isset($_POST['select_post']) && $post->ID == $_POST['select_post'] ) ? 'selected="selected"': '';
+        echo '<option value="'.$post->ID.'" '. $select_post_selected .'>&middot; '. get_the_title($post->ID).' </option>';
     endforeach;
 }
 echo '</select>'; 
@@ -372,7 +672,15 @@ echo '</select>';
 
 <tr valign="top">
 <th scope="row"><strong><?php _e("Subject", "alo-easymail") ?></strong>:</th>
-<td><input type="text" size="70" name="input_subject" id="input_subject" value="" maxlength="150" /></td>
+<?php 
+$subj = "";
+if ( !empty($from_template) ) {
+	$subj = $from_template->subject;
+} else {
+	$subj = ( isset($_POST['input_subject'])? $_POST['input_subject'] : "");
+}
+?>
+<td><input type="text" size="70" name="input_subject" id="input_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
 </tr>
 
 
@@ -381,43 +689,37 @@ echo '</select>';
 <td> <?php // open td ?>
 <div id="poststuff">
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-<?php if ( get_option ( 'ALO_em_template_user_'.$user_ID ) == "") {
-	$main_content = get_option('ALO_em_template'); // default template
+<?php if ( !empty($from_template) ) {
+	$main_content = $from_template->content;
 } else {
-	$main_content = get_option ( 'ALO_em_template_user_'.$user_ID ) ;
+	$main_content = ( isset($_POST['content'])? $_POST['content'] : "");
 }
 the_editor ($main_content); ?>
 </div></div>
 
-<table class="widefat">
-<thead><tr><th scope="col" style="width:20%"><?php _e("Post tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
-<tbody>
-<tr><td>[POST-TITLE]</td><td style='font-size:80%'><span class="description"><?php _e("The link to the title of the selected post.", "alo-easymail") ?></span></td></tr>
-<tr><td>[POST-EXCERPT]</td><td style='font-size:80%'><span class="description"><?php _e("The excerpt (if any) of the post.", "alo-easymail") ?></span></td></tr>
-<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><span class="description"><?php _e("The main content of the post.", "alo-easymail") ?> <?php _e("Warning: this tag inserts the test as it is, including shortcodes from other plugins.", "alo-easymail") ?></span></td></tr>
-</tbody></table>
-
-<table class="widefat">
-<thead><tr><th scope="col" style="width:20%"><?php _e("Subscriber tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
-<tbody>
-<tr><td>[USER-NAME]</td><td style='font-size:80%'><span class="description"><?php _e("Name and surname of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>)</span></td></tr>
-<!-- Following [USER-FIRST-NAME] added GAL -->
-<tr><td>[USER-FIRST-NAME]</td><td style='font-size:80%'><span class="description"><?php _e("First name of registered user.", "alo-easymail") ?> (<?php _e("For subscribers: the name used for registration", "alo-easymail") ?>).</span></td></tr>
-</tbody></table>
-
-<table class="widefat">
-<thead><tr><th scope="col" style="width:20%"><?php _e("Other tags", "alo-easymail") ?></th><th scope="col"></th></tr></thead>
-<tbody>
-<tr><td>[SITE-LINK]</td><td style='font-size:80%'><span class="description"><?php _e("The link to the site", "alo-easymail") ?>: <?php echo "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>" ?></span></td></tr>
-</tbody></table>
+<?php ALO_em_tags_table(); ?>
 
 </td> <?php // close td ?>
 </tr>
 
 <tr valign="top">
-<th scope="row"><label for="ck_save_template"><?php _e("Save the main body as template for next sending", "alo-easymail") ?></label></th>
-<td valign="middle"><input type="checkbox" name="ck_save_template" id="ck_save_template" value="checked" checked="checked" /></td>
-</tr>
+<th scope="row"><label for="ck_save_template">
+<?php 
+if ( !empty($from_template) ) { 
+	_e("Update the template (subject and main body)", "alo-easymail");
+} else {
+	_e("Save the subject and the main body as template", "alo-easymail");
+}
+?></label></th>
+<td valign="middle"><input type="checkbox" name="ck_save_template" id="ck_save_template" value="checked" />
+<span class="description"><?php echo __("You can manage templates with the button at the top of the page", "alo-easymail") ?>.</span>
+<?php
+if ( !empty($from_template) ) { 
+	echo '<input type="hidden" name="tpl_id" value="'. $from_template->ID . '">';
+} 
+?>
+</td></tr>
+
 </tbody>
 </table>
 
@@ -436,7 +738,7 @@ the_editor ($main_content); ?>
 <?php // Submit ?>
     <span class="submit">
     <?php wp_nonce_field('alo-easymail_main'); ?>
-    <input type="submit" name="submit" id="submit" value="<?php echo (count($news_on_queue))? __('Add to sending queue', 'alo-easymail') : __('Send', 'alo-easymail'); ?>" class="button-primary" onclick="this.value='<?php _e("PLEASE WAIT: sending...", "alo-easymail") ?>';"/>
+    <input type="submit" name="submit" id="submit" value="<?php  _e('Add to sending queue', 'alo-easymail'); ?>" class="button-primary" onclick="this.value='<?php _e("PLEASE WAIT: sending...", "alo-easymail") ?>';"/>
     </span>   
 </th>
 <td valign="middle"><strong><?php _e("Click ONCE and wait for the sending to be over", "alo-easymail") ?>.</strong></td>
@@ -445,6 +747,146 @@ the_editor ($main_content); ?>
 </table>
 
 </form>
+
+<?php
+/*--------------------------------------
+	TEMPLATES Tab
+--------------------------------------*/
+endif; // end send tab
+if ( $active_tab == "templates" ) :
+/*------------------------------------*/	
+
+// If upgraded an old version, transform old user template in a new template
+if ( get_option ( 'ALO_em_template_user_'.$user_ID ) ) {
+	ALO_em_add_new_template ( $user_ID, __('Your template', 'alo-easymail'), get_option ( 'ALO_em_template_user_'.$user_ID ) );
+	delete_option ('ALO_em_template_user_'.$user_ID); // now useless, delete it
+} else { // standard tpl
+	if ( ALO_em_how_user_templates($user_ID) == 0 ) {
+		ALO_em_add_new_template ( $user_ID, __('Template example (edit me)', 'alo-easymail') , get_option ( 'ALO_em_template' ) );
+	}
+}
+
+
+/**
+ * Search for user's TEMPLATES
+ */
+$templates =  $wpdb->get_results("SELECT ID, start_at, last_at, user, subject, content, sent FROM {$wpdb->prefix}easymail_sendings WHERE sent = 9 AND user={$user_ID} ORDER BY last_at DESC");
+//echo "<pre>";print_r($templates);echo "</pre>";
+if (count($templates)) { ?>
+	<table class="widefat" style='margin-top:10px'>
+		<caption style="margin:10px;"><strong><?php _e("Newsletter templates", "alo-easymail") ?></strong></caption>
+		<thead><tr>
+			<th scope="col"><?php _e("Last modified on", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Created on", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Subject", "alo-easymail") ?></th>
+			<th scope="col"><?php _e("Action", "alo-easymail") ?></th>
+		</tr></thead>
+		<tbody id="the-list">
+	<?php
+	$class = 'alternate';
+	$row_count = 0;
+	foreach ($templates as $t) {
+		$class = ('alternate' == $class) ? '' : 'alternate';
+		echo "<tr id='news-done-{$t->ID}' class='$class'>\n"; ?>
+		<td><?php echo date("d/m/Y", strtotime($t->last_at))." h.".date("H:i", strtotime($t->last_at)) ?></td>
+		<td><?php echo date("d/m/Y", strtotime($t->start_at))." h.".date("H:i", strtotime($t->start_at)) ?></td>		
+		<td style="width:40%"><?php echo ($t->user == $user_ID )? stripslashes ( $t->subject ) : "" ?></td>
+		<td>
+			<?php if ( $t->user == $user_ID && $can_edit_own ) {
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=templates&amp;task=del_tpl&amp;id=".$t->ID."' title='".__("Delete", "alo-easymail")."' ";
+				echo " onclick=\"return confirm('".__("Do you really want to delete this template?", "alo-easymail")."');\">";
+				echo __("Delete", "alo-easymail"). "</a> - ";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=templates&amp;task=mod_tpl&amp;id=".$t->ID."'  title='". __("Edit", "alo-easymail") ."' >". __("Edit", "alo-easymail"). "</a> - ";
+				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=send&amp;task=send_tpl&amp;id=".$t->ID."' title='". __("Send", "alo-easymail") ."' >". __("Send", "alo-easymail"). "</a>";
+			} 
+		?></td>
+		<?php
+		echo "</tr>";
+		$row_count++;
+	}
+	echo "</tbody></table>";
+	echo "<p>&nbsp;</p>";
+} else {
+	echo "<p>". __("There are no templates yet", "alo-easymail") .".</p>";
+}
+?>
+
+<h3>
+<?php
+if ( !empty($from_template) ) { 
+	_e("Update template", "alo-easymail");
+} else {
+	_e("New template", "alo-easymail");
+}
+?>
+</h3>
+
+<form name="post" action="" method="post" id="post" name="post" >
+
+<table class="form-table">
+<tbody>
+
+<tr valign="top">
+<th scope="row"><strong><?php _e("Subject", "alo-easymail") ?></strong>:</th>
+<?php 
+$subj = "";
+if ( !empty($from_template) ) {
+	$subj = $from_template->subject;
+} else if ( isset($_POST['tpl_subject'])) {
+	$subj = $_POST['tpl_subject'];
+}
+?>
+<td><input type="text" size="70" name="tpl_subject" id="tpl_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
+</tr>
+
+
+<tr valign="top">
+<th scope="row"><strong><?php _e("Main body", "alo-easymail") ?></strong> <span class="description"><br />(<?php _e("you can use the tags listed below", "alo-easymail") ?>)</span>:</th>
+<td> <?php // open td ?>
+<div id="poststuff">
+<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
+<?php 
+$main_content = "";
+if ( !empty($from_template) ) {
+	$main_content = $from_template->content;
+} else if ( isset($_POST['content'])) {
+	$main_content = $_POST['content'];
+}
+the_editor ($main_content); ?>
+</div></div>
+
+<?php ALO_em_tags_table(); ?>
+
+<tr valign="top">
+<th scope="row"> 
+</th>
+<td>
+<?php // Submit ?>
+    <span class="submit">
+    <?php wp_nonce_field('alo-easymail_main'); ?>
+    <input type="submit" name="submit_tpl" id="submit_tpl" value="<?php  _e('Save', 'alo-easymail'); ?>" class="button-primary" onclick="this.value='<?php _e("PLEASE WAIT: saving...", "alo-easymail") ?>';"/>
+    </span>  
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<?php
+if ( !empty($from_template) ) { 
+	echo '<input type="hidden" name="task" value="update_tpl">';
+	echo '<input type="hidden" name="tpl_id" value="'. $from_template->ID . '">';
+} 
+?>
+<input type="hidden" name="tab" value="templates">
+
+</form>
+
+<?php
+/*------------------------------------*/
+endif; // end templates tab
+/*------------------------------------*/
+?>
 
 <p></p>
 <p><?php echo ALO_EM_FOOTER; ?></p>

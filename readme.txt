@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup
 Requires at least: 2.8.4
 Tested up to: 3.0.1  
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 
 To send e-mails and newsletters. Features: subscription on registration or with an ajax widget, mailing lists, cron batch sending.
 
@@ -18,9 +18,10 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 **Admin side Features**
 
 * **write an html newsletter, choose a post, use post/subscribers/site tags and send to your recipients** (registered users, subscribers, mailing lists, any other email addresses)
+* **manage newsletter templates**: edit and save your templates
 * **batch sending using WP cron system**: it sends a number of emails every 10 minutes, until all recipients have been included
 * **collect subscribers**: on registration form and with an ajax widget/page
-* **import subscribers**: from existing registered users or from a CSV file
+* **import/export subscribers**: import from existing registered users or from a CSV file
 * **create and manage mailing lists**: only admin can assign subscribers to them, or subscribers can freely choose them
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
@@ -40,19 +41,17 @@ Available languages:
 
 * Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
 * Dutch v.1.8 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.1.8 (by Francesca Bovone)
+* English v.1.8.2 (by Francesca Bovone)
 * Farsi v.1.8 - fa_IR (by Ka1 Bashiri)
 * French v.1.8 - fr_FR (by Eric Savalli, Nicolas Trubert, Therese Lachance)
-* German v.1.8 - de_DE (by mark, Thomas Kokusnuss)
+* German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8 - hu_HU (by Daniel Bozo)
-* Italian v.1.8 - it_IT
+* Italian v.1.8.2 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Romanian v.1.8 - ro_RO (by Richard Vencu)
 * Spanish v.1.8 - es_ES (by Mauro Macchiaroli)
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
-
-IMPORTANT NOTE - *Some of the latest WP versions have a known bug in the wp_cron system (a WP bug, not an EasyMail bug). The EasyMail (v.1.7 and newer) properly WORKS on WP 3.0 and 2.9.1. It probably DOESN'T work on WP 2.9 and 2.9.2. (It seems to work with WP 2.8.x series, but I advise to upgrade). More info on [plugin FAQ page](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/).*
 
 == Installation ==
 
@@ -92,6 +91,22 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 7. The widget on administration dashboard 
 
 == Changelog ==
+
+= 1.8.2 =
+* NEW FEATURES
+* Added: newsletter templates
+* Added: embed css file for styling plugin
+* Added: subscribers exportation
+* MINOR CHANGES
+* Added: an option about max sendings per batch
+* Added: an option to choose the subscription page
+* Fixed: newsletter datetimes now use GMT blog datetime
+* Fixed: alert on subscription if email address is already subscribed
+* Fixed: remove -br- in content when rendering an html table
+* Fixed: all plugin paths and urls
+* Updated: now newsletter transfer encoding is 8bit
+* Updated: send multipart newsletters (html and text) to make them less spamish
+* Updated: new tab layout on sending page
 
 = 1.8.1 =
 * Fixed: the "updating..." msg should not get stuck anymore
@@ -188,3 +203,7 @@ New features: mailing lists, subscribers importation, tracking system.
 
 = 1.8.1 =
 Release to fix some bugs.
+
+= 1.8.2 =
+New features: templates, subscribers exportation, a lot of improvements.
+

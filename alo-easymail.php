@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send e-mails and newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending.
-Version: 1.8.1
+Version: 1.8.2
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -35,7 +35,9 @@ define("ALO_EM_FOOTER","<p style='margin-top:25px'>&raquo; <em>Please visit plug
 	<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal' border='0' type='image'>
 	<img alt='' src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>");
 define("ALO_EM_INTERVAL_MIN", 10); 	// cron interval in minutes (default: 10) (NOTE: to apply the change you need to reactivate the plugin)
-define("ALO_EM_MAX_ONE_SEND", 80);	// max mails sent in one sending (default: 80)
+
+define("ALO_EM_PLUGIN_DIR", basename(dirname(__FILE__)) );
+define("ALO_EM_PLUGIN_URL", WP_PLUGIN_URL ."/" . ALO_EM_PLUGIN_DIR );
 
 
 /**
@@ -55,7 +57,8 @@ function ALO_em_install() {
         Hope to see you online!<br /><br />[SITE-LINK]');
 	if (!get_option('ALO_em_list')) add_option('ALO_em_list', '');
     if (!get_option('ALO_em_lastposts')) add_option('ALO_em_lastposts', 10);
-    if (!get_option('ALO_em_dayrate')) add_option('ALO_em_dayrate', 1200);
+    if (!get_option('ALO_em_dayrate')) add_option('ALO_em_dayrate', 1500);
+    if (!get_option('ALO_em_batchrate')) add_option('ALO_em_batchrate', 60);
 	if (!get_option('ALO_em_sender_email')) {
 		$admin_email = get_option('admin_email');
 	    add_option('ALO_em_sender_email', $admin_email);
@@ -67,12 +70,13 @@ function ALO_em_install() {
 	update_option('ALO_em_import_alert', "show" );
 	if (!get_option('ALO_em_delete_on_uninstall')) add_option('ALO_em_delete_on_uninstall', 'no');
 	if (!get_option('ALO_em_show_subscripage')) add_option('ALO_em_show_subscripage', 'no');
+	if (!get_option('ALO_em_embed_css')) add_option('ALO_em_embed_css', 'no');
 	    	    
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	
     //-------------------------------------------------------------------------
 	// TO MODIFY IF UPDATE NEEDED
-	$database_version = '1.21';
+	$database_version = '1.24';
 	
 	// Db version
 	$installed_db = get_option('ALO_em_db_version');
@@ -107,9 +111,9 @@ function ALO_em_install() {
 						start_at datetime DEFAULT NULL,
 						last_at datetime DEFAULT NULL,
 						user int(11) unsigned DEFAULT NULL,
-						headers text DEFAULT NULL,
 						subject varchar(250) DEFAULT NULL,
 						content text DEFAULT NULL,
+						content_plain text DEFAULT NULL,
 						recipients longtext DEFAULT NULL,
 					    tracking varchar(10) DEFAULT NULL,						
 						sent INT( 1 ) NOT NULL DEFAULT '0',
@@ -339,10 +343,51 @@ function ALO_em_load_widgets() {
 function ALO_add_admin_js() {
 	if (isset($_GET['page']) && $_GET['page'] == "alo-easymail/alo-easymail_options.php") {
 		wp_enqueue_script('jquery-ui-tabs');
-		echo '<link rel="stylesheet" href="'.get_option ('siteurl').'/wp-content/plugins/alo-easymail/css/jquery.ui.tabs.css" type="text/css" media="print, projection, screen" />'."\n";
+		echo '<link rel="stylesheet" href="'.ALO_EM_PLUGIN_URL.'/inc/jquery.ui.tabs.css" type="text/css" media="print, projection, screen" />'."\n";
 	}
 }
 add_action('admin_print_scripts', 'ALO_add_admin_js' );
+
+
+/**
+ * Add TinyMCE on admin side
+ * http://blog.zen-dreams.com/en/2009/06/30/integrate-tinymce-into-your-wordpress-plugins/
+ */
+function ALO_em_show_tinymce () {
+	if (isset($_GET['page']) ) {
+		switch ( $_GET['page'] ) {
+			case "alo-easymail/alo-easymail_main.php":
+			case "alo-easymail/alo-easymail_options.php":
+				wp_enqueue_script( 'common' );
+				wp_enqueue_script( 'jquery-color' );
+				wp_print_scripts('editor');
+				if (function_exists('add_thickbox')) add_thickbox();
+				wp_print_scripts('media-upload');
+				if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+				wp_admin_css();
+				wp_enqueue_script('utils');
+				do_action("admin_print_styles-post-php");
+				do_action('admin_print_styles');
+				wp_enqueue_script( 'jquery-form' ); // extra
+		}
+	}
+}
+add_filter('admin_head','ALO_em_show_tinymce');
+
+
+/**
+ * Load scripts & styles
+ */
+function ALO_em_load_scripts() {
+	if ( get_option('ALO_em_embed_css') == "yes" ) {
+		if ( @file_exists ( TEMPLATEPATH.'/alo-easymail.css' ) ) {
+		  	wp_enqueue_style ('alo-easymail', get_bloginfo('template_directory') .'/alo-easymail.css' );
+		} else {
+		  	wp_enqueue_style ('alo-easymail', ALO_EM_PLUGIN_URL.'/alo-easymail.css' );
+		}
+	} 
+}
+add_action('wp_enqueue_scripts', 'ALO_em_load_scripts');
 
 
 /**
