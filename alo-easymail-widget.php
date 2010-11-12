@@ -98,13 +98,13 @@ class ALO_Easymail_Widget extends WP_Widget {
     // this constructor cannot be __construct!! causes 500 server error
 	function ALO_Easymail_Widget() {
 		/* Widget settings. NOTE: Class name must be lower case*/
-		$widget_ops = array( 'classname' => 'alo_easymail_widget', 'description' => __('Allow users to opt in/out of email', 'alo_easymail') );
+		$widget_ops = array( 'classname' => 'alo_easymail_widget', 'description' => __('Allow users to opt in/out of email', 'alo-easymail') );
 
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'alo-easymail-widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'alo-easymail-widget', __('ALO Easymail Widget', 'alo_easymail'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'alo-easymail-widget', __('ALO Easymail Widget', 'alo-easymail'), $widget_ops, $control_ops );
 	}
 
 	/**
