@@ -630,7 +630,7 @@ function ALO_em_batch_sending () {
 		// Generate a random boundary string
 		$mime_boundary = "_boundary_";//'_x'.sha1(time()).'x';
 
-		$headers_html  = "\n";
+		$headers_html  = "\n\n";
 		$headers_html  .= "--$mime_boundary\n";
 		$headers_html  .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
 		$headers_html  .= "Content-Transfer-Encoding: 8bit\n\n"; 
