@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-12 00:27+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Alex <groucho75@email.it>\n"
+"Last-Translator: Marius Siroen <linux@marius-siroen.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,13 +162,12 @@ msgid "Cheatin&#8217; uh?"
 msgstr "Cheatin&#8217; uh?"
 
 #: .././alo-easymail_main.php:280
-#, fuzzy
 msgid "Reports"
 msgstr "Verslag"
 
 #: .././alo-easymail_main.php:281
 msgid "Templates"
-msgstr ""
+msgstr "Sjablonen"
 
 #: .././alo-easymail_main.php:315
 msgid "Newsletter successfully deleted"
@@ -179,14 +178,12 @@ msgid "Impossible to delete the selected newsletter"
 msgstr "Het is niet mogelijk om deze nieuwsbrief te verwijderen"
 
 #: .././alo-easymail_main.php:329
-#, fuzzy
 msgid "Template successfully deleted"
-msgstr "Nieuwsbrief succesvol verwijderd"
+msgstr "Sjabloon succesvol verwijderd"
 
 #: .././alo-easymail_main.php:331
-#, fuzzy
 msgid "Impossible to delete the selected template"
-msgstr "Het is niet mogelijk om deze nieuwsbrief te verwijderen"
+msgstr "Het is niet mogelijk om dit sjabloon te verwijderen"
 
 #: .././alo-easymail_main.php:353
 msgid "New sending added with success!"
@@ -196,7 +193,7 @@ msgstr "Nieuwe zending succesvol toegevoegd!"
 #: .././alo-easymail_main.php:361
 #: .././alo-easymail_main.php:380
 msgid "Template saved"
-msgstr ""
+msgstr "Sjabloon opgeslagen"
 
 #: .././alo-easymail_main.php:360
 #: .././alo-easymail_main.php:392
@@ -213,9 +210,8 @@ msgid "Impossible to send. Please try again."
 msgstr "Verzending niet mogelijk. Probeer het nogmaals."
 
 #: .././alo-easymail_main.php:386
-#, fuzzy
 msgid "Impossible to save the template. Please try again."
-msgstr "Verzending niet mogelijk. Probeer het nogmaals."
+msgstr "Sjabloon opslaan is niet mogelijk. Probeer het nogmaals."
 
 #: .././alo-easymail_main.php:414
 msgid "Newsletter report"
@@ -372,7 +368,7 @@ msgstr "Als u een specifiek artikel kiest kunt u onderstaande labels gebruiken"
 #: .././alo-easymail_main.php:844
 #: .././alo-easymail_report.php:80
 msgid "Main body"
-msgstr "Hoofdonderdeel"
+msgstr "Hoofdtekst"
 
 #: .././alo-easymail_main.php:688
 #: .././alo-easymail_main.php:844
@@ -381,16 +377,15 @@ msgstr "u kunt onderstaande labels gebruiken"
 
 #: .././alo-easymail_main.php:709
 msgid "Update the template (subject and main body)"
-msgstr ""
+msgstr "Update het sjabloon (onderwerp en hoofdtekst)"
 
 #: .././alo-easymail_main.php:711
-#, fuzzy
 msgid "Save the subject and the main body as template"
-msgstr "Bewaar de bericht tekst voor de volgende verzending"
+msgstr "Bewaar het onderwerp en de hoofdtekst als sjabloon"
 
 #: .././alo-easymail_main.php:715
 msgid "You can manage templates with the button at the top of the page"
-msgstr ""
+msgstr "U kunt de sjablonen beheren met de knop boven in de pagina"
 
 #: .././alo-easymail_main.php:726
 #: .././alo-easymail_main.php:800
@@ -424,29 +419,27 @@ msgstr "Klik EENMAAL en wacht tot de verzending is voltooid"
 
 #: .././alo-easymail_main.php:761
 msgid "Your template"
-msgstr ""
+msgstr "Uw sjabloon"
 
 #: .././alo-easymail_main.php:765
 msgid "Template example (edit me)"
-msgstr ""
+msgstr "Sjabloon voorbeeld (bewerk)"
 
 #: .././alo-easymail_main.php:777
-#, fuzzy
 msgid "Newsletter templates"
-msgstr "Nieuwsbrief verslag"
+msgstr "Nieuwsbrief sjablonen"
 
 #: .././alo-easymail_main.php:779
 msgid "Last modified on"
-msgstr ""
+msgstr "Laatst aangepast op"
 
 #: .././alo-easymail_main.php:780
 msgid "Created on"
-msgstr ""
+msgstr "Gemaakt op"
 
 #: .././alo-easymail_main.php:797
-#, fuzzy
 msgid "Do you really want to delete this template?"
-msgstr "Weet u zeker dat u het verslag van deze nieuwsbrief wilt verwijderen?"
+msgstr "Weet u zeker dat u dit sjabloon wilt verwijderen?"
 
 #: .././alo-easymail_main.php:799
 #: .././easymail-subscr-page.php:50
@@ -454,18 +447,16 @@ msgid "Edit"
 msgstr "Bewerk"
 
 #: .././alo-easymail_main.php:810
-#, fuzzy
 msgid "There are no templates yet"
-msgstr "Er zijn geen nieuwsbrieven in de wachtrij"
+msgstr "Er zijn nog geen sjablonen"
 
 #: .././alo-easymail_main.php:817
 msgid "Update template"
-msgstr ""
+msgstr "Update sjabloon"
 
 #: .././alo-easymail_main.php:819
-#, fuzzy
 msgid "New template"
-msgstr "Nieuwe lijst"
+msgstr "Nieuw sjabloon"
 
 #: .././alo-easymail_main.php:867
 #: .././alo-easymail_options.php:585
@@ -473,9 +464,8 @@ msgid "Save"
 msgstr "Bewaar"
 
 #: .././alo-easymail_main.php:867
-#, fuzzy
 msgid "PLEASE WAIT: saving..."
-msgstr "EVEN GEDULD AUB: bezig met verzenden..."
+msgstr "EVEN GEDULD AUB: opslaan..."
 
 #: .././easymail-subscr-page.php:18
 #: .././alo-easymail_options.php:497
@@ -603,35 +593,32 @@ msgid "Sender's email address"
 msgstr "E-mailadres afzender"
 
 #: .././alo-easymail_options.php:155
-#, fuzzy
 msgid "Subscription page"
-msgstr "Toon aanmeld pagina"
+msgstr "Aanmeld pagina"
 
 #: .././alo-easymail_options.php:173
 msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
-msgstr ""
+msgstr "Dit moet de pagina zijn met de  [ALO-EASYMAIL-PAGE] code. Standaard heet deze pagina &#39;Newsletter&#39;"
 
 #: .././alo-easymail_options.php:186
 msgid "Show subscription page"
 msgstr "Toon aanmeld pagina"
 
 #: .././alo-easymail_options.php:187
-#, fuzzy
 msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
-msgstr "Zo ja, de aanmeld pagina ('%s') verschijnt in het menu of de widget van alle blog pagina's"
+msgstr "Zo ja, de aanmeld pagina verschijnt in het menu of de widget van alle blog pagina's"
 
 #: .././alo-easymail_options.php:198
-#, fuzzy
 msgid "Embed CSS file"
-msgstr "Upload CSV bestand"
+msgstr "Ingesloten CSS bestand"
 
 #: .././alo-easymail_options.php:199
 msgid "If yes, the plugin loads the CSS styles from a file in its directory"
-msgstr ""
+msgstr "Zo ja, de plugin gebruikt de CSS stijl van het bestand in de map"
 
 #: .././alo-easymail_options.php:199
 msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
-msgstr ""
+msgstr "Tip: kopieer &#39;alo-easymail.css&#39; naar de map van uw gebruikte WP-template. Nuttig om verlies van stijlen te voorkomen wanneer u de plugin update"
 
 #: .././alo-easymail_options.php:204
 msgid "Default template for the email content"
@@ -693,9 +680,8 @@ msgid "Invite to join mailing lists"
 msgstr "Nodig uit voor mailing lijsten"
 
 #: .././alo-easymail_options.php:309
-#, fuzzy
 msgid "Maximum number of emails that can be sent per batch"
-msgstr "Maximaal aantal e-mails dat verzonden kan worden in 24 uur tijd"
+msgstr "Maximaal aantal e-mails dat verzonden kan worden per batch"
 
 #: .././alo-easymail_options.php:315
 msgid "Maximum number of emails that can be sent in a 24-hr period"
@@ -946,7 +932,7 @@ msgstr "Voor elke regel moet u een e-mail adres (verplicht), naam (optioneel) in
 
 #: .././alo-easymail_subscribers.php:196
 msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
-msgstr ""
+msgstr "Tips voor als er problemen zijn: u kunt de bestandsextensie veranderen van .csv naar .txt; gebruik dubbele aanhalingstekens om elk veld te markeren(&quot;email_adres1@domein.nl&quot;;&quot;naam1 achternaam1&quot;)"
 
 #: .././alo-easymail_subscribers.php:198
 msgid "Test mode (no importation, show records on screen)"
@@ -957,18 +943,16 @@ msgid "Upload CSV file"
 msgstr "Upload CSV bestand"
 
 #: .././alo-easymail_subscribers.php:205
-#, fuzzy
 msgid "Export subscribers"
-msgstr "Geen abonnees"
+msgstr "Exporteer abonnees"
 
 #: .././alo-easymail_subscribers.php:206
 msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
-msgstr ""
+msgstr "U kunt abonnees exporteren: de plugin toont deze op het scherm zo dat u deze kunt knippen en plakken in een tekst bestand of een ander programma"
 
 #: .././alo-easymail_subscribers.php:210
-#, fuzzy
 msgid "Export"
-msgstr "Verslag"
+msgstr "Exporteren"
 
 #: .././alo-easymail_subscribers.php:215
 msgid "Add a subscriber"
@@ -1044,14 +1028,13 @@ msgid "Show all"
 msgstr "Toon alle"
 
 #: .././alo-easymail_subscribers.php:422
-#, fuzzy
 msgid "Import/export subscribers"
-msgstr "Voeg toe / importeer abonnees"
+msgstr "Importeer / exporteer abonnees"
 
 #: .././alo-easymail_subscribers.php:425
-#, fuzzy, php-format
+#, php-format
 msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
-msgstr "Misschien wilt u abonnees importeren van geregistreerde leden op uw website of vanuit een extern archief (gebruik CSV). Klik op de Voeg toe / importeer abonnees link"
+msgstr "Misschien wilt u abonnees importeren van geregistreerde leden op uw website of vanuit een extern archief (gebruik CSV). Klik op de &#39;%s&#39; knop"
 
 #: .././alo-easymail_subscribers.php:426
 msgid "Do not show it again"
@@ -1206,11 +1189,11 @@ msgstr "Uw naam is niet ingevuld"
 
 #: .././alo-easymail_functions.php:477
 msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
-msgstr ""
+msgstr "Waarschuwing: dit email adres is al aangemeld, maar nog niet geactiveerd. We versturen opnieuw een bevestigings email"
 
 #: .././alo-easymail_functions.php:480
 msgid "Warning: this email address has already been subscribed"
-msgstr ""
+msgstr "Waarschuwing: dit email adres is al aangemeld"
 
 #: .././alo-easymail_functions.php:483
 msgid "Error during sending: please try again"
@@ -1231,7 +1214,7 @@ msgstr "Klik hier"
 
 #: .././alo-easymail_functions.php:615
 msgid "visit this link"
-msgstr ""
+msgstr "bezoek deze link"
 
 #~ msgid "ALO EasyMail Newsletter"
 #~ msgstr "ALO EasyMail Nieuwsbrief"
