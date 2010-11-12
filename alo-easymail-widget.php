@@ -192,9 +192,7 @@ class ALO_Easymail_Widget extends WP_Widget {
 	function form( $instance ) {
 
 		/* Set up some default widget settings. */
-		$defaults = array( 'title' => __('Newsletter', 'alo_easymail') /*, 
-		            'alo_easymail_optin_msg' => __('Yes, I would like to receive the Newsletter', 'alo_easymail'),
-		            'alo_easymail_optout_msg' => __('No, please do not email me', 'alo_easymail')*/ );
+		$defaults = array( 'title' => __('Newsletter', 'alo-easymail') );
 		$instance = wp_parse_args( (array) $instance, $defaults ); 
 
 		$html = "";
