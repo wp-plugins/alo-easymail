@@ -40,15 +40,15 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 Available languages:
 
 * Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
-* Dutch v.1.8.2 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.1.8.2 (by Francesca Bovone)
+* Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
+* English v.1.8.3 (by Francesca Bovone)
 * Farsi v.1.8 - fa_IR (by Ka1 Bashiri)
 * French v.1.8 - fr_FR (by Eric Savalli, Nicolas Trubert, Therese Lachance)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8 - hu_HU (by Daniel Bozo)
-* Italian v.1.8.2 - it_IT
+* Italian v.1.8.3 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
-* Romanian v.1.8.2 - ro_RO (by Richard Vencu)
+* Romanian v.1.8.3 - ro_RO (by Richard Vencu)
 * Spanish v.1.8 - es_ES (by Mauro Macchiaroli)
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
@@ -211,3 +211,5 @@ Release to fix some bugs.
 = 1.8.2 =
 New features: templates, subscribers exportation, a lot of improvements.
 
+= 1.8.3 =
+Release to fix some bugs.
