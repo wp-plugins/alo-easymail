@@ -519,12 +519,12 @@ function ALO_em_pubblic_form_callback() {
 /**
  * Add a new newsletter to batch sending
  */
-function ALO_em_add_new_batch ( $user_ID, $subject, $content, $content_plain, $recipients, $tracking ) {
+function ALO_em_add_new_batch ( $user_ID, $subject, $content, $recipients, $tracking ) {
 	global $wpdb;
 	$add_newsletter = $wpdb->insert(
                 "{$wpdb->prefix}easymail_sendings", 
                 array( 'start_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'last_at' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'user' => $user_ID, 'subject' => $subject, 
-                'content' => $content, 'content_plain' => $content_plain, 'sent' => '0', 'recipients' => $recipients, 'tracking' => $tracking )
+                'content' => $content, 'sent' => '0', 'recipients' => $recipients, 'tracking' => $tracking )
             );
     return $add_newsletter;
 }
@@ -542,7 +542,19 @@ function ALO_em_delete_newsletter ( $newsletter ) {
     return $delete;
 }
 
-	
+
+/**
+ * Create alt text content before sending newsletter 
+ */
+function ALO_em_alt_mail_body( $phpmailer ) {
+	if( $phpmailer->ContentType == 'text/html' && $phpmailer->AltBody == '') {
+		$plain_text = ALO_em_html2plain ( $phpmailer->Body );
+		$phpmailer->AltBody = $plain_text;
+	}
+}
+add_action( 'phpmailer_init', 'ALO_em_alt_mail_body' );
+
+
 /**
  * Send the newsletter to a fraction of recipients every X minutes
  */
@@ -576,25 +588,20 @@ function ALO_em_batch_sending () {
     	
         // For each recipient delete TAGs update
         $updated_content = $sending_info->content;
-        $updated_content_plain = $sending_info->content_plain;
 		       
         // TAG: [USER-NAME]
         if ($recipients[$r]['name']) {
             $updated_content = str_replace("[USER-NAME]", $recipients[$r]['name'], $updated_content);     
-            $updated_content_plain = str_replace("[USER-NAME]", $recipients[$r]['name'], $updated_content_plain);    
         } else {
             $updated_content = str_replace("[USER-NAME]", "", $updated_content);
-            $updated_content_plain = str_replace("[USER-NAME]", "", $updated_content_plain);
         }            
         
         //>>>>>>> added GAL
         // TAG: [USER-FIRST-NAME]
         if ($recipients[$r]['firstname']) {
             $updated_content = str_replace("[USER-FIRST-NAME]", $recipients[$r]['firstname'], $updated_content);       
-            $updated_content_plain = str_replace("[USER-FIRST-NAME]", $recipients[$r]['firstname'], $updated_content_plain);    
         } else {
             $updated_content = str_replace("[USER-FIRST-NAME]", "", $updated_content);
-            $updated_content_plain = str_replace("[USER-FIRST-NAME]", "", $updated_content_plain);
         }            
         //<<<<<<<<< end added GAL
 
@@ -608,12 +615,8 @@ function ALO_em_batch_sending () {
 			$uns_link = add_query_arg( $arr_params, get_page_link (get_option('ALO_em_subsc_page')) );
 			
 		    $updated_content .= "<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
-			$updated_content .=	"<a href='" . $uns_link ."'>". __("click here", "alo-easymail") ."</a>.";
+			$updated_content .=	__("visit this link", "alo-easymail") ." <a href='" . $uns_link ."'>". $uns_link ."</a>.";
 		    $updated_content .= "</em></p>";
-		    
-   		    $updated_content_plain .= "\n\n". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
-			$updated_content_plain .= __("visit this link", "alo-easymail");
-		    $updated_content_plain .= "\n". $uns_link;
 		    
 		 	// TRACKING, if requested
 			if ( $sending_info->tracking ) {
@@ -627,34 +630,15 @@ function ALO_em_batch_sending () {
 		
 		$subject = stripslashes ( $sending_info->subject );
 
-		// Generate a random boundary string
-		$mime_boundary = "_boundary_";//'_x'.sha1(time()).'x';
-
-		$headers_html  = "\n\n";
-		$headers_html  .= "--$mime_boundary\n";
-		$headers_html  .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
-		$headers_html  .= "Content-Transfer-Encoding: 8bit\n\n"; 
-
-		$headers_plain = "\n";
-		$headers_plain .= "--$mime_boundary\n";
-		$headers_plain .= "Content-Type: text/plain; charset=" . get_option('blog_charset') . "\n";
-		$headers_plain .= "Content-Transfer-Encoding: 8bit\n\n"; 
-				
-		// Initial headers
 		$mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
 		$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
-		$headers =  "MIME-Version: 1.0\n";
+		
+		$headers =  "";//"MIME-Version: 1.0\n";
 		$headers .= "From: ". $from_name ." <".$mail_sender.">\n";
-		$headers .= "Content-Type: multipart/alternative; boundary=$mime_boundary\n\n" ; 
-		
-		// End
-		$close_msg = "\n\n--$mime_boundary--"; 
-		
-		// Set up the full mail content
-		$full_content = $headers_plain . $updated_content_plain . $headers_html . $updated_content . $close_msg;
+		$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";		
 		
         // ---- Send MAIL ----
-        $mail_engine = @wp_mail($recipients[$r]['email'], $subject, $full_content, $headers );  
+        $mail_engine = @wp_mail($recipients[$r]['email'], $subject, $updated_content, $headers );  
         
         if( $mail_engine && is_email($recipients[$r]['email']) ) {
             $recipients[$r]['result'] = 1;
@@ -918,5 +902,6 @@ function ALO_em_how_user_templates ( $user_ID ) {
 	$tpls = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) FROM {$wpdb->prefix}easymail_sendings WHERE sent='9' AND user='%d'", $user_ID ) );
     return (int) $tpls;
 }
+
 
 ?>
