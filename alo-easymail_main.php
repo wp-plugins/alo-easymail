@@ -85,7 +85,6 @@ if(isset($_REQUEST['submit'])) {
     
     // Subject
     $subject = stripslashes($wpdb->escape($_POST['input_subject']));
-    $subject = apply_filters('the_title', $subject ); // the same filters of post title
     
     // Main content
     $main_content = stripslashes($_POST['content']);
@@ -104,16 +103,6 @@ if(isset($_REQUEST['submit'])) {
     
     // If no errors let's go!
     if ( $error_on_submit == false ) {
-
-		// From
-		//$mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
-		//$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
-		
-		// Headers
-		// $headers =  "MIME-Version: 1.0\r\n";
-		// $headers .= "From: ". $from_name ." <".$mail_sender.">\r\n";
-		//$headers .= "Content-Type: text/html; charset=" . get_option('blog_charset') . "\n";
-		//$headers .= "Content-Transfer-Encoding: 8bit\n\n";   
 		
 		// Save emails'list for next sending, if request
 		if ( isset($_POST['ck_save_list']) ) update_option( 'ALO_em_list_user_'.$user_ID, trim($_POST['emails_add']) );
@@ -173,11 +162,8 @@ if(isset($_REQUEST['submit'])) {
 		      
 		//echo "<pre>";print_r($num_rec);echo "</pre>";
 		
-		// The plain text version
-		$updated_content_plain = ALO_em_html2plain ( $updated_content );
-		
 		// add the newsletter to db
-		if ( ALO_em_add_new_batch ( $user_ID, $subject, $updated_content, $updated_content_plain, serialize($num_rec), $tracking ) == true) {
+		if ( ALO_em_add_new_batch ( $user_ID, $subject, $updated_content, serialize($num_rec), $tracking ) == true) {
 			$fbk_msg = "success";
 			$_REQUEST['tab'] = "reports"; // show report
 		} else {
@@ -673,11 +659,11 @@ echo '</select>';
 <tr valign="top">
 <th scope="row"><strong><?php _e("Subject", "alo-easymail") ?></strong>:</th>
 <?php 
-$subj = "";
+$subj = ""; 
 if ( !empty($from_template) ) {
-	$subj = $from_template->subject;
+	$subj = htmlspecialchars ( stripslashes ( $from_template->subject ) );
 } else {
-	$subj = ( isset($_POST['input_subject'])? $_POST['input_subject'] : "");
+	$subj = ( isset($_POST['input_subject'])? htmlspecialchars ( stripslashes ( $_POST['input_subject'] ) ) : "");
 }
 ?>
 <td><input type="text" size="70" name="input_subject" id="input_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
@@ -831,9 +817,9 @@ if ( !empty($from_template) ) {
 <?php 
 $subj = "";
 if ( !empty($from_template) ) {
-	$subj = $from_template->subject;
+	$subj = htmlspecialchars ( stripslashes ( $from_template->subject ) );
 } else if ( isset($_POST['tpl_subject'])) {
-	$subj = $_POST['tpl_subject'];
+	$subj = htmlspecialchars ( stripslashes ( $_POST['tpl_subject'] ) );
 }
 ?>
 <td><input type="text" size="70" name="tpl_subject" id="tpl_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
