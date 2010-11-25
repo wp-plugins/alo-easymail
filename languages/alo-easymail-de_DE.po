@@ -502,7 +502,7 @@ msgstr "Um ihr Abonnement der Mailingliste zu verändern bitte dieses Formular b
 
 #: .././easymail-subscr-page.php:55
 msgid "To unsubscribe the newsletter for good click this button"
-msgstr "Um den Newsletter abzubestellen klicken die auf abbestellen"
+msgstr "Um den Newsletter abzubestellen klicken Sie auf abbestellen"
 
 #: .././easymail-subscr-page.php:61
 msgid "Unsubscribe me"
@@ -1228,7 +1228,7 @@ msgstr "hier klicken"
 
 #: .././alo-easymail_functions.php:615
 msgid "visit this link"
-msgstr ""
+msgstr "klicken Sie auf folgenden Link"
 
 #~ msgid "To allow editors to send emails, check this option"
 #~ msgstr ""
