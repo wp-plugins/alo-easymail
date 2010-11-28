@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-12 00:29+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Alex <groucho75@email.it>\n"
+"Last-Translator: Mauro Macchiaroli <panardo@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,13 +159,12 @@ msgid "Cheatin&#8217; uh?"
 msgstr "Haciendo trampa&#8217; eh?"
 
 #: .././alo-easymail_main.php:280
-#, fuzzy
 msgid "Reports"
-msgstr "Reporte"
+msgstr "Reportes"
 
 #: .././alo-easymail_main.php:281
 msgid "Templates"
-msgstr ""
+msgstr "Plantillas"
 
 #: .././alo-easymail_main.php:315
 msgid "Newsletter successfully deleted"
@@ -176,14 +175,12 @@ msgid "Impossible to delete the selected newsletter"
 msgstr "Imposible eliminar el newsletter seleccionado"
 
 #: .././alo-easymail_main.php:329
-#, fuzzy
 msgid "Template successfully deleted"
-msgstr "Newsletter eliminado exitosamente"
+msgstr "Plantilla eliminada satisfactoriamente"
 
 #: .././alo-easymail_main.php:331
-#, fuzzy
 msgid "Impossible to delete the selected template"
-msgstr "Imposible eliminar el newsletter seleccionado"
+msgstr "Imposible eliminar la plantilla seleccionada"
 
 #: .././alo-easymail_main.php:353
 msgid "New sending added with success!"
@@ -193,7 +190,7 @@ msgstr "¡Nuevo envio agregado con éxito!"
 #: .././alo-easymail_main.php:361
 #: .././alo-easymail_main.php:380
 msgid "Template saved"
-msgstr ""
+msgstr "Plantilla guardada"
 
 #: .././alo-easymail_main.php:360
 #: .././alo-easymail_main.php:392
@@ -210,9 +207,8 @@ msgid "Impossible to send. Please try again."
 msgstr "Imposible enviar. Intentelo nuevamente."
 
 #: .././alo-easymail_main.php:386
-#, fuzzy
 msgid "Impossible to save the template. Please try again."
-msgstr "Imposible enviar. Intentelo nuevamente."
+msgstr "Imposible guardar la plantilla. Intentelo nuevamente."
 
 #: .././alo-easymail_main.php:414
 msgid "Newsletter report"
@@ -378,16 +374,15 @@ msgstr "puede usar las etiquetas listadas abajo"
 
 #: .././alo-easymail_main.php:709
 msgid "Update the template (subject and main body)"
-msgstr ""
+msgstr "Actualizar la plantilla (asunto y cuerpo principal)"
 
 #: .././alo-easymail_main.php:711
-#, fuzzy
 msgid "Save the subject and the main body as template"
-msgstr "Guardar el cuerpo principal como plantilla para el próximo envio"
+msgstr "Guardar el asunto y cuerpo principal como plantilla"
 
 #: .././alo-easymail_main.php:715
 msgid "You can manage templates with the button at the top of the page"
-msgstr ""
+msgstr "Puede administrar sus plantillas con el botón de la parte superior de la página"
 
 #: .././alo-easymail_main.php:726
 #: .././alo-easymail_main.php:800
@@ -421,29 +416,27 @@ msgstr "Haga click UNA SOLA VEZ y espere para que el envio se termine"
 
 #: .././alo-easymail_main.php:761
 msgid "Your template"
-msgstr ""
+msgstr "Su plantilla"
 
 #: .././alo-easymail_main.php:765
 msgid "Template example (edit me)"
-msgstr ""
+msgstr "Ejemplo de plantilla (editarme)"
 
 #: .././alo-easymail_main.php:777
-#, fuzzy
 msgid "Newsletter templates"
-msgstr "Reporte de newsletter"
+msgstr "Plantillas de newsletter"
 
 #: .././alo-easymail_main.php:779
 msgid "Last modified on"
-msgstr ""
+msgstr "Última modificación"
 
 #: .././alo-easymail_main.php:780
 msgid "Created on"
-msgstr ""
+msgstr "Creado"
 
 #: .././alo-easymail_main.php:797
-#, fuzzy
 msgid "Do you really want to delete this template?"
-msgstr "¿Realmente quiere eliminar el reporte de este newsletter?"
+msgstr "¿Realmente quiere eliminar esta plantilla?"
 
 #: .././alo-easymail_main.php:799
 #: .././easymail-subscr-page.php:50
@@ -451,18 +444,16 @@ msgid "Edit"
 msgstr "Editar"
 
 #: .././alo-easymail_main.php:810
-#, fuzzy
 msgid "There are no templates yet"
-msgstr "No hay newsletters en cola"
+msgstr "No hay plantillas por el momento"
 
 #: .././alo-easymail_main.php:817
 msgid "Update template"
-msgstr ""
+msgstr "Actualizar plantilla"
 
 #: .././alo-easymail_main.php:819
-#, fuzzy
 msgid "New template"
-msgstr "Nueva lista"
+msgstr "Nueva plantilla"
 
 #: .././alo-easymail_main.php:867
 #: .././alo-easymail_options.php:585
@@ -470,9 +461,8 @@ msgid "Save"
 msgstr "Guardar"
 
 #: .././alo-easymail_main.php:867
-#, fuzzy
 msgid "PLEASE WAIT: saving..."
-msgstr "POR FAVOR ESPERE: enviando..."
+msgstr "POR FAVOR ESPERE: guardando..."
 
 #: .././easymail-subscr-page.php:18
 #: .././alo-easymail_options.php:497
@@ -600,35 +590,32 @@ msgid "Sender's email address"
 msgstr "Email del emisor"
 
 #: .././alo-easymail_options.php:155
-#, fuzzy
 msgid "Subscription page"
-msgstr "Mostrar página de suscripción"
+msgstr "Página de suscripción"
 
 #: .././alo-easymail_options.php:173
 msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
-msgstr ""
+msgstr "Esta debería ser la página que incluye el atajo: [ALO-EASYMAIL-PAGE] . Por default, esta página se titula  &#39;Newsletter&#39;"
 
 #: .././alo-easymail_options.php:186
 msgid "Show subscription page"
 msgstr "Mostrar página de suscripción"
 
 #: .././alo-easymail_options.php:187
-#, fuzzy
 msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
-msgstr "Si lo marca, la página de suscripción ('%s') aparece en el menu o widget que enlista todas las páginas del blog"
+msgstr "Si lo marca, la página de suscripción aparece en el menu o widget que enlista todas las páginas del blog"
 
 #: .././alo-easymail_options.php:198
-#, fuzzy
 msgid "Embed CSS file"
-msgstr "Subir archivo TXT"
+msgstr "Incrustar archivo CSS"
 
 #: .././alo-easymail_options.php:199
 msgid "If yes, the plugin loads the CSS styles from a file in its directory"
-msgstr ""
+msgstr "Si lo marca, el plugin carga los estilos CSS de un archivo en este directorio"
 
 #: .././alo-easymail_options.php:199
 msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
-msgstr ""
+msgstr "Consejo: copie &#39;alo-easymail.css&#39;  en su directorio de plantillas y editelo aho. Muy útil para prevenir la perdida de estilos cuando actualiza el plugin"
 
 #: .././alo-easymail_options.php:204
 msgid "Default template for the email content"
@@ -690,9 +677,8 @@ msgid "Invite to join mailing lists"
 msgstr "Invitar a unirse a las listas de mailing"
 
 #: .././alo-easymail_options.php:309
-#, fuzzy
 msgid "Maximum number of emails that can be sent per batch"
-msgstr "Número máximo de emails que se pueden enviar en un período de 24 horas"
+msgstr "Número máximo de emails que se pueden enviar por tanda (24 horas) "
 
 #: .././alo-easymail_options.php:315
 msgid "Maximum number of emails that can be sent in a 24-hr period"
@@ -931,7 +917,7 @@ msgstr "Importar miembros de WP"
 
 #: .././alo-easymail_subscribers.php:191
 msgid "Import from uploaded CSV file"
-msgstr "Importar desde archivo TXT (emails separados por ;) - Ademas en el archivo \"alo-easymail_subscribers.php\" editar la linea 268 donde dice:   \"text/csv\"  por: \"text/plain\" "
+msgstr "Importar desde un archivo CSV"
 
 #: .././alo-easymail_subscribers.php:192
 msgid "You can import new subscribers from a CSV file."
@@ -943,7 +929,7 @@ msgstr "Por cada línea debe especificar: dirección de e-mail (obligatorio), no
 
 #: .././alo-easymail_subscribers.php:196
 msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
-msgstr ""
+msgstr "Consejos si tiene problemas: puede probar cambiando la extensión del archivo de .csv a .txt; use doble comillas para delimitar cada campo (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
 
 #: .././alo-easymail_subscribers.php:198
 msgid "Test mode (no importation, show records on screen)"
@@ -954,18 +940,16 @@ msgid "Upload CSV file"
 msgstr "Subir archivo TXT"
 
 #: .././alo-easymail_subscribers.php:205
-#, fuzzy
 msgid "Export subscribers"
-msgstr "Sin suscriptores"
+msgstr "Exportar suscriptores"
 
 #: .././alo-easymail_subscribers.php:206
 msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
-msgstr ""
+msgstr "Puede exportar suscriptores del newsletter: el plugin los muestra en pantalla para que pueda copiarlos y pegarlos en un archivo de texto o en otra aplicación."
 
 #: .././alo-easymail_subscribers.php:210
-#, fuzzy
 msgid "Export"
-msgstr "Reporte"
+msgstr "Exportar"
 
 #: .././alo-easymail_subscribers.php:215
 msgid "Add a subscriber"
@@ -1041,14 +1025,13 @@ msgid "Show all"
 msgstr "Mostrar todos"
 
 #: .././alo-easymail_subscribers.php:422
-#, fuzzy
 msgid "Import/export subscribers"
-msgstr "Agregar/Importar Suscriptores"
+msgstr "Importar/Exportar Suscriptores"
 
 #: .././alo-easymail_subscribers.php:425
-#, fuzzy, php-format
+#, php-format
 msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
-msgstr "Tal vez quisiera importar suscriptores desde tu miembros registrados del blog o desde un archivo externo (usando CSV). Click el &#39;botón &#39;Agregar/Importar suscriptores"
+msgstr "Tal vez quisiera importar suscriptores desde tu miembros registrados del blog o desde un archivo externo (usando CSV). Click el botón &#39;%s&#39;"
 
 #: .././alo-easymail_subscribers.php:426
 msgid "Do not show it again"
@@ -1203,11 +1186,11 @@ msgstr "El campo nombre esta vacío"
 
 #: .././alo-easymail_functions.php:477
 msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
-msgstr ""
+msgstr "Atención: esta dirección de email ya ha sido suscripta, pero no activada. Ahora estamos enviando otro email de activación"
 
 #: .././alo-easymail_functions.php:480
 msgid "Warning: this email address has already been subscribed"
-msgstr ""
+msgstr "Atención: esta dirección de email ya ha sido suscripta"
 
 #: .././alo-easymail_functions.php:483
 msgid "Error during sending: please try again"
@@ -1228,22 +1211,28 @@ msgstr "click aquí"
 
 #: .././alo-easymail_functions.php:615
 msgid "visit this link"
-msgstr ""
+msgstr "visite este link"
 
 #~ msgid "To allow editors to send emails, check this option"
 #~ msgstr "Para permitir a los editores enviar emails, marque esta opción"
+
 #~ msgid "Editors can send emails"
 #~ msgstr "Los editores pueden enviar emails"
+
 #~ msgid "Registered users"
 #~ msgstr "Usuarios registrados"
+
 #~ msgid "None of the above"
 #~ msgstr "Niguno de los de arriba"
+
 #~ msgid "plain text"
 #~ msgstr "texto plano"
+
 #~ msgid "Total sent"
 #~ msgstr "Envios totales"
+
 #~ msgid "Succesful sendings"
 #~ msgstr "Envios exitosos"
+
 #~ msgid "Search e-mail or name"
 #~ msgstr "Buscar e-mail o nombre"
-
