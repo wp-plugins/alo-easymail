@@ -2,8 +2,8 @@
 /*
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
-Description: To send e-mails and newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending.
-Version: 1.8.3
+Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
+Version: 1.8.4
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -63,20 +63,26 @@ function ALO_em_install() {
 		$admin_email = get_option('admin_email');
 	    add_option('ALO_em_sender_email', $admin_email);
 	}
-	
-	if (!get_option('ALO_em_optin_msg')) add_option('ALO_em_optin_msg', '' );
+	if (!get_option('ALO_em_sender_name')) {
+		$sender_name = get_option('blogname');
+	    add_option('ALO_em_sender_name', $sender_name );
+	}
+		
+	/*if (!get_option('ALO_em_optin_msg')) add_option('ALO_em_optin_msg', '' );
 	if (!get_option('ALO_em_optout_msg')) add_option('ALO_em_optout_msg', '');	
-	if (!get_option('ALO_em_lists_msg')) add_option('ALO_em_lists_msg', '');
+	if (!get_option('ALO_em_lists_msg')) add_option('ALO_em_lists_msg', '');*/
 	update_option('ALO_em_import_alert', "show" );
 	if (!get_option('ALO_em_delete_on_uninstall')) add_option('ALO_em_delete_on_uninstall', 'no');
 	if (!get_option('ALO_em_show_subscripage')) add_option('ALO_em_show_subscripage', 'no');
 	if (!get_option('ALO_em_embed_css')) add_option('ALO_em_embed_css', 'no');
-	    	    
+	
+	ALO_em_setup_predomain_texts( false );
+		    	    
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	
     //-------------------------------------------------------------------------
 	// TO MODIFY IF UPDATE NEEDED
-	$database_version = '1.25';
+	$database_version = '1.27';
 	
 	// Db version
 	$installed_db = get_option('ALO_em_db_version');
@@ -102,6 +108,7 @@ function ALO_em_install() {
 					    active INT( 1 ) NOT NULL DEFAULT '0',
 					    unikey varchar(24) NOT NULL,
 					    lists varchar(255) DEFAULT '_',
+					    lang varchar(5) DEFAULT NULL,					    
 					    PRIMARY KEY  (ID),
 					    UNIQUE KEY  `email` (`email`)
 					    ) DEFAULT CHARSET=".$collate.";
@@ -115,6 +122,7 @@ function ALO_em_install() {
 						content text DEFAULT NULL,
 						recipients longtext DEFAULT NULL,
 					    tracking varchar(10) DEFAULT NULL,						
+					    tag varchar(30) DEFAULT NULL,						    
 						sent INT( 1 ) NOT NULL DEFAULT '0',
 						PRIMARY KEY  (ID)
 						) DEFAULT CHARSET=".$collate.";
@@ -207,28 +215,29 @@ add_action( 'ALO_em_batch' , 'ALO_em_batch_sending');
 function ALO_em_uninstall() {
 	global $wpdb, $wp_roles, $wp_version;
 	
-    // delete subscription page
-    if ( version_compare ( $wp_version , '2.9', '>=' ) ) {
-    	wp_delete_post( get_option('ALO_em_subsc_page'), true ); // skip trash, from wp 2.9
-	} else {
-	    wp_delete_post( get_option('ALO_em_subsc_page') );
-	}
-	// and the option with page id
-	delete_option ('ALO_em_subsc_page');
-	
     // delete scheduled cleaner
     wp_clear_scheduled_hook('ALO_em_schedule');
     // delete cron batch sending
     wp_clear_scheduled_hook('ALO_em_batch');
     
-    // if required delete all plugin data (options, db tables)
+    // if required delete all plugin data (options, db tables, page)
    	if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
    		$tables = array ( "easymail_sendings", "easymail_subscribers", "easymail_trackings" );
    		foreach ( $tables as $tab ) {
    			$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}$tab");
    		}
+
 		// delete option from db
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE '%ALO_em%'" );
+
+	    // delete subscription page
+		if ( version_compare ( $wp_version , '2.9', '>=' ) ) {
+			wp_delete_post( get_option('ALO_em_subsc_page'), true ); // skip trash, from wp 2.9
+		} else {
+			wp_delete_post( get_option('ALO_em_subsc_page') );
+		}
+		// and the option with page id
+		delete_option ('ALO_em_subsc_page');
 	}
 	
 	// reset cap
@@ -239,6 +248,10 @@ function ALO_em_uninstall() {
 		$wp_roles->remove_cap( $rolename, 'manage_easymail_newsletters');
 		$wp_roles->remove_cap( $rolename, 'send_easymail_newsletters');
 	}
+	
+	// delete text pre-domain default
+	delete_option ('ALO_em_txtpre_activationmail_mail_default');
+	delete_option ('ALO_em_txtpre_activationmail_subj_default');
 }
 register_deactivation_hook( __FILE__, 'ALO_em_uninstall' );
 
@@ -255,7 +268,6 @@ function ALO_em_add_admin_menu() {
 add_action('admin_menu', 'ALO_em_add_admin_menu');
 
 
-//>>>>>>>>>>>>>>> added GAL
 require_once('alo-easymail-widget.php');
 
 add_action( 'show_user_profile', 'ALO_em_user_profile_optin' );
@@ -277,7 +289,8 @@ function ALO_em_user_profile_optin($user) {
     $html = "<h3>". __("Newsletter", "alo-easymail") ."</h3>\n";
     $html .= "<table class='form-table'>\n";
     $html .= "  <tr>\n";
-    $html .= "    <th><label for='alo_em_option'>". __("Receive Newsletters?", "alo-easymail")."</label></th>\n";
+    $optin_txt = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) !="") ? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) : __("Yes, I would like to receive the Newsletter", "alo-easymail"); 
+    $html .= "    <th><label for='alo_em_option'>". $optin_txt ."</label></th>\n";
     $html .= "    <td>\n";
     $html .= "		<select name='alo_easymail_option' id='alo_easymail_option'>\n";
     $html .= "        <option value='yes' $optin_selected>". __("Yes", "alo-easymail")."</option>\n";
@@ -306,7 +319,7 @@ function ALO_em_save_profile_optin($user_id) {
     
     if (isset($_POST['alo_easymail_option'])) {
         if ( $_POST['alo_easymail_option'] == "yes") {
-            ALO_em_add_subscriber( $user_email, $user_info->first_name ." ".$user_info->first_name, 1);
+            ALO_em_add_subscriber( $user_email, $user_info->first_name ." ".$user_info->first_name, 1, ALO_em_get_language() );
             
             // if subscribing, save also lists
         	$mailinglists = ALO_em_get_mailinglists( 'public' );
@@ -333,7 +346,6 @@ add_action( 'widgets_init', 'ALO_em_load_widgets' );
 function ALO_em_load_widgets() {
 	register_widget( 'ALO_Easymail_Widget' );
 }
-//<<<<<<<<<<<<<<< end added GAL
 
 
 /**
@@ -356,7 +368,7 @@ function ALO_em_show_tinymce () {
 	if (isset($_GET['page']) ) {
 		switch ( $_GET['page'] ) {
 			case "alo-easymail/alo-easymail_main.php":
-			case "alo-easymail/alo-easymail_options.php":
+			//case "alo-easymail/alo-easymail_options.php":
 				wp_enqueue_script( 'common' );
 				wp_enqueue_script( 'jquery-color' );
 				wp_print_scripts('editor');
@@ -368,6 +380,7 @@ function ALO_em_show_tinymce () {
 				do_action("admin_print_styles-post-php");
 				do_action('admin_print_styles');
 				wp_enqueue_script( 'jquery-form' ); // extra
+				wp_enqueue_script( 'jquery-ui-core' ); // extra
 		}
 	}
 }
@@ -453,7 +466,7 @@ function ALO_em_dashboard_widget_function() {
 			} else {
 				echo "#".($row_count - 1);
 			}
-			echo " <strong>" . stripslashes ( $q->subject ) ."</strong><br />";
+			echo " <strong>" . stripslashes ( ALO_em___( $q->subject ) ) ."</strong><br />";
 			if ($row_count == 1) { 
 				$q_recipients = unserialize( $q->recipients );
 				$q_tot = count($q_recipients);
@@ -493,8 +506,20 @@ add_action('wp_dashboard_setup', 'ALO_em_add_dashboard_widgets' );
  * SHOW the optin/optout on registration form
  */
 function ALO_em_show_registration_optin () {
-	echo '<p style="margin-bottom:16px"><input type="checkbox" id="alo_em_opt" name="alo_em_opt" value="yes" class="input" checked="checked" /> ';
-	echo '<label for="alo_em_opt" >' . __("Receive Newsletters?", "alo-easymail") .'</label></p>';
+    $optin_txt = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) !="") ? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) : __("Yes, I would like to receive the Newsletter", "alo-easymail"); 
+	echo '<p class="alo_easymail_reg_optin"><input type="checkbox" id="alo_em_opt" name="alo_em_opt" value="yes" class="input" checked="checked" /> ';
+	echo '<label for="alo_em_opt" >' . $optin_txt .'</label></p>';
+	 
+    $mailinglists = ALO_em_get_mailinglists( 'public' );
+    if ( $mailinglists ) {
+    	$lists_msg 	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_lists_msg',false) !="") ? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_lists_msg',false) :  __("You can also sign up for specific lists", "alo-easymail"); 
+		echo "<p class='alo_easymail_reg_list_msg'>". $lists_msg .":</p>\n";
+		foreach ( $mailinglists as $list => $val ) {
+			echo "<p class='alo_easymail_reg_list'><input type='checkbox' name='alo_em_register_lists[]' id='alo_em_register_list_$list' value='$list' /> <label for='alo_em_register_list_$list'>" . ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) ."</label></p>\n";
+		}
+	} 
+
+	echo '<input type="hidden" id="alo_em_lang" name="alo_em_lang" value="' . esc_attr(ALO_em_get_language()).'" /> ';
 }
 add_action('register_form','ALO_em_show_registration_optin');
 
@@ -510,10 +535,104 @@ function ALO_em_save_registration_optin ($user_id, $password="", $meta=array()) 
 		$name = $user->display_name;
 	}
 	if ( isset ($_POST['alo_em_opt']) && $_POST['alo_em_opt'] == "yes" ) {
-		ALO_em_add_subscriber( $user->user_email, $name , 1);
+		$lang = ( isset($_POST['alo_em_lang']) && in_array ( $_POST['alo_em_lang'], ALO_em_get_all_languages( false )) ) ? $_POST['alo_em_lang'] : "" ;
+		ALO_em_add_subscriber( $user->user_email, $name , 1, $lang );
+		
+		 // if subscribing, save also lists
+    	$mailinglists = ALO_em_get_mailinglists( 'public' );
+		if ($mailinglists) {
+			$subscriber_id = ALO_em_is_subscriber( $user->user_email );
+			foreach ( $mailinglists as $mailinglist => $val) {					
+				if ( isset ($_POST['alo_em_register_lists']) && is_array ($_POST['alo_em_register_lists']) && in_array ( $mailinglist, $_POST['alo_em_register_lists'] ) ) {
+					ALO_em_add_subscriber_to_list ( $subscriber_id, $mailinglist );	  // add to list
+				} 
+			}
+		}				
 	}
 }
 add_action( 'user_register', 'ALO_em_save_registration_optin' );
+
+
+/** EXPERIMENTAL
+ * Return the localised login url
+ */
+ /*
+function ALO_em_login_url( $url ) {
+	// qTranslate
+	if( ALO_em_multilang_enabled_plugin() == "qTrans") $url = add_query_arg( 'lang', ALO_em_get_language(), $url );
+	return $url;
+}
+add_filter( 'login_url', 'ALO_em_login_url', 10);
+*/
+
+/** EXPERIMENTAL
+ * Return the localised register url
+ */
+ /*
+function ALO_em_register_url( $url ) {
+	// qTranslate
+	//if( ALO_em_multilang_enabled_plugin() == "qTrans") $url = add_query_arg( 'lang', ALO_em_get_language(), $url );
+   	return $url;
+}
+add_filter( 'register', 'ALO_em_register_url', 10 );
+*/
+
+
+/**
+ * Edit the e-mail message
+ */
+ 
+function ALO_em_handle_email ( $args ) {
+	// $args['to'], $args['subject'], $args['message'], $args['headers'], $args['attachments']
+	
+	// Check based on $args['subject']; more attrs in $args['message']
+	global $_config;
+	/*
+	 * 1) Activation e-mail
+	 */
+	if ( strpos ( "#_EASYMAIL_ACTIVATION_#", $args['subject'] ) !== false) {
+		
+		// Get the parameters stored as a query in $args['message'] 
+		$defaults = array( 'lang' => '', 'email' => '',	'name' => '', 'unikey' => '' );
+		$customs = wp_parse_args( $args['message'], $defaults );
+		extract( $customs, EXTR_SKIP );
+		
+		// Subject
+	   	if ( ALO_em_translate_option ( $lang, 'ALO_em_txtpre_activationmail_subj', false ) ) {
+			$subject = ALO_em_translate_option ( $lang, 'ALO_em_txtpre_activationmail_subj', false );
+		} else {
+		   	$subject = ALO_em___( __("Confirm your subscription to %BLOGNAME% Newsletter", "alo-easymail" ) );
+		}
+		$blogname = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
+		$subject = str_replace ( "%BLOGNAME%", $blogname, $subject );
+		$args['subject'] = $subject;
+				
+		// Content
+	   	if ( ALO_em_translate_option ( $lang, 'ALO_em_txtpre_activationmail_mail', false ) ) {
+			$content = ALO_em_translate_option ( $lang, 'ALO_em_txtpre_activationmail_mail', false );
+		} else {
+		   	$content = __("Hi %NAME%\nto complete your subscription to %BLOGNAME% newsletter you need to click on the following link (or paste it in the address bar of your browser):\n", "alo-easymail");
+		   	$content .= "%ACTIVATIONLINK%\n\n";
+		   	$content .= __("If you did not ask for this subscription ignore this message.", "alo-easymail"). "\n";
+		    $content .= __("Thank you", "alo-easymail")."\n". $blogname ."\n";
+		}
+
+	 	$div_email = explode("@", $email);
+		$arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $unikey );
+		$sub_link = add_query_arg( $arr_params, get_page_link (get_option('ALO_em_subsc_page')) );
+		$sub_link = ALO_em_translate_url ( $sub_link, $lang );		
+		
+	  	$content = str_replace ( "%BLOGNAME%", $blogname, $content );
+	   	$content = str_replace ( "%NAME%", $name, $content );
+	   	$content = str_replace ( "%ACTIVATIONLINK%", $sub_link, $content );
+	   	
+		$args['message'] = $content;
+	}
+	
+	return $args;
+}
+
+add_filter('wp_mail', 'ALO_em_handle_email');
 
 
 ?>

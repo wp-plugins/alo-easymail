@@ -41,7 +41,7 @@
 .ui-tabs-nav li {
     float: left;
     padding: 6px 5px;
-    min-width: 84px; /* be nice to Opera */
+    min-width: 30px; /* be nice to Opera */
     margin: 2px 2px 0px 1px !important;
 	text-decoration: none;
 	list-style: none;
