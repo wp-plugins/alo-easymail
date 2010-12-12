@@ -13,6 +13,9 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
     // ID of newsletter (to make the report)
     $id = $_REQUEST['id'];
     
+    // Lang
+    $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
+    
     // If admin he can see
 	$can_see_all = ( current_user_can('manage_easymail_newsletters') && current_user_can('manage_easymail_subscribers') ) ? true: false;//($user_level >= 8)? true: false;
     
@@ -33,7 +36,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			.tot {font-weight:bold;}
 			.success {color:#0c6;font-weight:bold;}
 			.error {color:#f00;font-weight:bold;}
-			table {font-size:75%;width:400px;margin:0 auto;}
+			table {font-size:75%;width:550px;margin:0 auto;}
 			td {padding:4px}
 			td.center {text-align:center}
 			#mailbody img { height: 5em; width: auto; display: block; }
@@ -61,8 +64,8 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			<!-- Newsletter's general details -->
 			<div id="tabs-1">
 				<dl>
-					<dt><?php _e("Subject", "alo-easymail") ?>:</dt>
-					<dd><?php echo stripslashes ( $newsletter->subject ) ?></dd>
+					<dt><?php _e("Subject", "alo-easymail");  ?>:</dt>
+					<dd><?php echo stripslashes ( ALO_em_translate_text ( $lang, $newsletter->subject ) ) ?></dd>
 				</dl>
 				<?php if ($newsletter->user != $user_ID) {
 					echo "<dl><dt>".__("Scheduled by", "alo-easymail").":</dt>";
@@ -78,7 +81,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 				</dl>		
 				<dl>
 					<dt><?php _e("Main body", "alo-easymail") ?> (<?php _e("without formatting", "alo-easymail") ?>):</dt>
-					<dd style="font-weight:normal;font-size:90%" id="mailbody"><?php echo strip_tags($newsletter->content, "<img>") ?></dd>
+					<dd style="font-weight:normal;font-size:90%" id="mailbody"><?php echo strip_tags( ALO_em_translate_text ( $lang, $newsletter->content), "<img>") ?></dd>
 				</dl>	
 			</div>
 		
@@ -125,6 +128,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 						<th scope="col"></th>
 						<th scope="col"><?php _e("E-mail", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Name", "alo-easymail") ?></th>
+						<th scope="col"><?php _e("Language", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Sent", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Viewed", "alo-easymail") ?></th>						
 					</tr>
@@ -138,6 +142,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 					$class = ('' == $class) ? "style='background-color:#eee;'" : "";
 					$n ++;
 					echo "<tr $class ><td>".$n."</td><td>".$recipient['email']."</td><td>".$recipient['name']."</td>";
+					echo "<td class='center'>". ALO_em_get_lang_flag($recipient['lang'], 'name') ."</td>";
 					echo "<td class='center'><img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td>";
 					echo "<td class='center'>";
 					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1 && ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ))? "yes.png":"no.png") ."' />";

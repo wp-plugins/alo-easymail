@@ -9,6 +9,9 @@ if ( !current_user_can('send_easymail_newsletters') && !current_user_can('manage
     <h2>ALO EasyMail Newsletter</h2>
 
 <?php
+// All available languages
+$languages = ALO_em_get_all_languages( false );
+
 // For Tabs
 $send_tab_active = $reports_tab_active = $templates_tab_active = "";
 $sel_active_class = "nav-tab-active";
@@ -29,14 +32,15 @@ if(isset($_REQUEST['submit'])) {
     // prepare for error
     $error = "";
     
+    // Requested langs
+    $to_langs = ( isset($_POST['check_lang']) ) ? $_POST['check_lang'] : false;
+
     // Retrieve post info for TAG
-    $pID = ( isset($_POST['select_post'])) ? $_POST['select_post']: false;
-    if ((int)$pID) {
-        $obj_post = get_post($pID);
-    }
+	$pID = ( isset($_POST['select_post']) && (int)$_POST['select_post']) ? $_POST['select_post'] : false;
+	if ($pID) $obj_post = get_post($pID);
     
-       // If any add NO-REGISTERED E-MAILS
-    if ($_POST['emails_add']) {
+   	// If any add NO-REGISTERED E-MAILS
+    if ( isset($_POST['emails_add']) && trim($_POST['emails_add']) != "" ) {
         //$wrong_add_email = "";  // show them in error div
         $non_reg_emails = explode(",", $_POST['emails_add']);
         foreach ($non_reg_emails as $non_reg_email) {
@@ -51,20 +55,28 @@ if(isset($_REQUEST['submit'])) {
     if ( isset($_POST['all_subscribers']) && $_POST['all_subscribers'] == 'checked') {
         $subs = ALO_em_get_recipients_subscribers();
         foreach ($subs as $sub) {
+        	// do not add the subscribers with not required langs 
+        	$search_lang = ( !empty($sub->lang) ) ? $sub->lang : "UNKNOWN"; // if subscriber has not specified lang
+        	if ( $to_langs && array_search($search_lang, $to_langs)=== false ) continue;
             $recipients[$sub->email]['email'] = $sub->email;
             $recipients[$sub->email]['name'] = $sub->name;
             $recipients[$sub->email]['firstname'] = $sub->name;
             $recipients[$sub->email]['unikey'] = $sub->unikey; 
+            $recipients[$sub->email]['lang'] = $sub->lang; 
         }
     } else { // if not requested all subcribers, maybe requested only by selected lists?
 		if ( isset($_POST['check_list']) && is_array ($_POST['check_list']) ) {
 			$subs = ALO_em_get_recipients_subscribers( $_POST['check_list'] );
 			if ( $subs) {
 				foreach ( $subs as $sub ) {
+					// do not add the subscribers with not required langs 
+					$search_lang = ( !empty($sub->lang) ) ? $sub->lang : "UNKNOWN"; // if subscriber has not specified lang
+					if ( $to_langs && array_search($search_lang, $to_langs)=== false ) continue;
 		            $recipients[$sub->email]['email'] = $sub->email;
 		            $recipients[$sub->email]['name'] = $sub->name;
 		            $recipients[$sub->email]['firstname'] = $sub->name;
 		            $recipients[$sub->email]['unikey'] = $sub->unikey; 
+		            $recipients[$sub->email]['lang'] = $sub->lang; 
 				}
 			}
 		}
@@ -75,20 +87,33 @@ if(isset($_REQUEST['submit'])) {
         $reg_users = ALO_em_get_recipients_registered ();
         if ($reg_users) {
 		    foreach ($reg_users as $reg_user) {
+		    	// login name as default name if first/lastname are empty
+	    	 	//$user_info = get_userdata( $reg_user->UID );
+	    	 	//$user_loginname = $user_info->user_login;
+	    	 	if ( get_user_meta($reg_user->UID, 'first_name', true) != "" ) {
+	    	 	   	$reg_firstname =  ucfirst(get_user_meta($reg_user->UID, 'first_name', true));
+	    	 	} else {
+	    	 		$reg_firstname =  get_user_meta($reg_user->UID, 'nickname', true);
+	    	 	}
+	    	 	if ( get_user_meta($reg_user->UID, 'first_name', true) != "" || get_user_meta($reg_user->UID, 'last_name', true) != "" ) {
+	    	 	   	$reg_name =  ucfirst(get_user_meta($reg_user->UID, 'first_name',true))." " .ucfirst(get_user_meta($reg_user->UID,'last_name',true));
+	    	 	} else {
+	    	 		$reg_name = get_user_meta($reg_user->UID, 'nickname', true);
+	    	 	}	    	 	
 		        $recipients[$reg_user->user_email]['email'] = $reg_user->user_email;
-		        $recipients[$reg_user->user_email]['name'] = ucfirst(get_user_meta($reg_user->UID, 'first_name',true))." " .ucfirst(get_user_meta($reg_user->UID,'last_name',true)); 
-		        $recipients[$reg_user->user_email]['firstname'] = ucfirst(get_user_meta($reg_user->UID, 'first_name', true)); 
+		        $recipients[$reg_user->user_email]['name'] = $reg_name; 
+		        $recipients[$reg_user->user_email]['firstname'] = $reg_firstname; 
+		        $recipients[$reg_user->user_email]['lang'] = $reg_user->lang;
 		    }
 		}
     }
     
     
     // Subject
-    $subject = stripslashes($wpdb->escape($_POST['input_subject']));
+    $subject = stripslashes($wpdb->escape($_POST['title']));
     
     // Main content
     $main_content = stripslashes($_POST['content']);
-
 	
 	// Check errors
 	$error_on_submit = false;
@@ -136,6 +161,8 @@ if(isset($_REQUEST['submit'])) {
 			}
 		}
 		
+		/* 
+		
 		// TAG: [POST-TITLE]
 		if ($pID) {
 		    $updated_content = str_replace("[POST-TITLE]", "<a href='".get_permalink($obj_post->ID). "'>". get_the_title($obj_post->ID) ."</a>", $updated_content);      
@@ -159,17 +186,10 @@ if(isset($_REQUEST['submit'])) {
 		
 		// TAG: [SITE-LINK]
 		$updated_content = str_replace("[SITE-LINK]", "<a href='".get_option ('siteurl')."'>".get_option('blogname')."</a>", $updated_content);       
+		
+		*/
 		      
-		//echo "<pre>";print_r($num_rec);echo "</pre>";
-		
-		// add the newsletter to db
-		if ( ALO_em_add_new_batch ( $user_ID, $subject, $updated_content, serialize($num_rec), $tracking ) == true) {
-			$fbk_msg = "success";
-			$_REQUEST['tab'] = "reports"; // show report
-		} else {
-			$fbk_msg = "nosending";
-		}	
-		
+		//echo "<pre>";print_r($num_rec);echo "</pre>";exit;
 		/*
 		//---------
 		// DEBUG
@@ -184,6 +204,14 @@ if(isset($_REQUEST['submit'])) {
 		// echo $wpdb->last_query;
 		//echo "<pre>";print_r ($_REQUEST);echo "</pre>";
 		*/
+		
+		// add the newsletter to db
+		if ( ALO_em_add_new_batch ( $user_ID, $subject, $updated_content, serialize($num_rec), $tracking, $pID ) == true) {
+			$fbk_msg = "success";
+			$_REQUEST['tab'] = "reports"; // show report
+		} else {
+			$fbk_msg = "nosending";
+		}	
 	
 	} // end if $error_on_submit == false
 }
@@ -199,7 +227,7 @@ if(isset($_REQUEST['submit_tpl'])) {
     check_admin_referer('alo-easymail_main');
     
     // Subject
-    $subject = stripslashes($wpdb->escape($_POST['tpl_subject']));
+    $subject = stripslashes($wpdb->escape($_POST['title']));
     
     // Main content
     $main_content = stripslashes($_POST['content']);
@@ -397,7 +425,7 @@ $linkthick = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?', 'alo
 
 <script language="javascript">
 function openReport(id){
-    tb_show( '<?php _e("Newsletter report", "alo-easymail") ?>',"<?php echo $linkthick ?>&id="+id+"&TB_iframe=true&height=430&width=600",false);
+    tb_show( '<?php _e("Newsletter report", "alo-easymail") ?>',"<?php echo $linkthick ?>&id="+id+"&lang=<?php echo ALO_em_get_language ()?>&TB_iframe=true&height=430&width=600",false);
     return false;
 }
 </script>
@@ -447,7 +475,7 @@ if (count($news_on_queue)) { ?>
 			}
 		?></td>
 		<td><?php echo date("d/m/Y", strtotime($q->start_at))." h.".date("H:i", strtotime($q->start_at)) ?></td>
-		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( $q->subject ) : ""; ?></td>
+		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( ALO_em___( $q->subject ) ) : ""; ?></td>
 		<td><?php 
 			$q_recipients = unserialize( $q->recipients );
 			$q_tot = count($q_recipients);
@@ -506,7 +534,7 @@ if (count($news_done)) { ?>
 		} ?>
 		<td><?php echo date("d/m/Y", strtotime($q->start_at))." h.".date("H:i", strtotime($q->start_at)) ?></td>
 		<td><?php echo date("d/m/Y", strtotime($q->last_at))." h.".date("H:i", strtotime($q->last_at)) ?></td>
-		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( $q->subject ) : "" ?></td>
+		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( ALO_em___( $q->subject ) ) : "" ?></td>
 		<td>
 			<?php if ( ($q->user == $user_ID && $can_edit_own ) || $can_edit_all ) {
 				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=reports&amp;task=del_send&amp;id=".$q->ID."' title='".__("Delete", "alo-easymail")."' ";
@@ -573,6 +601,14 @@ function checkEmailList () {
     return false;
 }
 
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block') {
+      e.style.display = 'none';
+    } else {
+      e.style.display = 'block';
+     }
+}
 </script>
 
 <form name="post" action="" method="post" id="post" name="post" >
@@ -585,23 +621,49 @@ function checkEmailList () {
 <tr valign="top">
 <th scope="row"><?php _e("Choose the kind of recipients", "alo-easymail") ?>:</th>
 <td>
-<div style="float:left;margin-right:40px"><strong><?php _e("Main groups", "alo-easymail"); ?>:</strong><ul>
-	<li><input type="checkbox" name="all_subscribers" id="all_subscribers" value="checked" /><label for="all_subscribers"><?php echo __("All subscribers", "alo-easymail"). " (". count( ALO_em_get_recipients_subscribers() ) .")"; ?></label></li>
-	<li><input type="checkbox" name="all_regusers" id="all_regusers" value="checked" /><label for="all_regusers"><?php echo __("All registered users", "alo-easymail"). " (". count ( ALO_em_get_recipients_registered () ) .")"; ?></label></li>	
+
+<div style="float:left;margin-right:50px"><strong><?php _e("Main groups", "alo-easymail"); ?>:</strong><ul>
+	<?php $checked = ( isset($_POST['all_subscribers']) ) ? ' checked="checked" ' : ''; ?>
+	<li><input type="checkbox" name="all_subscribers" id="all_subscribers" value="checked" <?php echo $checked ?> /><label for="all_subscribers"><?php echo __("All subscribers", "alo-easymail"). " (". count( ALO_em_get_recipients_subscribers() ) .")"; ?></label></li>
+	<?php $checked = ( isset($_POST['all_regusers']) ) ? ' checked="checked" ' : ''; ?>
+	<li><input type="checkbox" name="all_regusers" id="all_regusers" value="checked" <?php echo $checked ?> /><label for="all_regusers"><?php echo __("All registered users", "alo-easymail"). " (". count ( ALO_em_get_recipients_registered () ) .")"; ?></label></li>	
 </ul></div>
+
 <?php // mailing lists
 $mailinglists = ALO_em_get_mailinglists( 'admin,public' );
 if ($mailinglists) { ?>
-	<div style="float:left;margin-right:40px"><strong><?php _e("Mailing Lists", "alo-easymail"); ?>:</strong><ul>
+	<div style="float:left;margin-right:50px"><strong><?php _e("Mailing Lists", "alo-easymail"); ?>:</strong><ul>
 	<?php	
 	foreach ( $mailinglists as $list => $val) { 
-		if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) continue; ?>
-		<li><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo $val['name'] . " (".  count ( ALO_em_get_recipients_subscribers( $list ) ).")"; ?></label></li>
+		if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) continue; 
+			$checked = ( isset($_POST['check_list']) && in_array($list, $_POST['check_list']) ) ? ' checked="checked" ' : '';
+			?>
+			<li><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" <?php echo $checked ?>/><label for="list_<?php echo $list ?>"><?php echo ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) . " (".  count ( ALO_em_get_recipients_subscribers( $list ) ).")"; ?></label></li>
 	<?php } ?>
 	</ul></div>
 <?php } // end if ?>
-<div style="float:left;margin-right:40px;width:300px">
-	<span class="description"><?php _e("Between brackets the number of recipients belonging to each group or list", "alo-easymail") ?>.<br />
+
+<?php // Language filter
+if ($languages) { ?>
+	<div style="float:left;margin-right:50px"><strong><?php _e("Filter subscribers according to languages", "alo-easymail"); ?>:</strong>
+	<?php echo ALO_em_help_tooltip( __("This filter works only for subscribers (all/lists), not for registered users", "alo-easymail") ) ?>
+	<ul>
+	<?php $checked = ( isset($_POST['check_lang_all']) || !isset($_POST['submit']) ) ? ' checked="checked" ' : ''; ?>
+	<?php	
+	foreach ( $languages as $index => $lang) {  
+			$checked = ( (isset($_POST['check_lang']) && in_array($lang, $_POST['check_lang'])) || !isset($_POST['submit']) ) ? ' checked="checked" ' : '';
+			$tot_sub_x_lang = ALO_em_count_subscribers_by_lang( $lang, true );
+			?>
+			<li><input type="checkbox" name="check_lang[]" id="check_lang_<?php echo $lang ?>" value="<?php echo $lang ?>" <?php echo $checked ?>/><label for="check_lang_<?php echo $lang ?>"> <?php echo esc_html ( ALO_em_get_lang_name ( $lang ) ) . " (". $tot_sub_x_lang .")"; ?></label></li>
+	<?php } ?>
+	<?php $checked = ( (isset($_POST['check_lang']) && in_array( "UNKNOWN", $_POST['check_lang'])) || !isset($_POST['submit']) ) ? ' checked="checked" ' : ''; ?>
+	<li><input type="checkbox" name="check_lang[]" id="check_lang_unknown" value="UNKNOWN" <?php echo $checked ?> /><label for="check_lang_unknown"> <?php _e("Not specified / others", "alo-easymail"); ?> (<?php echo ALO_em_count_subscribers_by_lang(false, true) ?>)</label> <?php echo ALO_em_help_tooltip( __("That includes subscribers who did not choose any language or specified a language no longer available", "alo-easymail").". ". __("These subscribers will receive the newsletter in the main language of the site", "alo-easymail") ) ?></li>	
+	</ul></div>
+<?php } // end if ?>
+
+
+<div style="float:left;margin-top:10px;margin-right:50px;width:600px">
+	<span class="description"><?php _e("Between brackets the number of recipients belonging to each group or list", "alo-easymail") ?>.
 	<?php _e("Do not worry about recipients belonging to more than one group or list: the plugin avoids sending twice to the same recipient", "alo-easymail") ?>.</span>
 </div>
 </td>
@@ -618,6 +680,7 @@ if ($mailinglists) { ?>
 <th scope="row"><label for="ck_save_list"><?php _e("Save the list of email addresses for next sending", "alo-easymail") ?></label></th>
 <td valign="middle"><input type="checkbox" name="ck_save_list" id="ck_save_list" value="checked" checked="checked" /></td>
 </tr>
+
 </tbody>
 </table>
 
@@ -652,7 +715,7 @@ if ($tot_posts) {
 }
 echo '</select>'; 
 ?>
-<br /><span class="description"><?php _e("If you choose a post you can use the post tags (see below) in the main content", "alo-easymail") ?></span>
+<br /><span class="description"><?php _e("If you choose a post you can use the post tags (see below) in the main content", "alo-easymail") ?>.</span>
 </td>
 </tr>
 
@@ -663,10 +726,15 @@ $subj = "";
 if ( !empty($from_template) ) {
 	$subj = htmlspecialchars ( stripslashes ( $from_template->subject ) );
 } else {
-	$subj = ( isset($_POST['input_subject'])? htmlspecialchars ( stripslashes ( $_POST['input_subject'] ) ) : "");
+	$subj = ( isset($_POST['title'])? htmlspecialchars ( stripslashes ( $_POST['title'] ) ) : "");
 }
 ?>
-<td><input type="text" size="70" name="input_subject" id="input_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
+<td>
+<div class="postbox" id="titlediv">
+<div class="inside">
+<input type="text" size="70" name="title" id="title" value="<?php echo $subj ?>" maxlength="150" />
+</div></div>
+</td>
 </tr>
 
 
@@ -683,7 +751,10 @@ if ( !empty($from_template) ) {
 the_editor ($main_content); ?>
 </div></div>
 
+<p><a href="#" onclick="toggle_visibility('tags-table'); return false" class="button"><?php _e("View tags", "alo-easymail") ?></a></p>
+<div id="tags-table" style="display: none;">
 <?php ALO_em_tags_table(); ?>
+</div>
 
 </td> <?php // close td ?>
 </tr>
@@ -751,7 +822,20 @@ if ( get_option ( 'ALO_em_template_user_'.$user_ID ) ) {
 		ALO_em_add_new_template ( $user_ID, __('Template example (edit me)', 'alo-easymail') , get_option ( 'ALO_em_template' ) );
 	}
 }
+?>
 
+<script type="text/javascript">
+	function toggle_visibility(id) {
+		var e = document.getElementById(id);
+		if(e.style.display == 'block') {
+		  e.style.display = 'none';
+		} else {
+		  e.style.display = 'block';
+		 }
+	}
+</script>
+
+<?php
 
 /**
  * Search for user's TEMPLATES
@@ -776,7 +860,7 @@ if (count($templates)) { ?>
 		echo "<tr id='news-done-{$t->ID}' class='$class'>\n"; ?>
 		<td><?php echo date("d/m/Y", strtotime($t->last_at))." h.".date("H:i", strtotime($t->last_at)) ?></td>
 		<td><?php echo date("d/m/Y", strtotime($t->start_at))." h.".date("H:i", strtotime($t->start_at)) ?></td>		
-		<td style="width:40%"><?php echo ($t->user == $user_ID )? stripslashes ( $t->subject ) : "" ?></td>
+		<td style="width:40%"><?php echo ($t->user == $user_ID )? stripslashes ( ALO_em___( $t->subject ) ) /*stripslashes ( $t->subject )*/ : "" ?></td>
 		<td>
 			<?php if ( $t->user == $user_ID && $can_edit_own ) {
 				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=templates&amp;task=del_tpl&amp;id=".$t->ID."' title='".__("Delete", "alo-easymail")."' ";
@@ -818,11 +902,17 @@ if ( !empty($from_template) ) {
 $subj = "";
 if ( !empty($from_template) ) {
 	$subj = htmlspecialchars ( stripslashes ( $from_template->subject ) );
-} else if ( isset($_POST['tpl_subject'])) {
-	$subj = htmlspecialchars ( stripslashes ( $_POST['tpl_subject'] ) );
+} else if ( isset($_POST['title'])) {
+	$subj = htmlspecialchars ( stripslashes ( $_POST['title'] ) );
 }
 ?>
-<td><input type="text" size="70" name="tpl_subject" id="tpl_subject" value="<?php echo $subj ?>" maxlength="150" /></td>
+<td>
+<div class="postbox" id="titlediv">
+<div class="inside">
+<input type="text" size="70" name="title" id="title" value="<?php echo $subj ?>" maxlength="150" />
+</div></div>
+
+</td>
 </tr>
 
 
@@ -841,7 +931,10 @@ if ( !empty($from_template) ) {
 the_editor ($main_content); ?>
 </div></div>
 
+<p><a href="#" onclick="toggle_visibility('tags-table'); return false" class="button"><?php _e("View tags", "alo-easymail") ?></a></p>
+<div id="tags-table" style="display: none;">
 <?php ALO_em_tags_table(); ?>
+</div>
 
 <tr valign="top">
 <th scope="row"> 

@@ -17,7 +17,8 @@ if (ALO_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
 	// if there is action show error msg
 	if(isset($_REQUEST['ac'])) echo "<p>".__("Error during operation.", "alo-easymail") ."</p>";
 	
-	echo "<p>". __("Receive Newsletters?", "alo-easymail") ."</p>";
+	$optin_txt = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) !="") ? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) : __("Yes, I would like to receive the Newsletter", "alo-easymail"); 
+	echo "<p>". $optin_txt .".</p>";
     echo "<div id='alo_easymail_page'>";
 	echo ALO_em_show_widget_form();
 	echo "</div>";
