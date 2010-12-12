@@ -26,7 +26,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter
-* **multilanguage**: setup all texts and options, you can write multilanguage newsletters - full integration with [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
+* **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
 
 **Pubblic side Features**
 
@@ -34,7 +34,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **subscription using an ajax widget and/or a page**: after sending their data using the widget, they will receive an email with an activation link
 * **handy for registered users**: they have the optin/optout (including mailing lists choice) in their profile page and in an ajax widget
 * **easy subscription management for all subscribers**: to modify their subscription to mailing lists or to unsubscribe they can use a page reachable by a link at the bottom of each newsletter
-* **multilanguage**: subscriber language detection, each subscriber receive all newsletters and communications according to her/his language
+* **multilanguage**: subscriber language detection, each subscriber receive all newsletters and communications in her/his language
 
 
 **Internationalization**
