@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the ALO EasyMail Newsletter package.
 #
 # Authors:
-#  Alex <groucho75@email.it 
+#  Alex <groucho75@email.it
 #  Dominique Corbex <domcox[at]users.sourceforge.net>
 #
 msgid ""
@@ -11,13 +11,12 @@ msgstr ""
 "Project-Id-Version: alo-easymail\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-12 00:28+0100\n"
-"PO-Revision-Date: 2010-12-11 17:22+0100\n"
-"Last-Translator:  Dominique Corbex <domcox[at]users.sourceforge.net>\n"
+"PO-Revision-Date: 2010-12-14 22:28+0100\n"
+"Last-Translator: Alex <groucho75@email.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"\n"
 
 #: .././alo-easymail.php:251
 #: .././alo-easymail.php:278
@@ -145,7 +144,7 @@ msgstr "Courriel "
 #: .././alo-easymail-widget.php:87
 #: .././alo-easymail_functions.php:506
 msgid "Subscribe"
-msgstr "S&#8217;abonner au bulletin"
+msgstr "S&#39;abonner au bulletin"
 
 #: .././alo-easymail-widget.php:101
 msgid "Allow users to opt in/out of email"
