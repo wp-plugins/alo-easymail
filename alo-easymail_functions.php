@@ -784,17 +784,27 @@ function ALO_em_batch_sending () {
  * return object with info as in table column
  */
 function ALO_em_get_recipients_registered () {
-	global $wpdb;
-	// return $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email" );
+	global $wpdb, $blog_id;
+	if ( function_exists('is_multisite') ) { // compatibility with WP pre-3.x
+      	$is_multisite = is_multisite();
+   	} else {
+   		$is_multisite = false;
+   	}
+	$where_ms_blog = ( $is_multisite ) ? " JOIN {$wpdb->usermeta} AS um ON um.user_id = u.ID WHERE um.meta_key = 'primary_blog' AND um.meta_value = '$blog_id'" : "";
+	return $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email ".$where_ms_blog );
 	// to allow a right importation in multisite (thanks to RavanH !)
+	/*
 	$wp_user_search = new WP_User_Search();
-	foreach ( $wp_user_search->get_results() as $reg_user ) {
+	$wp_user_search->users_per_page = 3000;//PHP_INT_MAX;
+	$reg_users = $wp_user_search->get_results();
+	foreach ( $reg_users as $reg_user ) {
 		//$reg_users[] = (object) array_merge( array('UID' => $reg_user), (array) get_userdata($reg_user) );
 		$user = get_userdata($reg_user);
 		$lang = $wpdb->get_var( "SELECT lang FROM {$wpdb->prefix}easymail_subscribers WHERE email='{$user->user_email}'" );
 		$reg_users[] = (object) array( 'UID' => $reg_user, 'user_email' => $user->user_email, 'lang' => $lang );
 	}
 	return $reg_users;
+	*/
 }
 
 
