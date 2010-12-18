@@ -44,7 +44,7 @@ Available languages:
 * Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
 * English v.1.8.4 (by Francesca Bovone)
-* Farsi v.1.8 - fa_IR (by Ka1 Bashiri)
+* Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8 - hu_HU (by Daniel Bozo)
