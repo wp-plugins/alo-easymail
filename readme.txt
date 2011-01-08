@@ -3,7 +3,7 @@ Contributors: eventualo
 Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 2.8.4
-Tested up to: 3.0.3
+Tested up to: 3.1
 Stable tag: 1.8.4
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
