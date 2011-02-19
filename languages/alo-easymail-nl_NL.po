@@ -790,7 +790,7 @@ msgstr "Aanmeld pagina"
 #: .././alo-easymail_options.php:427
 #: .././alo-easymail_functions.php:715
 msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
-msgstr "U ontvant dit bericht omdat u zich hebt aangemeld voor onze nieuwsbrief. Als u zich wilt afmelden:"
+msgstr "U ontvangt dit bericht omdat u zich hebt aangemeld voor onze nieuwsbrief. Als u zich wilt afmelden:"
 
 #: .././alo-easymail_options.php:428
 #: .././alo-easymail_functions.php:716
