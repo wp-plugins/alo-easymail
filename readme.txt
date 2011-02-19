@@ -41,7 +41,6 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 
 Available languages:
 
-* Brazilian Portuguese v.1.7 - pt_BR (by Douglas Venâncio Crispim)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
 * English v.1.8.4 (by Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
@@ -50,6 +49,7 @@ Available languages:
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
 * Italian v.1.8.4 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
+* Portuguese v.1.8.4 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
 * Spanish v.1.8.3 - es_ES (by Mauro Macchiaroli)
 
