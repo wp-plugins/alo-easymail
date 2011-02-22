@@ -96,6 +96,41 @@ function ALO_em_html2plain ( $text ) {
 }
 
 
+/**
+ * Show credit and banners
+ *@param	bol		only donate (false) or all banners (true)
+ */
+function ALO_em_show_credit_banners ( $all=false ) { 
+	if ( get_option('ALO_em_show_credit_banners') == "no" ) return; ?>
+	<style type="text/css">
+		.alo-banner { border:1px solid #ccc; background-color: #efefef; width:300px; height: 130px; padding: 6px; margin-right: 15px; float: left }
+		.alo-banner p { font-size: 0.9em; margin: 0.5em 0 }
+	</style>
+	<ul style="width:100%; margin-top:20px">
+		<li class="alo-banner">
+			<p><em><?php _e("Please visit the plugin site for more info and feedback", "alo-easymail") ?>.
+			<?php if ( function_exists('add_contextual_help') ) : ?>
+			<?php _e("For more links you can use the Help button", "alo-easymail") ?>.
+			<?php endif; ?>
+			<br /><a href='http://www.eventualo.net/blog/wp-alo-easymail-newsletter/' target='_blank'>www.eventualo.net</a>
+			</em></p>
+			
+			<p><em><?php _e("If you use this plugin consider the idea of donating and supporting its development", "alo-easymail") ?>:</em></p><form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
+			<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
+			<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image'>
+			<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>
+		</li>
+		<?php if ( $all ) : ?>
+		<li class="alo-banner">
+			<a href="https://www.e-junkie.com/ecom/gb.php?cl=136641&c=ib&aff=152531" title="Original WP Themes by ThemeFuse"> <img border="0" src="http://themefuse.com/banners/125x125.jpg" alt="Original WP by ThemeFuse" width="125" height="125" style="float:right;margin-left:10px" /></a>		
+			<p><em>If you are interested in buying an original wp theme I would recommend <a href="https://www.e-junkie.com/ecom/gb.php?cl=136641&c=ib&aff=152531" title="Original WP Themes by ThemeFuse">ThemeFuse</a>.</em></p>
+		</li>		
+		<?php endif; ?>
+	</ul>
+<?php
+}
+
+
 
 /*************************************************************************
  * SUBSCRIPTION FUNCTIONS
@@ -196,7 +231,8 @@ function ALO_em_add_subscriber($email, $name, $newstate=0, $lang="" ) {
            
         // try to send activation mail, otherwise will not add subscriber
         if ($newstate == 0) {
-            if ( !ALO_em_send_activation_email($email, $name, $unikey, $lang) ) $output = false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
+        	$lang_actmail = ( !empty( $lang ) ) ? $lang : ALO_em_short_langcode ( get_locale() );
+            if ( !ALO_em_send_activation_email($email, $name, $unikey, $lang_actmail) ) $output = false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
         }
         
         if ( $output ) {	
@@ -376,7 +412,7 @@ function alo_em_user_form ( opt )
   mysack.setVar( "alo_easymail_option", opt );
   <?php 
   $txt_ok 		= esc_attr( ALO_em___(__("Successfully updated", "alo-easymail")) );	
-  $lang_code 	= ALO_em_get_language();
+  $lang_code 	= ALO_em_get_language( true );
   ?>
   mysack.setVar( "alo_easymail_txt_success", '<?php echo $txt_ok ?>' );
   mysack.setVar( "alo_easymail_lang_code", '<?php echo $lang_code ?>' );
@@ -408,7 +444,7 @@ function alo_em_pubblic_form ()
   $txt_ok					= esc_attr( ALO_em___(__("Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.", "alo-easymail")) ); 
   $txt_subscribe			= esc_attr( ALO_em___(__("Subscribe", "alo-easymail")) );
   $txt_sending				= esc_attr( ALO_em___(__("sending...", "alo-easymail")) );
-  $lang_code				= ALO_em_get_language();
+  $lang_code				= ALO_em_get_language( true );
   ?>
   document.alo_easymail_widget_form.submit.value="<?php echo $txt_sending ?>";
   document.alo_easymail_widget_form.submit.disabled = true;
@@ -785,6 +821,17 @@ function ALO_em_batch_sending () {
  */
 function ALO_em_get_recipients_registered () {
 	global $wpdb, $blog_id;
+    // Get all users that are members in this blog
+    $get_users = $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email " );
+	if ( function_exists('is_multisite') ) { // compatibility with WP pre-3.x
+		for ( $i = 0; $i < count ($get_users); $i ++ ) {
+			if ( is_multisite() && !is_user_member_of_blog( $get_users[$i]->UID, $blog_id ) ) unset ($get_users[$i]);
+		} 
+    }       
+    //echo "<pre>";print_r($get_users); echo "</pre>";
+    return $get_users;
+    
+   	/*
 	if ( function_exists('is_multisite') ) { // compatibility with WP pre-3.x
       	$is_multisite = is_multisite();
    	} else {
@@ -792,6 +839,8 @@ function ALO_em_get_recipients_registered () {
    	}
 	$where_ms_blog = ( $is_multisite ) ? " JOIN {$wpdb->usermeta} AS um ON um.user_id = u.ID WHERE um.meta_key = 'primary_blog' AND um.meta_value = '$blog_id'" : "";
 	return $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email ".$where_ms_blog );
+	*/
+	
 	// to allow a right importation in multisite (thanks to RavanH !)
 	/*
 	$wp_user_search = new WP_User_Search();
@@ -1198,9 +1247,11 @@ function ALO_em_translate_url ( $url, $lang ) {
 
 
 /**
- * Return the current language
+ * Return the current language 
+ *
+ * param	bol		try lang detection form browser (eg. useful for subscription if multilang plugin not installed)
  */
-function ALO_em_get_language () {
+function ALO_em_get_language ( $detect_from_browser=false ) {
 	// 1st choice: using qTranslate
 	if( ALO_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getLanguage') ) {
 		return strtolower( qtrans_getLanguage() );
@@ -1208,14 +1259,18 @@ function ALO_em_get_language () {
 	
 	// TODO other choices...
 	
-	// default: get from browser, only if the lang .mo is available on blog
-	$lang = ALO_em_short_langcode ( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-	if ( !empty($lang) && in_array($lang, ALO_em_get_all_languages(false)) ) {
-		return $lang;
+	// get from browser only if requested and the lang .mo is available on blog
+	if ( $detect_from_browser ) {
+		$lang = ALO_em_short_langcode ( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		if ( !empty($lang) && in_array($lang, ALO_em_get_all_languages(false)) ) {
+			return $lang;
+		} else {
+			return "";
+		}
+	} else {	
+		// otherwise return default blog language
+		return ALO_em_short_langcode ( get_locale() );
 	}
-	
-	// last case... return empty
-	return "";
 }
 
 /**
@@ -1273,22 +1328,35 @@ function ALO_em_get_lang_flag ( $lang_code, $fallback=false ) {
 function ALO_em_get_all_languages ( $fallback_by_users=false ) {
 	global $wp_version;
 	
-	// 1st choice: using qTranslate
+	// Case: using qTranslate
 	if( ALO_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getSortedLanguages') ) {
 		return qtrans_getSortedLanguages();
 	}
-		
-	// 2nd choise: wp default detection
-	$languages = array();
-	foreach( (array)glob( WP_LANG_DIR  . '/*.mo' ) as $lang_file ) {
-		$lang_file = basename($lang_file, '.mo');
-		if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) )
-			$languages[] = ALO_em_short_langcode( $lang_file );
+	
+	// TODO other plugins
+	
+	// Case: search for setting
+	if ( get_option( 'ALO_em_langs_list' ) != "" ) {
+		$languages = explode ( ",", get_option( 'ALO_em_langs_list' ) );
+	} else {
+		// Case: wp default detection
+		$languages = array();
+		// WP_CONTENT_DIR. '/languages/' instead of WP_LANG_DIR: if qtranslate previously installed and then de-activated, the WP_LANG_DIR will remain 'wp-includes/languages/'
+		foreach( (array)glob( /*WP_LANG_DIR*/  WP_CONTENT_DIR. '/languages/*.mo' ) as $lang_file ) {
+			$lang_file = basename($lang_file, '.mo');
+			if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) )
+				$languages[] = ALO_em_short_langcode( $lang_file );
+		}
 	}
-	if ( !empty ($languages[0]) ) return $languages;
+	// If languages, add locale lang (if not yet) and return
+	if ( !empty ($languages[0]) ) {
+		$default = ALO_em_short_langcode ( get_locale() );
+		if ( !in_array( $default, $languages ) ) $languages[] = $default;
+		return $languages;
+	}
 	
 	
-	// last case: return all langs chosen by users or default
+	// Last case: return all langs chosen by users or default
 	if ( $fallback_by_users ) {
 		return ALO_em_get_all_languages_by_users();
 	} else {

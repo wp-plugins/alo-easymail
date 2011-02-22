@@ -269,12 +269,31 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	
 			 	<h3 style="margin-top:20px"><?php _e("Import from uploaded CSV file", "alo-easymail") ?></h3>
 			 	<p><?php _e("You can import new subscribers from a CSV file.", "alo-easymail") ?></p>
-			 	<p><?php _e("For each line you have to specify: e-mail address (mandatory), name (optional). Use semicolon (;) to separate the fields. See sample.", "alo-easymail") ?></p>
-			 	<code>email_address1@domain.ltd;name1 surname1</code><br /><code>email_address2@domain.ltd;name2 surname2</code><br />
-			 	<code>email_address3@domain.ltd;name3</code><br /><code>email_address4@domain.ltd</code>
+			 	<p><?php _e("For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields.", "alo-easymail");	
+			 	echo "<br />". __('You can list only languages available in the blog', 'alo-easymail') .": ". __('you can set them up in Settings &gt; Newsletter', 'alo-easymail').  ". (". __('Language codes', 'alo-easymail') .": ". sprintf( '<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">%s</a>', __('iso 639-1 codes', 'alo-easymail') ). ") " ?></p>
+			 	
+			 	<code>email_address1@domain.ltd;name1 surname1;en</code><br />
+			 	<code>email_address2@domain.ltd;name2 surname2;it</code><br />
+			 	<code>email_address3@domain.ltd;name3</code><br />
+			 	<code>email_address4@domain.ltd;;en</code>
 			 	<p><?php _e("Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)", "alo-easymail") ?>.</p>
 			 	<form enctype="multipart/form-data" action="" method="POST">
 			 		<p><input type="checkbox" name="test_only" id="test_only" value="yes" /><label for="test_only"><?php _e('Test mode (no importation, show records on screen)', 'alo-easymail') ?></label></p>
+			 		
+			 		<?php
+			 		if ( $mailinglists) {
+			 			echo "<p>".__("Add to selected lists", "alo-easymail"). ":</p>";
+			 			echo "<ul style='font-size:80%;margin-bottom:10px'>";
+				 		foreach ( $mailinglists as $list => $val) { 
+							if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) {
+								//continue; 
+							} ?>
+							<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) ?></label></li>
+						<?php 
+						} // end foreach 
+					echo "</ul>";
+					} ?>
+			 		
 					<input name="uploaded_csv" type="file" class="button" />
 					<input  type="hidden" name="action"  value="import_step2" /> <?php // the action ?>
 					<input type="submit" value="<?php _e('Upload CSV file', 'alo-easymail') ?>" class="button" name="doaction_step2" />
@@ -375,7 +394,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						$html = "";
 						$html .= '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
 						$html .= '<table class="widefat">';
-						$html .= '<thead><tr valign="top"><th scope="col"> </th><th scope="col">'.__("E-mail", "alo-easymail").'</th><th scope="col">'.__("Name", "alo-easymail").'</th><th scope="col">'.__("Error", "alo-easymail").'</th></thead>';
+						$html .= '<thead><tr valign="top"><th scope="col"> </th><th scope="col">'.__("E-mail", "alo-easymail").'</th><th scope="col">'.__("Name", "alo-easymail").'</th><th scope="col">'.__("Language", "alo-easymail").'</th><th scope="col">'.__("Error", "alo-easymail").'</th></thead>';
 						$html .= '<tbody>';
 					}
 					while ( ($data = fgetcsv($handle, 1000, ";")) !== FALSE ) {
@@ -384,6 +403,11 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						$email	= stripslashes ( $wpdb->escape ( trim( $data[0] ) ) );
 						$email 	= ( is_email( $email )) ? $email : false;
 						$name 	= ( isset($data[1]) ) ? stripslashes ( $wpdb->escape ( trim($data[1]) ) ) : "";
+						$lang 	= ( isset($data[2]) ) ? stripslashes ( $wpdb->escape ( trim($data[2]) ) ) : "";
+						if ( !empty( $lang ) ) {
+							$lang = ALO_em_short_langcode ( $lang );
+							if ( !in_array ( $lang, ALO_em_get_all_languages( false )) ) $lang = "";
+						}
 						// error
 						if ( $email == false ) { // error: email incorrect
 							 $not_imported[$data[0]] = __("The e-email address is not correct", "alo-easymail") ; 
@@ -394,10 +418,16 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 							//if ( $row > 10 ) continue; // print only the 1st 10
 							$span_email = ( isset($not_imported[$data[0]])) ? "<span style='color:#f00'>".$data[0]."</span>" : $data[0] ;							
 							$html .= "<tr><td>$row: </td>";
-							$html .= "<td>". $span_email ."</td><td>".$name."</td>";
+							$html .= "<td>". $span_email ."</td><td>".$name."</td><td>".ALO_em_get_lang_flag($lang, 'name')."</td>";
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
-							if ( $email && ALO_em_add_subscriber( $email , $name , 1, "" ) == "OK" ) {
+							if ( $email && ALO_em_add_subscriber( $email , $name , 1, $lang ) == "OK" ) {
+								if ( isset($_REQUEST['check_list']) ) {
+									$subscriber_id = ALO_em_is_subscriber( $email );
+									foreach ( $_REQUEST['check_list'] as $list ) {
+										ALO_em_add_subscriber_to_list ( $subscriber_id, $list );
+									}
+								}
 								$success ++;
 							}
 						}
@@ -819,7 +849,7 @@ if ( $page_links ) echo "<div class='tablenav-pages'>$page_links</div>";
 </div>
 <?php } ?>
 
-<p><?php echo ALO_EM_FOOTER; ?></p>
+<p><?php ALO_em_show_credit_banners( false ); ?></p>
 
 <?php 
 // DEBUG ------------------------------------------

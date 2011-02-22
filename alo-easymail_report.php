@@ -30,7 +30,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 		<style type="text/css">
 			#tabs-1 {padding:1px 12px;border-bottom:1px dotted #aaa}
 			dl {font-size:80%}
-			dd {font-weight:bold;margin-bottm:5px}
+			dd {margin-bottm:5px}
 	
 			#tabs-2 {padding:10px 12px;}
 			.tot {font-weight:bold;}
@@ -65,7 +65,18 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			<div id="tabs-1">
 				<dl>
 					<dt><?php _e("Subject", "alo-easymail");  ?>:</dt>
-					<dd><?php echo stripslashes ( ALO_em_translate_text ( $lang, $newsletter->subject ) ) ?></dd>
+					<dd><?php 
+					$subject = $newsletter->subject;
+					if ( $newsletter->tag ) {
+						$obj_post = get_post( $newsletter->tag );
+						$post_title = stripslashes ( ALO_em___ ( $obj_post->post_title ) );
+						$subject = str_replace('[POST-TITLE]', $post_title, $subject);
+						echo "<strong>". stripslashes ( ALO_em_translate_text ( $lang, $subject ) ) . "</strong>";
+						echo "<br /><em>". stripslashes ( ALO_em_translate_text ( $lang, $newsletter->subject ) ) ."</em>";
+					} else {
+						echo "<strong>". stripslashes ( ALO_em_translate_text ( $lang, $subject ) ) . "</strong>";
+					}
+					?></dd>
 				</dl>
 				<?php if ($newsletter->user != $user_ID) {
 					echo "<dl><dt>".__("Scheduled by", "alo-easymail").":</dt>";

@@ -4,10 +4,22 @@ if ( !current_user_can('manage_easymail_options') ) 	wp_die(__('Cheatin&#8217; u
 	
 global $wp_version, $wpdb, $user_ID, $wp_roles;
 
+// If updating languages list
+if ( isset($_POST['langs_list']) && current_user_can('manage_options') ) {
+	$new_langs = explode ( ",", stripslashes( trim($_POST['langs_list'])) );
+	for ( $i=0; $i < count($new_langs); $i++ ) {
+		if ( strlen( trim($new_langs[$i]) ) < 2 ) unset( $new_langs[$i] );
+		$new_langs[$i] = ALO_em_short_langcode ( trim($new_langs[$i]) );
+	}
+	$str_langs = implode ( ',', $new_langs );
+	$str_langs = rtrim ( $str_langs, "," );
+	update_option('ALO_em_langs_list', $str_langs );
+}
+
 // All available languages
 $languages = ALO_em_get_all_languages( false );
 // Text fields for multilangual customization
-$text_fields = array ( "optin_msg", "optout_msg", "lists_msg" );
+$text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "disclaimer_msg" );
 
 
 if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
@@ -17,6 +29,7 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 	$optin_msg	= array();
 	$optout_msg	= array();	
 	$lists_msg	= array();
+	$disclaimer_msg	= array();
 	$unsub_footer = array();
 	foreach ( $languages as $key => $lang ) {
 		if (isset($_POST['activamail_subj_'.$lang]) && trim( $_POST['activamail_subj_'.$lang] ) != "" ) $activamail_subj[$lang] = stripslashes(trim($_POST['activamail_subj_'.$lang]));
@@ -24,6 +37,7 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 		if (isset($_POST['optin_msg_'.$lang]) )		$optin_msg[$lang] = stripslashes(trim($_POST['optin_msg_'.$lang]));
 		if (isset($_POST['optout_msg_'.$lang]) )	$optout_msg[$lang] = stripslashes(trim($_POST['optout_msg_'.$lang]));
 		if (isset($_POST['lists_msg_'.$lang]) )		$lists_msg[$lang] = stripslashes(trim($_POST['lists_msg_'.$lang]));
+		if (isset($_POST['disclaimer_msg_'.$lang]) ) $disclaimer_msg[$lang] = stripslashes(trim($_POST['disclaimer_msg_'.$lang]));
 		if (isset($_POST['unsub_footer_'.$lang]) )	$unsub_footer[$lang] = stripslashes(trim($_POST['unsub_footer_'.$lang]));
 		
 	}
@@ -32,6 +46,7 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 	if ( count ($optin_msg) ) 		update_option('ALO_em_custom_optin_msg', $optin_msg );
 	if ( count ($optout_msg) ) 		update_option('ALO_em_custom_optout_msg', $optout_msg );
 	if ( count ($lists_msg) ) 		update_option('ALO_em_custom_lists_msg', $lists_msg );		
+	if ( count ($disclaimer_msg) ) 		update_option('ALO_em_custom_disclaimer_msg', $disclaimer_msg );		
 	if ( count ($unsub_footer) ) 	update_option('ALO_em_custom_unsub_footer', $unsub_footer );
 	
 	// --------
@@ -60,6 +75,11 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 		} else {
 			update_option('ALO_em_embed_css', "no") ;
 		}
+		if ( isset($_POST['credit_banners']) ) {
+			update_option('ALO_em_show_credit_banners', "yes");
+		} else {
+			update_option('ALO_em_show_credit_banners', "no") ;
+		}		
 
 		if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
 			update_option('ALO_em_delete_on_uninstall', "yes");
@@ -244,6 +264,17 @@ if ( get_option('ALO_em_embed_css') == "yes" ) {
 <td><input type="checkbox" name="embed_css" id="embed_css" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, the plugin loads the CSS styles from a file in its directory", "alo-easymail") ?>. <?php _e("Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin", "alo-easymail") ?>.</span></td>
 </tr>
 
+<?php 
+if ( get_option('ALO_em_show_credit_banners') == "yes" ) {
+	$checked_credit_banners = 'checked="checked"';
+} else {
+	$checked_credit_banners = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Show credit banners in back-end", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="credit_banners" id="credit_banners" value="yes" <?php echo $checked_credit_banners ?> /> <span class="description"><?php _e("You are free to hide the credits, but in that case it's a common practice to make a small donatation via Paypal to the plugin author", "alo-easymail") ?>.</span></td>
+</tr>
 
 <?php 
 if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
@@ -302,7 +333,15 @@ if ( ALO_em_multilang_enabled_plugin() == false ) {
 		echo '<p>'. __('Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality', 'alo-easymail') .': ';
 		echo '<a href="http://wordpress.org/extend/plugins/qtranslate/" target="_blank">qTranslate</a>';
 		echo '.</p>';
+		echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .".</p>";
+		echo '<p>'. __('If you like here you can list the languages available', 'alo-easymail') .':<br />';
+		$langs_list = ( get_option( 'ALO_em_langs_list' ) != "" ) ? get_option( 'ALO_em_langs_list' ) : "";
+		echo '<input type="text" name="langs_list" value="' . $langs_list .'"  />';
+		echo '<input type="submit" name="submit" value="'. __('Update', 'alo-easymail') .'" class="button" /> ';
+		echo '<span class="description">'. __('List of two-letter language codes separated by commas', 'alo-easymail'). ' ('. sprintf( '<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">%s</a>', __('iso 639-1 codes', 'alo-easymail') ) . '). '. __('Sample:', 'alo-easymail') .' en,de,it</span>';
+		echo '</p>';
 		echo '<p>'. __('If you are not using a multilanguage site ignore this piece of information', 'alo-easymail') .'.</p>';
+		
 		echo '</div>';
 	echo '</td></tr>';
 }
@@ -320,6 +359,7 @@ foreach ( $text_fields as $text_field ) : ?>
 		case "optin_msg": 	_e("Optin message", "alo-easymail"); break;
 		case "optout_msg": 	_e("Optout message", "alo-easymail"); break;
 		case "lists_msg": 	_e("Invite to join mailing lists", "alo-easymail"); break;				
+		case "disclaimer_msg": 	_e("Policy claim", "alo-easymail"); break;	
 	}
 	?>:
 	</th>
@@ -328,7 +368,11 @@ foreach ( $text_fields as $text_field ) : ?>
 	switch ($text_field) {
 		case "optin_msg": 	_e("Yes, I would like to receive the Newsletter", "alo-easymail"); break;
 		case "optout_msg": 	_e("No, please do not email me", "alo-easymail"); break;
-		case "lists_msg": 	_e("You can also sign up for specific lists", "alo-easymail"); break;				
+		case "lists_msg": 	_e("You can also sign up for specific lists", "alo-easymail"); break;
+		case "disclaimer_msg": 
+			echo "(". __("empty", "alo-easymail"). ") ";
+			echo '<br /><span class="description">'. __("If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy", "alo-easymail"). '.</span>';  
+			break;					
 	}
 	?>
 	<div id="<?php echo $text_field ?>_container">
@@ -375,7 +419,7 @@ if ( ALO_em_multilang_enabled_plugin() == false ) {
 	echo '<tr valign="top">';
 	echo '<td colspan="2">';
 		echo '<div class="text-alert">';
-		echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .". ". __("The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly", 'alo-easymail') . '.</p>';
+		echo '<p>'. __("The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly", 'alo-easymail') . '.</p>';
 		echo '</div>';
 	echo '</td></tr>';
 }
@@ -875,6 +919,6 @@ if ($tab_mailinglists) {
 
 </div> <!-- end Mailing Lists -->
 
-<p><?php echo ALO_EM_FOOTER; ?></p>
+<p><?php ALO_em_show_credit_banners( true ); ?></p>
 
 </div><!-- end wrap -->

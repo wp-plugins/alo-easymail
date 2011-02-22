@@ -22,7 +22,7 @@ $alo_em_textpre['ALO_em_txtpre_activationmail_subj']['hu'] = "Megerősítés a %
 $alo_em_textpre['ALO_em_txtpre_activationmail_subj']['it'] = "Conferma la sua iscrizione alla Newsletter su %BLOGNAME%";
 $alo_em_textpre['ALO_em_txtpre_activationmail_subj']['nl'] = "Bevestig uw aanmelding voor de %BLOGNAME% Nieuwsbrief";
 $alo_em_textpre['ALO_em_txtpre_activationmail_subj']['pl'] = "Prosimy o potwierdzenia chęci zapisania się do %BLOGNAME% Newslettera";
-$alo_em_textpre['ALO_em_txtpre_activationmail_subj']['pt'] = "Confirme a sua assinatura para %BLOGNAME% Newsletter";
+$alo_em_textpre['ALO_em_txtpre_activationmail_subj']['pt'] = "Confirme a sua assinatura na newsletter de %BLOGNAME%";
 $alo_em_textpre['ALO_em_txtpre_activationmail_subj']['ro'] = "Confirmă abonamentul la newsletter %BLOGNAME%";
 
 
@@ -112,12 +112,12 @@ Dziękujemy
 %BLOGNAME%";
 
 $alo_em_textpre['ALO_em_txtpre_activationmail_mail']['pt'] = "Olá %NAME%,
-para completar a sua assinatura para %BLOGNAME% newsletter você precisa clicar no link abaixo (ou cole na barra de endereços do seu navegador):
+para completar a assinatura na newsletter de %BLOGNAME% clique na seguinte ligação (ou copie-a para a barra de endereço do seu navegador):
 
 %ACTIVATIONLINK%
 
-Se você não pediu esta assinatura, favor ignorar esta mensagem.
-Muito Obrigado
+Se não pediu esta assinatura ignore esta mensagem.
+Obrigado
 %BLOGNAME%";
 
 $alo_em_textpre['ALO_em_txtpre_activationmail_mail']['ro'] = "Salut %NAME%,
