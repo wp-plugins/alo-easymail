@@ -1364,7 +1364,7 @@ msgstr "Puoi inserire solo lingue disponibili nel blog"
 
 #: .././alo-easymail_subscribers.php:273
 msgid "you can set them up in Settings &gt; Newsletter"
-msgstr "tu puoi definirle in Impostazioni &gt; Newsletter"
+msgstr "le puoi definire in Impostazioni &gt; Newsletter"
 
 # @ alo-easymail
 #: .././alo-easymail_subscribers.php:273
