@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 1.8.4
+Version: 1.8.5
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -29,15 +29,11 @@ Author URI: http://www.eventualo.net
 /**
  * Settings
  */
-define("ALO_EM_FOOTER","<p style='margin-top:25px'>&raquo; <em>Please visit plugin site for more info and feedback: <a href='http://www.eventualo.net/blog/wp-alo-easymail-newsletter/' target='_blank'>www.eventualo.net</a></em></p>
-	<p>&raquo; <em>If you use this plugin consider the idea of donating and supporting its development:</em></p><form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
-	<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
-	<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal' border='0' type='image'>
-	<img alt='' src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>");
 define("ALO_EM_INTERVAL_MIN", 10); 	// cron interval in minutes (default: 10) (NOTE: to apply the change you need to reactivate the plugin)
 
 define("ALO_EM_PLUGIN_DIR", basename(dirname(__FILE__)) );
 define("ALO_EM_PLUGIN_URL", WP_PLUGIN_URL ."/" . ALO_EM_PLUGIN_DIR );
+define("ALO_EM_PLUGIN_ABS", WP_PLUGIN_DIR . "/". ALO_EM_PLUGIN_DIR );
 
 
 /**
@@ -75,6 +71,7 @@ function ALO_em_install() {
 	if (!get_option('ALO_em_delete_on_uninstall')) add_option('ALO_em_delete_on_uninstall', 'no');
 	if (!get_option('ALO_em_show_subscripage')) add_option('ALO_em_show_subscripage', 'no');
 	if (!get_option('ALO_em_embed_css')) add_option('ALO_em_embed_css', 'no');
+	if (!get_option('ALO_em_show_credit_banners')) add_option('ALO_em_show_credit_banners', 'yes');
 	
 	ALO_em_setup_predomain_texts( false );
 		    	    
@@ -260,7 +257,7 @@ register_deactivation_hook( __FILE__, 'ALO_em_uninstall' );
  * Add menu pages 
  */
 function ALO_em_add_admin_menu() {
-    add_options_page( __("Newsletter", "alo-easymail") , __("Newsletter", "alo-easymail"), 'manage_easymail_options', 'alo-easymail/alo-easymail_options.php');
+	add_options_page( __("Newsletter", "alo-easymail") , __("Newsletter", "alo-easymail"), 'manage_easymail_options', 'alo-easymail/alo-easymail_options.php');
 	add_management_page ( __("Send newsletter", "alo-easymail"), __("Send newsletter", "alo-easymail"), 'send_easymail_newsletters', 'alo-easymail/alo-easymail_main.php');
 	add_submenu_page('users.php', __("Newsletter subscribers", "alo-easymail"), __("Newsletter subscribers", "alo-easymail"), 'manage_easymail_subscribers', 'alo-easymail/alo-easymail_subscribers.php');
 }
@@ -268,6 +265,31 @@ function ALO_em_add_admin_menu() {
 add_action('admin_menu', 'ALO_em_add_admin_menu');
 
 
+/**
+ * Contextual help
+ */
+add_action( 'admin_head-alo-easymail/alo-easymail_options.php', 'ALO_em_contextual_help' );
+add_action( 'admin_head-alo-easymail/alo-easymail_main.php', 'ALO_em_contextual_help' );
+add_action( 'admin_head-alo-easymail/alo-easymail_subscribers.php', 'ALO_em_contextual_help' );
+
+function ALO_em_contextual_help() {
+	global $hook_suffix;
+	if (function_exists('add_contextual_help')) {
+		$html = __("Resources about EasyMail Newsletter", "alo-easymail") . ': <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter/" target="_blank">homepage</a> |
+				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">guide</a> |
+				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">faq</a> |
+				<a href="http://www.eventualo.net/forum/forum/1" target="_blank">forum</a> |
+				<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">news</a>';
+		$html .= " | <form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
+			<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
+			<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image' style='vertical-align: middle'>
+			<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br></form>";
+		add_contextual_help( $hook_suffix, $html );
+	}
+}
+
+
+/* Include widget */
 require_once('alo-easymail-widget.php');
 
 add_action( 'show_user_profile', 'ALO_em_user_profile_optin' );
@@ -319,7 +341,7 @@ function ALO_em_save_profile_optin($user_id) {
     
     if (isset($_POST['alo_easymail_option'])) {
         if ( $_POST['alo_easymail_option'] == "yes") {
-            ALO_em_add_subscriber( $user_email, $user_info->first_name ." ".$user_info->first_name, 1, ALO_em_get_language() );
+            ALO_em_add_subscriber( $user_email, $user_info->first_name ." ".$user_info->first_name, 1, ALO_em_get_language(true) );
             
             // if subscribing, save also lists
         	$mailinglists = ALO_em_get_mailinglists( 'public' );
@@ -428,7 +450,7 @@ function ALO_exclude_page( $pages ) {
  */
 function ALO_em_subscr_page ($atts, $content = null) {
 	ob_start();
-	include(ABSPATH . 'wp-content/plugins/alo-easymail/easymail-subscr-page.php');
+	include( ALO_EM_PLUGIN_ABS .'/easymail-subscr-page.php' );
 	$contents = ob_get_contents();
 	ob_end_clean();
 	return $contents;
@@ -462,7 +484,7 @@ function ALO_em_dashboard_widget_function() {
 		foreach ($news_on_queue as $q) {
 			echo "<li style='margin:10px auto'>";
 			if ($row_count == 1) { // the 1st, now on sending
-				echo '<img src="'.get_option ('home').'/wp-content/plugins/alo-easymail/images/16-email-forward.png" title="'.__("now sending", "alo-easymail").'" alt="" style="vertical-align:text-bottom" />';
+				echo '<img src="'.ALO_EM_PLUGIN_URL.'/images/16-email-forward.png" title="'.__("now sending", "alo-easymail").'" alt="" style="vertical-align:text-bottom" />';
 			} else {
 				echo "#".($row_count - 1);
 			}
@@ -634,5 +656,29 @@ function ALO_em_handle_email ( $args ) {
 
 add_filter('wp_mail', 'ALO_em_handle_email');
 
+
+/**
+ * Add Newsletter menu in Admin bar (from WP 3.1)
+ */
+function ALO_em_add_menu_admin_bar() {
+    global $wp_admin_bar;
+ 	
+ 	if ( !$wp_admin_bar ) exit;
+ 	
+    if ( !is_super_admin() || !is_admin_bar_showing() )
+        exit;
+ 
+    $wp_admin_bar->add_menu( array( 'id' => 'alo_easymail', 'title' =>__( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
+
+    $wp_admin_bar->add_menu( array( 'id' => 'alo_easymail_main', 'parent' => 'alo_easymail', 'title' => __( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
+    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Send newsletter', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=send" ) );       
+    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Reports', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=reports" ) );   
+    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Templates', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=templates" ) );   
+        
+    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Subscribers', "alo-easymail" ), 'href' => admin_url('users.php')."?page=alo-easymail/alo-easymail_subscribers.php" ) );
+    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Options', "alo-easymail" ), 'href' => admin_url('options-general.php')."?page=alo-easymail/alo-easymail_options.php" ) );    
+     
+}
+add_action( 'admin_bar_menu', 'ALO_em_add_menu_admin_bar' ,  70);
 
 ?>

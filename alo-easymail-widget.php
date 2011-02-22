@@ -32,11 +32,14 @@ function ALO_em_show_widget_form ( ) {
 			} else {
 				$checkbox_js = "";
 			}
-			$lists_table .= "<tr><td><input type='checkbox' name='alo_em_form_lists[]' id='alo_em_form_list_$list' value='$list' $checked $checkbox_js /></td><td>" . ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) . "</td></tr>\n";
+			$lists_table .= "<tr><td><input type='checkbox' name='alo_em_form_lists[]' id='alo_em_form_list_$list' value='$list' $checked $checkbox_js class='input-checkbox' /></td><td>" . ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) . "</td></tr>\n";
 		}
 		$lists_table .= "</tbody></table>\n";
 		$lists_table .= "</div>\n";
 	}
+	
+	$disclaimer_msg	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_disclaimer_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_disclaimer_msg',false) : false; 
+    $disclaimer_html = ( $disclaimer_msg ) ? "<div class='alo_easymail_disclaimer'>" . $disclaimer_msg . "</div>" : ""; 
     	
 	if (is_user_logged_in()) {
         // For REGISTERED USER
@@ -56,14 +59,15 @@ function ALO_em_show_widget_form ( ) {
         $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
         $html .= "<table class='alo_easymail_form_table'>\n";
         $html .= "  <tr>\n";
-        $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' /></td>\n";
+        $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' class='input-radio' /></td>\n";
         $html .= "    <td>$optin_msg</td>\n";
         $html .= "  </tr><tr>\n";
-        $html .= "    <td><input onchange='alo_em_user_form(\"no\");return false;' type='radio' $optout_checked name='alo_easymail_option' value='no' /></td>\n";
+        $html .= "    <td><input onchange='alo_em_user_form(\"no\");return false;' type='radio' $optout_checked name='alo_easymail_option' value='no' class='input-radio' /></td>\n";
         $html .= "    <td>$optout_msg</td>\n";
         $html .= "  </tr>\n";
         $html .= "</table>\n";      
         $html .= $lists_table; // add lists table 
+        $html .= $disclaimer_html;
         $html .= "</form>\n";
         
     } else {
@@ -76,15 +80,16 @@ function ALO_em_show_widget_form ( ) {
         $html .= "<table class='alo_easymail_form_table'><tbody>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("Name", "alo-easymail")."</td>";
-        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". $alo_em_opt_name ."' id='opt_name' size='10' maxlength='50' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". $alo_em_opt_name ."' id='opt_name' size='10' maxlength='50' class='input-text' /></td>\n";
         $html .= "  </tr>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("E-mail", "alo-easymail")."</td>\n";
-        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' size='10' maxlength='50' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' size='10' maxlength='50' class='input-text' /></td>\n";
         $html .= "  </tr>\n";
         $html .= "</tbody></table>\n";        
- 		$html .= $lists_table; // add lists table     	
-        $html .= "<input type='submit' name='submit' value='".__("Subscribe", "alo-easymail")."' />\n";
+ 		$html .= $lists_table; // add lists table     
+ 		$html .= $disclaimer_html;	
+        $html .= "<input type='submit' name='submit' value='".__("Subscribe", "alo-easymail")."' class='input-submit' />\n";
         $html .= "</form>\n";    
     } 
     

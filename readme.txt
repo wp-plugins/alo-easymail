@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 2.8.4
 Tested up to: 3.1
-Stable tag: 1.8.4
+Stable tag: 1.8.5
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -42,12 +42,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 Available languages:
 
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.1.8.4 (by Francesca Bovone)
+* English v.1.8.5 (by Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
-* Italian v.1.8.4 - it_IT
+* Italian v.1.8.5 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.4 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -93,6 +93,20 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 7. The widget on administration dashboard 
 
 == Changelog ==
+
+= 1.8.5 =
+* NEW FEATURES
+* Customisation of available languages
+* New options on importation: lists, languages
+* Policy claim at widget/page bottom
+* MINOR CHANGES
+* Added: newsletter menu in Admin bar (WP 3.1)
+* Added: [POST-TITLE] shows the post title in reports
+* Added: css classes and ids in forms
+* Added: contextual help and credit banners in back-end
+* Fixed: now compatible with WP_CONTENT_URL and WP_PLUGIN_DIR
+* Fixed: ALO_em_get_recipients_registered() gets properly members
+* Fixed: custom English texts should work when English is the only available language
 
 = 1.8.4 =
 * NEW FEATURES
@@ -231,3 +245,6 @@ Release to fix some bugs.
 
 = 1.8.4 =
 New features: multilanguage, integration with qTranslate plugin.
+
+= 1.8.5 =
+Some new features and bug fixes.

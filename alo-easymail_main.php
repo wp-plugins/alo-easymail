@@ -475,7 +475,17 @@ if (count($news_on_queue)) { ?>
 			}
 		?></td>
 		<td><?php echo date("d/m/Y", strtotime($q->start_at))." h.".date("H:i", strtotime($q->start_at)) ?></td>
-		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( ALO_em___( $q->subject ) ) : ""; ?></td>
+		<td><?php 
+		if ($q->user == $user_ID || $can_edit_all ) {
+			$qsubject = $q->subject;
+			if ( $q->tag ) {
+				$obj_post = get_post( $q->tag );
+				$qpost_title = stripslashes ( ALO_em___ ( $obj_post->post_title ) );
+				$qsubject = str_replace('[POST-TITLE]', $qpost_title, $qsubject);
+			}
+			echo stripslashes ( ALO_em___( $qsubject ) );
+		}
+		?></td>
 		<td><?php 
 			$q_recipients = unserialize( $q->recipients );
 			$q_tot = count($q_recipients);
@@ -534,7 +544,17 @@ if (count($news_done)) { ?>
 		} ?>
 		<td><?php echo date("d/m/Y", strtotime($q->start_at))." h.".date("H:i", strtotime($q->start_at)) ?></td>
 		<td><?php echo date("d/m/Y", strtotime($q->last_at))." h.".date("H:i", strtotime($q->last_at)) ?></td>
-		<td><?php echo ($q->user == $user_ID || $can_edit_all )? stripslashes ( ALO_em___( $q->subject ) ) : "" ?></td>
+		<td><?php 
+		if ($q->user == $user_ID || $can_edit_all ) {
+			$qsubject = $q->subject;
+			if ( $q->tag ) {
+				$obj_post = get_post( $q->tag );
+				$qpost_title = stripslashes ( ALO_em___ ( $obj_post->post_title ) );
+				$qsubject = str_replace('[POST-TITLE]', $qpost_title, $qsubject);
+			}
+			echo stripslashes ( ALO_em___( $qsubject ) );
+		}
+		?></td>
 		<td>
 			<?php if ( ($q->user == $user_ID && $can_edit_own ) || $can_edit_all ) {
 				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=reports&amp;task=del_send&amp;id=".$q->ID."' title='".__("Delete", "alo-easymail")."' ";
@@ -968,7 +988,7 @@ endif; // end templates tab
 ?>
 
 <p></p>
-<p><?php echo ALO_EM_FOOTER; ?></p>
+<p><?php ALO_em_show_credit_banners( false ); ?></p>
 
 
 <?php
