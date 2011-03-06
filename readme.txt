@@ -260,3 +260,4 @@ Some new features and bug fixes.
 
 = 1.8.6 =
 Some new features and bug fixes.
+
