@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 1.8.5
+Version: 1.8.6
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -55,6 +55,7 @@ function ALO_em_install() {
     if (!get_option('ALO_em_lastposts')) add_option('ALO_em_lastposts', 10);
     if (!get_option('ALO_em_dayrate')) add_option('ALO_em_dayrate', 1500);
     if (!get_option('ALO_em_batchrate')) add_option('ALO_em_batchrate', 60);
+    if (!get_option('ALO_em_sleepvalue')) add_option('ALO_em_sleepvalue', 0);
 	if (!get_option('ALO_em_sender_email')) {
 		$admin_email = get_option('admin_email');
 	    add_option('ALO_em_sender_email', $admin_email);
@@ -68,9 +69,11 @@ function ALO_em_install() {
 	if (!get_option('ALO_em_optout_msg')) add_option('ALO_em_optout_msg', '');	
 	if (!get_option('ALO_em_lists_msg')) add_option('ALO_em_lists_msg', '');*/
 	update_option('ALO_em_import_alert', "show" );
+	update_option('ALO_em_timeout_alert', "show" );
 	if (!get_option('ALO_em_delete_on_uninstall')) add_option('ALO_em_delete_on_uninstall', 'no');
 	if (!get_option('ALO_em_show_subscripage')) add_option('ALO_em_show_subscripage', 'no');
 	if (!get_option('ALO_em_embed_css')) add_option('ALO_em_embed_css', 'no');
+	if (!get_option('ALO_em_no_activation_mail')) add_option('ALO_em_no_activation_mail', 'no');
 	if (!get_option('ALO_em_show_credit_banners')) add_option('ALO_em_show_credit_banners', 'yes');
 	
 	ALO_em_setup_predomain_texts( false );
@@ -284,6 +287,20 @@ function ALO_em_contextual_help() {
 			<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
 			<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image' style='vertical-align: middle'>
 			<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br></form>";
+		$html .= "\n<h3>". __("To enable the plugin work better you should increase the wp_cron and php timeouts", "alo-easymail") ."</h3>\n";
+		$html .= "<div style='padding: 0 8px;border:1px dotted #ccc'>\n";
+		$html .= "<p>". __("Here is a summary of some solutions that might help you", "alo-easymail") .":</p>\n";
+		$html .= "<p>&raquo; ". sprintf( __("increase the cron timeout in %s to 20 seconds or more", "alo-easymail"), "<em>".includes_url()."<strong>cron.php</strong></em>" ) .":</p>";	
+		$html .= '<pre>'.__("FROM", "alo-easymail").":\t".'<code>wp_remote_post( $cron_url, array(\'timeout\' => </code><strong>0.01</strong><code>, \'blocking\' => false, \'sslverify\' => apply_filters(\'https_local_ssl_verify\', true)) );</code></pre>';
+		$html .= '<pre>'.__("TO", "alo-easymail").":\t".'<code>wp_remote_post( $cron_url, array(\'timeout\' => </code><strong>20</strong><code>, \'blocking\' => false, \'sslverify\' => apply_filters(\'https_local_ssl_verify\', true)) );</code></pre>';		
+		$html .= "<p>&raquo; ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>wp-config.php</strong></em>" ) .":</p>";	
+		$html .= "<pre><code>define('WP_MEMORY_LIMIT', '96M');\n@ini_set( 'upload_max_size', '100M' );\n@ini_set( 'post_max_size', '105M');\n@ini_set( 'max_execution_time', '600' );</code></pre>\n";
+		$html .= "<p>&raquo; ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>.htaccess</strong></em>" ) ." (". __("if this file does not exist, create it", "alo-easymail") . "):</p>";	
+		$html .= "<pre><code>php_value memory_limit 96M\nphp_value upload_max_filesize 100M\nphp_value post_max_size 105M\nphp_value max_execution_time 600\nphp_value max_input_time 600</code></pre>\n";		
+		$html .= "<p>". __("If you have problems in sending you can try alterative cron", "alo-easymail") .": ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>wp-config.php</strong></em>" ) .":</p>\n";
+		$html .= "<pre><code>define('ALTERNATE_WP_CRON', true);</code></pre>\n";
+		$html .= "<p>". __("For more info, visit the FAQ of the site.", "alo-easymail") . ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">&raquo;</a>' ."</p>\n";
+		$html .= "</div>";
 		add_contextual_help( $hook_suffix, $html );
 	}
 }
