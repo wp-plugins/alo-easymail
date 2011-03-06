@@ -1,14 +1,36 @@
 <?php // No direct access, only through WP
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('You can\'t call this page directly.'); 
 if ( !current_user_can('send_easymail_newsletters') && !current_user_can('manage_easymail_newsletters') ) 	wp_die(__('Cheatin&#8217; uh?'));
-?>
 
+// delete welcome setting alert
+if ( isset($_REQUEST['timeout_alert']) && $_REQUEST['timeout_alert'] == "stop" ) {
+	update_option( 'ALO_em_timeout_alert', "hide" ); 
+}
+?>
 
 <div class="wrap">
     <div id="icon-tools" class="icon32"><br /></div>
     <h2>ALO EasyMail Newsletter</h2>
 
-<?php
+<?php // Alert 
+if ( get_option('ALO_em_timeout_alert') != "hide" ) { 
+	echo '<div class="updated fade">';
+	echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> '. __("To enable the plugin work better you should increase the wp_cron and php timeouts", "alo-easymail") .". ";
+	echo __("For more info you can use the Help button or visit the FAQ of the site", "alo-easymail");
+	echo ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3" target="_blank" title="'. __("For more info, visit the FAQ of the site.", "alo-easymail") .'">&raquo;</a></p>';
+	echo "<p>(<a href='tools.php?page=alo-easymail/alo-easymail_main.php&amp;timeout_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
+	echo '</div>';
+}
+
+if ( get_option('ALO_em_debug_newsletters') != "" ) { 
+	echo '<div class="updated fade">';
+	echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>'. __("Debug mode is activated", "alo-easymail") ."</strong>: ";
+	if ( get_option('ALO_em_debug_newsletters') == "to_author" ) 	_e("all messages will be sent to the newsletter author", "alo-easymail");
+	if ( get_option('ALO_em_debug_newsletters') == "to_file" ) 		_e("all messages will be recorded into a log file", "alo-easymail");
+	echo ".</p>";
+	echo '</div>';
+}
+
 // All available languages
 $languages = ALO_em_get_all_languages( false );
 
@@ -810,6 +832,7 @@ if ( !empty($from_template) ) {
 <span class="description"><?php echo __("The plugin tries to count how many recipients open the newsletter", "alo-easymail").". (". __("This feedback depends on recipients&#39; e-mail client, so the result is approximate and probably undersized", "alo-easymail").")." ?></span>
 </td>
 </tr>
+
 <tr valign="top">
 <th scope="row" style="text-align:right">
 <?php // Submit ?>

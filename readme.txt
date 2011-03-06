@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 2.8.4
 Tested up to: 3.1
-Stable tag: 1.8.5
+Stable tag: 1.8.6
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -27,6 +27,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter
 * **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
+* **debug tool**: rather than the recipients, you can send all emails of a newsletter to the author or you can have them recorded into a log file
 
 **Pubblic side Features**
 
@@ -42,12 +43,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 Available languages:
 
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.1.8.5 (by Francesca Bovone)
+* English v.1.8.6 (by Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
-* Italian v.1.8.5 - it_IT
+* Italian v.1.8.6 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.4 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -60,6 +61,7 @@ You can add or update the translation in your language. You can send [gettext PO
 = INSTALLATION =
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the `Plugins` menu in WordPress
+1. To enable the plugin work better you should **increase the wp_cron and php timeouts**: for more info you can use the admin Help button in plugin setting or visit the [FAQ of the site](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3)
 1. (If you are **upgrading** an EasyMail previous version, be sure to **upload all files** and to **activate the plugin again**)
 
 = QUICK START =
@@ -70,17 +72,13 @@ You can add or update the translation in your language. You can send [gettext PO
 1. Go to `Option > Newsletter` to setup options
 1. Go to `Users > Newsletter subscribers` to manage subscribers
 
-More info on [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
-[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/), 
-[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/), 
-[the forum](http://www.eventualo.net/forum/forum/1).
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 == Frequently Asked Questions ==
 
-On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) you can find: 
-[the guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/), 
-[the FAQ](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/), 
-[the forum](http://www.eventualo.net/forum/forum/1).
+To enable the plugin work better you should **increase the wp_cron and php timeouts**: for more info you can use the admin Help button in plugin setting or visit the [FAQ of the site](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3)
+
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 == Screenshots ==
 
@@ -93,6 +91,17 @@ On [plugin homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) 
 7. The widget on administration dashboard 
 
 == Changelog ==
+
+= 1.8.6 =
+* NEW FEATURES
+* Direct subscription without activation e-mail now available
+* Time interval between emails of same batch
+* Debug newsletters: send all emails to author or write them into a log file
+* MINOR CHANGES
+* Fixed: ALO_em_get_recipients_registered() gets properly members (definitely, I hope)
+* Fixed: checkboxes properly work in Settings
+* Added: "open in a new window" button in report thicknox
+* Added: alert and help about timeout to increase
 
 = 1.8.5 =
 * NEW FEATURES
@@ -247,4 +256,7 @@ Release to fix some bugs.
 New features: multilanguage, integration with qTranslate plugin.
 
 = 1.8.5 =
+Some new features and bug fixes.
+
+= 1.8.6 =
 Some new features and bug fixes.

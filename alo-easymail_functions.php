@@ -441,7 +441,11 @@ function alo_em_pubblic_form ()
   $error_email_added		= esc_attr( ALO_em___(__("Warning: this email address has already been subscribed, but not activated. We are now sending another activation email", "alo-easymail")) );
   $error_email_activated	= esc_attr( ALO_em___(__("Warning: this email address has already been subscribed", "alo-easymail")) );  
   $error_on_sending			= esc_attr( ALO_em___(__("Error during sending: please try again", "alo-easymail")) );
-  $txt_ok					= esc_attr( ALO_em___(__("Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.", "alo-easymail")) ); 
+  if ( get_option('ALO_em_no_activation_mail') != "yes" ) {
+			$txt_ok			= esc_attr( ALO_em___(__("Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.", "alo-easymail")) );  
+  } else {
+			$txt_ok			= esc_attr( ALO_em___(__("Your subscription was successfully activated. You will receive the next newsletter. Thank you.", "alo-easymail")) );    
+  }
   $txt_subscribe			= esc_attr( ALO_em___(__("Subscribe", "alo-easymail")) );
   $txt_sending				= esc_attr( ALO_em___(__("sending...", "alo-easymail")) );
   $lang_code				= ALO_em_get_language( true );
@@ -561,7 +565,8 @@ function ALO_em_pubblic_form_callback() {
         }
         if ($error_on_adding == "") { // if no error
             // try to add new subscriber (and send mail if necessary) and return TRUE if success
-            $try_to_add = ALO_em_add_subscriber( $email, $name, 0, stripslashes(trim($_POST['alo_em_lang_code'])) ); 
+            $activated = ( get_option('ALO_em_no_activation_mail') != "yes" ) ? 0 : 1;
+            $try_to_add = ALO_em_add_subscriber( $email, $name, $activated, stripslashes(trim($_POST['alo_em_lang_code'])) ); 
             switch ($try_to_add) {
             	case "OK":
             		$just_added = true;
@@ -748,7 +753,7 @@ function ALO_em_batch_sending () {
 		   	if ( ALO_em_translate_option ( $rec_lang, 'ALO_em_custom_unsub_footer', false ) ) {
 				$updated_content .= ALO_em_translate_option ( $rec_lang, 'ALO_em_custom_unsub_footer', false );
 			} else {
-				$updated_content .= "<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
+				$updated_content .= "\n<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
 				$updated_content .=	__("visit this link", "alo-easymail") ."<br /> %UNSUBSCRIBELINK%";//." <a href='" . $uns_link ."'>". $uns_link ."</a>.";
 				$updated_content .= "</em></p>";
 			}
@@ -771,8 +776,27 @@ function ALO_em_batch_sending () {
 		$headers .= "From: ". $from_name ." <".$mail_sender.">\n";
 		$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";		
 		
-        // ---- Send MAIL ----
-        $mail_engine = @wp_mail($recipients[$r]['email'], $subject, $updated_content, $headers );  
+        // ---- Send MAIL (or DEBUG) ----
+        switch ( get_option('ALO_em_debug_newsletters') ) {
+        	case "to_author":
+    	    		$author = get_userdata( $sending_info->user );
+        			$debug_subject = "( DEBUG - TO: ". $recipients[$r]['email'] ." ) " . $subject;
+        			$mail_engine = @wp_mail( $author->user_email, $debug_subject, $updated_content, $headers );
+   					break;
+        	case "to_file":
+        			$log = fopen(WP_CONTENT_DIR . "/user_{$sending_info->user}_newsletter_{$sending_info->ID}.log", 'a+');
+        			$log_message = 	"\n------------------------------ ". date( "r" ) ." ------------------------------\n\n";
+        			$log_message .=	"HEADERS:\n". $headers ."\n";
+        			$log_message .=	"TO:\t\t\t". $recipients[$r]['email'] ."\n";
+        			$log_message .=	"SUBJECT:\t". $subject ."\n\n";
+        			$log_message .=	"CONTENT:\n". $updated_content ."\n\n";
+					fwrite ( $log, $log_message );
+					fclose ( $log );
+   					break;
+        	default:  // no debug: send it!
+   					$mail_engine = @wp_mail($recipients[$r]['email'], $subject, $updated_content, $headers );       					        					
+        }
+          
         
         if( $mail_engine && is_email($recipients[$r]['email']) ) {
             $recipients[$r]['result'] = 1;
@@ -786,10 +810,7 @@ function ALO_em_batch_sending () {
         // sent to all of this sending? or too much sending stop sending!
         if ( $n_recs == $tot_recs || $n_recs >= get_option('ALO_em_batchrate') ) break;
         
-        // after each email it sleep a little: (x')/n°recipients 
-        //$timesleep = max (floor ( ALO_EM_INTERVAL_MIN *60 / $tot_recs ), 1);
-		//sleep($timesleep);
-		//sleep(1);
+ 		if ( (int)get_option('ALO_em_sleepvalue') > 0 ) usleep ( (int)get_option('ALO_em_sleepvalue') * 1000 );
     }
 		
    	// check if batch completed
@@ -821,39 +842,28 @@ function ALO_em_batch_sending () {
  */
 function ALO_em_get_recipients_registered () {
 	global $wpdb, $blog_id;
+	
+	/*
     // Get all users that are members in this blog
     $get_users = $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email " );
 	if ( function_exists('is_multisite') ) { // compatibility with WP pre-3.x
 		for ( $i = 0; $i < count ($get_users); $i ++ ) {
 			if ( is_multisite() && !is_user_member_of_blog( $get_users[$i]->UID, $blog_id ) ) unset ($get_users[$i]);
 		} 
-    }       
+    } 
+    */
+    
+    if ( function_exists( 'get_users' ) ) { // For WP >= 3.1
+    	$get_users = get_users();
+   	} else { // For WP < 3.1
+   		$get_users = get_users_of_blog();
+   	}
+   	for ( $i = 0; $i < count ($get_users); $i ++ ) {
+		$get_users[$i]->lang = $wpdb->get_var ( $wpdb->prepare( "SELECT lang FROM {$wpdb->prefix}easymail_subscribers WHERE email = %s", $get_users[$i]->user_email ) );
+		$get_users[$i]->UID = $get_users[$i]->ID;
+	} 
     //echo "<pre>";print_r($get_users); echo "</pre>";
     return $get_users;
-    
-   	/*
-	if ( function_exists('is_multisite') ) { // compatibility with WP pre-3.x
-      	$is_multisite = is_multisite();
-   	} else {
-   		$is_multisite = false;
-   	}
-	$where_ms_blog = ( $is_multisite ) ? " JOIN {$wpdb->usermeta} AS um ON um.user_id = u.ID WHERE um.meta_key = 'primary_blog' AND um.meta_value = '$blog_id'" : "";
-	return $wpdb->get_results( "SELECT u.ID AS UID, user_email, s.lang AS lang FROM {$wpdb->users} AS u LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON u.user_email = s.email ".$where_ms_blog );
-	*/
-	
-	// to allow a right importation in multisite (thanks to RavanH !)
-	/*
-	$wp_user_search = new WP_User_Search();
-	$wp_user_search->users_per_page = 3000;//PHP_INT_MAX;
-	$reg_users = $wp_user_search->get_results();
-	foreach ( $reg_users as $reg_user ) {
-		//$reg_users[] = (object) array_merge( array('UID' => $reg_user), (array) get_userdata($reg_user) );
-		$user = get_userdata($reg_user);
-		$lang = $wpdb->get_var( "SELECT lang FROM {$wpdb->prefix}easymail_subscribers WHERE email='{$user->user_email}'" );
-		$reg_users[] = (object) array( 'UID' => $reg_user, 'user_email' => $user->user_email, 'lang' => $lang );
-	}
-	return $reg_users;
-	*/
 }
 
 

@@ -40,6 +40,8 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 			td {padding:4px}
 			td.center {text-align:center}
 			#mailbody img { height: 5em; width: auto; display: block; }
+			
+			.new-win-link { font-size:75%; float:right; }
 		</style>
 		
 		<!--
@@ -54,6 +56,11 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 		-->
 		
 		<div id="slider" class="wrap">
+			<?php if ( isset($_GET['_wpnonce']) && !isset($_GET['isnewwin']) ) : ?>
+				<a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&id='.$id.'&lang='.$lang.'&isnewwin=1'; ?>" target="_blank" class="new-win-link">
+				<?php _e("open in a new window", "alo-easymail") ?></a>
+			<?php endif; ?>				
+			
 			<!--
 			<ul id="tabs">
 				<li><a href="#tabs-1">...</a></li>
@@ -153,7 +160,9 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id']) {
 					$class = ('' == $class) ? "style='background-color:#eee;'" : "";
 					$n ++;
 					echo "<tr $class ><td>".$n."</td><td>".$recipient['email']."</td><td>".$recipient['name']."</td>";
-					echo "<td class='center'>". ALO_em_get_lang_flag($recipient['lang'], 'name') ."</td>";
+					echo "<td class='center'>";
+					if ( isset($recipient['lang']) ) echo ALO_em_get_lang_flag($recipient['lang'], 'name') ;
+					echo "</td>";
 					echo "<td class='center'><img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1)? "yes.png":"no.png") ."' /></td>";
 					echo "<td class='center'>";
 					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".(($recipient['result'] == 1 && ALO_em_recipient_is_tracked ( $recipient['email'], $id, 'V' ))? "yes.png":"no.png") ."' />";

@@ -4,6 +4,11 @@ if ( !current_user_can('manage_easymail_options') ) 	wp_die(__('Cheatin&#8217; u
 	
 global $wp_version, $wpdb, $user_ID, $wp_roles;
 
+// delete welcome setting alert
+if ( isset($_REQUEST['timeout_alert']) && $_REQUEST['timeout_alert'] == "stop" ) {
+	update_option( 'ALO_em_timeout_alert', "hide" ); 
+}
+
 // If updating languages list
 if ( isset($_POST['langs_list']) && current_user_can('manage_options') ) {
 	$new_langs = explode ( ",", stripslashes( trim($_POST['langs_list'])) );
@@ -22,125 +27,142 @@ $languages = ALO_em_get_all_languages( false );
 $text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "disclaimer_msg" );
 
 
-if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
+if ( isset($_REQUEST['submit']) ) {
 	// -------- Options permitted to all ('manage_easymail_options')
-	$activamail_subj = array();
-	$activamail_mail = array();
-	$optin_msg	= array();
-	$optout_msg	= array();	
-	$lists_msg	= array();
-	$disclaimer_msg	= array();
-	$unsub_footer = array();
-	foreach ( $languages as $key => $lang ) {
-		if (isset($_POST['activamail_subj_'.$lang]) && trim( $_POST['activamail_subj_'.$lang] ) != "" ) $activamail_subj[$lang] = stripslashes(trim($_POST['activamail_subj_'.$lang]));
-		if (isset($_POST['activamail_mail_'.$lang]) && trim( $_POST['activamail_mail_'.$lang] ) != "" ) $activamail_mail[$lang] = stripslashes(trim($_POST['activamail_mail_'.$lang]));
-		if (isset($_POST['optin_msg_'.$lang]) )		$optin_msg[$lang] = stripslashes(trim($_POST['optin_msg_'.$lang]));
-		if (isset($_POST['optout_msg_'.$lang]) )	$optout_msg[$lang] = stripslashes(trim($_POST['optout_msg_'.$lang]));
-		if (isset($_POST['lists_msg_'.$lang]) )		$lists_msg[$lang] = stripslashes(trim($_POST['lists_msg_'.$lang]));
-		if (isset($_POST['disclaimer_msg_'.$lang]) ) $disclaimer_msg[$lang] = stripslashes(trim($_POST['disclaimer_msg_'.$lang]));
-		if (isset($_POST['unsub_footer_'.$lang]) )	$unsub_footer[$lang] = stripslashes(trim($_POST['unsub_footer_'.$lang]));
+	// Tab TEXTS
+	if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_texts" ) {
+		$activamail_subj = array();
+		$activamail_mail = array();
+		$optin_msg	= array();
+		$optout_msg	= array();	
+		$lists_msg	= array();
+		$disclaimer_msg	= array();
+		$unsub_footer = array();
+		foreach ( $languages as $key => $lang ) {
+			if (isset($_POST['activamail_subj_'.$lang]) && trim( $_POST['activamail_subj_'.$lang] ) != "" ) $activamail_subj[$lang] = stripslashes(trim($_POST['activamail_subj_'.$lang]));
+			if (isset($_POST['activamail_mail_'.$lang]) && trim( $_POST['activamail_mail_'.$lang] ) != "" ) $activamail_mail[$lang] = stripslashes(trim($_POST['activamail_mail_'.$lang]));
+			if (isset($_POST['optin_msg_'.$lang]) )		$optin_msg[$lang] = stripslashes(trim($_POST['optin_msg_'.$lang]));
+			if (isset($_POST['optout_msg_'.$lang]) )	$optout_msg[$lang] = stripslashes(trim($_POST['optout_msg_'.$lang]));
+			if (isset($_POST['lists_msg_'.$lang]) )		$lists_msg[$lang] = stripslashes(trim($_POST['lists_msg_'.$lang]));
+			if (isset($_POST['disclaimer_msg_'.$lang]) ) $disclaimer_msg[$lang] = stripslashes(trim($_POST['disclaimer_msg_'.$lang]));
+			if (isset($_POST['unsub_footer_'.$lang]) )	$unsub_footer[$lang] = stripslashes(trim($_POST['unsub_footer_'.$lang]));
 		
+		}
+		if ( count ($activamail_subj) ) update_option('ALO_em_txtpre_activationmail_subj', $activamail_subj );
+		if ( count ($activamail_mail) ) update_option('ALO_em_txtpre_activationmail_mail', $activamail_mail );
+		if ( count ($optin_msg) ) 		update_option('ALO_em_custom_optin_msg', $optin_msg );
+		if ( count ($optout_msg) ) 		update_option('ALO_em_custom_optout_msg', $optout_msg );
+		if ( count ($lists_msg) ) 		update_option('ALO_em_custom_lists_msg', $lists_msg );		
+		if ( count ($disclaimer_msg) ) 		update_option('ALO_em_custom_disclaimer_msg', $disclaimer_msg );		
+		if ( count ($unsub_footer) ) 	update_option('ALO_em_custom_unsub_footer', $unsub_footer );
 	}
-	if ( count ($activamail_subj) ) update_option('ALO_em_txtpre_activationmail_subj', $activamail_subj );
-	if ( count ($activamail_mail) ) update_option('ALO_em_txtpre_activationmail_mail', $activamail_mail );
-	if ( count ($optin_msg) ) 		update_option('ALO_em_custom_optin_msg', $optin_msg );
-	if ( count ($optout_msg) ) 		update_option('ALO_em_custom_optout_msg', $optout_msg );
-	if ( count ($lists_msg) ) 		update_option('ALO_em_custom_lists_msg', $lists_msg );		
-	if ( count ($disclaimer_msg) ) 		update_option('ALO_em_custom_disclaimer_msg', $disclaimer_msg );		
-	if ( count ($unsub_footer) ) 	update_option('ALO_em_custom_unsub_footer', $unsub_footer );
-	
 	// --------
 	
 	// -------- Options permitted ONLY to ADMIN ('manage_options')
 	if ( current_user_can('manage_options') ) {
-		if(isset($_POST['content'])) {
-		    $main_content = stripslashes($_REQUEST['content']);
-		    $main_content = str_replace("\n", "<br />", $main_content);
-		    update_option('ALO_em_template', $main_content);
-		}
-		if(isset($_POST['sender_email'])) update_option('ALO_em_sender_email', trim($_POST['sender_email']));
-		if(isset($_POST['sender_name'])) update_option('ALO_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
-		if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));	
-		if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('ALO_em_dayrate', trim($_POST['dayrate']));
-		if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('ALO_em_batchrate', trim($_POST['batchrate']));
-		if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('ALO_em_subsc_page', trim($_POST['subsc_page']));
+		// Tab GENERAL
+		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_general" ) {
 		
-		if ( isset($_POST['show_subscripage']) ) {
-			update_option('ALO_em_show_subscripage', "yes");
-		} else {
-			update_option('ALO_em_show_subscripage', "no") ;
-		}
-		if ( isset($_POST['embed_css']) ) {
-			update_option('ALO_em_embed_css', "yes");
-		} else {
-			update_option('ALO_em_embed_css', "no") ;
-		}
-		if ( isset($_POST['credit_banners']) ) {
-			update_option('ALO_em_show_credit_banners', "yes");
-		} else {
-			update_option('ALO_em_show_credit_banners', "no") ;
-		}		
+			if(isset($_POST['sender_email'])) update_option('ALO_em_sender_email', trim($_POST['sender_email']));
+			if(isset($_POST['sender_name'])) update_option('ALO_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
+			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));	
+		
+			if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('ALO_em_subsc_page', trim($_POST['subsc_page']));
+			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('ALO_em_debug_newsletters', $_POST['debug_newsletters']);
+		
+			if ( isset($_POST['show_subscripage']) ) {
+				update_option('ALO_em_show_subscripage', "yes");
+			} else {
+				update_option('ALO_em_show_subscripage', "no") ;
+			}
+			if ( isset($_POST['embed_css']) ) {
+				update_option('ALO_em_embed_css', "yes");
+			} else {
+				update_option('ALO_em_embed_css', "no") ;
+			}
+			if ( isset($_POST['credit_banners']) ) {
+				update_option('ALO_em_show_credit_banners', "yes");
+			} else {
+				update_option('ALO_em_show_credit_banners', "no") ;
+			}
+			if ( isset($_POST['no_activation_mail']) ) {
+				update_option('ALO_em_no_activation_mail', "yes");
+			} else {
+				update_option('ALO_em_no_activation_mail', "no") ;
+			}				
+		
+			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
+				update_option('ALO_em_delete_on_uninstall', "yes");
+			} else {
+				update_option('ALO_em_delete_on_uninstall', "no") ;
+			}
+		} // end Tab GENERAL
 
-		if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
-			update_option('ALO_em_delete_on_uninstall', "yes");
-		} else {
-			update_option('ALO_em_delete_on_uninstall', "no") ;
-		}
+		// Tab BATCH SENDING
+		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_batch" ) {
+			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('ALO_em_dayrate', trim((int)$_POST['dayrate']));
+			if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('ALO_em_batchrate', trim((int)$_POST['batchrate']));
+			if(isset($_POST['sleepvalue']) && (int)$_POST['sleepvalue'] <= 5000 ) update_option('ALO_em_sleepvalue', trim((int)$_POST['sleepvalue']));
+		} // end Tab BATCH SENDING
+
+		// Tab PERMISSIONS
+		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_permissions" ) {				
+			// get roles to update cap
+			$role_author = get_role( 'author' );
+			$role_editor = get_role( 'editor' );
 		
-		// get roles to update cap
-		$role_author = get_role( 'author' );
-		$role_editor = get_role( 'editor' );
+			if ( isset($_POST['can_manage_newsletters']) ) {
+				switch ( $_POST['can_manage_newsletters'] ) {
+					case "editor":
+						$role_editor->add_cap( 'manage_easymail_newsletters' );
+						$role_editor->add_cap( 'send_easymail_newsletters' );
+						break;
+					case "administrator":
+					default:
+						$role_editor->remove_cap( 'manage_easymail_newsletters' );
+				}
+			}		
+			if ( isset($_POST['can_send_newsletters']) ) {	
+				switch ( $_POST['can_send_newsletters'] ) {
+					case "author":
+						$role_author->add_cap( 'send_easymail_newsletters' );
+						$role_editor->add_cap( 'send_easymail_newsletters' );				
+						break;
+					case "editor":
+						$role_editor->add_cap( 'send_easymail_newsletters' );
+						$role_author->remove_cap( 'send_easymail_newsletters' );	
+						break;
+					case "administrator":
+					default:
+						$role_author->remove_cap( 'send_easymail_newsletters' );
+						$role_editor->remove_cap( 'send_easymail_newsletters' );
+						$role_editor->remove_cap( 'manage_easymail_newsletters' );
+				}
+			}
+			if ( isset($_POST['can_manage_subscribers']) ) {
+				switch ( $_POST['can_manage_subscribers'] ) {
+					case "editor":
+						$role_editor->add_cap( 'manage_easymail_subscribers' );
+						break;
+					case "administrator":
+					default:
+						$role_editor->remove_cap( 'manage_easymail_subscribers' );
+				}
+			}
+			if ( isset($_POST['can_manage_options']) ) {
+				switch ( $_POST['can_manage_options'] ) {
+					case "editor":
+						$role_editor->add_cap( 'manage_easymail_options' );
+						break;
+					case "administrator":
+					default:
+						$role_editor->remove_cap( 'manage_easymail_options' );
+				}
+			}
+			//echo "<pre style='font-size:80%'>";print_r($wp_roles);echo "</pre>";	
+		} // end Tab PERMISSIONS
 		
-		if ( isset($_POST['can_manage_newsletters']) ) {
-			switch ( $_POST['can_manage_newsletters'] ) {
-				case "editor":
-					$role_editor->add_cap( 'manage_easymail_newsletters' );
-					$role_editor->add_cap( 'send_easymail_newsletters' );
-					break;
-				case "administrator":
-				default:
-					$role_editor->remove_cap( 'manage_easymail_newsletters' );
-			}
-		}		
-		if ( isset($_POST['can_send_newsletters']) ) {	
-			switch ( $_POST['can_send_newsletters'] ) {
-				case "author":
-					$role_author->add_cap( 'send_easymail_newsletters' );
-					$role_editor->add_cap( 'send_easymail_newsletters' );				
-					break;
-				case "editor":
-					$role_editor->add_cap( 'send_easymail_newsletters' );
-					$role_author->remove_cap( 'send_easymail_newsletters' );	
-					break;
-				case "administrator":
-				default:
-					$role_author->remove_cap( 'send_easymail_newsletters' );
-					$role_editor->remove_cap( 'send_easymail_newsletters' );
-					$role_editor->remove_cap( 'manage_easymail_newsletters' );
-			}
-		}
-		if ( isset($_POST['can_manage_subscribers']) ) {
-			switch ( $_POST['can_manage_subscribers'] ) {
-				case "editor":
-					$role_editor->add_cap( 'manage_easymail_subscribers' );
-					break;
-				case "administrator":
-				default:
-					$role_editor->remove_cap( 'manage_easymail_subscribers' );
-			}
-		}
-		if ( isset($_POST['can_manage_options']) ) {
-			switch ( $_POST['can_manage_options'] ) {
-				case "editor":
-					$role_editor->add_cap( 'manage_easymail_options' );
-					break;
-				case "administrator":
-				default:
-					$role_editor->remove_cap( 'manage_easymail_options' );
-			}
-		}
-		//echo "<pre style='font-size:80%'>";print_r($wp_roles);echo "</pre>";			
-	}
+	} // end if Submit
 	// --------
     echo '<div id="message" class="updated fade"><p>'. __("Updated", "alo-easymail") .'</p></div>';
 }?>
@@ -170,6 +192,17 @@ if(isset($_REQUEST['submit']) and $_REQUEST['submit']) {
 <div id="slider" class="wrap">
 <div class="icon32" id="icon-options-general"><br></div>
 <h2>Alo EasyMail Newsletter Options</h2>
+
+<?php // Alert 
+if ( get_option('ALO_em_timeout_alert') != "hide" ) { 
+	echo '<div class="updated fade">';
+	echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> '. __("To enable the plugin work better you should increase the wp_cron and php timeouts", "alo-easymail") .". ";
+	echo __("For more info you can use the Help button or visit the FAQ of the site", "alo-easymail");
+	echo ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3" target="_blank" title="'. __("For more info, visit the FAQ of the site.", "alo-easymail") .'">&raquo;</a></p>';
+	echo "<p>(<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;timeout_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
+	echo '</div>';
+}
+?>
 
 <ul id="tabs">
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#general">' . __("General", "alo-easymail") .'</a></li>'; ?>
@@ -265,6 +298,44 @@ if ( get_option('ALO_em_embed_css') == "yes" ) {
 </tr>
 
 <?php 
+if ( get_option('ALO_em_no_activation_mail') == "yes" ) {
+	$checked_embed_css = 'checked="checked"';
+} else {
+	$checked_embed_css = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Disable activation e-mail", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="no_activation_mail" id="no_activation_mail" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, a new subscriber is automatically activated without confirmation e-mail", "alo-easymail") ?>.</span></td>
+</tr>
+
+<?php  
+if ( get_option('ALO_em_debug_newsletters') ) {
+	$selected_debug_newsletters = get_option('ALO_em_debug_newsletters');
+} else {
+	$selected_debug_newsletters = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Debug newsletters", "alo-easymail") ?>:</th>
+<td>
+<select name='debug_newsletters' id='debug_newsletters'>";
+	<option value=''><?php _e("no", "alo-easymail") ?></option>
+	<?php $values_debug_newsletters = array ( "to_author" => __("send all emails to the author", "alo-easymail"), "to_file" => __("put all emails into a log file", "alo-easymail") );
+	foreach( $values_debug_newsletters as $key => $label ) :
+		echo "<option value='$key' ". ( ( $key == $selected_debug_newsletters )? " selected='selected'": "") .">$label</option>";
+	endforeach; ?>
+</select>
+<br /><span class="description"><?php _e("If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients", "alo-easymail") ?>:<br />
+<ul style="margin-left:20px;font-size:90%">
+<li><code><?php _e("send all emails to the author", "alo-easymail") ?></code>: <?php _e("all messages will be sent to the newsletter author", "alo-easymail") ?>.</li>
+<li><code><?php _e("put all emails into a log file", "alo-easymail") ?></code>: <?php _e("all messages will be recorded into a log file", "alo-easymail") ?> 
+(<?php printf( __("called %s and saved in %s", "alo-easymail"), "&quot;user_{AUTHOR-ID}_newsletter_{NEWSLETTER-ID}.log&quot;", "&quot;".WP_CONTENT_DIR."&quot;" ) ?>): <?php _e("the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!", "alo-easymail") ?></li>
+</ul>
+</span></td>
+</tr>
+
+<?php 
 if ( get_option('ALO_em_show_credit_banners') == "yes" ) {
 	$checked_credit_banners = 'checked="checked"';
 } else {
@@ -295,7 +366,7 @@ if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
 
 <p class="submit">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="task" value="" /> <?php // reset task ?>
+<input type="hidden" name="task" value="tab_general" /> <?php // reset task ?>
 <!--<span id="autosave"></span>-->
 <input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>" class="button-primary" />
 </p>
@@ -316,14 +387,6 @@ TEXTS
 
 <table class="form-table"><tbody>
 
-
-<tr valign="top">
-<th scope="row">
-<h4><?php _e("Widget/Page Texts", "alo-easymail") ?></h4>
-</th><td></td>
-</tr>
-
-
 <?php
 if ( ALO_em_multilang_enabled_plugin() == false ) {
 	echo '<tr valign="top">';
@@ -340,12 +403,21 @@ if ( ALO_em_multilang_enabled_plugin() == false ) {
 		echo '<input type="submit" name="submit" value="'. __('Update', 'alo-easymail') .'" class="button" /> ';
 		echo '<span class="description">'. __('List of two-letter language codes separated by commas', 'alo-easymail'). ' ('. sprintf( '<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">%s</a>', __('iso 639-1 codes', 'alo-easymail') ) . '). '. __('Sample:', 'alo-easymail') .' en,de,it</span>';
 		echo '</p>';
+		echo '<p>'. __("The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly", 'alo-easymail') . '.</p>';
 		echo '<p>'. __('If you are not using a multilanguage site ignore this piece of information', 'alo-easymail') .'.</p>';
 		
 		echo '</div>';
 	echo '</td></tr>';
 }
 ?>
+
+
+<tr valign="top">
+<th scope="row">
+<h4><?php _e("Widget/Page Texts", "alo-easymail") ?></h4>
+</th><td></td>
+</tr>
+
 
 <?php 
 // Texts fields
@@ -413,17 +485,6 @@ foreach ( $text_fields as $text_field ) : ?>
 <h4><?php _e("Communications", "alo-easymail") ?></h4>
 </th><td></td>
 </tr>
-
-<?php
-if ( ALO_em_multilang_enabled_plugin() == false ) {
-	echo '<tr valign="top">';
-	echo '<td colspan="2">';
-		echo '<div class="text-alert">';
-		echo '<p>'. __("The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly", 'alo-easymail') . '.</p>';
-		echo '</div>';
-	echo '</td></tr>';
-}
-?>
 
 <tr valign="top">
 <th scope="row"><?php _e("Activation e-mail", "alo-easymail") ?>:</th>
@@ -507,7 +568,7 @@ echo "&lt;/em&gt;&lt;/p&gt;";
     
 <p class="submit">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="task" value="" /> <?php // reset task ?>
+<input type="hidden" name="task" value="tab_texts" /> <?php // reset task ?>
 <!--<span id="autosave"></span>-->
 <input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>" class="button-primary" />
 </p>
@@ -530,6 +591,13 @@ BATCH SENDING
 
 
 <table class="form-table"><tbody>
+
+<tr valign="top">
+<th scope="row"><label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="dayrate" value="<?php echo get_option('ALO_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
+<span class="description">(300 - 10000)</span></td>
+</tr>
+
 <tr valign="top">
 <th scope="row"><label for="batchrate"><?php _e("Maximum number of emails that can be sent per batch", "alo-easymail") ?>:</label></th>
 <td><input type="text" name="batchrate" value="<?php echo get_option('ALO_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
@@ -537,10 +605,11 @@ BATCH SENDING
 </tr>
 
 <tr valign="top">
-<th scope="row"><label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="dayrate" value="<?php echo get_option('ALO_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
-<span class="description">(300 - 10000)</span></td>
+<th scope="row"><label for="sleepvalue"><?php _e("Interval between emails in a single batch, in milliseconds", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="sleepvalue" value="<?php echo (int)get_option('ALO_em_sleepvalue') ?>" id="sleepvalue" size="5" maxlength="4" />
+<span class="description">(0 - 5000) <?php _e("Default", "alo-easymail") ?>: 0.<br /><?php _e("Usually you do not have to modify this value", "alo-easymail") ?>. <?php _e("It is useful if your provider allows a maximum number of emails that can be sent per second or minute", "alo-easymail") ?>. <?php _e("The higher this value, the lower the number of emails sent for each batch", "alo-easymail") ?>. </span></td>
 </tr>
+
 </tbody> </table>
 
 <div style="background-color:#ddd;margin-top:15px;padding:10px 20px 15px 20px"><h4><?php _e("Important advice to calculate the best limit", "alo-easymail") ?></h4>
@@ -554,7 +623,7 @@ BATCH SENDING
 
 <p class="submit">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="task" value="" /> <?php // reset task ?>
+<input type="hidden" name="task" value="tab_batch" /> <?php // reset task ?>
 <!--<span id="autosave"></span>-->
 <input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>" class="button-primary" />
 </p>
@@ -682,7 +751,7 @@ if ( $get_editor ->has_cap ('manage_easymail_options') ) {
 
 <p class="submit">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="task" value="" /> <?php // reset task ?>
+<input type="hidden" name="task" value="tab_permissions" /> <?php // reset task ?>
 <input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>"  class="button-primary" />
 </p>
 </form>
