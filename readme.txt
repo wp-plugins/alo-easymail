@@ -100,7 +100,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * MINOR CHANGES
 * Fixed: ALO_em_get_recipients_registered() gets properly members (definitely, I hope)
 * Fixed: checkboxes properly work in Settings
-* Added: "open in a new window" button in report thicknox
+* Added: "open in a new window" button in report thickbox
 * Added: alert and help about timeout to increase
 
 = 1.8.5 =
