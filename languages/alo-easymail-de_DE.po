@@ -972,7 +972,7 @@ msgstr "Zeige Abonnentenseite"
 #: .././alo-easymail_options.php:532
 #: .././alo-easymail_functions.php:756
 msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
-msgstr "Sie erhalten diese Nachricht, weil diese Emailadresse für den Newsletter eingetragen würde. Zum Abbestellen "
+msgstr "Sie erhalten diese Nachricht, weil diese Emailadresse für den Newsletter eingetragen wurde. Zum Abbestellen "
 
 #: .././alo-easymail_options.php:533
 #: .././alo-easymail_functions.php:757
