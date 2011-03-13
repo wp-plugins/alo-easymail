@@ -136,6 +136,7 @@ if(isset($_REQUEST['submit'])) {
     
     // Main content
     $main_content = stripslashes($_POST['content']);
+	if ( get_option('ALO_em_filter_the_content') != "no" ) $main_content = apply_filters('the_content', $main_content);
 	
 	// Check errors
 	$error_on_submit = false;
@@ -168,11 +169,12 @@ if(isset($_REQUEST['submit'])) {
 		// adjust content (post tags)
 		$updated_content = $main_content;
 	   
-		$updated_content = str_replace("\n", "<br />", $updated_content);
-		// trim <br> added when rendering html tables (thanks to gunu)
-		$updated_content = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $updated_content);
-		$updated_content = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $updated_content);
-		
+	   if ( get_option('ALO_em_filter_br') != "no" ) {
+			$updated_content = str_replace("\n", "<br />", $updated_content);
+			// trim <br> added when rendering html tables (thanks to gunu)
+			$updated_content = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $updated_content);
+			$updated_content = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $updated_content);
+		}
 		// Add/update template
 		if ( isset($_POST['ck_save_template']) ) {
 			$and_tpl = "";
@@ -313,7 +315,9 @@ $clean_url = remove_query_arg( array('tab', 'message', 'task', 'id') );
 
 	<h2 style="border-bottom:1px solid #CCCCCC">
 	<a href="<?php echo add_query_arg( 'tab', 'send', $clean_url) ?>" class="nav-tab <?php echo $send_tab_active ?>">&raquo; <?php _e("Send newsletter", "alo-easymail") ?></a>
+	<?php if ( current_user_can('manage_easymail_newsletters') ) : ?>
 	<a href="<?php echo add_query_arg( 'tab', 'reports', $clean_url ) ?>" class="nav-tab <?php echo $reports_tab_active ?>">&raquo; <?php _e("Reports", "alo-easymail") ?></a>
+	<?php endif; ?>
 	<a href="<?php echo add_query_arg( 'tab', 'templates', $clean_url ) ?>" class="nav-tab <?php echo $templates_tab_active ?>">&raquo; <?php _e("Templates", "alo-easymail") ?></a>
 	</h2>
 
@@ -441,6 +445,7 @@ endif; // end if ( isset( $_REQUEST['message']))
 if ( $active_tab == "reports" ) :
 /*------------------------------------*/	
 
+if ( !current_user_can('manage_easymail_newsletters') ) wp_die(__('Cheatin&#8217; uh?'));
 
 $linkthick = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?', 'alo-easymail_main');
 ?>
@@ -595,7 +600,7 @@ if (count($news_done)) { ?>
 	echo "<p>&nbsp;</p>";
 }
 ?>
-
+<?php if ( !$news_on_queue && !$news_done ) echo "<p>". __('There are no available reports', 'alo-easymail') ."</p>"; ?>
 <?php
 
 
@@ -905,7 +910,7 @@ if (count($templates)) { ?>
 		<td><?php echo date("d/m/Y", strtotime($t->start_at))." h.".date("H:i", strtotime($t->start_at)) ?></td>		
 		<td style="width:40%"><?php echo ($t->user == $user_ID )? stripslashes ( ALO_em___( $t->subject ) ) /*stripslashes ( $t->subject )*/ : "" ?></td>
 		<td>
-			<?php if ( $t->user == $user_ID && $can_edit_own ) {
+			<?php if ( $t->user == $user_ID /* && $can_edit_own */ ) {
 				echo "<a href='edit.php?page=alo-easymail/alo-easymail_main.php&amp;tab=templates&amp;task=del_tpl&amp;id=".$t->ID."' title='".__("Delete", "alo-easymail")."' ";
 				echo " onclick=\"return confirm('".__("Do you really want to delete this template?", "alo-easymail")."');\">";
 				echo __("Delete", "alo-easymail"). "</a> - ";

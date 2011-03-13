@@ -309,6 +309,25 @@ if ( get_option('ALO_em_no_activation_mail') == "yes" ) {
 <td><input type="checkbox" name="no_activation_mail" id="no_activation_mail" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, a new subscriber is automatically activated without confirmation e-mail", "alo-easymail") ?>.</span></td>
 </tr>
 
+<?php
+if ( get_option('ALO_em_filter_br') != "no" ) {
+	$checked_filter_br = 'checked="checked"';
+} else {
+	$checked_filter_br = "";
+}
+if ( get_option('ALO_em_filter_the_content') != "no" ) {
+	$checked_filter_the_content = 'checked="checked"';
+} else {
+	$checked_filter_the_content = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Filters to the newsletter text", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="filter_br" id="filter_br" value="yes" <?php echo $checked_filter_br ?> /><label for="filter_br"> <?php esc_html_e(__("Convert carriage return in <br> tag", "alo-easymail")) ?></label><br />
+<input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><label for="filter_the_content"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></label>
+</td>
+</tr>
+
 <?php  
 if ( get_option('ALO_em_debug_newsletters') ) {
 	$selected_debug_newsletters = get_option('ALO_em_debug_newsletters');
@@ -655,11 +674,11 @@ $get_editor = get_role( 'editor' );
 <th scope="row"><?php _e("The lowest role can send newsletters", "alo-easymail") ?>:</th>
 <td>
 <?php
-if ( $get_author ->has_cap ('send_easymail_newsletters') ) {
+if ( $get_author->has_cap ('send_easymail_newsletters') ) {
 	$selected_editor	= "";
 	$selected_author	= "selected='selected'";
 	$selected_admin		= "";
-} else if ( $get_editor ->has_cap ('send_easymail_newsletters') ) {
+} else if ( $get_editor->has_cap ('send_easymail_newsletters') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_author	= "";
 	$selected_admin		= "";
@@ -683,7 +702,7 @@ if ( $get_author ->has_cap ('send_easymail_newsletters') ) {
 <th scope="row"><?php _e("The lowest role can manage newsletters", "alo-easymail") ?>:</th>
 <td>
 <?php 
-if ( $get_editor ->has_cap ('manage_easymail_newsletters') ) {
+if ( $get_editor->has_cap ('manage_easymail_newsletters') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
 } else { // admin
@@ -705,7 +724,7 @@ if ( $get_editor ->has_cap ('manage_easymail_newsletters') ) {
 <th scope="row"><?php _e("The lowest role can manage subscribers", "alo-easymail") ?>:</th>
 <td>
 <?php 
-if ( $get_editor ->has_cap ('manage_easymail_subscribers') ) {
+if ( $get_editor->has_cap ('manage_easymail_subscribers') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
 } else { // admin
@@ -727,7 +746,7 @@ if ( $get_editor ->has_cap ('manage_easymail_subscribers') ) {
 <th scope="row"><?php _e("The lowest role can manage options", "alo-easymail") ?>:</th>
 <td>
 <?php 
-if ( $get_editor ->has_cap ('manage_easymail_options') ) {
+if ( $get_editor->has_cap ('manage_easymail_options') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
 } else { // admin

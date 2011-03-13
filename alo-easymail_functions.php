@@ -279,6 +279,20 @@ function ALO_em_delete_subscriber_by_id($id) {
 } 
 
 
+
+/**
+ * Update a subscriber (BY ADMIN/REGISTERED-USER)
+ */
+function ALO_em_update_subscriber_by_email ( $old_email, $new_email, $name, $newstate=0, $lang="" ) {
+    global $wpdb;
+    $output = $wpdb->update(    "{$wpdb->prefix}easymail_subscribers",
+                                array ( 'email' => $new_email, 'name' => $name, 'active' => $newstate, 'lang' => $lang ),
+                                array ( 'email' => $old_email )
+                            );
+  	return $output;
+} 
+
+
 /**
  * Delete a subscriber (BY SUBSCRIBER)
  */
@@ -359,7 +373,7 @@ function ALO_em_tags_table () { ?>
 	<tbody>
 	<tr><td>[POST-TITLE]</td><td style='font-size:80%'><span class="description"><?php _e("The link to the title of the selected post.", "alo-easymail") ?>. <?php _e("This tag works also in the <strong>subject</strong>", "alo-easymail") ?>.</span></td></tr>
 	<tr><td>[POST-EXCERPT]</td><td style='font-size:80%'><span class="description"><?php _e("The excerpt (if any) of the post.", "alo-easymail") ?></span></td></tr>
-	<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><span class="description"><?php _e("The main content of the post.", "alo-easymail") ?> <?php _e("Warning: this tag inserts the test as it is, including shortcodes from other plugins.", "alo-easymail") ?></span></td></tr>
+	<tr><td>[POST-CONTENT]</td><td style='font-size:80%'><span class="description"><?php _e("The main content of the post.", "alo-easymail") ?> <?php //_e("Warning: this tag inserts the test as it is, including shortcodes from other plugins.", "alo-easymail") ?></span></td></tr>
 	</tbody></table>
 
 	<table class="widefat" style="margin-top:10px">
@@ -403,19 +417,19 @@ function alo_em_user_form ( opt )
   document.getElementById('alo_easymail_widget_feedback').className = 'alo_easymail_widget_error';
   document.getElementById('alo_em_widget_loading').style.display = "inline";  
   
-   var mysack = new sack( 
+   var alo_em_sack = new sack( 
        "<?php echo admin_url() ?>admin-ajax.php" );       
 
-  mysack.execute = 1;
-  mysack.method = 'POST';
-  mysack.setVar( "action", "alo_em_user_form_check" );
-  mysack.setVar( "alo_easymail_option", opt );
+  alo_em_sack.execute = 1;
+  alo_em_sack.method = 'POST';
+  alo_em_sack.setVar( "action", "alo_em_user_form_check" );
+  alo_em_sack.setVar( "alo_easymail_option", opt );
   <?php 
   $txt_ok 		= esc_attr( ALO_em___(__("Successfully updated", "alo-easymail")) );	
   $lang_code 	= ALO_em_get_language( true );
   ?>
-  mysack.setVar( "alo_easymail_txt_success", '<?php echo $txt_ok ?>' );
-  mysack.setVar( "alo_easymail_lang_code", '<?php echo $lang_code ?>' );
+  alo_em_sack.setVar( "alo_easymail_txt_success", '<?php echo $txt_ok ?>' );
+  alo_em_sack.setVar( "alo_easymail_lang_code", '<?php echo $lang_code ?>' );
   
   var cbs = document.getElementById('alo_easymail_widget_form').getElementsByTagName('input');
   var length = cbs.length;
@@ -425,9 +439,9 @@ function alo_em_user_form ( opt )
   		if ( cbs[i].checked ) lists += cbs[i].value + ",";
   	}
   }
-  mysack.setVar( "alo_em_form_lists", lists );
-  mysack.onError = function() { alert('Ajax error' )};
-  mysack.runAJAX();
+  alo_em_sack.setVar( "alo_em_form_lists", lists );
+  alo_em_sack.onError = function() { alert('Ajax error' )};
+  alo_em_sack.runAJAX();
 
   return true;
 
@@ -455,23 +469,23 @@ function alo_em_pubblic_form ()
   document.getElementById('alo_em_widget_loading').style.display = "inline";
   document.getElementById('alo_easymail_widget_feedback').innerHTML = "";
   
-   var mysack = new sack( 
+   var alo_em_sack = new sack( 
        "<?php echo admin_url() ?>admin-ajax.php" );    
 
-  mysack.execute = 1;
-  mysack.method = 'POST';
-  mysack.setVar( "action", "alo_em_pubblic_form_check" );
-  mysack.setVar( "alo_em_opt_name", document.alo_easymail_widget_form.alo_em_opt_name.value );
-  mysack.setVar( "alo_em_opt_email", document.alo_easymail_widget_form.alo_em_opt_email.value );
+  alo_em_sack.execute = 1;
+  alo_em_sack.method = 'POST';
+  alo_em_sack.setVar( "action", "alo_em_pubblic_form_check" );
+  alo_em_sack.setVar( "alo_em_opt_name", document.alo_easymail_widget_form.alo_em_opt_name.value );
+  alo_em_sack.setVar( "alo_em_opt_email", document.alo_easymail_widget_form.alo_em_opt_email.value );
   
-  mysack.setVar( "alo_em_error_email_incorrect", "<?php echo $error_email_incorrect ?>");
-  mysack.setVar( "alo_em_error_name_empty", "<?php echo $error_name_empty ?>");
-  mysack.setVar( "alo_em_error_email_added", "<?php echo $error_email_added ?>");
-  mysack.setVar( "alo_em_error_email_activated", "<?php echo $error_email_activated ?>");
-  mysack.setVar( "alo_em_error_on_sending", "<?php echo $error_on_sending ?>");
-  mysack.setVar( "alo_em_txt_ok", "<?php echo $txt_ok ?>");
-  mysack.setVar( "alo_em_txt_subscribe", "<?php echo $txt_subscribe ?>");
-  mysack.setVar( "alo_em_lang_code", "<?php echo $lang_code ?>");  
+  alo_em_sack.setVar( "alo_em_error_email_incorrect", "<?php echo $error_email_incorrect ?>");
+  alo_em_sack.setVar( "alo_em_error_name_empty", "<?php echo $error_name_empty ?>");
+  alo_em_sack.setVar( "alo_em_error_email_added", "<?php echo $error_email_added ?>");
+  alo_em_sack.setVar( "alo_em_error_email_activated", "<?php echo $error_email_activated ?>");
+  alo_em_sack.setVar( "alo_em_error_on_sending", "<?php echo $error_on_sending ?>");
+  alo_em_sack.setVar( "alo_em_txt_ok", "<?php echo $txt_ok ?>");
+  alo_em_sack.setVar( "alo_em_txt_subscribe", "<?php echo $txt_subscribe ?>");
+  alo_em_sack.setVar( "alo_em_lang_code", "<?php echo $lang_code ?>");  
   
   var cbs = document.getElementById('alo_easymail_widget_form').getElementsByTagName('input');
   var length = cbs.length;
@@ -481,9 +495,9 @@ function alo_em_pubblic_form ()
   		if ( cbs[i].checked ) lists += cbs[i].value + ",";
   	}
   }
-  mysack.setVar( "alo_em_form_lists", lists );
-  mysack.onError = function() { alert('Ajax error' )};
-  mysack.runAJAX();
+  alo_em_sack.setVar( "alo_em_form_lists", lists );
+  alo_em_sack.onError = function() { alert('Ajax error' )};
+  alo_em_sack.runAJAX();
 
   return true;
 
@@ -707,11 +721,13 @@ function ALO_em_batch_sending () {
 		// TAG: [POST-CONTENT]
 		if ($pID) {
 			$postcontent =  stripslashes ( ALO_em_translate_text ( $rec_lang, $obj_post->post_content ) );
-			$postcontent = str_replace("\n", "<br />", $postcontent);
-			// trim <br> added when rendering html tables (thanks to gunu)
-			$postcontent = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $postcontent);
-			$postcontent = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $postcontent);
-
+			if ( get_option('ALO_em_filter_br') != "no" ) {
+				$postcontent = str_replace("\n", "<br />", $postcontent);
+				// trim <br> added when rendering html tables (thanks to gunu)
+				$postcontent = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $postcontent);
+				$postcontent = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $postcontent);
+			}
+			if ( get_option('ALO_em_filter_the_content') != "no" ) $postcontent = apply_filters('the_content', $postcontent);
 		    $updated_content = str_replace("[POST-CONTENT]", $postcontent, $updated_content);
 		} else {
 		    $updated_content = str_replace("[POST-CONTENT]", "", $updated_content);
@@ -768,7 +784,7 @@ function ALO_em_batch_sending () {
 				}
 			}
 	    }
-
+    
 		$mail_sender = (get_option('ALO_em_sender_email')) ? get_option('ALO_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
 		$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('ALO_em_sender_name') ) );
 		

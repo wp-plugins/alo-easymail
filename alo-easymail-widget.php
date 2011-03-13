@@ -54,9 +54,9 @@ function ALO_em_show_widget_form ( ) {
         $optin_msg 	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg',false) : __("Yes, I would like to receive the Newsletter", "alo-easymail");        
         $optout_msg = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optout_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optout_msg',false) : __("No, please do not email me", "alo-easymail");
         
-        $html = "<div id='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("Updating...", "alo-easymail") ."</div>\n";
+        $html = "<div id='alo_em_widget_loading' class='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("Updating...", "alo-easymail") ."</div>\n";
         $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
-        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
+        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_registered' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
         $html .= "<table class='alo_easymail_form_table'>\n";
         $html .= "  <tr>\n";
         $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' class='input-radio' /></td>\n";
@@ -74,17 +74,17 @@ function ALO_em_show_widget_form ( ) {
         // For NOT-REGISTERED, PUBBLIC SUBSCRIBER
         $alo_em_opt_name	= ( isset($_POST['alo_em_opt_name']) ) ? stripslashes($_POST['alo_em_opt_name']) : "";
         $alo_em_opt_email	= ( isset($_POST['alo_em_opt_email']) ) ? stripslashes($_POST['alo_em_opt_email']) : "";
-        $html = "<div id='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("sending...", "alo-easymail") ."</div>\n";
+        $html = "<div id='alo_em_widget_loading' class='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("sending...", "alo-easymail") ."</div>\n";
         $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
-        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
+        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_public' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
         $html .= "<table class='alo_easymail_form_table'><tbody>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("Name", "alo-easymail")."</td>";
-        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". $alo_em_opt_name ."' id='opt_name' size='10' maxlength='50' class='input-text' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_name' value='". $alo_em_opt_name ."' id='opt_name' maxlength='50' class='input-text' /></td>\n";
         $html .= "  </tr>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("E-mail", "alo-easymail")."</td>\n";
-        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' size='10' maxlength='50' class='input-text' /></td>\n";
+        $html .= "    <td><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' maxlength='50' class='input-text' /></td>\n";
         $html .= "  </tr>\n";
         $html .= "</tbody></table>\n";        
  		$html .= $lists_table; // add lists table     
@@ -152,6 +152,7 @@ class ALO_Easymail_Widget extends WP_Widget {
 
 		// Display the widget title if one was input (before and after defined by themes). 
 		if ( $title )
+
 			echo $before_title . $title . $after_title;
 
         // get the message optin/out messages

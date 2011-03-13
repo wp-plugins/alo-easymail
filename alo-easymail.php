@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 1.8.6
+Version: 1.8.7
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -75,6 +75,8 @@ function ALO_em_install() {
 	if (!get_option('ALO_em_embed_css')) add_option('ALO_em_embed_css', 'no');
 	if (!get_option('ALO_em_no_activation_mail')) add_option('ALO_em_no_activation_mail', 'no');
 	if (!get_option('ALO_em_show_credit_banners')) add_option('ALO_em_show_credit_banners', 'yes');
+	if (!get_option('ALO_em_filter_br')) add_option('ALO_em_filter_br', 'yes');
+	if (!get_option('ALO_em_filter_the_content')) add_option('ALO_em_filter_the_content', 'yes');
 	
 	ALO_em_setup_predomain_texts( false );
 		    	    
@@ -157,8 +159,8 @@ function ALO_em_install() {
     
     if ($my_page_id) {
         // if exists update
-        $my_page['ID'] = $my_page_id;
-        wp_update_post($my_page);
+        //$my_page['ID'] = $my_page_id;
+        //wp_update_post($my_page);
     } else {
         // insert the post into the database
         $my_page_id = wp_insert_post( $my_page );
@@ -358,7 +360,34 @@ function ALO_em_save_profile_optin($user_id) {
     
     if (isset($_POST['alo_easymail_option'])) {
         if ( $_POST['alo_easymail_option'] == "yes") {
-            ALO_em_add_subscriber( $user_email, $user_info->first_name ." ".$user_info->first_name, 1, ALO_em_get_language(true) );
+        	$todo_update = false; 
+        	
+        	// if changed name and lastname 
+        	if ( isset( $_POST[ 'first_name' ] ) && $user_info->first_name != $_POST[ 'first_name' ] ) {
+        		$user_first_name = stripslashes( trim( $_POST[ 'first_name' ] ) );
+        		$todo_update = true;
+        	} else {
+        		$user_first_name = $user_info->first_name;
+        	}
+        	if ( isset( $_POST[ 'last_name' ] ) && $user_info->last_name != $_POST[ 'last_name' ] ) {
+        		$user_last_name = stripslashes( trim( $_POST[ 'last_name' ] ) );
+        		$todo_update = true;
+        	} else {
+        		$user_last_name = $user_info->last_name;
+        	}
+        	$fullname = $user_first_name." ".$user_last_name;
+
+        	// if changed email
+        	if ( isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $user_email != $_POST[ 'email' ] ) {
+        		$user_email = stripslashes( trim( $_POST[ 'email' ] ) );
+        		$todo_update = true;
+        	} 
+        	
+        	if ( $todo_update ) {
+        		ALO_em_update_subscriber_by_email ( $user_info->user_email, $user_email, $fullname, 1, ALO_em_get_language(true) );
+        	} else {
+	            ALO_em_add_subscriber( $user_email, $fullname, 1, ALO_em_get_language(true) );
+	      	}
             
             // if subscribing, save also lists
         	$mailinglists = ALO_em_get_mailinglists( 'public' );
@@ -408,6 +437,7 @@ function ALO_em_show_tinymce () {
 		switch ( $_GET['page'] ) {
 			case "alo-easymail/alo-easymail_main.php":
 			//case "alo-easymail/alo-easymail_options.php":
+									
 				wp_enqueue_script( 'common' );
 				wp_enqueue_script( 'jquery-color' );
 				wp_print_scripts('editor');
@@ -419,7 +449,8 @@ function ALO_em_show_tinymce () {
 				do_action("admin_print_styles-post-php");
 				do_action('admin_print_styles');
 				wp_enqueue_script( 'jquery-form' ); // extra
-				wp_enqueue_script( 'jquery-ui-core' ); // extra
+				wp_enqueue_script( 'jquery-ui-core' ); // extra		
+				add_action( 'admin_print_footer_scripts', 'wp_tiny_mce_preload_dialogs', 30 );
 		}
 	}
 }
@@ -680,20 +711,26 @@ add_filter('wp_mail', 'ALO_em_handle_email');
 function ALO_em_add_menu_admin_bar() {
     global $wp_admin_bar;
  	
- 	if ( !$wp_admin_bar ) exit;
+ 	if ( !$wp_admin_bar ) return;
  	
-    if ( !is_super_admin() || !is_admin_bar_showing() )
-        exit;
- 
-    $wp_admin_bar->add_menu( array( 'id' => 'alo_easymail', 'title' =>__( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
+    if ( !is_admin_bar_showing() ) return;
+ 	
+ 	if ( current_user_can('send_easymail_newsletters') ) {
+		$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail', 'title' =>__( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
 
-    $wp_admin_bar->add_menu( array( 'id' => 'alo_easymail_main', 'parent' => 'alo_easymail', 'title' => __( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
-    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Send newsletter', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=send" ) );       
-    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Reports', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=reports" ) );   
-    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Templates', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=templates" ) );   
-        
-    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Subscribers', "alo-easymail" ), 'href' => admin_url('users.php')."?page=alo-easymail/alo-easymail_subscribers.php" ) );
-    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Options', "alo-easymail" ), 'href' => admin_url('options-general.php')."?page=alo-easymail/alo-easymail_options.php" ) );    
+		$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail_main', 'parent' => 'alo_easymail', 'title' => __( 'Newsletters', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php" ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Send newsletter', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=send" ) );       
+		if ( current_user_can('manage_easymail_newsletters') ) {
+			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Reports', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=reports" ) );   
+		}
+		$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Templates', "alo-easymail" ), 'href' => admin_url('admin.php')."?page=alo-easymail/alo-easymail_main.php&tab=templates" ) );   
+  	}
+  	if ( current_user_can('manage_easymail_subscribers') ) {
+	    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Subscribers', "alo-easymail" ), 'href' => admin_url('users.php')."?page=alo-easymail/alo-easymail_subscribers.php" ) );
+    }
+    if ( current_user_can('manage_easymail_options') ) {
+    	$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Options', "alo-easymail" ), 'href' => admin_url('options-general.php')."?page=alo-easymail/alo-easymail_options.php" ) );    
+    }
      
 }
 add_action( 'admin_bar_menu', 'ALO_em_add_menu_admin_bar' ,  70);
