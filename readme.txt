@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 2.8.4
 Tested up to: 3.1
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -91,6 +91,17 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 7. The widget on administration dashboard 
 
 == Changelog ==
+
+= 1.8.7 =
+* Added: some css samples in alo-easymail.css
+* Added: a couple of options to use or not text filters and shortcodes in newsletter text
+* Added: when a user changes email or name, the subscription is updated too
+* Added: css classes in form for registered and not-registered users
+* Fixed: add-link thickbox in editor on WP 3.1
+* Fixed: when plugin re-activated, no update of subscription page's texts
+* Fixed: users with only "send_easymail_newsletter" capability view properly the sending page
+* Fixed: now admin-bar works and newsletter submenu depends on user role
+* Fixed: deleted size attributes from form inputs
 
 = 1.8.6 =
 * NEW FEATURES
@@ -261,3 +272,5 @@ Some new features and bug fixes.
 = 1.8.6 =
 Some new features and bug fixes.
 
+= 1.8.7 =
+Some new features and bug fixes.

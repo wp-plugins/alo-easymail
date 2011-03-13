@@ -9,17 +9,38 @@ For more plugin classes and ids you can look at the source code of a blog page.
 */
 
 
+/* Generic form styles */ 
+.alo_easymail_widget_form  { color:#000; }
+
+/* Form for unknown visitors (not-registered) */
+.alo_easymail_widget_form_public {}
+
+/* Form for registered users */
+.alo_easymail_widget_form_registered {}
+
+/* Form elements */
+.alo_easymail_widget_form .input-text {}
+.alo_easymail_widget_form .input-checkbox {}
+.alo_easymail_widget_form .input-radio {}
+
+/* Lists table container */
+.alo_easymail_lists_table {}
+
+/* Error msg */
+.alo_easymail_widget_error { color:#f00; }
+
+/* Success msg */
+.alo_easymail_widget_ok { color:#008000; }
+
+/* Policy disclaimer */
+.alo_easymail_disclaimer {}
+
+/* Uncomment to customise the loading wheel (Note: copy this file into your theme dir and edit the image url) */
 /*
- * Main styles
- */
- 
-#alo_easymail_widget_form { /* the form */
-    color:#000;
+.alo_em_widget_loading img { display: none }
+.alo_em_widget_loading {
+	background: transparent url(images/loading.png) top left no-repeat;
+	padding-left: 20px;
 }
-.alo_easymail_widget_error { /* error msg */
-    color:#f00;
-}
-.alo_easymail_widget_ok { /* success msg */
-    color:#6c3;
-}
+*/
 
