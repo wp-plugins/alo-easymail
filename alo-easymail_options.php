@@ -90,7 +90,16 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('ALO_em_no_activation_mail', "no") ;
 			}				
-		
+			if ( isset($_POST['filter_br']) ) {
+				update_option('ALO_em_filter_br', "yes");
+			} else {
+				update_option('ALO_em_filter_br', "no") ;
+			}
+			if ( isset($_POST['filter_the_content']) ) {
+				update_option('ALO_em_filter_the_content', "yes");
+			} else {
+				update_option('ALO_em_filter_the_content', "no") ;
+			}
 			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
 				update_option('ALO_em_delete_on_uninstall', "yes");
 			} else {
