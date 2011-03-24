@@ -50,7 +50,7 @@ Available languages:
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
 * Italian v.1.8.6 - it_IT
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
-* Portuguese v.1.8.4 - pt_PT (by Alexandre de Menezes)
+* Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
 * Spanish v.1.8.3 - es_ES (by Mauro Macchiaroli)
 
