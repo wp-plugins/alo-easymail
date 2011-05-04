@@ -14,6 +14,9 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
+**There is a known issue about a large number of recipients that can cause multiple messages to same recipient, no progress on sending...: [read more](http://www.eventualo.net/forum/topic/106).
+So the plugin can be safely used in small/medium blog, its operation is not guaranteed on blogs with a large number of recipients.
+I'm sorry, I'm working on version 2 that should solve problems: [read more](http://www.eventualo.net/blog/2011/04/working-on-easymail-2/).**
 
 **Admin side Features**
 
