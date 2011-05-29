@@ -13,14 +13,13 @@ $action = ( isset($_REQUEST['ac']) ) ? stripslashes($wpdb->escape($_REQUEST['ac'
 
 
 // If there is not an activation/unsubscribe request
-if (ALO_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
+if (alo_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
 	// if there is action show error msg
 	if(isset($_REQUEST['ac'])) echo "<p>".__("Error during operation.", "alo-easymail") ."</p>";
 	
-	$optin_txt = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) !="") ? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg', false) : __("Yes, I would like to receive the Newsletter", "alo-easymail"); 
-	echo "<p>". $optin_txt .".</p>";
+	$optin_txt = ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optin_msg', false) !="") ? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optin_msg', false) : __("Yes, I would like to receive the Newsletter", "alo-easymail"); 
     echo "<div id='alo_easymail_page'>";
-	echo ALO_em_show_widget_form();
+	echo alo_em_show_widget_form();
 	echo "</div>";
 	
 else: // if can go on
@@ -28,8 +27,9 @@ else: // if can go on
 
 // Activate
 if ($action == 'activate') {
-    if (ALO_em_edit_subscriber_state_by_email($email, "1", $unikey)) {
+    if (alo_em_edit_subscriber_state_by_email($email, "1", $unikey)) {
         echo "<p>".__("Your subscription was successfully activated. You will receive the next newsletter. Thank you.", "alo-easymail")."</p>";
+        do_action ( 'alo_easymail_subscriber_updated', $email, $email );
     } else {
         echo "<p>".__("Error during activation. Please check the activation link.", "alo-easymail")."</p>";
     }
@@ -37,12 +37,12 @@ if ($action == 'activate') {
     
 // Request unsubscribe/modify subsription (step #1)
 if ($action == 'unsubscribe') {
-	$mailinglists = ALO_em_get_mailinglists( 'public' );
+	$mailinglists = alo_em_get_mailinglists( 'public' );
 	if ($mailinglists) { // only if there are public lists
 		echo "<h3>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . ":</h3>";
 		echo '<form method="post" action="'. get_permalink() .'">';
 		echo '<div class="alo_easymail_lists_table">';
-		echo ALO_em_html_mailinglists_table_to_edit ( $email, "" );
+		echo alo_em_html_mailinglists_table_to_edit ( $email, "" );
 		echo '</div>';
 	   	echo '<input type="hidden" name="ac" value="do_editlists" />';
 		echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
@@ -65,8 +65,9 @@ if ($action == 'unsubscribe') {
 
 // Confirm unsubscribe and do it! (step #2a)
 if ($action == 'do_unsubscribe' && isset($_POST['submit']) ) {
-    if (ALO_em_delete_subscriber_by_email($email, $unikey)) {
+    if (alo_em_delete_subscriber_by_email($email, $unikey)) {
         echo "<p>".__("Your subscription was successfully deleted. Bye bye.", "alo-easymail")."</p>";
+        do_action ( 'alo_easymail_subscriber_deleted', $email, false );
     } else {
         echo "<p>".__("Error during unsubscription.", "alo-easymail")." ". __("Try again.", "alo-easymail"). "</p>";
         echo "<p>".__("If it fails again you can contact the administrator", "alo-easymail").": <a href='mailto:".get_option('admin_email')."?Subject=Unsubscribe'>".get_option('admin_email')."</a></p>";
@@ -75,14 +76,14 @@ if ($action == 'do_unsubscribe' && isset($_POST['submit']) ) {
 
 // Modify lists subscription and save it! (step #2b)
 if ($action == 'do_editlists' && isset($_POST['submit']) ) {
-	$mailinglists = ALO_em_get_mailinglists( 'public' );
+	$mailinglists = alo_em_get_mailinglists( 'public' );
 	if ($mailinglists) {
-		$subscriber_id = ALO_em_is_subscriber( $email );
+		$subscriber_id = alo_em_is_subscriber( $email );
 		foreach ( $mailinglists as $mailinglist => $val) {					
 			if ( isset ($_POST['alo_em_profile_lists']) && is_array ($_POST['alo_em_profile_lists']) && in_array ( $mailinglist, $_POST['alo_em_profile_lists'] ) ) {
-				ALO_em_add_subscriber_to_list ( $subscriber_id, $mailinglist );	  // add to list
+				alo_em_add_subscriber_to_list ( $subscriber_id, $mailinglist );	  // add to list
 			} else {
-				ALO_em_delete_subscriber_from_list ( $subscriber_id, $mailinglist ); // remove from list
+				alo_em_delete_subscriber_from_list ( $subscriber_id, $mailinglist ); // remove from list
 			}
 		}
 	}

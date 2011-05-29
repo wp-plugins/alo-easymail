@@ -4,37 +4,31 @@ include('../../../wp-load.php');
 global $wpdb;
 
 /*
-
 Feature inspired by phplist: http://www.phplist.com/
 Many thanks to those are working on it!
 
-
 eg. link in email:
-'<img src="{...path_to_easymail_dir...}tr.php?n={idnewsletter}&e1={account_email}&e2={domain_email.lt}d&k={12345_subscriber_unikey}" width="1" height="1" border="0" >';
+'<img src="{...path_to_easymail_dir...}tr.php?v={base-64-vars}" width="1" height="1" border="0" >';
 */
 
 ob_start();
 error_reporting(0);
 
-$newsletter	= ( isset($_REQUEST['n']) && (int)$_REQUEST['n'] ) ? $wpdb->escape( $_REQUEST['n'] ) : false;
-$e1			= ( isset($_REQUEST['e1']) ) ? $wpdb->escape( $_REQUEST['e1'] ) : "";
-$e2			= ( isset($_REQUEST['e2']) ) ? $wpdb->escape( $_REQUEST['e2'] ) : "";
-$email		= ( is_email ( $e1."@".$e2 ) ) ? $e1."@".$e2 : false;
-$unikey		= ( isset($_REQUEST['k']) ) ? $wpdb->escape( $_REQUEST['k'] ) : false;
+if ( isset( $_REQUEST['v'] ) ) {
 
-$can_add = false; // prepare permission
+	$get_vars = base64_decode( $_REQUEST['v'] );
+	$get = explode( "|", $get_vars );
 
-if ( $newsletter && $email && $unikey ) {
-	
-	// check subscriber id and unikey
-	$can_add	= ALO_em_check_subscriber_email_and_unikey ( $email, $unikey );
+	$recipient	= ( isset( $get[0] ) && (int)$get[0] ) ? $wpdb->escape( $get[0] ) : false;
+	$unikey		= ( isset( $get[1] ) ) ? $wpdb->escape( $get[1] ) : false;
 
-	// If already tracking, don't add again!
-	if ( ALO_em_recipient_is_tracked ( $email, $newsletter, "V" ) ) $can_add = false;
-    
-    if ( $can_add ) { // So, if can add, insert in db
-	    ALO_em_add_tracking ( $email, $newsletter, "V" );
+	if ( $recipient && $unikey ) {
+		$rec_info = alo_em_get_recipient_by_id( $recipient );
+		if ( $rec_info && alo_em_check_subscriber_email_and_unikey ( $rec_info->email, $unikey ) ) {
+			alo_em_tracking_recipient ( $recipient, $rec_info->newsletter, false );
+		}
 	}
+
 }
 
 //echo $wpdb->last_query;

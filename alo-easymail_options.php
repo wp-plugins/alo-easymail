@@ -1,12 +1,17 @@
 <?php
 auth_redirect();
 if ( !current_user_can('manage_easymail_options') ) 	wp_die(__('Cheatin&#8217; uh?'));
+
+
+// Base link
+$link_base = "edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_options.php";
+
 	
 global $wp_version, $wpdb, $user_ID, $wp_roles;
 
 // delete welcome setting alert
 if ( isset($_REQUEST['timeout_alert']) && $_REQUEST['timeout_alert'] == "stop" ) {
-	update_option( 'ALO_em_timeout_alert', "hide" ); 
+	update_option( 'alo_em_timeout_alert', "hide" ); 
 }
 
 // If updating languages list
@@ -14,17 +19,17 @@ if ( isset($_POST['langs_list']) && current_user_can('manage_options') ) {
 	$new_langs = explode ( ",", stripslashes( trim($_POST['langs_list'])) );
 	for ( $i=0; $i < count($new_langs); $i++ ) {
 		if ( strlen( trim($new_langs[$i]) ) < 2 ) unset( $new_langs[$i] );
-		$new_langs[$i] = ALO_em_short_langcode ( trim($new_langs[$i]) );
+		$new_langs[$i] = alo_em_short_langcode ( trim($new_langs[$i]) );
 	}
 	$str_langs = implode ( ',', $new_langs );
 	$str_langs = rtrim ( $str_langs, "," );
-	update_option('ALO_em_langs_list', $str_langs );
+	update_option('alo_em_langs_list', $str_langs );
 }
 
 // All available languages
-$languages = ALO_em_get_all_languages( false );
+$languages = alo_em_get_all_languages( false );
 // Text fields for multilangual customization
-$text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "disclaimer_msg" );
+$text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "preform_msg", "disclaimer_msg" );
 
 
 if ( isset($_REQUEST['submit']) ) {
@@ -38,6 +43,8 @@ if ( isset($_REQUEST['submit']) ) {
 		$lists_msg	= array();
 		$disclaimer_msg	= array();
 		$unsub_footer = array();
+		$preform_msg = array();
+		$viewonline_msg = array();
 		foreach ( $languages as $key => $lang ) {
 			if (isset($_POST['activamail_subj_'.$lang]) && trim( $_POST['activamail_subj_'.$lang] ) != "" ) $activamail_subj[$lang] = stripslashes(trim($_POST['activamail_subj_'.$lang]));
 			if (isset($_POST['activamail_mail_'.$lang]) && trim( $_POST['activamail_mail_'.$lang] ) != "" ) $activamail_mail[$lang] = stripslashes(trim($_POST['activamail_mail_'.$lang]));
@@ -46,15 +53,18 @@ if ( isset($_REQUEST['submit']) ) {
 			if (isset($_POST['lists_msg_'.$lang]) )		$lists_msg[$lang] = stripslashes(trim($_POST['lists_msg_'.$lang]));
 			if (isset($_POST['disclaimer_msg_'.$lang]) ) $disclaimer_msg[$lang] = stripslashes(trim($_POST['disclaimer_msg_'.$lang]));
 			if (isset($_POST['unsub_footer_'.$lang]) )	$unsub_footer[$lang] = stripslashes(trim($_POST['unsub_footer_'.$lang]));
-		
+			if (isset($_POST['preform_msg_'.$lang]) )	$preform_msg[$lang] = stripslashes(trim($_POST['preform_msg_'.$lang]));
+			if (isset($_POST['viewonline_msg_'.$lang]) ) $viewonline_msg[$lang] = stripslashes(trim($_POST['viewonline_msg_'.$lang]));
 		}
-		if ( count ($activamail_subj) ) update_option('ALO_em_txtpre_activationmail_subj', $activamail_subj );
-		if ( count ($activamail_mail) ) update_option('ALO_em_txtpre_activationmail_mail', $activamail_mail );
-		if ( count ($optin_msg) ) 		update_option('ALO_em_custom_optin_msg', $optin_msg );
-		if ( count ($optout_msg) ) 		update_option('ALO_em_custom_optout_msg', $optout_msg );
-		if ( count ($lists_msg) ) 		update_option('ALO_em_custom_lists_msg', $lists_msg );		
-		if ( count ($disclaimer_msg) ) 		update_option('ALO_em_custom_disclaimer_msg', $disclaimer_msg );		
-		if ( count ($unsub_footer) ) 	update_option('ALO_em_custom_unsub_footer', $unsub_footer );
+		if ( count ($activamail_subj) ) update_option('alo_em_txtpre_activationmail_subj', $activamail_subj );
+		if ( count ($activamail_mail) ) update_option('alo_em_txtpre_activationmail_mail', $activamail_mail );
+		if ( count ($optin_msg) ) 		update_option('alo_em_custom_optin_msg', $optin_msg );
+		if ( count ($optout_msg) ) 		update_option('alo_em_custom_optout_msg', $optout_msg );
+		if ( count ($lists_msg) ) 		update_option('alo_em_custom_lists_msg', $lists_msg );		
+		if ( count ($disclaimer_msg) ) 		update_option('alo_em_custom_disclaimer_msg', $disclaimer_msg );		
+		if ( count ($unsub_footer) ) 	update_option('alo_em_custom_unsub_footer', $unsub_footer );
+		if ( count ($preform_msg) ) 	update_option('alo_em_custom_preform_msg', $preform_msg );
+		if ( count ($viewonline_msg) ) 	update_option('alo_em_custom_viewonline_msg', $viewonline_msg );
 	}
 	// --------
 	
@@ -63,55 +73,59 @@ if ( isset($_REQUEST['submit']) ) {
 		// Tab GENERAL
 		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_general" ) {
 		
-			if(isset($_POST['sender_email'])) update_option('ALO_em_sender_email', trim($_POST['sender_email']));
-			if(isset($_POST['sender_name'])) update_option('ALO_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
-			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('ALO_em_lastposts', trim($_POST['lastposts']));	
+			if(isset($_POST['sender_email'])) update_option('alo_em_sender_email', trim($_POST['sender_email']));
+			if(isset($_POST['sender_name'])) update_option('alo_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
+			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('alo_em_lastposts', trim($_POST['lastposts']));	
 		
-			if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('ALO_em_subsc_page', trim($_POST['subsc_page']));
-			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('ALO_em_debug_newsletters', $_POST['debug_newsletters']);
+			if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('alo_em_subsc_page', trim($_POST['subsc_page']));
+			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('alo_em_debug_newsletters', $_POST['debug_newsletters']);
 		
 			if ( isset($_POST['show_subscripage']) ) {
-				update_option('ALO_em_show_subscripage', "yes");
+				update_option('alo_em_show_subscripage', "yes");
 			} else {
-				update_option('ALO_em_show_subscripage', "no") ;
+				update_option('alo_em_show_subscripage', "no") ;
 			}
 			if ( isset($_POST['embed_css']) ) {
-				update_option('ALO_em_embed_css', "yes");
+				update_option('alo_em_embed_css', "yes");
 			} else {
-				update_option('ALO_em_embed_css', "no") ;
+				update_option('alo_em_embed_css', "no") ;
 			}
 			if ( isset($_POST['credit_banners']) ) {
-				update_option('ALO_em_show_credit_banners', "yes");
+				update_option('alo_em_show_credit_banners', "yes");
 			} else {
-				update_option('ALO_em_show_credit_banners', "no") ;
+				update_option('alo_em_show_credit_banners', "no") ;
 			}
 			if ( isset($_POST['no_activation_mail']) ) {
-				update_option('ALO_em_no_activation_mail', "yes");
+				update_option('alo_em_no_activation_mail', "yes");
 			} else {
-				update_option('ALO_em_no_activation_mail', "no") ;
+				update_option('alo_em_no_activation_mail', "no") ;
 			}				
+			/*
+			// maybe useless in v.2...
 			if ( isset($_POST['filter_br']) ) {
-				update_option('ALO_em_filter_br', "yes");
+				update_option('alo_em_filter_br', "yes");
 			} else {
-				update_option('ALO_em_filter_br', "no") ;
+				update_option('alo_em_filter_br', "no") ;
 			}
+			*/
 			if ( isset($_POST['filter_the_content']) ) {
-				update_option('ALO_em_filter_the_content', "yes");
+				update_option('alo_em_filter_the_content', "yes");
 			} else {
-				update_option('ALO_em_filter_the_content', "no") ;
+				update_option('alo_em_filter_the_content', "no") ;
 			}
+					
 			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
-				update_option('ALO_em_delete_on_uninstall', "yes");
+				update_option('alo_em_delete_on_uninstall', "yes");
 			} else {
-				update_option('ALO_em_delete_on_uninstall', "no") ;
+				update_option('alo_em_delete_on_uninstall', "no") ;
 			}
 		} // end Tab GENERAL
 
 		// Tab BATCH SENDING
 		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_batch" ) {
-			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('ALO_em_dayrate', trim((int)$_POST['dayrate']));
-			if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('ALO_em_batchrate', trim((int)$_POST['batchrate']));
-			if(isset($_POST['sleepvalue']) && (int)$_POST['sleepvalue'] <= 5000 ) update_option('ALO_em_sleepvalue', trim((int)$_POST['sleepvalue']));
+			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('alo_em_dayrate', trim((int)$_POST['dayrate']));
+			if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('alo_em_batchrate', trim((int)$_POST['batchrate']));
+			if(isset($_POST['sleepvalue']) && (int)$_POST['sleepvalue'] <= 5000 ) update_option('alo_em_sleepvalue', trim((int)$_POST['sleepvalue']));
 		} // end Tab BATCH SENDING
 
 		// Tab PERMISSIONS
@@ -179,14 +193,15 @@ if ( isset($_REQUEST['submit']) ) {
 <script type="text/javascript">
 	var $em = jQuery.noConflict();
 	$em(document).ready(function(){
-		$em('#slider').tabs({ fx: { opacity: 'toggle', duration:'fast' }  });
+		$em('#easymail_slider').tabs({ fx: { opacity: 'toggle', duration:'fast' }  });
 		$em('#activamail_container').tabs();
 		<?php 
 		foreach ( $text_fields as $text_field ) {
 			echo '$em(\'#'.$text_field.'_container\').tabs();'."\n";
 		} ?>
 		$em('#listname_container').tabs();
-		$em('#unsub_footer_container').tabs();		
+		$em('#unsub_footer_container').tabs();	
+		$em('#viewonline_msg_container').tabs();	
 	});
 </script>
 
@@ -198,20 +213,9 @@ if ( isset($_REQUEST['submit']) ) {
 <!--<div class="wrap">-->
 
 
-<div id="slider" class="wrap">
+<div id="easymail_slider" class="wrap">
 <div class="icon32" id="icon-options-general"><br></div>
 <h2>Alo EasyMail Newsletter Options</h2>
-
-<?php // Alert 
-if ( get_option('ALO_em_timeout_alert') != "hide" ) { 
-	echo '<div class="updated fade">';
-	echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> '. __("To enable the plugin work better you should increase the wp_cron and php timeouts", "alo-easymail") .". ";
-	echo __("For more info you can use the Help button or visit the FAQ of the site", "alo-easymail");
-	echo ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3" target="_blank" title="'. __("For more info, visit the FAQ of the site.", "alo-easymail") .'">&raquo;</a></p>';
-	echo "<p>(<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;timeout_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
-	echo '</div>';
-}
-?>
 
 <ul id="tabs">
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#general">' . __("General", "alo-easymail") .'</a></li>'; ?>
@@ -236,23 +240,23 @@ GENERAL
 <table class="form-table"><tbody>
 <tr valign="top">
 <th scope="row"><label for="lastposts"><?php _e("Number of last posts to display", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="lastposts" value="<?php echo get_option('ALO_em_lastposts') ?>" id="lastposts" size="2" maxlength="2" />
+<td><input type="text" name="lastposts" value="<?php echo get_option('alo_em_lastposts') ?>" id="lastposts" size="2" maxlength="2" />
 <span class="description"><?php _e("Number of recent posts to show in the dropdown list of the newsletter sending form", "alo-easymail");?></span></td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="sender_email"><?php _e("Sender's email address", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="sender_email" value="<?php echo get_option('ALO_em_sender_email') ?>" id="sender_email" size="30" maxlength="100" /></td>
+<td><input type="text" name="sender_email" value="<?php echo get_option('alo_em_sender_email') ?>" id="sender_email" size="30" maxlength="100" /></td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="sender_name"><?php _e("Sender's name", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="sender_name" value="<?php esc_attr_e( get_option('ALO_em_sender_name') ) ?>" id="sender_name" size="30" maxlength="100" /></td>
+<td><input type="text" name="sender_name" value="<?php esc_attr_e( get_option('alo_em_sender_name') ) ?>" id="sender_name" size="30" maxlength="100" /></td>
 </tr>
 
 <?php 
-if ( get_option('ALO_em_subsc_page') ) {
-	$selected_subscripage = get_option('ALO_em_subsc_page');
+if ( get_option('alo_em_subsc_page') ) {
+	$selected_subscripage = get_option('alo_em_subsc_page');
 } else {
 	$selected_subscripage = "";
 }
@@ -282,12 +286,12 @@ if ( count($get_pages) ) {
 
 
 <?php 
-if ( get_option('ALO_em_show_subscripage') == "yes" ) {
+if ( get_option('alo_em_show_subscripage') == "yes" ) {
 	$checked_show_subscripage = 'checked="checked"';
 } else {
 	$checked_show_subscripage = "";
 }
-//$subcripage_link = "<a href='" . get_permalink(get_option('ALO_em_subsc_page')) . "'>" . get_the_title (get_option('ALO_em_subsc_page')) . "</a>";
+//$subcripage_link = "<a href='" . get_permalink(get_option('alo_em_subsc_page')) . "'>" . get_the_title (get_option('alo_em_subsc_page')) . "</a>";
 ?>
 <tr valign="top">
 <th scope="row"><?php _e("Show subscription page", "alo-easymail") ?>:</th>
@@ -295,7 +299,7 @@ if ( get_option('ALO_em_show_subscripage') == "yes" ) {
 </tr>
 
 <?php 
-if ( get_option('ALO_em_embed_css') == "yes" ) {
+if ( get_option('alo_em_embed_css') == "yes" ) {
 	$checked_embed_css = 'checked="checked"';
 } else {
 	$checked_embed_css = "";
@@ -307,7 +311,7 @@ if ( get_option('ALO_em_embed_css') == "yes" ) {
 </tr>
 
 <?php 
-if ( get_option('ALO_em_no_activation_mail') == "yes" ) {
+if ( get_option('alo_em_no_activation_mail') == "yes" ) {
 	$checked_embed_css = 'checked="checked"';
 } else {
 	$checked_embed_css = "";
@@ -319,12 +323,15 @@ if ( get_option('ALO_em_no_activation_mail') == "yes" ) {
 </tr>
 
 <?php
-if ( get_option('ALO_em_filter_br') != "no" ) {
+/*
+// maybe useless in v.2...
+if ( get_option('alo_em_filter_br') != "no" ) {
 	$checked_filter_br = 'checked="checked"';
 } else {
 	$checked_filter_br = "";
 }
-if ( get_option('ALO_em_filter_the_content') != "no" ) {
+*/
+if ( get_option('alo_em_filter_the_content') != "no" ) {
 	$checked_filter_the_content = 'checked="checked"';
 } else {
 	$checked_filter_the_content = "";
@@ -332,14 +339,15 @@ if ( get_option('ALO_em_filter_the_content') != "no" ) {
 ?>
 <tr valign="top">
 <th scope="row"><?php _e("Filters to the newsletter text", "alo-easymail") ?>:</th>
-<td><input type="checkbox" name="filter_br" id="filter_br" value="yes" <?php echo $checked_filter_br ?> /><label for="filter_br"> <?php esc_html_e(__("Convert carriage return in <br> tag", "alo-easymail")) ?></label><br />
+<td>
+<!--<input type="checkbox" name="filter_br" id="filter_br" value="yes" <?php echo $checked_filter_br ?> /><label for="filter_br"> <?php esc_html_e(__("Convert carriage return in <br> tag", "alo-easymail")) ?></label><br />-->
 <input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><label for="filter_the_content"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></label>
 </td>
 </tr>
 
 <?php  
-if ( get_option('ALO_em_debug_newsletters') ) {
-	$selected_debug_newsletters = get_option('ALO_em_debug_newsletters');
+if ( get_option('alo_em_debug_newsletters') ) {
+	$selected_debug_newsletters = get_option('alo_em_debug_newsletters');
 } else {
 	$selected_debug_newsletters = "";
 }
@@ -364,7 +372,7 @@ if ( get_option('ALO_em_debug_newsletters') ) {
 </tr>
 
 <?php 
-if ( get_option('ALO_em_show_credit_banners') == "yes" ) {
+if ( get_option('alo_em_show_credit_banners') == "yes" ) {
 	$checked_credit_banners = 'checked="checked"';
 } else {
 	$checked_credit_banners = "";
@@ -376,7 +384,7 @@ if ( get_option('ALO_em_show_credit_banners') == "yes" ) {
 </tr>
 
 <?php 
-if ( get_option('ALO_em_delete_on_uninstall') == "yes" ) {
+if ( get_option('alo_em_delete_on_uninstall') == "yes" ) {
 	$checked_delete_on_uninstall = 'checked="checked"';
 } else {
 	$checked_delete_on_uninstall = "";
@@ -416,7 +424,7 @@ TEXTS
 <table class="form-table"><tbody>
 
 <?php
-if ( ALO_em_multilang_enabled_plugin() == false ) {
+if ( alo_em_multilang_enabled_plugin() == false ) {
 	echo '<tr valign="top">';
 	echo '<td colspan="2">';
 		echo '<div class="text-alert">';
@@ -424,9 +432,9 @@ if ( ALO_em_multilang_enabled_plugin() == false ) {
 		echo '<p>'. __('Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality', 'alo-easymail') .': ';
 		echo '<a href="http://wordpress.org/extend/plugins/qtranslate/" target="_blank">qTranslate</a>';
 		echo '.</p>';
-		echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .".</p>";
+		//echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .".</p>";
 		echo '<p>'. __('If you like here you can list the languages available', 'alo-easymail') .':<br />';
-		$langs_list = ( get_option( 'ALO_em_langs_list' ) != "" ) ? get_option( 'ALO_em_langs_list' ) : "";
+		$langs_list = ( get_option( 'alo_em_langs_list' ) != "" ) ? get_option( 'alo_em_langs_list' ) : "";
 		echo '<input type="text" name="langs_list" value="' . $langs_list .'"  />';
 		echo '<input type="submit" name="submit" value="'. __('Update', 'alo-easymail') .'" class="button" /> ';
 		echo '<span class="description">'. __('List of two-letter language codes separated by commas', 'alo-easymail'). ' ('. sprintf( '<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">%s</a>', __('iso 639-1 codes', 'alo-easymail') ) . '). '. __('Sample:', 'alo-easymail') .' en,de,it</span>';
@@ -460,6 +468,7 @@ foreach ( $text_fields as $text_field ) : ?>
 		case "optout_msg": 	_e("Optout message", "alo-easymail"); break;
 		case "lists_msg": 	_e("Invite to join mailing lists", "alo-easymail"); break;				
 		case "disclaimer_msg": 	_e("Policy claim", "alo-easymail"); break;	
+		case "preform_msg": 	_e("Top claim", "alo-easymail"); break;	
 	}
 	?>:
 	</th>
@@ -472,20 +481,24 @@ foreach ( $text_fields as $text_field ) : ?>
 		case "disclaimer_msg": 
 			echo "(". __("empty", "alo-easymail"). ") ";
 			echo '<br /><span class="description">'. __("If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy", "alo-easymail"). '.</span>';  
-			break;					
+			break;			
+		case "preform_msg": 
+			echo "(". __("empty", "alo-easymail"). ") ";
+			echo '<br /><span class="description">'. __("If filled in it will appear at the top of widget/page. Useful to invite to subscribe", "alo-easymail"). '.</span>';  
+			break;							
 	}
 	?>
 	<div id="<?php echo $text_field ?>_container">
 	
 	<?php
-	$custom_texts 	= get_option( 'ALO_em_custom_'. $text_field );
+	$custom_texts 	= get_option( 'alo_em_custom_'. $text_field );
 	
 	// Set tabs and fields
 	if ( $languages ) {
 		$lang_li = array();
 		$lang_div = array();	
 		foreach ( $languages as $key => $lang ) {
-			$lang_li[$lang] = '<li><a href="#'.$text_field.'_div_'.$lang.'"><strong>' . ALO_em_get_lang_name( $lang ) .'</strong></a></li>';
+			$lang_li[$lang] = '<li><a href="#'.$text_field.'_div_'.$lang.'"><strong>' . alo_em_get_lang_name( $lang ) .'</strong></a></li>';
 			$lang_div[$lang] = '<div id ="'.$text_field.'_div_'.$lang.'">';
 			$lang_text = ( !empty( $custom_texts[$lang] ) ) ? esc_attr($custom_texts[$lang]) : "";
 			$lang_div[$lang] .= '<input type="text" name="'.$text_field.'_'.$lang.'" value="' . $lang_text .'" id="'.$text_field.'_'.$lang.'" maxlength="100" style="width:100%" />';
@@ -519,14 +532,14 @@ foreach ( $text_fields as $text_field ) : ?>
 <td><span class="description"><?php _e("Leave blank to use default text", "alo-easymail") ?>.</span>
 <div id="activamail_container">
 	<?php 
-	$subjects = get_option( 'ALO_em_txtpre_activationmail_subj' );
-	$mails = get_option( 'ALO_em_txtpre_activationmail_mail' );
+	$subjects = get_option( 'alo_em_txtpre_activationmail_subj' );
+	$mails = get_option( 'alo_em_txtpre_activationmail_mail' );
 	// Set tabs and fields
 	if ( $languages ) {
 		$lang_li = array();
 		$lang_div = array();	
 		foreach ( $languages as $key => $lang ) {
-			$lang_li[$lang] = '<li><a href="#activamail_div_'.$lang.'">'. /*ALO_em_get_lang_flag($lang, false) .*/ ' <strong>' . ALO_em_get_lang_name( $lang ) .'</strong>';
+			$lang_li[$lang] = '<li><a href="#activamail_div_'.$lang.'">'. /*alo_em_get_lang_flag($lang, false) .*/ ' <strong>' . alo_em_get_lang_name( $lang ) .'</strong>';
 			$lang_li[$lang] .= '</a></li>';
 			$lang_div[$lang] = '<div id ="activamail_div_'.$lang.'"><span class="description">'. __("Subject", "alo-easymail") .'</span><br />';
 			$lang_subj = ( !empty($subjects[$lang]) ) ? esc_attr($subjects[$lang]) : "";
@@ -563,12 +576,12 @@ echo "&lt;/em&gt;&lt;/p&gt;";
 ?>
 <div id="unsub_footer_container">
 	<?php 
-	$custom_texts = get_option( 'ALO_em_custom_unsub_footer' );
+	$custom_texts = get_option( 'alo_em_custom_unsub_footer' );
 	if ( $languages ) {
 		$lang_li = array();
 		$lang_div = array();	
 		foreach ( $languages as $key => $lang ) {
-			$lang_li[$lang] = '<li><a href="#unsub_footer_div_'.$lang.'"><strong>' . ALO_em_get_lang_name( $lang ) .'</strong></a></li>';
+			$lang_li[$lang] = '<li><a href="#unsub_footer_div_'.$lang.'"><strong>' . alo_em_get_lang_name( $lang ) .'</strong></a></li>';
 			$lang_div[$lang] = '<div id ="unsub_footer_div_'.$lang.'">';
 			$lang_text = ( !empty( $custom_texts[$lang] ) ) ? esc_html($custom_texts[$lang]) : "";
 			$lang_div[$lang] .= '<textarea name="unsub_footer_'.$lang.'" rows="3" style="width:100%" />' . $lang_text .'</textarea>';
@@ -587,6 +600,42 @@ echo "&lt;/em&gt;&lt;/p&gt;";
 <ul style="margin-left:20px">
 	<li><code>%BLOGNAME%</code>: <?php _e("the blog name", "alo-easymail");?></li>
 	<li><code>%UNSUBSCRIBELINK%</code>: <?php _e("the url that the new subscriber must click/visit to unsubscribe the newsletter", "alo-easymail");?></li>
+</ul>	
+</td>
+</tr>
+
+
+<tr valign="top">
+<th scope="row"><?php _e("Read newsletter online", "alo-easymail") ?>:</th>
+<td><span class="description"><?php _e("Leave blank to use default text", "alo-easymail") ?>:</span><br />
+<?php
+echo "&lt;p&gt;&lt;em&gt;". __("To read the newsletter online you can visit this link", "alo-easymail") .": %NEWSLETTERLINK% &lt;/em&gt;&lt;/p&gt;";
+?>
+<div id="viewonline_msg_container">
+	<?php 
+	$custom_texts = get_option( 'alo_em_custom_viewonline_msg' );
+	if ( $languages ) {
+		$lang_li = array();
+		$lang_div = array();	
+		foreach ( $languages as $key => $lang ) {
+			$lang_li[$lang] = '<li><a href="#viewonline_msg_div_'.$lang.'"><strong>' . alo_em_get_lang_name( $lang ) .'</strong></a></li>';
+			$lang_div[$lang] = '<div id ="viewonline_msg_div_'.$lang.'">';
+			$lang_text = ( !empty( $custom_texts[$lang] ) ) ? esc_html($custom_texts[$lang]) : "";
+			$lang_div[$lang] .= '<textarea name="viewonline_msg_'.$lang.'" rows="3" style="width:100%" />' . $lang_text .'</textarea>';
+			$lang_div[$lang] .= '</div>';
+		}
+	}
+	?>
+	<ul id="viewonline_msg_tabs">
+	<?php echo implode ( "\n\n", $lang_li); ?>
+	</ul>
+
+<?php echo implode ( "\n\n", $lang_div);?>
+</div>
+
+<p><?php _e("You can use the following tags", "alo-easymail");?>:</p>
+<ul style="margin-left:20px">
+	<li><code>%NEWSLETTERLINK%</code>: <?php _e("the newsletter web url", "alo-easymail");?></li>
 </ul>	
 </td>
 </tr>
@@ -617,24 +666,34 @@ BATCH SENDING
 <h2><?php _e("Batch sending", "alo-easymail") ?></h2>
 
 
-
 <table class="form-table"><tbody>
+
+<?php
+if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'ALO_EM_SLEEPVALUE' ) ) {
+	echo '<tr valign="top">';
+	echo '<td colspan="2">';
+		echo '<div class="text-alert">';
+		echo '<p>'. sprintf( __('Some parameters are already setted up in %s, so the values below could be ignored', 'alo-easymail'), '<em>wp-config.php</em>')  .'.</p>';
+		echo '</div>';
+	echo '</td></tr>';
+}
+?>
 
 <tr valign="top">
 <th scope="row"><label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="dayrate" value="<?php echo get_option('ALO_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
+<td><input type="text" name="dayrate" value="<?php echo get_option('alo_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
 <span class="description">(300 - 10000)</span></td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="batchrate"><?php _e("Maximum number of emails that can be sent per batch", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="batchrate" value="<?php echo get_option('ALO_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
+<td><input type="text" name="batchrate" value="<?php echo get_option('alo_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
 <span class="description">(10 - 300)</span></td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="sleepvalue"><?php _e("Interval between emails in a single batch, in milliseconds", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="sleepvalue" value="<?php echo (int)get_option('ALO_em_sleepvalue') ?>" id="sleepvalue" size="5" maxlength="4" />
+<td><input type="text" name="sleepvalue" value="<?php echo (int)get_option('alo_em_sleepvalue') ?>" id="sleepvalue" size="5" maxlength="4" />
 <span class="description">(0 - 5000) <?php _e("Default", "alo-easymail") ?>: 0.<br /><?php _e("Usually you do not have to modify this value", "alo-easymail") ?>. <?php _e("It is useful if your provider allows a maximum number of emails that can be sent per second or minute", "alo-easymail") ?>. <?php _e("The higher this value, the lower the number of emails sent for each batch", "alo-easymail") ?>. </span></td>
 </tr>
 
@@ -683,6 +742,7 @@ $get_editor = get_role( 'editor' );
 <th scope="row"><?php _e("The lowest role can send newsletters", "alo-easymail") ?>:</th>
 <td>
 <?php
+/*
 if ( $get_author->has_cap ('send_easymail_newsletters') ) {
 	$selected_editor	= "";
 	$selected_author	= "selected='selected'";
@@ -696,13 +756,18 @@ if ( $get_author->has_cap ('send_easymail_newsletters') ) {
 	$selected_author	= "";
 	$selected_admin		= "selected='selected'";
 }
+*/
 ?>
+<!--
 <select name="can_send_newsletters" id="can_send_newsletters">
 	<option value='admin' <?php echo $selected_admin; ?> ><?php echo translate_user_role ($rolenames['administrator']) ?> </option>
 	<option value='editor' <?php echo $selected_editor; ?> ><?php echo translate_user_role ($rolenames['editor']) ?> </option>
 	<option value='author' <?php echo $selected_author; ?> ><?php echo translate_user_role ($rolenames['author']) ?> </option>
 </select><br />
-<span class="description"> <?php _e("The user with this capability can only send newletters, but cannot manage them (view the report, delete)", "alo-easymail") ?>.
+-->
+<span class="description">
+	<?php printf( __("The authorised roles are the same with the %s capability", "alo-easymail"), "<code>edit_post</code>" ); ?>.<br />
+	<?php _e("The user with this capability can manage own newsletters (view the report, delete)", "alo-easymail") ?>.
 </span>
 </td>
 </tr>
@@ -711,6 +776,7 @@ if ( $get_author->has_cap ('send_easymail_newsletters') ) {
 <th scope="row"><?php _e("The lowest role can manage newsletters", "alo-easymail") ?>:</th>
 <td>
 <?php 
+/*
 if ( $get_editor->has_cap ('manage_easymail_newsletters') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
@@ -718,13 +784,18 @@ if ( $get_editor->has_cap ('manage_easymail_newsletters') ) {
 	$selected_editor	= "";
 	$selected_admin		= "selected='selected'";
 }
+*/
 ?>
+<!--
 <select name="can_manage_newsletters" id="can_manage_newsletters">
 	<option value='admin' <?php echo $selected_admin; ?> ><?php echo translate_user_role ($rolenames['administrator']) ?> </option>
 	<option value='editor' <?php echo $selected_editor; ?> ><?php echo translate_user_role ($rolenames['editor']) ?> </option>
 </select><br />
-<span class="description"> <?php _e("The user with this capability can manage own newsletters (view the report, delete)", "alo-easymail") ?>.<br />
-<?php _e("Note: to let a user manage newsletters of other users, this user must have the capability to manage subscribers too", "alo-easymail") ?>.
+-->
+<span class="description">
+	<?php printf( __("The authorised roles are the same with the %s capability", "alo-easymail"), "<code>edit_posts</code>" ); ?>.<br />
+	<?php _e("The user with this capability can manage newsletters of all users (view the report, delete)", "alo-easymail") ?>.
+	<?php // _e("Note: to let a user manage newsletters of other users, this user must have the capability to manage subscribers too", "alo-easymail") ?>.
 </span>
 </td>
 </tr>
@@ -811,7 +882,7 @@ if ( isset( $_REQUEST['task'] ) ) {
 	switch ( $_REQUEST['task'] ) {
 		case "edit_list":	// EDIT an existing Mailing list
 			if ( $list_id ) {
-				$mailinglists = ALO_em_get_mailinglists ( 'hidden,admin,public' );
+				$mailinglists = alo_em_get_mailinglists ( 'hidden,admin,public' );
 				$list_name = $mailinglists [$list_id]["name"];
 				$list_available = $mailinglists [$list_id]["available"];	
 				$list_order = $mailinglists [$list_id]["order"];		
@@ -832,7 +903,7 @@ if ( isset( $_REQUEST['task'] ) ) {
 				$list_available = stripslashes( trim( $_POST['elp_list_available'] ) );
 				$list_order = stripslashes( trim( $_POST['elp_list_order'] ) );
 				if ( $list_name && $list_available && is_numeric($list_order) ) {
-					$mailinglists = ALO_em_get_mailinglists ( 'hidden,admin,public' );
+					$mailinglists = alo_em_get_mailinglists ( 'hidden,admin,public' );
 					if ( $list_id )  { // update
 						$mailinglists [$list_id] = array ( "name" => $list_name, "available" => $list_available, "order" => $list_order );
 					} else { // or add a new
@@ -841,7 +912,7 @@ if ( isset( $_REQUEST['task'] ) ) {
 						}	
 						$mailinglists [] = array ( "name" => $list_name, "available" => $list_available, "order" => $list_order);
 					}
-					if ( ALO_em_save_mailinglists ( $mailinglists ) ) {
+					if ( alo_em_save_mailinglists ( $mailinglists ) ) {
 						unset ( $list_id );
 						unset ( $list_name );
 						unset ( $list_available );						
@@ -857,10 +928,10 @@ if ( isset( $_REQUEST['task'] ) ) {
 			break;
 		case "del_list":	// DELETE a Mailing list
 			if ( $list_id  ) {
-				$mailinglists = ALO_em_get_mailinglists ( 'hidden,admin,public' );
+				$mailinglists = alo_em_get_mailinglists ( 'hidden,admin,public' );
 				//$mailinglists [$list_id]["available"] = "deleted";
 				unset ( $mailinglists [$list_id] );
-				if ( ALO_em_save_mailinglists ( $mailinglists ) && ALO_em_delete_all_subscribers_from_lists ($list_id) ) {	
+				if ( alo_em_save_mailinglists ( $mailinglists ) && alo_em_delete_all_subscribers_from_lists ($list_id) ) {	
 					unset ( $list_id );
 					unset ( $list_name );
 					unset ( $list_available );	
@@ -910,11 +981,11 @@ if ( isset( $_REQUEST['task'] ) ) {
 		$lang_li = array();
 		$lang_div = array();	
 		foreach ( $languages as $key => $lang ) {
-			$lang_li[$lang] = '<li><a href="#listname_div_'.$lang.'"><strong>'. ALO_em_get_lang_flag($lang, 'code') . '</strong>';
-			$lang_li[$lang] .= ( isset( $_REQUEST['task'] ) && $_REQUEST['task'] == 'edit_list' && $list_id && !ALO_em_translate_multilangs_array ( $lang, $list_name, false ) ) ? '<img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" alt="" style="vertical-align:middle;margin-left:2px;margin-top:-2px;" title="'. __("no translation for this language, yet", "alo-easymail") .'!" />' : '';
+			$lang_li[$lang] = '<li><a href="#listname_div_'.$lang.'"><strong>'. alo_em_get_lang_flag($lang, 'code') . '</strong>';
+			$lang_li[$lang] .= ( isset( $_REQUEST['task'] ) && $_REQUEST['task'] == 'edit_list' && $list_id && !alo_em_translate_multilangs_array ( $lang, $list_name, false ) ) ? '<img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" alt="" style="vertical-align:middle;margin-left:2px;margin-top:-2px;" title="'. __("no translation for this language, yet", "alo-easymail") .'!" />' : '';
 			$lang_li[$lang] .= '</a></li>';
 			$lang_div[$lang] = '<div id ="listname_div_'.$lang.'">';
-			$name_value = ( isset( $_REQUEST['task'] ) && $_REQUEST['task'] == 'edit_list' && $list_id ) ? esc_attr( ALO_em_translate_multilangs_array ( $lang, $list_name, false ) ) : "";
+			$name_value = ( isset( $_REQUEST['task'] ) && $_REQUEST['task'] == 'edit_list' && $list_id ) ? esc_attr( alo_em_translate_multilangs_array ( $lang, $list_name, false ) ) : "";
 			$lang_div[$lang] .= '<input type="text" name="listname_'.$lang.'" value="' . $name_value .'" id="listname_'.$lang.'" maxlength="100" style="width:100%;" />';	
 			$lang_div[$lang] .= '</div>';
 		}
@@ -967,13 +1038,13 @@ if ( isset( $_REQUEST['task'] ) ) {
 <tbody>
 <?php
 
-$tab_mailinglists = ALO_em_get_mailinglists( 'hidden,admin,public' );
+$tab_mailinglists = alo_em_get_mailinglists( 'hidden,admin,public' );
 if ($tab_mailinglists) {
 	foreach ( $tab_mailinglists as $list => $val) { 
 		if ($val['available'] == "deleted") continue; 
 		?>
 		<tr>
-			<td><strong><?php echo ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) ?></strong></td>
+			<td><strong><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></strong></td>
 			<td><?php
 				switch ($val['available']) {
 					case "hidden":
@@ -991,15 +1062,15 @@ if ($tab_mailinglists) {
 			</td>
 			<td><strong><?php echo $val['order'] ?></strong></td>
 			
-			<td><?php echo count ( ALO_em_get_recipients_subscribers( $list ) ) ?></td>
+			<td><?php echo count ( alo_em_get_recipients_subscribers( $list ) ) ?></td>
 			
 			<td><?php
-				echo "<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;task=edit_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Edit list", "alo-easymail")."' >";
-				echo "<img src='".ALO_EM_PLUGIN_URL."/images/16-edit.png' /></a>";
+				echo "<a href='edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_options.php&amp;task=edit_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Edit list", "alo-easymail")."' >";
+				echo "<img src='".ALO_EM_PLUGIN_URL."/images/16-edit.png' alt='" . __("Edit list", "alo-easymail") ."' /></a>";
 				echo " ";
-				echo "<a href='options-general.php?page=alo-easymail/alo-easymail_options.php&amp;task=del_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Delete list", "alo-easymail")."' ";
+				echo "<a href='edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_options.php&amp;task=del_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Delete list", "alo-easymail")."' ";
 				echo " onclick=\"return confirm('".__("Do you really want to DELETE this list?", "alo-easymail")."');\">";
-				echo "<img src='".ALO_EM_PLUGIN_URL."/images/trash.png' /></a>";
+				echo "<img src='".ALO_EM_PLUGIN_URL."/images/trash.png' alt='" . __("Delete list", "alo-easymail") ."' /></a>";
 				?>
 			</td>
 		</tr>
@@ -1016,6 +1087,6 @@ if ($tab_mailinglists) {
 
 </div> <!-- end Mailing Lists -->
 
-<p><?php ALO_em_show_credit_banners( true ); ?></p>
+<p><?php alo_em_show_credit_banners( true ); ?></p>
 
 </div><!-- end wrap -->

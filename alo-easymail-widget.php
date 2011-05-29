@@ -10,18 +10,18 @@ define('ALO_EM_OPT_METAKEY','alo_easymail_optin_setting');
  *
  * param 	id		div id, useful to distinguish forms (in page, in widget...)
  */
-function ALO_em_show_widget_form ( ) {
+function alo_em_show_widget_form ( ) {
 	global $user_ID, $user_email, $wpdb;
 	
 	// If registerd user check if subscriber
-	$subscriber_id = ALO_em_is_subscriber($user_email);
+	$subscriber_id = alo_em_is_subscriber($user_email);
 	
 	// prepare mailing lists table
-	$lists_msg 	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_lists_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_lists_msg',false) : __("You can also sign up for specific lists", "alo-easymail");  
-    $mailinglists = ALO_em_get_mailinglists( 'public' );
+	$lists_msg 	= ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_lists_msg',false) !="")? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_lists_msg',false) : __("You can also sign up for specific lists", "alo-easymail");  
+    $mailinglists = alo_em_get_mailinglists( 'public' );
     $lists_table = "";
     if ( $mailinglists ) {
-	    $user_lists = ALO_em_get_user_mailinglists ( $subscriber_id );
+	    $user_lists = alo_em_get_user_mailinglists ( $subscriber_id );
 	  	$lists_table .= "<div class='alo_easymail_lists_table'>" . $lists_msg .":<br />"; 
 		$lists_table .= "<table><tbody>\n";  
 		foreach ( $mailinglists as $list => $val ) {
@@ -32,14 +32,17 @@ function ALO_em_show_widget_form ( ) {
 			} else {
 				$checkbox_js = "";
 			}
-			$lists_table .= "<tr><td><input type='checkbox' name='alo_em_form_lists[]' id='alo_em_form_list_$list' value='$list' $checked $checkbox_js class='input-checkbox' /></td><td>" . ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) . "</td></tr>\n";
+			$lists_table .= "<tr><td><input type='checkbox' name='alo_em_form_lists[]' id='alo_em_form_list_$list' value='$list' $checked $checkbox_js class='input-checkbox' /></td><td>" . alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) . "</td></tr>\n";
 		}
 		$lists_table .= "</tbody></table>\n";
 		$lists_table .= "</div>\n";
 	}
 	
-	$disclaimer_msg	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_disclaimer_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_disclaimer_msg',false) : false; 
-    $disclaimer_html = ( $disclaimer_msg ) ? "<div class='alo_easymail_disclaimer'>" . $disclaimer_msg . "</div>" : ""; 
+	$preform_msg	= ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_preform_msg',false) !="")? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_preform_msg',false) : false; 
+    $preform_html 	= ( $preform_msg ) ? "<div class='alo_easymail_preform_msg'>" . $preform_msg . "</div>\n" : ""; 
+    	
+	$disclaimer_msg	= ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_disclaimer_msg',false) !="")? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_disclaimer_msg',false) : false; 
+    $disclaimer_html = ( $disclaimer_msg ) ? "<div class='alo_easymail_disclaimer'>" . $disclaimer_msg . "</div>\n" : ""; 
     	
 	if (is_user_logged_in()) {
         // For REGISTERED USER
@@ -51,12 +54,13 @@ function ALO_em_show_widget_form ( ) {
             $optin_checked = "";            
             $optout_checked = "checked='checked'";            
         }
-        $optin_msg 	= ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optin_msg',false) : __("Yes, I would like to receive the Newsletter", "alo-easymail");        
-        $optout_msg = ( ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optout_msg',false) !="")? ALO_em_translate_option ( ALO_em_get_language (), 'ALO_em_custom_optout_msg',false) : __("No, please do not email me", "alo-easymail");
+        $optin_msg 	= ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optin_msg',false) !="")? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optin_msg',false) : __("Yes, I would like to receive the Newsletter", "alo-easymail");        
+        $optout_msg = ( alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optout_msg',false) !="")? alo_em_translate_option ( alo_em_get_language (), 'alo_em_custom_optout_msg',false) : __("No, please do not email me", "alo-easymail");
         
         $html = "<div id='alo_em_widget_loading' class='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("Updating...", "alo-easymail") ."</div>\n";
         $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
-        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_registered' method='post' action='' >\n"; //action='{$_SERVER['REQUEST_URI']}'
+        $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_registered' method='post' action='' >\n"; 
+        $html .= $preform_html;
         $html .= "<table class='alo_easymail_form_table'>\n";
         $html .= "  <tr>\n";
         $html .= "    <td><input onchange='alo_em_user_form(\"yes\");return false;' type='radio' $optin_checked name='alo_easymail_option' value='yes' class='input-radio' /></td>\n";
@@ -77,6 +81,7 @@ function ALO_em_show_widget_form ( ) {
         $html = "<div id='alo_em_widget_loading' class='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("sending...", "alo-easymail") ."</div>\n";
         $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
         $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_public' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
+        $html .= $preform_html;        
         $html .= "<table class='alo_easymail_form_table'><tbody>\n";
         $html .= "  <tr>\n";
         $html .= "    <td>".__("Name", "alo-easymail")."</td>";
@@ -132,13 +137,13 @@ class ALO_Easymail_Widget extends WP_Widget {
 		extract( $args );
         
         // add ALO: hide the widget in subscriber page
-        if ( is_page(get_option('ALO_em_subsc_page')) ) return;
+        if ( is_page(get_option('alo_em_subsc_page')) ) return;
         
  		// Our variables from the widget settings.
 		$title = apply_filters('widget_title', $instance['title'] );
 		
         // Get the the user's optin setting
-        if (ALO_em_is_subscriber($user_email)){
+        if (alo_em_is_subscriber($user_email)){
             $optin_checked = "checked='checked'";            
             $optout_checked = "";            
         }
@@ -157,13 +162,13 @@ class ALO_Easymail_Widget extends WP_Widget {
 
         // get the message optin/out messages
         // mod ALO: we need them also outside widget
-		$optin_msg = get_option('ALO_em_optin_msg');
-		$optout_msg = get_option('ALO_em_optout_msg');
+		$optin_msg = get_option('alo_em_optin_msg');
+		$optout_msg = get_option('alo_em_optout_msg');
         //$optin_msg = $instance['alo_easymail_optin_msg'];
         //$optout_msg = $instance['alo_easymail_optout_msg'];
         
         // add ALO: print the form
-        echo ALO_em_show_widget_form ();
+        echo alo_em_show_widget_form ();
         
         // and output it
         //echo $html;
@@ -184,8 +189,8 @@ class ALO_Easymail_Widget extends WP_Widget {
 		//$instance['alo_easymail_optout_msg'] = strip_tags( $new_instance['alo_easymail_optout_msg'] );
 		
 		// add ALO: add option text to use form outside widget
-		//update_option( "ALO_em_optin_msg", strip_tags( $new_instance['alo_easymail_optin_msg']) /*$instance['alo_easymail_optin_msg']*/ );
-		//update_option( "ALO_em_optout_msg", strip_tags( $new_instance['alo_easymail_optout_msg']) /*$instance['alo_easymail_optout_msg']*/ );
+		//update_option( "alo_em_optin_msg", strip_tags( $new_instance['alo_easymail_optin_msg']) /*$instance['alo_easymail_optin_msg']*/ );
+		//update_option( "alo_em_optout_msg", strip_tags( $new_instance['alo_easymail_optout_msg']) /*$instance['alo_easymail_optout_msg']*/ );
 		
 		return $instance;
 	}

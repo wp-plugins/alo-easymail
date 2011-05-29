@@ -6,9 +6,13 @@ if ( !current_user_can('manage_easymail_subscribers') ) 	wp_die(__('Cheatin&#821
 
 <?php // action and feedback
 
+// Base link
+$link_base = "edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php";
+
+
 // change state activity of subscriber
 if ( isset($_REQUEST['task']) && $_REQUEST['task'] == 'active' && is_numeric($_REQUEST['subscriber_id'])) {
-    if ( ALO_em_edit_subscriber_state_by_id($_REQUEST['subscriber_id'], $_REQUEST['act']) ) {
+    if ( alo_em_edit_subscriber_state_by_id($_REQUEST['subscriber_id'], $_REQUEST['act']) ) {
 	    print '<div id="message" class="updated fade"><p>'.__("Activation state updated", "alo-easymail").'.</p></div>';
 	} else {
 	    print '<div id="message" class="error"><p>'.__("Error during operation.", "alo-easymail") ." ". __("Not updated", "alo-easymail").'.</p></div>';
@@ -17,10 +21,10 @@ if ( isset($_REQUEST['task']) && $_REQUEST['task'] == 'active' && is_numeric($_R
 
 // delete partecipation
 if( isset($_REQUEST['task']) && $_REQUEST['task'] == 'delete' && is_numeric($_REQUEST['subscriber_id'])) {
-    if ( ALO_em_delete_subscriber_by_id ($_REQUEST['subscriber_id']) ) {
+    if ( alo_em_delete_subscriber_by_id ($_REQUEST['subscriber_id']) ) {
 	    print '<div id="message" class="updated fade"><p>'.__("Subscriber deleted", "alo-easymail").'.</p></div>';
 	} else {
-		if ( ALO_em_is_subscriber_by_id($_REQUEST['subscriber_id']) ) { // error only if this subscriber exists yet, to prevent error on refresh page
+		if ( alo_em_is_subscriber_by_id($_REQUEST['subscriber_id']) ) { // error only if this subscriber exists yet, to prevent error on refresh page
 	   		print '<div id="message" class="error"><p>'.__("Error during operation.", "alo-easymail") ." ". __("Not deleted", "alo-easymail").'.</p></div>';
 	   	}
 	}
@@ -28,17 +32,17 @@ if( isset($_REQUEST['task']) && $_REQUEST['task'] == 'delete' && is_numeric($_RE
 
 // delete welcome import alert
 if ( isset($_REQUEST['import_alert']) && $_REQUEST['import_alert'] == "stop" ) {
-	update_option( 'ALO_em_import_alert', "hide" ); 
+	update_option( 'alo_em_import_alert', "hide" ); 
 }
 
 ?>
 
 <?php 
 // Prepare mailing lists details
-$mailinglists = ALO_em_get_mailinglists( 'admin,public' );
+$mailinglists = alo_em_get_mailinglists( 'admin,public' );
 
 // Prepare languages
-$languages = ALO_em_get_all_languages ( true );
+$languages = alo_em_get_all_languages ( true );
 ?>
 
 <div class="wrap">
@@ -85,7 +89,7 @@ $filter_lang = ( isset( $_GET[ 'filter_lang' ] ) ) ? $_GET[ 'filter_lang' ] : ""
  * Bulk action: Step #1/2
  */
 if ( isset($_REQUEST['doaction_step1']) ) {
-	if($wp_version >= '2.6.5') check_admin_referer('alo-easymail_subscribers');
+	check_admin_referer('alo-easymail_subscribers');
 	
 	if ( isset($_REQUEST['action']) && $_REQUEST['action'] != "" ) {
 		switch ( $_REQUEST['action'] ) { // go on with step 1!
@@ -108,9 +112,10 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 					<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 					<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
-					<input  type="hidden" name="order"  value="<?php echo ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC'; ?>" />
+					<input  type="hidden" name="order"  value="<?php echo ( isset($_GET['order']) && $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC'; ?>" />
 					<input  type="hidden" name="filter_list"  value="<?php echo $filter_list ?>" />					
 					<input  type="hidden" name="filter_lang"  value="<?php echo $filter_lang ?>" />
+					<input type="hidden" name="post_type"  value="newsletter" />
 					
 					<div style="margin-top:20px"><strong><?php _e("Choose mailing lists", "alo-easymail"); ?>:</strong><ul style="margin-top:10px">
 					<?php
@@ -118,7 +123,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 						if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) {
 							//continue; 
 						} ?>
-						<li><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) ?></label></li>
+						<li><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></label></li>
 					<?php 
 					} // end foreach ?>
 					</ul></div>
@@ -136,6 +141,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 						</li>-->						
 					</ul></div>		
 					<?php //wp_nonce_field('alo-easymail_subscribers'); ?>
+					<input type="hidden" name="post_type"  value="newsletter" />
 					<input  type="hidden" name="action"  value="lists_step2" /> <?php // the action ?>
 					<input  type="hidden" name="subscribers"  value="<?php echo implode ( ',', $_REQUEST['subscribers']); ?>" /> <?php // the subscriber ids ?>
 					<div style="margin-top:20px">
@@ -169,7 +175,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 					<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 					<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
-					<input  type="hidden" name="order"  value="<?php echo ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC'; ?>" />
+					<input  type="hidden" name="order"  value="<?php echo ( isset($_GET['order']) && $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC'; ?>" />
 					<input  type="hidden" name="filter_list"  value="<?php echo $filter_list ?>" />					
 					<input  type="hidden" name="filter_lang"  value="<?php echo $filter_lang ?>" />
 					
@@ -177,11 +183,12 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					<li><input type="radio" name="check_lang" id="lang_blank" value="blank" checked="checked" /> <label for="lang_blank"><?php _e("No language", "alo-easymail"); ?></label></li>
 					<?php
 					foreach ( $languages as $index => $lang ) { ?>
-						<li><input type="radio" name="check_lang" id="lang_<?php echo $lang ?>" value="<?php echo $lang ?>" /><label for="lang_<?php echo $lang ?>"><?php echo ALO_em_get_lang_flag ($lang, false) ." ". esc_html ( ALO_em_get_lang_name ( $lang ) ); ?></label></li>
+						<li><input type="radio" name="check_lang" id="lang_<?php echo $lang ?>" value="<?php echo $lang ?>" /><label for="lang_<?php echo $lang ?>"><?php echo alo_em_get_lang_flag ($lang, false) ." ". esc_html ( alo_em_get_lang_name ( $lang ) ); ?></label></li>
 					<?php 
 					} // end foreach ?>
 					</ul></div>
-
+					
+					<input type="hidden" name="post_type"  value="newsletter" />
 					<input  type="hidden" name="action"  value="langs_step2" /> <?php // the action ?>
 					<input  type="hidden" name="subscribers"  value="<?php echo implode ( ',', $_REQUEST['subscribers']); ?>" /> <?php // the subscriber ids ?>
 					<div style="margin-top:20px">
@@ -204,7 +211,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					break;
 				}		 	
 		 		foreach ($_REQUEST['subscribers'] as $subsc => $val) {
-		 			ALO_em_delete_subscriber_by_id ( $val );
+		 			alo_em_delete_subscriber_by_id ( $val );
 		 		}
 		 		print '<div id="message" class="updated fade"><p>'.__("Subscribers deleted", "alo-easymail").'.</p></div>';
 		 		break;
@@ -217,7 +224,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					break;
 				}		 	
 		 		foreach ($_REQUEST['subscribers'] as $subsc => $val) {
-		 			ALO_em_edit_subscriber_state_by_id( $val , "1" );
+		 			alo_em_edit_subscriber_state_by_id( $val , "1" );
 		 		}
 		 		print '<div id="message" class="updated fade"><p>'.__("Subscribers activated", "alo-easymail").'.</p></div>';
 		 		break;
@@ -230,7 +237,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					break;
 				}		 	
 		 		foreach ($_REQUEST['subscribers'] as $subsc => $val) {
-		 			ALO_em_edit_subscriber_state_by_id( $val , "0" );
+		 			alo_em_edit_subscriber_state_by_id( $val , "0" );
 		 		}
 		 		print '<div id="message" class="updated fade"><p>'.__("Subscribers deactivated", "alo-easymail").'.</p></div>';
 		 		break;
@@ -253,20 +260,71 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 						margin: 15px auto;
 					}
 				</style>
+				
 				<hr class="break" />
+				<a href="javascript:history.back()"><?php _e("Cancel", "alo-easymail"); ?></a>
+				<hr class="break" />
+
+			 	<h3 style="margin-top:20px"><?php _e("Add a subscriber", "alo-easymail") ?></h3>
+			 	<form action="" method="get" >
+			 		<table class="form-table"><tbody>
+			 			<tr valign="top"><th scope="row"><label for="addsingle_email"><?php echo __("E-mail", "alo-easymail"). " <span class='description'>(". __("mandatory", "alo-easymail"). ")</span>" ?></label></th>
+				 		<td><input type="text" class="regular-text" value="" name="addsingle_email" id="addsingle_email"></td></tr>				 		
+			 			<tr valign="top"><th scope="row"><label for="addsingle_name"><?php _e("Name", "alo-easymail") ?></label></th>
+				 		<td><input type="text" class="regular-text" value="" name="addsingle_name" id="addsingle_name"></td></tr>			 	
+
+				 		<?php if ( $languages ) { ?>
+				 		<tr valign="top"><th scope="row"><label for="addsingle_lang"><?php _e("Language", "alo-easymail") ?></label></th>
+				 		<td>
+						<select name="addsingle_lang">
+							<option selected="selected" value=""></option>
+							<?php foreach ( $languages as $key => $val ) {
+								$selected = ( $filter_lang == $val ) ? 'selected="selected"' : '';
+								$lang_name = esc_html ( alo_em_get_lang_name ( $val ) );
+								echo '<option value="'.$val.'" '.$selected.'>'. $lang_name .'</option>';
+							} ?>
+						</select>
+					 	</td></tr>							
+						<?php } // end if languages ?>
+					 					 		
+				 		<?php
+				 		if ( $mailinglists) { ?>
+				 			<tr valign="top"><th scope="row"><label><?php _e("Mailing Lists", "alo-easymail"); ?></label></th>
+				 			<td><?php
+				 			echo "<ul style='font-size:90%;margin-bottom:10px'>";
+					 		foreach ( $mailinglists as $list => $val) { 
+								if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) {
+									//continue; 
+								} ?>
+								<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></label></li>
+							<?php 
+							} // end foreach 
+							echo "</ul>"; ?>
+						</td></tr>							
+						<?php } // end if mailinglists ?>
+					 	
+					</tbody></table>
+					<input type="hidden" name="post_type"  value="newsletter" />
+					<input type="hidden" name="action"  value="addsingle_step2" /> <?php // the action ?>
+					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input type="submit" value="<?php _e('Add', 'alo-easymail') ?>" class="button" name="doaction_step2" />
+				</form>					 	
+			 	<hr class="break" />
+			 					
 			 	<h3 style="margin-top:20px"><?php _e("Import from WP registered users", "alo-easymail") ?></h3>
 			 	<p><?php _e("You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter.", "alo-easymail") ?></p>
 			 	<p><em><?php _e("This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users.", "alo-easymail") ?><br />
 			 	<?php _e("But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!", "alo-easymail") ?></em></p>
-			 	<p>&middot; <?php _e("Newsletter subscribers", "alo-easymail") ?>: <?php list ( $total_sub, $ac_sub, $noac_sub ) = ALO_em_count_subscribers (); echo (int) $total_sub; ?><br />
-			 	&middot; <?php _e("Blog registered users", "alo-easymail") ?>: <?php echo (int) count (ALO_em_get_recipients_registered()); ?></p>
+			 	<p>&middot; <?php _e("Newsletter subscribers", "alo-easymail") ?>: <?php list ( $total_sub, $ac_sub, $noac_sub ) = alo_em_count_subscribers (); echo (int) $total_sub; ?><br />
+			 	&middot; <?php _e("Blog registered users", "alo-easymail") ?>: <?php echo (int) count (alo_em_get_recipients_registered()); ?></p>
 			 	<form action="" method="get">			 	
 					<input type="hidden" name="action"  value="wpusers_step2" /> <?php // the action ?>
+					<input type="hidden" name="post_type"  value="newsletter" />
 					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
 					<input type="submit" value="<?php _e('Import from WP members', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>			 	
 			 	<hr class="break" />
-			 	
+			 				 	
 			 	<h3 style="margin-top:20px"><?php _e("Import from uploaded CSV file", "alo-easymail") ?></h3>
 			 	<p><?php _e("You can import new subscribers from a CSV file.", "alo-easymail") ?></p>
 			 	<p><?php _e("For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields.", "alo-easymail");	
@@ -276,7 +334,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<code>email_address2@domain.ltd;name2 surname2;it</code><br />
 			 	<code>email_address3@domain.ltd;name3</code><br />
 			 	<code>email_address4@domain.ltd;;en</code>
-			 	<p><?php _e("Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)", "alo-easymail") ?>.</p>
+			 	<p><?php echo __("Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)", "alo-easymail"). "; ". __("try using a different browser", "alo-easymail") ?>.</p>
 			 	<form enctype="multipart/form-data" action="" method="POST">
 			 		<p><input type="checkbox" name="test_only" id="test_only" value="yes" /><label for="test_only"><?php _e('Test mode (no importation, show records on screen)', 'alo-easymail') ?></label></p>
 			 		
@@ -288,33 +346,31 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 							if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) {
 								//continue; 
 							} ?>
-							<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) ?></label></li>
+							<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></label></li>
 						<?php 
 						} // end foreach 
 					echo "</ul>";
 					} ?>
 			 		
 					<input name="uploaded_csv" type="file" class="button" />
+					<input type="hidden" name="post_type"  value="newsletter" />
 					<input  type="hidden" name="action"  value="import_step2" /> <?php // the action ?>
 					<input type="submit" value="<?php _e('Upload CSV file', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>
 				<hr class="break" />
-				
+			 					
 			 	<h3 style="margin-top:20px"><?php _e("Export subscribers", "alo-easymail") ?></h3>
 			 	<p><?php _e("You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application", "alo-easymail") ?></p>
 			 	<form action="" method="get">			 	
+			 		<input type="hidden" name="post_type"  value="newsletter" />
 					<input type="hidden" name="action"  value="export_step2" /> <?php // the action ?>
 					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
 					<input type="submit" value="<?php _e('Export', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>		
 			 	<hr class="break" />
-			 	
-				<?php //TODO ?>
-			 	<!--<h3 style="margin-top:20px"><?php _e("Add a subscriber", "alo-easymail") ?></h3>
-			 	<p>.............</p>
-			 	<hr class="close" />-->
 			 				 					
 		 		<a href="javascript:history.back()"><?php _e("Cancel", "alo-easymail"); ?></a>
+		 		<hr class="break" />
 			 	<?php	
 		 		exit();
 		}
@@ -333,6 +389,29 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 	//if($wp_version >= '2.6.5') check_admin_referer('alo-easymail_subscribers');
 	if ( isset($_REQUEST['action']) && $_REQUEST['action'] != "" ) {
 		switch ( $_REQUEST['action'] ) {
+			// Add a subscriber with simple form
+			case "addsingle_step2":
+				if ( !isset($_REQUEST['addsingle_email']) || !is_email( $_REQUEST['addsingle_email']) ) {
+					echo '<div id="message" class="error"><p>'.__("Error during operation.", "alo-easymail");
+					if ( !isset($_REQUEST['addsingle_email']) || !is_email( $_REQUEST['addsingle_email'] ) ) echo " ". __("The e-email address is not correct", "alo-easymail") .".";
+					echo '</p></div>';	
+					echo '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
+					exit;
+				}
+				$email	= stripslashes ( $wpdb->escape ( trim( $_REQUEST['addsingle_email'] ) ) );
+				$name 	= ( isset( $_REQUEST['addsingle_name'] ) ) ? stripslashes ( $wpdb->escape ( trim( $_REQUEST['addsingle_name'] ) ) ) : "";
+				$lang 	= ( isset( $_REQUEST['addsingle_name'] ) ) ? stripslashes ( $wpdb->escape ( trim( $_REQUEST['addsingle_lang'] ) ) ) : "";
+				if ( $email && alo_em_add_subscriber( $email , $name , 1, $lang ) == "OK" ) {
+					if ( isset($_REQUEST['check_list']) ) {
+						$subscriber_id = alo_em_is_subscriber( $email );
+						foreach ( $_REQUEST['check_list'] as $list ) {
+							alo_em_add_subscriber_to_list ( $subscriber_id, $list );
+						}
+					}
+					print '<div id="message" class="updated fade"><p>'.__("New subscriber added", "alo-easymail").'.</p></div>';	
+				}										
+				break;
+				
 			// Save requested subscriptions to lists
 			case "lists_step2":	
 				if ( !isset($_REQUEST['subscribers']) || $_REQUEST['subscribers'] == "" || !isset($_REQUEST['check_list']) || count ($_REQUEST['check_list']) == 0 ) {
@@ -351,14 +430,14 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 					case "add":			// Add to selected lists
 						foreach ($selected_subscribers as $subscriber ) {
 							foreach ( $_REQUEST['check_list'] as $list ) {
-								ALO_em_add_subscriber_to_list ( $subscriber, $list );
+								alo_em_add_subscriber_to_list ( $subscriber, $list );
 							}
 						}
 						break;
 					case "remove":		// Remove from selected lists 
 						foreach ($selected_subscribers as $subscriber ) {
 							foreach ( $_REQUEST['check_list'] as $list ) {
-								ALO_em_delete_subscriber_from_list ( $subscriber, $list );
+								alo_em_delete_subscriber_from_list ( $subscriber, $list );
 							}
 						}
 						break;											
@@ -379,7 +458,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 				$selected_subscribers = explode ( "," , $_REQUEST['subscribers'] );
 				foreach ($selected_subscribers as $subscriber ) {
 					$lang = ( $_REQUEST['check_lang'] == "blank" ) ? "" : $_REQUEST['check_lang'] ; 
-					ALO_em_assign_subscriber_to_lang ( $subscriber, $lang );
+					alo_em_assign_subscriber_to_lang ( $subscriber, $lang );
 				}
 				print '<div id="message" class="updated fade"><p>'.__("Updated", "alo-easymail").'.</p></div>';
 				break;
@@ -405,27 +484,27 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						$name 	= ( isset($data[1]) ) ? stripslashes ( $wpdb->escape ( trim($data[1]) ) ) : "";
 						$lang 	= ( isset($data[2]) ) ? stripslashes ( $wpdb->escape ( trim($data[2]) ) ) : "";
 						if ( !empty( $lang ) ) {
-							$lang = ALO_em_short_langcode ( $lang );
-							if ( !in_array ( $lang, ALO_em_get_all_languages( false )) ) $lang = "";
+							$lang = alo_em_short_langcode ( $lang );
+							if ( !in_array ( $lang, alo_em_get_all_languages( false )) ) $lang = "";
 						}
 						// error
 						if ( $email == false ) { // error: email incorrect
 							 $not_imported[$data[0]] = __("The e-email address is not correct", "alo-easymail") ; 
 						} else { // error: already existing
-							if ( ALO_em_is_subscriber($email) ) $not_imported[$data[0]] = __("There is already a subscriber with this e-email address", "alo-easymail") ; 
+							if ( alo_em_is_subscriber($email) ) $not_imported[$data[0]] = __("There is already a subscriber with this e-email address", "alo-easymail") ; 
 						}
 						if ( isset($_REQUEST['test_only']) && $_REQUEST['test_only'] == "yes") { // test, print records
 							//if ( $row > 10 ) continue; // print only the 1st 10
 							$span_email = ( isset($not_imported[$data[0]])) ? "<span style='color:#f00'>".$data[0]."</span>" : $data[0] ;							
 							$html .= "<tr><td>$row: </td>";
-							$html .= "<td>". $span_email ."</td><td>".$name."</td><td>".ALO_em_get_lang_flag($lang, 'name')."</td>";
+							$html .= "<td>". $span_email ."</td><td>".$name."</td><td>".alo_em_get_lang_flag($lang, 'name')."</td>";
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
-							if ( $email && ALO_em_add_subscriber( $email , $name , 1, $lang ) == "OK" ) {
+							if ( $email && alo_em_add_subscriber( $email , $name , 1, $lang ) == "OK" ) {
 								if ( isset($_REQUEST['check_list']) ) {
-									$subscriber_id = ALO_em_is_subscriber( $email );
+									$subscriber_id = alo_em_is_subscriber( $email );
 									foreach ( $_REQUEST['check_list'] as $list ) {
-										ALO_em_add_subscriber_to_list ( $subscriber_id, $list );
+										alo_em_add_subscriber_to_list ( $subscriber_id, $list );
 									}
 								}
 								$success ++;
@@ -466,18 +545,18 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 			
 			// Import from WP registrered users
 			case "wpusers_step2":
-				$reg_users =  ALO_em_get_recipients_registered ();
+				$reg_users =  alo_em_get_recipients_registered ();
 				if ( $reg_users ) {
 					$add = 0;
 					foreach ( $reg_users as $reg_user ) {
 						$email = $reg_user->user_email;
-						if ( ALO_em_is_subscriber($email) == false ){ // if not already subscriber, add							
+						if ( alo_em_is_subscriber($email) == false ){ // if not already subscriber, add							
 							if ( get_user_meta($reg_user->UID, 'first_name', true) != "" ) {
 						 	   	$name = ucfirst(get_user_meta($reg_user->UID, 'first_name', true))." " .ucfirst(get_user_meta($reg_user->UID,'last_name', true));
 						 	} else {
 						 		$name = get_user_meta($reg_user->UID, 'nickname', true);
 						 	}
-							if ( ALO_em_add_subscriber( $email , $name , 1, "" ) == "OK" ) $add ++;
+							if ( alo_em_add_subscriber( $email , $name , 1, "" ) == "OK" ) $add ++;
 						}
 					}
 				}
@@ -490,12 +569,12 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 			
 			// Export: show subscribers on screen
 			case "export_step2":
-				$all_subs = $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}easymail_subscribers" );
+				$all_subs = $wpdb->get_results( "SELECT email, name, lang FROM {$wpdb->prefix}easymail_subscribers" );
 				if ( $all_subs ) {
 					echo '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
 					echo "<pre style='font-family:Courier,Monospace;width:50%;height:300px;border:1px dotted grey;background-color:white;padding:5px 25px;list-style-type:none;overflow:auto;'>\r\n";
 					foreach ( $all_subs as $sub ) {
-						echo $sub->email . ";". $sub->name. "\r\n";
+						echo $sub->email . ";" . $sub->name . ";" . $sub->lang. "\r\n";
 					}
 					echo "\r\n</pre>";
 				} else {
@@ -519,6 +598,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 <form action="" method="get" class="search-form">
 	<p class="search-box">
 	<input type="text" name="s" value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" class="search-input" id="s" />
+	<input  type="hidden" name="post_type"   value="newsletter"/>
 	<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
 	<input  type="hidden" name="paged"  value="1" />
 	<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
@@ -531,7 +611,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 		<option selected="selected" value=""><?php _e('Select a mailing list') ?>...</option>
 		<?php foreach ( $mailinglists as $list => $val ) {
 			$selected = ( $filter_list == $list ) ? 'selected="selected"' : '';
-			echo '<option value="'.$list.'" '.$selected.'>'. ALO_em_translate_multilangs_array ( ALO_em_get_language(), $val['name'], true ) .'</option>';
+			echo '<option value="'.$list.'" '.$selected.'>'. alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) .'</option>';
 		} ?>
 	</select>
 	<?php } // end if mailingslist ?>
@@ -542,11 +622,11 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 		<option selected="selected" value=""><?php _e('Choose a language') ?>...</option>
 		<?php foreach ( $languages as $key => $val ) {
 			$selected = ( $filter_lang == $val ) ? 'selected="selected"' : '';
-			$lang_name = esc_html ( ALO_em_get_lang_name ( $val ) );
+			$lang_name = esc_html ( alo_em_get_lang_name ( $val ) );
 			echo '<option value="'.$val.'" '.$selected.'>'. $lang_name .'</option>';
 		} ?>
 	</select>
-	<?php } // end if mailingslist ?>
+	<?php } // end if languages ?>
 		
 	<input type="submit" value="<?php _e("Search") ?>" class="button" />
 	
@@ -557,16 +637,15 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 
 <?php 
 // Prepare link string (with common vars)
-$link_base = "users.php?page=alo-easymail/alo-easymail_subscribers.php";
 $link_string = $link_base . "&amp;paged=".$page."&amp;num=".$items_per_page. (($s)? "&amp;s=".$s : "") . (($filter_list)? "&amp;filter_list=".$filter_list : "") . (($filter_lang)? "&amp;filter_lang=".$filter_lang : "");
 ?>
 
 <?php // Import alert 
 $impexp_butt = __("Import/export subscribers", "alo-easymail");
-if ( get_option('ALO_em_import_alert') == "show" ) { 
+if ( get_option('alo_em_import_alert') == "show" ) { 
 	echo '<div class="updated fade" style="background-color:#99FF66">';
 	echo '<p>'. sprintf( __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button', 'alo-easymail'), $impexp_butt) .'.</p>';
-	echo "<p>(<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;import_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
+	echo "<p>(<a href='". $link_base ."&amp;import_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
 	echo '</div>';
 }
 ?>
@@ -658,7 +737,7 @@ echo "</select>";
 <?php 
 // Bulk action form
 ?>
-<form method="get" action="" id="posts-filter" name="bulkform">
+<form method="post" action="" id="posts-filter" name="bulkform">
 <div class="tablenav">
 	<div class="alignleft actions">
 		<select name="action">
@@ -671,6 +750,7 @@ echo "</select>";
 		</select>
 		
 		<input  type="hidden" name="s"  value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" />
+		<input  type="hidden" name="post_type"   value="newsletter"/>
 		<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
 		<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 		<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
@@ -693,9 +773,9 @@ echo "</select>";
 		<th scope="col"><div style="text-align: center;"><!-- Avatar --></div></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=email".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by e-mail", "alo-easymail")."'>".__("E-mail", "alo-easymail")."</a>"; ?>	</th>
 		<th scope="col"><?php _e("Name", "alo-easymail") ?></th>
-		<th scope="col"><?php echo __("Username", "alo-easymail") . ALO_em_help_tooltip( __("The username of registered users. It is blank for public subscribers.", "alo-easymail") ) ?></th>
+		<th scope="col"><?php echo __("Username", "alo-easymail") . alo_em_help_tooltip( __("The username of registered users. It is blank for public subscribers.", "alo-easymail") ) ?></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=join_date".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by join date", "alo-easymail")."'>".__("Join date", "alo-easymail")."</a>"; ?></th>
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=active".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by activation state", "alo-easymail")."'>".__("Activated", "alo-easymail")."</a>" .ALO_em_help_tooltip( __("For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail.", "alo-easymail") ." ". __("A subscriber will be deleted if not activated in 5 days.", "alo-easymail") ); ?></th>
+		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=active".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by activation state", "alo-easymail")."'>".__("Activated", "alo-easymail")."</a>" .alo_em_help_tooltip( __("For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail.", "alo-easymail") ." ". __("A subscriber will be deleted if not activated in 5 days.", "alo-easymail") ); ?></th>
 		<th scope="col"><?php _e("Mailing Lists", "alo-easymail"); ?></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=lang".( ( isset($_GET['order']) && $_GET['order'] == 'ASC' )? "&amp;order=DESC": "&amp;order=ASC")."' title='".__("Order by language", "alo-easymail")."'>".__("Language", "alo-easymail")."</a>"; ?></th>				
 		<th scope="col"><?php _e("Actions", "alo-easymail") ?></th>
@@ -788,12 +868,12 @@ if (count($all_subscribers)) {
         </td>
         
        	<td><?php // Mailing Lists
-    		//echo "<pre>";print_r( ALO_em_get_user_mailinglists ( $subscriber->ID ) );echo "</pre>";
-    		$user_lists = ALO_em_get_user_mailinglists ( $subscriber->ID );
+    		//echo "<pre>";print_r( alo_em_get_user_mailinglists ( $subscriber->ID ) );echo "</pre>";
+    		$user_lists = alo_em_get_user_mailinglists ( $subscriber->ID );
     		if ( $user_lists && is_array ($user_lists) ) {
     			echo "<ul class='userlists'>";     			
     			foreach ( $user_lists as $user_list ) {
-	    			echo "<li>" . ALO_em_translate_multilangs_array ( ALO_em_get_language(), $mailinglists[$user_list]["name"], true ) . "</li>";
+	    			echo "<li>" . alo_em_translate_multilangs_array ( alo_em_get_language(), $mailinglists[$user_list]["name"], true ) . "</li>";
 	    		}
 	    		echo "</ul>";
     		}
@@ -801,7 +881,7 @@ if (count($all_subscribers)) {
 		</td>
 
 		<td>
-		    <?php echo ALO_em_get_lang_flag($subscriber->lang, 'name'); ?>
+		    <?php echo alo_em_get_lang_flag($subscriber->lang, 'name'); ?>
 		</td>
 		        
 		<td><?php // Actions   		
@@ -849,7 +929,7 @@ if ( $page_links ) echo "<div class='tablenav-pages'>$page_links</div>";
 </div>
 <?php } ?>
 
-<p><?php ALO_em_show_credit_banners( false ); ?></p>
+<p><?php alo_em_show_credit_banners( false ); ?></p>
 
 <?php 
 // DEBUG ------------------------------------------
