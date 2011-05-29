@@ -65,12 +65,12 @@ You can add or update the translation in your language. You can send [gettext PO
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
-1. Go to `Newsletter > Add new` to write a newsletter
+1. Go to `Newsletters > Add new` to write a newsletter
 1. Go to `Newsletters > Newsletters` to create recipient list and start newsletter sending
 
 = MORE OPTIONS =
 1. Go to `Newsletters > Settings` to setup options
-1. Go to `Newsletter > Subscribers` to manage subscribers
+1. Go to `Newsletters > Subscribers` to manage subscribers
 
 Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
