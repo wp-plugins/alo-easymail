@@ -2,9 +2,9 @@
 Contributors: eventualo
 Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
-Requires at least: 2.8.4
-Tested up to: 3.1
-Stable tag: 1.8.7
+Requires at least: 3.0
+Tested up to: 3.1.3
+Stable tag: 2.0
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -12,16 +12,10 @@ To send newsletters. Features: collect subcribers on registration or with an aja
 
 ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers. It supports internationalization and multilanguage.
 
-Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
+Features:
 
-**There is a known issue about a large number of recipients that can cause multiple messages to same recipient, no progress on sending...: [read more](http://www.eventualo.net/forum/topic/106).
-So the plugin can be safely used in small/medium blog, its operation is not guaranteed on blogs with a large number of recipients.
-I'm sorry, I'm working on version 2 that should solve problems: [read more](http://www.eventualo.net/blog/2011/04/working-on-easymail-2/).**
-
-**Admin side Features**
-
-* **write an html/text newsletter, choose a post, use post/subscriber/site tags and send to your recipients** (registered users, subscribers, mailing lists, any other email addresses)
-* **manage newsletter templates**: edit and save your templates
+* **write and send html/text newsletters, simple like writing posts**
+* **select the recipients to send to**: registered users, subscribers, mailing lists
 * **batch sending using WP cron system**: it sends a number of emails every 10 minutes, until all recipients have been included
 * **collect subscribers**: on registration form and with an ajax widget/page
 * **import/export subscribers**: import from existing registered users or from a CSV file
@@ -32,14 +26,15 @@ I'm sorry, I'm working on version 2 that should solve problems: [read more](http
 * **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
 * **debug tool**: rather than the recipients, you can send all emails of a newsletter to the author or you can have them recorded into a log file
 
-**Pubblic side Features**
+Improvements in **v.2** over v.1:
 
-* **subscription on registration form**: including mailing lists choice
-* **subscription using an ajax widget and/or a page**: after sending their data using the widget, they will receive an email with an activation link
-* **handy for registered users**: they have the optin/optout (including mailing lists choice) in their profile page and in an ajax widget
-* **easy subscription management for all subscribers**: to modify their subscription to mailing lists or to unsubscribe they can use a page reachable by a link at the bottom of each newsletter
-* **multilanguage**: subscriber language detection, each subscriber receive all newsletters and communications in her/his language
+* now newsletter is a custom post type, using the standard WordPress GUI and API
+* no more need to hack WordPress core files or php/cron timeouts
+* no more multiple or missing sendings to recipients
+* now you can send to a huge number or recipients: it uses a ajax long polling engine to create recipient list
+* some action and filter hooks useful for developer
 
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 **Internationalization**
 
@@ -47,12 +42,12 @@ Available languages:
 
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.1.8.6 (by Francesca Bovone)
+* English v.2.0 (by Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.1.8 - de_DE (by Thomas Kokusnuss)
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
-* Italian v.1.8.6 - it_IT
+* Italian v.2.0 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -65,36 +60,41 @@ You can add or update the translation in your language. You can send [gettext PO
 = INSTALLATION =
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the `Plugins` menu in WordPress
-1. To enable the plugin work better you should **increase the wp_cron and php timeouts**: for more info you can use the admin Help button in plugin setting or visit the [FAQ of the site](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3)
 1. (If you are **upgrading** an EasyMail previous version, be sure to **upload all files** and to **activate the plugin again**)
+1. (If you are upgrading from **1.x to 2.x**, make a backup of plugin db tables)
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
-1. Go to `Tools > Send newsletter` to send newsletter
+1. Go to `Newsletter > Add new` to write a newsletter
+1. Go to `Newsletters > Newsletters` to create recipient list and start newsletter sending
 
 = MORE OPTIONS =
-1. Go to `Option > Newsletter` to setup options
-1. Go to `Users > Newsletter subscribers` to manage subscribers
+1. Go to `Newsletters > Settings` to setup options
+1. Go to `Newsletter > Subscribers` to manage subscribers
 
-Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 == Frequently Asked Questions ==
 
-To enable the plugin work better you should **increase the wp_cron and php timeouts**: for more info you can use the admin Help button in plugin setting or visit the [FAQ of the site](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3)
-
-Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/forum/1) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 == Screenshots ==
 
 1. The subscription option on registration form
 2. The widget for registered (left side) and not-registered (right side) users
-3. A section of the sending panel
-4. List of newsletters scheduled for sending and already sent
-5. Report of sent newsletter
-6. The subscribers' management page
-7. The widget on administration dashboard 
+3. You can add recipients to sending queue or you can send newsletter immediately
+4. The ajax engine to generate list of recipients
+5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.0 =
+* Re-written the code about creation, editing and sending of newsletters
+* Now Newsletter is custom post type
+* Ajax long polling engine to create list of recipients
+* New database plugin tables to decrease memory usage
+* Solved the bug about sending to a large numeber or recipients (multiple/missing sendings)
+* Added action and filter hooks, useful for developers
 
 = 1.8.7 =
 * Added: some css samples in alo-easymail.css
@@ -278,3 +278,6 @@ Some new features and bug fixes.
 
 = 1.8.7 =
 Some new features and bug fixes.
+
+= 2.0 =
+Re-written the code about newsletters. Solved the bug about sending. If you are upgrading from 1.x, before start make a backup of plugin db tables.
