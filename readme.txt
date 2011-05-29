@@ -12,6 +12,8 @@ To send newsletters. Features: collect subcribers on registration or with an aja
 
 ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers. It supports internationalization and multilanguage.
 
+**Here you can see a short screencast:** [How to create and send a newsletter](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
+
 Features:
 
 * **write and send html/text newsletters, simple like writing posts**
