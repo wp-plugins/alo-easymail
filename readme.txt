@@ -14,6 +14,13 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 **Here you are a short screencast:** [How to create and send a newsletter](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
 
+Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
+
+**Before upgrading from v.1 to v.2, note that:**
+
+* About subscribers and mailing lists: in v.2 the delimiter used in database changed. If in `Newletters > Subscribers` screen you cannot see the link between subscribers and lists, the automatic update didn’t work. So you can make it manually using this query in your database: `UPDATE wp_easymail_subscribers SET lists = REPLACE( lists, '_', '|');`
+* About templates, now plugin uses standard post table. So you cannot see your templates anymore, but they are always stored in database, in <em>wp_easymail_sendings</em> table (table now not used): sorry but you have to recover them manually. Old stats are stored in <em>wp_easymail_trackings</em> (table now not used).
+
 Features:
 
 * **write and send html/text newsletters, simple like writing posts**
@@ -35,13 +42,6 @@ Improvements in **v.2** over v.1:
 * no more multiple or missing sendings to recipients
 * now you can send to a huge number or recipients: it uses a ajax long polling engine to create recipient list
 * some action and filter hooks useful for developer
-
-**Before upgrading from v.1 to v.2, note that:**
-
-* About subscribers and mailing lists: in v.2 the delimiter used in database changed. If in `Newletters > Subscribers` screen you cannot see the link between subscribers and lists, the automatic update didn’t work. So you can make it manually using this query in your database: `UPDATE wp_easymail_subscribers SET lists = REPLACE( lists, '_', '|');`
-* About templates, now plugin uses standard post table. So you cannot see your templates anymore, but they are always stored in database, in <em>wp_easymail_sendings</em> table (table now not used): sorry but you have to recover them manually. Old stats are stored in <em>wp_easymail_trackings</em> (table now not used).
-
-Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
 **Internationalization**
 
