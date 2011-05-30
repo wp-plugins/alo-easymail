@@ -206,6 +206,8 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 	$registered = $subscribers = $subscribers_from_list = false;
 	
 	$count = array();
+	
+	if ( !isset( $recipients['lang'] ) ) return $count; // no langs, no recipients
 		
 	if ( isset( $recipients['registered'] ) )  {
 		$registered = alo_em_get_recipients_registered();
@@ -1557,35 +1559,42 @@ add_filter ( 'alo_easymail_newsletter_title',  'alo_em_filter_title', 10, 3 );
 /**
  * Filter Newsletter Title when in title bar in site
  */
-function alo_em_filter_title_bar( $subject, $newsletter ) {
-	$post_id = get_post_meta ( $newsletter->ID, '_placeholder_easymail_post', true );
-	$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
-	if ( $obj_post ) {
-		$post_title = stripslashes ( alo_em_translate_text ( alo_em_get_language (), $obj_post->post_title ) );
-	    $subject = str_replace('[POST-TITLE]', $post_title, $subject);
-	} else {
-	    $subject = str_replace('[POST-TITLE]', "", $subject);
+function alo_em_filter_title_bar( $subject ) {
+	global $post;
+	if ( get_post_type( $post->ID ) == 'newsletter' ) {
+		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
+		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
+		if ( $obj_post ) {
+			$post_title = stripslashes ( alo_em_translate_text ( alo_em_get_language (), $obj_post->post_title ) );
+			$subject = str_replace('[POST-TITLE]', $post_title, $subject);
+		} else {
+			$subject = str_replace('[POST-TITLE]', "", $subject);
+		}
 	}
 	return $subject;
 }
-add_filter ( 'single_post_title',  'alo_em_filter_title_bar', 10, 2 );
+add_filter ( 'single_post_title',  'alo_em_filter_title_bar' );
 
 
 /**
  * Filter Newsletter Title when viewed in site
  */
-function alo_em_filter_title_in_site ( $subject, $newsletter_id ) {
-	$post_id = get_post_meta ( $newsletter_id, '_placeholder_easymail_post', true );
-	$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
-	if ( $obj_post ) {
-		$post_title = stripslashes ( alo_em_translate_text ( alo_em_get_language (), $obj_post->post_title ) );
-	    $subject = str_replace('[POST-TITLE]', $post_title, $subject);
-	} else {
-	    $subject = str_replace('[POST-TITLE]', "", $subject);
+function alo_em_filter_title_in_site ( $subject ) {
+	global $post, $pagenow;
+	// in frontend and in 'edit.php' screen in backend
+	if ( !is_admin() || $pagenow == 'edit.php' ) {
+		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
+		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
+		if ( $obj_post ) {
+			$post_title = stripslashes ( alo_em_translate_text ( false, $obj_post->post_title ) );
+			$subject = str_replace('[POST-TITLE]', $post_title, $subject);
+		} else {
+			$subject = str_replace('[POST-TITLE]', "", $subject);
+		}
 	}
 	return $subject;
 }
-add_filter ( 'the_title',  'alo_em_filter_title_in_site', 10, 2 );
+add_filter ( 'the_title',  'alo_em_filter_title_in_site' );
 
 
 /**
@@ -2323,7 +2332,7 @@ function alo_easymail_get_newsletters ( $args=false ) {
  * 												"li_format" (values: 'title_date', 'date_title', 'title')
  *					for other args see: http://codex.wordpress.org/Template_Tags/get_posts 
  */
-function alo_easymail_print_archive ( $atts, $content="" ) {
+function alo_easymail_print_archive ( $atts=false, $content="" ) {
 	global $post;
 	$defaults = array( 'ul_class' => 'easymail-newsletter-archive', 'li_format' => 'title_date' );
 	$args = wp_parse_args( $atts, $defaults );
