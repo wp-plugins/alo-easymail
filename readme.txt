@@ -16,7 +16,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
-**Before upgrading from v.1 to v.2, [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/#upgrade-2)**
+**Before upgrading from v.1 to v.2, [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-upgrade-2)**
 
 **Features:**
 
@@ -49,7 +49,7 @@ Available languages:
 * English v.2.0 (by Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
-* German v.1.8 - de_DE (by Thomas Kokusnuss)
+* German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
 * Italian v.2.0 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
