@@ -86,6 +86,7 @@ function alo_em_install() {
 	if (!get_option('alo_em_show_credit_banners')) add_option('alo_em_show_credit_banners', 'yes');
 	if (!get_option('alo_em_filter_br')) add_option('alo_em_filter_br', 'no');
 	if (!get_option('alo_em_filter_the_content')) add_option('alo_em_filter_the_content', 'yes');
+	if (!get_option('alo_em_js_rec_list')) add_option('alo_em_js_rec_list', 'no');
 	
 	alo_em_setup_predomain_texts( false );
 		    	    
@@ -97,10 +98,14 @@ function alo_em_install() {
 	
 	// Db version
 	$installed_db = get_option('alo_em_db_version');
-	    
-	$table_name = $wpdb->prefix . "easymail_subscribers";
 	
-    if($wpdb->get_var("show tables like '$table_name'") != $table_name || $database_version != $installed_db) {
+	$missing_table = false; // Check if tables not yet installed
+	$tables = array ( $wpdb->prefix."easymail_subscribers", $wpdb->prefix."easymail_recipients", $wpdb->prefix."easymail_stats" );
+	foreach ( $tables as $table_name ) {
+		if ( $wpdb->get_var("show tables like '$table_name'") != $table_name ) $missing_table = true;
+	}
+	
+    if ( $missing_table || $database_version != $installed_db ) {
 	    
 		if( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' ) {
 			$collate = constant( 'DB_COLLATE' );
@@ -109,7 +114,7 @@ function alo_em_install() {
 		}
 		
 	    // Create the table structure
-	    $sql = "CREATE TABLE ".$table_name." (
+	    $sql = "CREATE TABLE {$wpdb->prefix}easymail_subscribers (
 				    ID int(11) unsigned NOT NULL auto_increment,
 				    email varchar(100) NOT NULL,
 				    name varchar(100) NOT NULL,
@@ -222,16 +227,17 @@ function alo_em_uninstall() {
     wp_clear_scheduled_hook('ALO_em_schedule'); // old versions
     // delete cron batch sending
     wp_clear_scheduled_hook('alo_em_batch');
+    wp_clear_scheduled_hook('ALO_em_batch'); // old versions
     
     // if required delete all plugin data (options, db tables, page)
    	if ( get_option('alo_em_delete_on_uninstall') == "yes" ) {
-   		$tables = array ( "easymail_recipients", "easymail_subscribers" );
+   		$tables = array ( "easymail_recipients", "easymail_subscribers", "easymail_stats", "easymail_sendings", "easymail_trackings" );
    		foreach ( $tables as $tab ) {
    			$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}$tab");
    		}
 
 		// delete option from db
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE '%alo_em_%'" );
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE 'alo_em_%'" );
 
 	    // delete subscription page
 		if ( version_compare ( $wp_version , '2.9', '>=' ) ) {
@@ -251,10 +257,6 @@ function alo_em_uninstall() {
 		//$wp_roles->remove_cap( $rolename, 'manage_easymail_newsletters');
 		//$wp_roles->remove_cap( $rolename, 'send_easymail_newsletters');
 	}
-	
-	// delete text pre-domain default
-	delete_option ('alo_em_txtpre_activationmail_mail_default');
-	delete_option ('alo_em_txtpre_activationmail_subj_default');
 }
 register_deactivation_hook( __FILE__, 'alo_em_uninstall' );
 
@@ -1324,7 +1326,5 @@ function alo_em_check_get_vars () {
 	}
 }
 add_action('init', 'alo_em_check_get_vars');
- 
-
 
 ?>

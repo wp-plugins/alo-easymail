@@ -71,7 +71,7 @@ jQuery(document).ready( function($) {
 	}	
 	
 	jQuery.fn.easymailRecipientsGenPopup = function ( url, newsletter, lang ){
-		tb_show ( easymailJs.subscribersPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&action=open_popup&TB_iframe=true&height=350&width=500&modal=true", false );
+		tb_show ( easymailJs.subscribersPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&action=open_popup&TB_iframe=true&height=400&width=700&modal=true", false );
 		return false;
     }
     

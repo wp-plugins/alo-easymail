@@ -1,6 +1,6 @@
 <?php
 include('../../../wp-load.php');
-auth_redirect();
+//auth_redirect();
 
 if ( !current_user_can( "edit_posts" ) ) 	wp_die( __('Cheatin&#8217; uh?') );
 

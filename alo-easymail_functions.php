@@ -143,7 +143,10 @@ function alo_em_user_can_edit_newsletter ( $newsletter, $user_id=false ) {
 	global $user_ID;
 	if ( empty( $user_id ) ) $user_id = $user_ID;
 	//return get_edit_post_link( $newsletter );
-	return user_can( $user_id, 'edit_post', $newsletter );
+	//return user_can( $user_id, 'edit_post', $newsletter ); // TODO user_can c'è solo dalla 3.1
+	//return current_user_can( 'edit_post', $newsletter );	
+	$user = new WP_User( $user_id );
+	return $user->has_cap( 'edit_post', $newsletter );
 }
 
 
@@ -206,8 +209,6 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 	$registered = $subscribers = $subscribers_from_list = false;
 	
 	$count = array();
-	
-	if ( !isset( $recipients['lang'] ) ) return $count; // no langs, no recipients
 		
 	if ( isset( $recipients['registered'] ) )  {
 		$registered = alo_em_get_recipients_registered();
@@ -215,7 +216,7 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 			if ( !in_array( $reg->user_email, $count ) )  array_push( $count, $reg->user_email );
 		endforeach; endif;
 	}
-	if ( isset( $recipients['subscribers'] ) )  {
+	if ( isset( $recipients['subscribers'] ) && isset( $recipients['lang'] ) )  {
 		$subscribers = alo_em_get_recipients_subscribers();
 		if ( $subscribers ) : foreach ( $subscribers as $sub ) :
 			$sub_lang = ( !empty( $sub->lang ) ) ? $sub->lang : "UNKNOWN";
@@ -227,7 +228,7 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 			}
 			if ( !in_array( $sub->email, $count ) )  array_push( $count, $sub->email );
 		endforeach; endif;		
-	} else if ( isset( $recipients['list'] ) ) {
+	} else if ( isset( $recipients['list'] ) && isset( $recipients['lang'] ) ) {
 		$subscribers_from_list = alo_em_get_recipients_subscribers( $recipients['list'] );
 		if ( $subscribers_from_list ) : foreach ( $subscribers_from_list as $sub ) :
 			$sub_lang = ( !empty( $sub->lang ) ) ? $sub->lang : "UNKNOWN";
@@ -1435,7 +1436,8 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 		$track_vars = $recipient->ID . "|" . $recipient->unikey;
         $track_vars = urlencode( base64_encode( $track_vars ) );
         
-		$content .= "\r\n<img src='". ALO_EM_PLUGIN_URL ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
+        $nossl_plugin_url = str_replace( "https", "http", ALO_EM_PLUGIN_URL );
+		$content .= "\r\n<img src='". $nossl_plugin_url ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
 		//$content .= "<pre>". print_r ( $recipient, true ) . "</pre>";
 	}
 		
@@ -1582,7 +1584,7 @@ add_filter ( 'single_post_title',  'alo_em_filter_title_bar' );
 function alo_em_filter_title_in_site ( $subject ) {
 	global $post, $pagenow;
 	// in frontend and in 'edit.php' screen in backend
-	if ( !is_admin() || $pagenow == 'edit.php' ) {
+	if ( ( $post && !is_admin() ) || $pagenow == 'edit.php' ) {
 		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
 		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 		if ( $obj_post ) {
