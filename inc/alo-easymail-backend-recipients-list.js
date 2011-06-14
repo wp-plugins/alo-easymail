@@ -30,6 +30,7 @@ jQuery(document).ready( function($) {
 					jQuery('.easymail-recipients-pause-loop').hide();
 					jQuery('.easymail-recipients-restart-loop').hide();					
 					jQuery('#ajaxloop-response').smartupdaterStop();
+					jQuery(this).easymailUpdateColumStatus( easymailJs.newsletter );
 				} else {
 					jQuery('#ajaxloop-response').html( data.perc + "% <small>(" + data.n_done + "/" + data.n_tot + ")</small>" );
 				}
@@ -61,7 +62,17 @@ jQuery(document).ready( function($) {
 		);
 	};
 
-
+	jQuery.fn.easymailUpdateColumStatus = function( postId ) {
+		var data = {
+			action: 'alo_easymail_update_column_status',
+			post_id: postId
+		};
+		jQuery.post( easymailJs.ajaxurl, data, function(response) {
+			jQuery( '#alo-easymail-column-status-'+postId, window.parent.document ).html( response );
+		});
+		return false;
+	};
+	
 	// Click Send Test Mail button
 	jQuery('.easymail-send-testmail').live( "click", function() {
 		jQuery(this).easymailSendMailTest();
@@ -80,15 +91,8 @@ jQuery(document).ready( function($) {
 	// Close thickbox and update status column
 	jQuery('.easymail-recipients-close-popup').live( "click", function() {
 		var postId = jQuery( this ).attr( 'rel' );
-		var data = {
-			action: 'alo_easymail_update_column_status',
-			post_id: postId
-		};
-		jQuery.post( easymailJs.ajaxurl, data, function(response) {
-			jQuery( '#alo-easymail-column-status-'+postId, window.parent.document ).html( response );
-			setTimeout( function(){ self.parent.tb_remove(); }, 100);
-		});
-		return false;
+		jQuery(this).easymailUpdateColumStatus( postId );
+		setTimeout( function(){ self.parent.tb_remove(); }, 100);
 	});
 	
 	jQuery('.easymail-recipients-restart-loop').live( "click", function() {

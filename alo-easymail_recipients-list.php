@@ -1,6 +1,6 @@
 <?php
 include('../../../wp-load.php');
-auth_redirect();
+//auth_redirect();
 
 $button_exit = '<br /><a href="javascript:self.parent.tb_remove();" class="easymail-navbutton easymail-recipients-close-popup">'. __("close", "alo-easymail") .'</a>';
 if ( !current_user_can( "edit_posts" ) ) 	wp_die( __('Cheatin&#8217; uh?'). $button_exit ); 
@@ -77,31 +77,68 @@ if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail"
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php  _e("Newsletter subscribers creation", "alo-easymail") ?></title>
-<?php
-wp_enqueue_script( 'jquery' );
-wp_enqueue_script( 'thickbox' );
-wp_enqueue_script( 'jquery-color' );
-wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater-3.0.02beta.js' );
-wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
 
-$rec_url = wp_create_nonce( 'alo-easymail_recipients-list');
-if ( !isset( $offset ) ) $offset = 0;
+<?php // 1/2) Load only plugin js
+if ( get_option('alo_em_js_rec_list') == "yes" ) : ?>
 
-$localize = array(
-    'pagenow' 	=> $pagenow,
-    'em_ajaxurl' 	=> ALO_EM_PLUGIN_URL . '/'. $pagenow,
-    'action' 	=> "easymail_do_ajaxloop",
-    'newsletter'=> $newsletter,
-    'nonce'		=> $rec_url,
-    'ajaxurl' => admin_url('admin-ajax.php'),
-    'txt_success_added' => esc_js( __( 'Recipients successfully added', "alo-easymail" ) ),
-   	'txt_success_sent' => esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) )
-);
-wp_localize_script( 'alo-easymail-backend-recipients-list', 'easymailJs', $localize );
-wp_enqueue_style( 'alo-easymail-backend-css', ALO_EM_PLUGIN_URL.'/inc/alo-easymail-backend.css' );
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.js"></script>
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/thickbox.js"></script>
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater-3.0.02beta.js"></script>
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend-recipients-list.js"></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var easymailJs = {
+	pagenow: "<?php echo $pagenow ?>",
+	em_ajaxurl: "<?php echo ALO_EM_PLUGIN_URL . '/'. $pagenow ?>",
+	action: "easymail_do_ajaxloop",
+	newsletter: "<?php echo $newsletter ?>",
+	nonce: "<?php echo wp_create_nonce( 'alo-easymail_recipients-list') ?>",
+	ajaxurl: "<?php echo admin_url('admin-ajax.php') ?>",
+	txt_success_added: "<?php echo esc_js( __( 'Recipients successfully added', "alo-easymail" ) ) ?>",
+	txt_success_sent: "<?php echo esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) ) ?>"
+};
+/* ]]> */
+</script>
+<link rel='stylesheet' id='global-css'  href="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend.css" type='text/css'/>
 
-do_action('admin_print_scripts' );
-do_action( "admin_print_styles" );
+
+<?php else : // 2/2) otherwise load default js
+
+	/* // TODO try to dequeue not used js
+	global $wp_scripts;
+	foreach ( $wp_scripts->registered as $script => $s ) {
+		$keep = array( 'jquery', 'thickbox' );
+		if ( in_array( $s->handle, $keep ) ) continue;
+		wp_deregister_script( $s->handle );
+		wp_dequeue_script( $s->handle );
+	}
+	*/
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'thickbox' );
+	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater-3.0.02beta.js' );
+	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
+
+	$rec_url = wp_create_nonce( 'alo-easymail_recipients-list');
+	if ( !isset( $offset ) ) $offset = 0;
+
+	$localize = array(
+		'pagenow' 	=> $pagenow,
+		'em_ajaxurl' 	=> ALO_EM_PLUGIN_URL . '/'. $pagenow,
+		'action' 	=> "easymail_do_ajaxloop",
+		'newsletter'=> $newsletter,
+		'nonce'		=> $rec_url,
+		'ajaxurl' => admin_url('admin-ajax.php'),
+		'txt_success_added' => esc_js( __( 'Recipients successfully added', "alo-easymail" ) ),
+	   	'txt_success_sent' => esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) )
+	);
+	wp_localize_script( 'alo-easymail-backend-recipients-list', 'easymailJs', $localize );
+	wp_enqueue_style( 'alo-easymail-backend-css', ALO_EM_PLUGIN_URL.'/inc/alo-easymail-backend.css' );
+
+	do_action('admin_print_scripts' );
+	do_action( "admin_print_styles" );
+
+endif; // end load js
 
 $rec_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_recipients-list.php?', 'alo-easymail_recipients-list');
 ?>
@@ -143,6 +180,7 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 	<a href="#" class="easymail-navbutton easymail-recipients-close-popup" rel="<?php echo $newsletter ?>"><?php _e("close", "alo-easymail") ?></a>  
 </div>
 
+<?php if ( get_option('alo_em_js_rec_list') != "yes" ) do_action('admin_print_footer_scripts'); ?>
 </body>
 </html>
 <?php 

@@ -1,5 +1,5 @@
 <?php
-auth_redirect();
+//auth_redirect();
 if ( !current_user_can('manage_easymail_options') ) 	wp_die(__('Cheatin&#8217; uh?'));
 
 
@@ -33,6 +33,8 @@ $text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "preform_msg", "d
 
 
 if ( isset($_REQUEST['submit']) ) {
+	flush_rewrite_rules( false ); // reset for newsletter permalink 
+	
 	// -------- Options permitted to all ('manage_easymail_options')
 	// Tab TEXTS
 	if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_texts" ) {
@@ -65,6 +67,7 @@ if ( isset($_REQUEST['submit']) ) {
 		if ( count ($unsub_footer) ) 	update_option('alo_em_custom_unsub_footer', $unsub_footer );
 		if ( count ($preform_msg) ) 	update_option('alo_em_custom_preform_msg', $preform_msg );
 		if ( count ($viewonline_msg) ) 	update_option('alo_em_custom_viewonline_msg', $viewonline_msg );
+	
 	}
 	// --------
 	
@@ -113,12 +116,17 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_filter_the_content', "no") ;
 			}
-					
+			if ( isset($_POST['js_rec_list']) ) {
+				update_option('alo_em_js_rec_list', "yes");
+			} else {
+				update_option('alo_em_js_rec_list', "no") ;
+			}					
 			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
 				update_option('alo_em_delete_on_uninstall', "yes");
 			} else {
 				update_option('alo_em_delete_on_uninstall', "no") ;
 			}
+			
 		} // end Tab GENERAL
 
 		// Tab BATCH SENDING
@@ -340,10 +348,25 @@ if ( get_option('alo_em_filter_the_content') != "no" ) {
 <tr valign="top">
 <th scope="row"><?php _e("Filters to the newsletter text", "alo-easymail") ?>:</th>
 <td>
-<!--<input type="checkbox" name="filter_br" id="filter_br" value="yes" <?php echo $checked_filter_br ?> /><label for="filter_br"> <?php esc_html_e(__("Convert carriage return in <br> tag", "alo-easymail")) ?></label><br />-->
-<input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><label for="filter_the_content"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></label>
+<input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><span class="description"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></span>
 </td>
 </tr>
+
+
+<?php
+if ( get_option('alo_em_js_rec_list') == "yes" ) {
+	$checked_js_rec_list = 'checked="checked"';
+} else {
+	$checked_js_rec_list = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Load only plugin javascript on list generation screen", "alo-easymail") ?>:</th>
+<td>
+<input type="checkbox" name="js_rec_list" id="js_rec_list" value="yes" <?php echo $checked_js_rec_list ?> /> <span class="description"><?php _e("Load only plugin javascript files on list of recipients thickbox", "alo-easymail" ) ?>. <?php _e("Useful to prevent conflicts with javascripts of other plugins", "alo-easymail" ) ?>.</span>
+</td>
+</tr>
+
 
 <?php  
 if ( get_option('alo_em_debug_newsletters') ) {
