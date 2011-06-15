@@ -82,7 +82,6 @@ if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail"
 if ( get_option('alo_em_js_rec_list') == "yes" ) : ?>
 
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.js"></script>
-<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/thickbox.js"></script>
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater-3.0.02beta.js"></script>
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend-recipients-list.js"></script>
 <script type='text/javascript'>
