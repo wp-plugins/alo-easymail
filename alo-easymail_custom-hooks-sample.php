@@ -7,7 +7,7 @@
  *
  * IMPORTANT! To avoid the loss of the file when you use the automatic WP upgrade,
  * I suggest that you move the file into folder /wp-content/mu-plugins 
- * (if the directory doesn’t exist, simply create it).
+ * (if the directory doesn't exist, simply create it).
  *
 */
 
