@@ -5,6 +5,10 @@
  * To make loading this file you have to rename it to 'alo-easymail_custom-hooks.php'.
  * Some examples of custom hooks on http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
  *
+ * IMPORTANT! To avoid the loss of the file when you use the automatic WP upgrade,
+ * I suggest that you move the file into folder /wp-content/mu-plugins 
+ * (if the directory doesn’t exist, simply create it).
+ *
 */
 
 
@@ -16,6 +20,8 @@
  *
  * The following set of functions adds a new placeholder that includes the latest 
  * published posts inside newsletter
+ *
+ * @since: 2.0
  *
  ******************************************************************************/
 
@@ -109,6 +115,8 @@ add_filter ( 'alo_easymail_newsletter_content',  'custom_easymail_placeholders_g
  *
  * Do actions when a newsletter delivery is complete
  *
+ * @since: 2.0 
+ *
  ******************************************************************************/
 
 /**
@@ -134,6 +142,8 @@ add_action ( 'alo_easymail_newsletter_delivered',  'custom_easymail_newsletter_i
  *
  * Do actions when subscribers do something: eg. subscribe, unsubscribe,
  * edit subscription
+ *
+ * @since: 2.0 
  *
  ******************************************************************************/
 
