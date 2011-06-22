@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.0.2
+Version: 2.0.3
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -44,6 +44,7 @@ define( "ALO_EM_PLUGIN_ABS", WP_PLUGIN_DIR . "/". ALO_EM_PLUGIN_DIR );
 /**
  * Required files
  */
+require_once( ABSPATH . WPINC .'/registration.php' );
 require_once( 'alo-easymail_functions.php' );
 require_once( 'alo-easymail-widget.php' );
 
@@ -313,6 +314,34 @@ add_action( 'admin_head-alo-easymail/alo-easymail_options.php', 'alo_em_contextu
 add_action( 'admin_head-alo-easymail/alo-easymail_subscribers.php', 'alo_em_contextual_help' );
 
 
+/*
+ * Add some links on the plugin page
+ */
+function alo_em_add_plugin_links($links, $file) {
+	if ( $file == plugin_basename(__FILE__) ) {
+		$links[] = '<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">Guide</a>';
+		$links[] = '<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">Faq</a>';
+		$links[] = '<a href="http://www.eventualo.net/forum/" target="_blank">Forum</a>';
+		$links[] = '<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">News</a>';
+	}
+    return $links;
+} 
+add_filter( 'plugin_row_meta', 'alo_em_add_plugin_links', 10, 2 );
+
+
+
+/**
+ * On plugin init
+ */
+function alo_em_init_method() {
+	// if required, exclude the easymail page from pages' list
+	if ( get_option('alo_em_show_subscripage') == "no" ) add_filter('get_pages','ALO_exclude_page');
+	// load localization files
+	load_plugin_textdomain ("alo-easymail", false, "alo-easymail/languages");
+}
+add_action( 'init', 'alo_em_init_method' );
+
+
 /**
  * New custom post type: Newsletter
  */
@@ -420,7 +449,7 @@ function alo_em_edit_table_columns ( $columns ) {
             "cb" => 	"<input type=\"checkbox\" />",
             "title" => 	__( 'Title' ) ." / " . __( 'Subject', "alo-easymail"),
 			"easymail_recipients" => __( 'Recipients', "alo-easymail" ),            
-			"easymail_status" => __( 'Newsletter status' ),
+			"easymail_status" => __( 'Newsletter status', "alo-easymail" ),
             "date" => 	__( 'Start', "alo-easymail" ),     
             'author' =>	__( 'Author' )
         );   	
@@ -784,16 +813,8 @@ add_action('wp_enqueue_scripts', 'alo_em_load_scripts');
 
 
 /**
- * On plugin init
+ * Exclude the easymail page from pages' list
  */
-function alo_em_init_method() {
-	// if required, exclude the easymail page from pages' list
-	if ( get_option('alo_em_show_subscripage') == "no" ) add_filter('get_pages','ALO_exclude_page');
-	// load localization files
-	load_plugin_textdomain ("alo-easymail", false, "alo-easymail/languages");
-}
-add_action( 'init', 'alo_em_init_method' );
-
 function ALO_exclude_page( $pages ) {
 	if ( !is_admin() ) {
 		for ( $i=0; $i<count($pages); $i++ ) {
@@ -1287,7 +1308,7 @@ add_action('admin_notices', "alo_em_admin_notice");
 
 
 /**
- * Manage user request made via GET vars: eg. activation link, unsubscribe link
+ * Manage user request made via GET vars: eg. activation link, unsubscribe link, external request
  */
 function alo_em_check_get_vars () {
 	
@@ -1324,7 +1345,15 @@ function alo_em_check_get_vars () {
 		wp_redirect( $act_link );
 		exit;
 	}
+	
+	// Called form external request (eg. cron task)
+	if ( isset( $_GET['alo_easymail_doing_batch'] ) ) {
+		//echo "OK let's do the batch!";
+		alo_em_batch_sending ();
+		exit;
+	}	
 }
 add_action('init', 'alo_em_check_get_vars');
+
 
 ?>
