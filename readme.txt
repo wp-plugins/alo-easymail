@@ -50,6 +50,7 @@ Available languages:
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
+* Greek v.2.0.3 - el (by [George Stavropoulos HDnet](http://www.hdnet.gr))    
 * Hungarian v.1.8.4 - hu_HU (by [Tamas Koos](http://www.asicu.com), Daniel Bozo)
 * Italian v.2.0.3 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
