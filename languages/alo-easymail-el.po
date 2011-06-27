@@ -1,0 +1,1669 @@
+# Translation of the WordPress plugin ALO EasyMail Newsletter 1.8 by Alessandro Massasso.
+# Copyright (C) 2010 Alessandro Massasso
+# This file is distributed under the same license as the ALO EasyMail Newsletter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ALO EasyMail Newsletter ver.2.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-15 00:30+0100\n"
+"PO-Revision-Date: 2011-06-24 12:21+0200\n"
+"Last-Translator: Geox\n"
+"Language-Team: George Stavropoulos (HDnet)  www.hdnet.gr <info@hdnet.gr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././alo-easymail.php:269
+#: .././alo-easymail.php:1057
+#: .././alo-easymail.php:1232
+#: .././alo-easymail_options.php:1058
+#: .././alo-easymail_subscribers.php:50
+msgid "Subscribers"
+msgstr "Συνδρομητές"
+
+#: .././alo-easymail.php:271
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: .././alo-easymail.php:283
+msgid "Resources about EasyMail Newsletter"
+msgstr "Πόροι για EasyMail Newsletter"
+
+#: .././alo-easymail.php:322
+#: .././alo-easymail.php:1226
+#: .././alo-easymail.php:1227
+msgid "Newsletters"
+msgstr "Δελτία νέων"
+
+#: .././alo-easymail.php:323
+#: .././alo-easymail.php:625
+#: .././alo-easymail-widget.php:206
+msgid "Newsletter"
+msgstr "Δελτίο νέων"
+
+#: .././alo-easymail.php:324
+msgid "Add New"
+msgstr "Προσθήκη νέου"
+
+#: .././alo-easymail.php:325
+msgid "Add New Newsletter"
+msgstr "Προσθήκη νέου δελτίου νέων"
+
+#: .././alo-easymail.php:326
+msgid "Edit Newsletter"
+msgstr "Επεξεργασία δελτίου νέων"
+
+#: .././alo-easymail.php:327
+msgid "New Newsletter"
+msgstr "Νέο δελτίο νέων"
+
+#: .././alo-easymail.php:328
+msgid "View Newsletter"
+msgstr "Προβολή δελτίου νέων"
+
+#: .././alo-easymail.php:329
+msgid "Search Newsletters"
+msgstr "Αναζήτηση δελτίου νέων"
+
+#: .././alo-easymail.php:330
+msgid "No Newsletters found"
+msgstr "Δεν βρέθηκαν δελτία νέων"
+
+#: .././alo-easymail.php:331
+msgid "No Newsletters found in Trash"
+msgstr "Δεν βρέθηκαν δελτία νέων στον κάδο"
+
+#: .././alo-easymail.php:332
+#: .././alo-easymail.php:334
+msgid "Parent Newsletter"
+msgstr "Παρών δελτίο νέων"
+
+#: .././alo-easymail.php:366
+#, php-format
+msgid "Newsletter updated. <a href=\"%s\">View Newsletter</a>"
+msgstr "Το δελτίο νέων ενημερώθηκε. <a href=\"%s\">Προβολή Δελτίου νέων</a>"
+
+#: .././alo-easymail.php:367
+msgid "Custom field updated."
+msgstr "Το προσαρμοσμένο πεδίο ενημερώνεται."
+
+#: .././alo-easymail.php:368
+msgid "Custom field deleted."
+msgstr "Προσαρμοσμένο πεδίο διαγράφηκε."
+
+#: .././alo-easymail.php:369
+msgid "Newsletter updated."
+msgstr "Το δελτίο νέων ενημερώθηκε."
+
+#: .././alo-easymail.php:371
+#, php-format
+msgid "Newsletter restored to revision from %s"
+msgstr "Το ενημερωτικό δελτίο αποκατασταθικε για αναθεώρηση από %s"
+
+#: .././alo-easymail.php:372
+#, php-format
+msgid "Newsletter published. <a href=\"%s\">View Newsletter</a>"
+msgstr "Το ενημερωτικό δελτίο δημοσιεύτηκε. <a href=\"%s\">Δείτε το ενημερωτικό δελτίο</a>"
+
+#: .././alo-easymail.php:373
+msgid "Newsletter saved."
+msgstr "Το δελτίο νέων αποθηκεύτηκε"
+
+#: .././alo-easymail.php:374
+#, php-format
+msgid "Newsletter submitted. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Ενημερωτικό δελτίο υποβλήθηκε. <a target=\"_blank\" href=\"%s\">Προεπισκόπηση ενημερωτικού δελτίου</a>"
+
+#: .././alo-easymail.php:375
+#, php-format
+msgid "Newsletter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Newsletter</a>"
+msgstr "Το ενημερωτικό δελτίο έχει προγραμματιστεί για τις: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Προεπισκόπηση ενημερωτικού δελτίου</a>"
+
+#: .././alo-easymail.php:377
+#: .././alo-easymail.php:513
+#: .././alo-easymail.php:1051
+#: .././alo-easymail_report.php:109
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_functions.php:1462
+msgid "j M Y @ G:i"
+msgstr "j M Y @ G:i"
+
+#: .././alo-easymail.php:378
+#, php-format
+msgid "Newsletter draft updated. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Το προσχέδιο του ενημερωτικού δελτίου ανανεώθηκε. <a target=\"_blank\" href=\"%s\">Προεπισκόπηση ενημερωτικού δελτίου</a>"
+
+#: .././alo-easymail.php:421
+msgid "Title"
+msgstr "Τίτλος"
+
+#: .././alo-easymail.php:421
+#: .././alo-easymail_report.php:86
+#: .././alo-easymail_options.php:567
+msgid "Subject"
+msgstr "Θέμα"
+
+#: .././alo-easymail.php:422
+#: .././alo-easymail.php:825
+msgid "Recipients"
+msgstr "Παραλήπτες"
+
+#: .././alo-easymail.php:423
+msgid "Newsletter status"
+msgstr "Κατάσταση δελτίου νέων"
+
+#: .././alo-easymail.php:424
+#: .././alo-easymail_report.php:108
+msgid "Start"
+msgstr "Έναρξη"
+
+#: .././alo-easymail.php:425
+msgid "Author"
+msgstr "Συγγραφέας"
+
+#: .././alo-easymail.php:441
+#: .././alo-easymail_recipients-list (copia).php:72
+#: .././alo-easymail_recipients-list.php:72
+msgid "No recipients selected yet"
+msgstr "Δεν έχουν επιλεγεί παραλήπτεςί ακόμα"
+
+#: .././alo-easymail.php:445
+#: .././alo-easymail_report.php:136
+msgid "Total recipients"
+msgstr "Σύνολο παραληπτών"
+
+#: .././alo-easymail.php:505
+#: .././alo-easymail.php:506
+msgid "Report"
+msgstr "Αναφορά"
+
+#: .././alo-easymail.php:511
+#: .././alo-easymail_report.php:112
+msgid "Completed"
+msgstr "Ολοκληρωμένο"
+
+#: .././alo-easymail.php:521
+msgid "On sending queue"
+msgstr "Αποστολή στην ουρά "
+
+#: .././alo-easymail.php:522
+#: .././alo-easymail.php:551
+#: .././alo-easymail.php:1050
+msgid "Progress"
+msgstr "Πρόοδος"
+
+#: .././alo-easymail.php:524
+#: .././alo-easymail.php:537
+msgid "refresh"
+msgstr "ανανέωση"
+
+#: .././alo-easymail.php:526
+#: .././alo-easymail_recipients-list (copia).php:148
+#: .././alo-easymail_recipients-list.php:177
+msgid "pause"
+msgstr "παύση"
+
+#: .././alo-easymail.php:526
+msgid "pause the sending"
+msgstr "παύση αποστολής"
+
+#: .././alo-easymail.php:532
+msgid "Pending Review"
+msgstr "Εν αναμονή αναθεώρησης"
+
+#: .././alo-easymail.php:535
+msgid "Scheduled"
+msgstr "Προγραμματισμένη"
+
+#: .././alo-easymail.php:541
+msgid "Draft"
+msgstr "Σχέδιο"
+
+#: .././alo-easymail.php:544
+msgid "Pending"
+msgstr "Εν αναμονή"
+
+#: .././alo-easymail.php:550
+msgid "Paused"
+msgstr "Παύση"
+
+#: .././alo-easymail.php:555
+#: .././alo-easymail_recipients-list (copia).php:149
+#: .././alo-easymail_recipients-list.php:178
+msgid "continue"
+msgstr "συνέχεια"
+
+#: .././alo-easymail.php:555
+msgid "continue the sending"
+msgstr "συνέχεια αποστολής"
+
+#: .././alo-easymail.php:565
+msgid "Required"
+msgstr "Απαιτούμενα"
+
+#: .././alo-easymail.php:565
+#: .././alo-easymail_recipients-list (copia).php:126
+#: .././alo-easymail_recipients-list.php:155
+msgid "Create list of recipients"
+msgstr "Δημιουργία λίστας παραληπτών"
+
+#: .././alo-easymail.php:579
+#: .././alo-easymail_report.php:171
+msgid "Sent"
+msgstr "Εστάλη"
+
+#: .././alo-easymail.php:628
+#: .././alo-easymail.php:1103
+#: .././alo-easymail-widget.php:57
+#: .././alo-easymail_subscr-page.php:20
+#: .././alo-easymail_options.php:501
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "Ναι, θα ήθελα να λάμβάνω δελτίο νέων"
+
+#: .././alo-easymail.php:632
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list (copia).php:139
+#: .././alo-easymail_recipients-list.php:168
+msgid "Yes"
+msgstr "Ναι"
+
+#: .././alo-easymail.php:633
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list
+#: (copia).php:140
+#: .././alo-easymail_recipients-list.php:169
+msgid "No"
+msgstr "Όχι"
+
+#: .././alo-easymail.php:746
+#: .././alo-easymail_report.php:32
+msgid "Newsletter report"
+msgstr "Αναφορά δελτίου νέων"
+
+#: .././alo-easymail.php:747
+#: .././alo-easymail_recipients-list (copia).php:79
+#: .././alo-easymail_recipients-list.php:79
+msgid "Newsletter subscribers creation"
+msgstr "Δημιουργία συνδρομητών δελτίου νέων"
+
+#: .././alo-easymail.php:826
+msgid "Placeholders"
+msgstr "Placeholders"
+
+#: .././alo-easymail.php:838
+msgid "Selected recipients"
+msgstr "Επιλεγμένοι αποδέκτες"
+
+#: .././alo-easymail.php:841
+msgid "This newsletter was already sent"
+msgstr "Αυτό το ενημερωτικό δελτίο έχει ήδη αποσταλεί"
+
+#: .././alo-easymail.php:847
+msgid "The creation of the recipients list has already started"
+msgstr "Η δημιουργία της λίστας παραληπτών έχει ήδη αρχίσει"
+
+#: .././alo-easymail.php:849
+msgid "Check this flag to delete the existing list and save new recipients now"
+msgstr "Ελέγξτε αυτήν τη σημαία για να διαγράψετε την υπάρχουσα λίστα και να αποθηκεύσετε νέωναποδέκτες τώρα"
+
+#: .././alo-easymail.php:857
+msgid "Users"
+msgstr "Χρήστες"
+
+#: .././alo-easymail.php:860
+#: .././alo-easymail_functions.php:263
+msgid "All registered users"
+msgstr "Όλοι οι εγγεγραμμένοι χρήστες"
+
+#: .././alo-easymail.php:868
+#: .././alo-easymail_subscribers.php:318
+msgid "Newsletter subscribers"
+msgstr "Συνδρομητές δελτίου νέων"
+
+#: .././alo-easymail.php:871
+#: .././alo-easymail_functions.php:265
+msgid "All subscribers"
+msgstr "Όλοι οι συνδρομητές"
+
+#: .././alo-easymail.php:878
+msgid "Filter subscribers according to lists"
+msgstr "Φίλτρο συνδρομητών σύμφωνα με τους καταλόγους"
+
+#: .././alo-easymail.php:898
+msgid "Filter subscribers according to languages"
+msgstr "Φίλτρο συνδρομητών σύμφωνα με τις γλώσσες"
+
+#: .././alo-easymail.php:913
+msgid "Not specified / others"
+msgstr "Δεν έχει καθοριστεί / άλλοι"
+
+#: .././alo-easymail.php:949
+msgid "Choose a post"
+msgstr "Επιλέξτε ένα δελτίο νέων"
+
+#: .././alo-easymail.php:954
+msgid "j M Y"
+msgstr "j M Y"
+
+#: .././alo-easymail.php:1044
+msgid "Newsletters scheduled for sending"
+msgstr "Τα δελτία νέων έχουν προγραμματιστεί για αποστολή"
+
+#: .././alo-easymail.php:1048
+msgid "now sending"
+msgstr "αποστέλεται"
+
+#: .././alo-easymail.php:1051
+msgid "Added on"
+msgstr "Προστέθηκε στις"
+
+#: .././alo-easymail.php:1052
+#: .././alo-easymail_report.php:105
+msgid "Scheduled by"
+msgstr "Προγραμματισμένη από"
+
+#: .././alo-easymail.php:1055
+msgid "There are no newsletters in queue"
+msgstr "Δεν υπάρχουν ενημερωτικά δελτία στην ουρά"
+
+#: .././alo-easymail.php:1060
+#, php-format
+msgid "There are %d subscribers: %d activated, %d not activated"
+msgstr "Υπάρχουν %d συνδρομητές: %d ενεργοί, %d μη ενεργοί"
+
+#: .././alo-easymail.php:1062
+#: .././alo-easymail_subscribers.php:581
+#: .././alo-easymail_subscribers.php:899
+msgid "No subscribers"
+msgstr "Χωρίς συνδρομητές"
+
+#: .././alo-easymail.php:1065
+msgid "Updates from plugin developer"
+msgstr "Ενημερώσεις από τον προγραμματιστή του πρόσθετου"
+
+#: .././alo-easymail.php:1082
+msgid "j F Y"
+msgstr "j F Y"
+
+#: .././alo-easymail.php:1109
+#: .././alo-easymail-widget.php:20
+#: .././alo-easymail_options.php:503
+#: .././alo-easymail_functions.php:1873
+msgid "You can also sign up for specific lists"
+msgstr "Μπορείτε επίσης να εγγραφείτε για συγκεκριμένες λίστες"
+
+#: .././alo-easymail.php:1175
+msgid "Confirm your subscription to %BLOGNAME% Newsletter"
+msgstr "Επιβεβαιώσετε την εγγραφή σας στην %BLOGNAME% Δελτίο νέων"
+
+#: .././alo-easymail.php:1185
+msgid "Hi %NAME%"
+msgstr "Γεια %NAME%, για να ολοκληρώσετε την εγγραφή σας στο δελτίο νέων του %BLOGNAME% πρέπει να κάνετε κλικ στο παρακάτω σύνδεσμο (ή επικολλήστε το στη γραμμή διευθύνσεων του browser σας):"
+
+#: .././alo-easymail.php:1187
+msgid "If you did not ask for this subscription ignore this message."
+msgstr "Εάν δεν ζητήσατε αυτή τη συνδρομή αγνοήστε αυτό το μήνυμα."
+
+#: .././alo-easymail.php:1188
+msgid "Thank you"
+msgstr "Ευχαριστούμε"
+
+#: .././alo-easymail.php:1228
+msgid "Send newsletter"
+msgstr "Αποστολή ενημερωτικού δελτίου"
+
+#: .././alo-easymail.php:1229
+#: .././alo-easymail_subscribers.php:633
+msgid "Show all"
+msgstr "Εμφάνιση όλων"
+
+#: .././alo-easymail.php:1235
+msgid "Options"
+msgstr "Επιλογές"
+
+#: .././alo-easymail.php:1278
+msgid "Debug mode is activated"
+msgstr "Η κατάσταση λειτουργίας εντοπισμού σφαλμάτων είναι ενεργοποιημένη"
+
+#: .././alo-easymail.php:1279
+#: .././alo-easymail_options.php:390
+msgid "all messages will be sent to the newsletter author"
+msgstr "όλα τα μηνύματα θα σταλούν στο συγγραφέα του ενωημερωτικού δελτίου"
+
+#: .././alo-easymail.php:1280
+#: .././alo-easymail_options.php:391
+msgid "all messages will be recorded into a log file"
+msgstr "όλα τα μηνύματα θα καταγράφονται σε ένα αρχείο καταγραφής"
+
+#: .././alo-easymail-widget.php:58
+#: .././alo-easymail_options.php:502
+msgid "No, please do not email me"
+msgstr "Όχι, δεν επιθυμώ να λαμβάνω ενημερωτικά δελτία"
+
+#: .././alo-easymail-widget.php:60
+msgid "Updating..."
+msgstr "Ενημέρωση ..."
+
+#: .././alo-easymail-widget.php:81
+#: .././alo-easymail_functions.php:964
+msgid "sending..."
+msgstr "αποστολή ..."
+
+#: .././alo-easymail-widget.php:87
+#: .././alo-easymail_report.php:169
+#: .././alo-easymail_subscribers.php:273
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:775
+msgid "Name"
+msgstr "Όνομα"
+
+#: .././alo-easymail-widget.php:91
+#: .././alo-easymail_report.php:168
+#: .././alo-easymail_subscribers.php:271
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:774
+msgid "E-mail"
+msgstr "E-mail"
+
+#: .././alo-easymail-widget.php:97
+#: .././alo-easymail_functions.php:963
+msgid "Subscribe"
+msgstr "Εγγραφή"
+
+#: .././alo-easymail-widget.php:111
+msgid "Allow users to opt in/out of email"
+msgstr "Επιτρέψτε στους χρήστες να επιλέξουν από/προς το e-mail"
+
+#: .././alo-easymail-widget.php:117
+msgid "ALO Easymail Widget"
+msgstr "ALO Easymail Widget"
+
+#: .././alo-easymail_subscr-page.php:18
+#: .././alo-easymail_options.php:913
+#: .././alo-easymail_options.php:945
+#: .././alo-easymail_options.php:964
+#: .././alo-easymail_options.php:967
+#: .././alo-easymail_subscribers.php:18
+#: .././alo-easymail_subscribers.php:28
+#: .././alo-easymail_subscribers.php:98
+#: .././alo-easymail_subscribers.php:161
+#: .././alo-easymail_subscribers.php:208
+#: .././alo-easymail_subscribers.php:221
+#: .././alo-easymail_subscribers.php:234
+#: .././alo-easymail_subscribers.php:378
+#: .././alo-easymail_subscribers.php:395
+#: .././alo-easymail_subscribers.php:418
+#: .././alo-easymail_subscribers.php:452
+msgid "Error during operation."
+msgstr "Σφάλμα κατά τη λειτουργία."
+
+#: .././alo-easymail_subscr-page.php:31
+#: .././alo-easymail_functions.php:961
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "Η εγγραφή σας ολοκληρώθηκε  με επιτυχία. Θα λάβετε το επόμενο δελτίο νέων. Σας ευχαριστούμε."
+
+#: .././alo-easymail_subscr-page.php:34
+msgid "Error during activation. Please check the activation link."
+msgstr "Σφάλμα κατά την ενεργοποίηση. Παρακαλώ ελέγξτε το σύνδεμο ενεργοποίησης."
+
+#: .././alo-easymail_subscr-page.php:42
+msgid "To modify your subscription to mailing lists use this form"
+msgstr "Για να τροποποιήσετε την εγγραφή σας στις λίστες αλληλογραφίας χρησιμοποιείστε αυτή την φόρμα  "
+
+#: .././alo-easymail_subscr-page.php:51
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: .././alo-easymail_subscr-page.php:56
+msgid "To unsubscribe the newsletter for good click this button"
+msgstr "Για να διαγραφείτε από το ενημερωτικό δελτίο οριστικά κάντε κλικ στο κουμπί"
+
+#: .././alo-easymail_subscr-page.php:62
+msgid "Unsubscribe me"
+msgstr "Διαγραφή από την λίστα"
+
+#: .././alo-easymail_subscr-page.php:69
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "Η συνδρομή σας έχει διαγραφεί επιτυχώς. Bye bye."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Error during unsubscription."
+msgstr "Σφάλμα κατά τη διάρκεια της διαγραφής."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Try again."
+msgstr "Δοκιμάστε ξανά."
+
+#: .././alo-easymail_subscr-page.php:73
+msgid "If it fails again you can contact the administrator"
+msgstr "Εάν αποτύχει και πάλι, μπορείτε να επικοινωνήσετε με το διαχειριστή"
+
+#: .././alo-easymail_subscr-page.php:90
+msgid "Your subscription to mailing lists successfully updated"
+msgstr "Η συνδρομή σας για τις λίστες ταχυδρομείου ενημερώθηκε με επιτυχία"
+
+#: .././alo-easymail_report.php:5
+#: .././alo-easymail_report.php:19
+#: .././alo-easymail_report.php:21
+#: .././alo-easymail_recipients-list
+#: (copia).php:6
+#: (copia).php:17
+#: (copia).php:23
+#: (copia).php:25
+#: .././alo-easymail_options.php:3
+#: .././alo-easymail_subscribers.php:3
+#: .././alo-easymail_recipients-list.php:6
+#: .././alo-easymail_recipients-list.php:17
+#: .././alo-easymail_recipients-list.php:23
+#: .././alo-easymail_recipients-list.php:25
+msgid "Cheatin&#8217; uh?"
+msgstr "Cheatin&#8217; uh?"
+
+#: .././alo-easymail_report.php:17
+#: .././alo-easymail_report.php:18
+#: .././alo-easymail_recipients-list (copia).php:21
+#: (copia).php:22
+#: .././alo-easymail_recipients-list.php:21
+#: .././alo-easymail_recipients-list.php:22
+msgid "The required newsletter does not exist"
+msgstr "Το απαιτούμενο ενημερωτικό δελτίο δεν υπάρχει"
+
+#: .././alo-easymail_report.php:80
+msgid "open in a new window"
+msgstr "άνοιγμα σε νέο παράθυρο"
+
+#: .././alo-easymail_report.php:119
+#: .././alo-easymail_options.php:571
+msgid "Main body"
+msgstr "Κύριο σώμα"
+
+#: .././alo-easymail_report.php:119
+msgid "without formatting"
+msgstr "Χωρίς μορφοποίηση"
+
+#: .././alo-easymail_report.php:137
+msgid "Sendings done"
+msgstr "Αποστολές ολοκληρώθηκαν"
+
+#: .././alo-easymail_report.php:138
+msgid "Sendings succesful"
+msgstr "Επιτυχημένες αποστολές"
+
+#: .././alo-easymail_report.php:139
+msgid "Sendings failed"
+msgstr "Αποστολές απέτυχαν"
+
+#: .././alo-easymail_report.php:141
+msgid "Unique views"
+msgstr "Μοναδικές προβολές"
+
+#: .././alo-easymail_report.php:143
+msgid "The plugin tries to count how many recipients open the newsletter"
+msgstr "Το πρόσθετο προσπαθεί να μετρήσει πόσοι παραλήπτες έχουν ανοίξει το ενημερωτικό δελτίο"
+
+#: .././alo-easymail_report.php:144
+msgid "The number includes max a view per recipient"
+msgstr "Ο αριθμός περιλαμβάνει μέγιστο στόχο ανά αποδέκτη"
+
+#: .././alo-easymail_report.php:148
+#: .././alo-easymail_report.php:173
+msgid "Clicks"
+msgstr "Κλικ"
+
+#: .././alo-easymail_report.php:150
+msgid "The number includes all clicks by all recipients"
+msgstr "Ο αριθμός περιλαμβάνει όλα τα κλικ από όλους τους αποδέκτες"
+
+#: .././alo-easymail_report.php:170
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:780
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: .././alo-easymail_report.php:172
+msgid "Viewed"
+msgstr "Θέαση"
+
+#: .././alo-easymail_custom-hooks-sample.php:31
+msgid "Latest posts"
+msgstr "Τελευταία μηνύματα"
+
+#: .././alo-easymail_custom-hooks-sample.php:33
+msgid "A list with the latest published posts"
+msgstr "Λίστα με τις τελευταίες δημοσιευμένες δημοσιεύσεις"
+
+#: .././alo-easymail_custom-hooks-sample.php:51
+msgid "Select how many posts"
+msgstr "Επιλέξτε το πλήθος των δημοσιεύσεων"
+
+#: .././alo-easymail_recipients-list (copia).php:5
+#: (copia).php:151
+#: .././alo-easymail_recipients-list.php:5
+#: .././alo-easymail_recipients-list.php:180
+msgid "close"
+msgstr "κλείσιμο"
+
+#: .././alo-easymail_recipients-list (copia).php:68
+#: .././alo-easymail_recipients-list.php:68
+msgid "The required newsletter seems to already have a list"
+msgstr "Το  απαιτούμενο ενημερωτικό δελτίο φαίνεται να έχει ήδη μια λίστα"
+
+#: .././alo-easymail_recipients-list (copia).php:105
+#: .././alo-easymail_recipients-list.php:97
+#: .././alo-easymail_recipients-list.php:132
+msgid "Recipients successfully added"
+msgstr "Οι παραλήπτες προστέθηκαν με επιτυχία"
+
+#: .././alo-easymail_recipients-list (copia).php:106
+#: .././alo-easymail_recipients-list.php:98
+#: .././alo-easymail_recipients-list.php:133
+msgid "Newsletter successfully sent to recipients"
+msgstr "Το ενημερωτικό δελτίο έχει αποσταλεί στους παραλήπτες με επιτυχία"
+
+#: .././alo-easymail_recipients-list (copia).php:131
+#: .././alo-easymail_recipients-list.php:160
+msgid "You have to prepare the list of recipients to send the newsletter to"
+msgstr "Θα πρέπει να προετοιμάσετε τον κατάλογο των παραληπτών για την αποστολή του ενημερωτικού δελτίου για"
+
+#: .././alo-easymail_recipients-list (copia).php:132
+#: .././alo-easymail_recipients-list.php:161
+msgid "You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)"
+msgstr "Μπορείτε να προσθέσετε τους παραλήπτες για αποστολή στην ουρά (καλύτερη επιλογή) ή να στείλετε αμέσως το ενημερωτικό δελτίο (προτείνεται μόνο εάν είναι λίγοι παραλήπτες)"
+
+#: .././alo-easymail_recipients-list (copia).php:133
+#: .././alo-easymail_recipients-list.php:162
+msgid "Warning: do not close or reload the browser window during process"
+msgstr "Προσοχή: μην κλείσετε ή επαναφορτώσετε το παράθυρο του browser κατά τη διάρκεια της διαδικασίας"
+
+#: .././alo-easymail_recipients-list (copia).php:135
+#: .././alo-easymail_recipients-list.php:164
+msgid "You can send the newsletter as test to"
+msgstr "Μπορείτε να στείλετε το ενημερωτικό δελτίο ως δοκιμή στο"
+
+#: .././alo-easymail_recipients-list (copia).php:137
+#: .././alo-easymail_recipients-list.php:166
+msgid "Send"
+msgstr "Αποστολή"
+
+#: .././alo-easymail_recipients-list (copia).php:145
+#: .././alo-easymail_recipients-list.php:174
+msgid "Add to sending queue"
+msgstr "Προσθήκη στην ουρά για αποστολή"
+
+#: .././alo-easymail_recipients-list (copia).php:147
+#: .././alo-easymail_recipients-list.php:176
+msgid "Send now"
+msgstr "Αποστολή τώρα"
+
+#: .././alo-easymail_options.php:198
+#: .././alo-easymail_options.php:943
+#: .././alo-easymail_options.php:962
+#: .././alo-easymail_subscribers.php:446
+#: .././alo-easymail_subscribers.php:463
+msgid "Updated"
+msgstr "Ενημερωμένο"
+
+#: .././alo-easymail_options.php:229
+#: .././alo-easymail_options.php:246
+msgid "General"
+msgstr "Γενικά"
+
+#: .././alo-easymail_options.php:230
+#: .././alo-easymail_options.php:445
+#: .././alo-easymail_options.php:865
+msgid "Texts"
+msgstr "Κείμενα"
+
+#: .././alo-easymail_options.php:231
+#: .././alo-easymail_options.php:689
+msgid "Batch sending"
+msgstr "Μαζική αποστολή"
+
+#: .././alo-easymail_options.php:232
+#: .././alo-easymail_options.php:761
+msgid "Permissions"
+msgstr "Δικαιώματα"
+
+#: .././alo-easymail_options.php:233
+#: .././alo-easymail_options.php:866
+#: .././alo-easymail_options.php:890
+#: .././alo-easymail_options.php:1052
+#: .././alo-easymail_subscribers.php:292
+#: .././alo-easymail_subscribers.php:779
+#: .././alo-easymail_functions.php:267
+msgid "Mailing Lists"
+msgstr "Λίστες e-mail"
+
+#: .././alo-easymail_options.php:250
+msgid "Number of last posts to display"
+msgstr "Εμφάνιση αριθμού των τελευταίων μηνυμάτων "
+
+#: .././alo-easymail_options.php:252
+msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
+msgstr "Εμφάνιση αριθμού των πρόσφατων δημοσιεύσεων από την αναπτυσσόμενη λίστα της φόρμας του ενημερωτικού δελτίου αποστολής "
+
+#: .././alo-easymail_options.php:256
+msgid "Sender's email address"
+msgstr "Διεύθυνση ηλεκτρονικού ταχυδρομείου αποστολέα"
+
+#: .././alo-easymail_options.php:261
+msgid "Sender's name"
+msgstr "Όνομα αποστολέα"
+
+#: .././alo-easymail_options.php:273
+msgid "Subscription page"
+msgstr "Σελίδα συνδρομής"
+
+#: .././alo-easymail_options.php:292
+msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
+msgstr "Αυτή πρέπει να είναι η σελίδα που περιλαμβάνει τον [ALO-EASYMAIL-PAGE] . Από προεπιλογή, αυτή η σελίδα έχει τίτλο &#39;Newsletter&#39;"
+
+#: .././alo-easymail_options.php:305
+msgid "Show subscription page"
+msgstr "Εμφάνιση σελίδας συνδρομών"
+
+#: .././alo-easymail_options.php:306
+msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
+msgstr "Εάν ναι, η σελίδα εγγραφής εμφανίζεται στο μενού ή στις μονάδες όλων των σελίδων του blog"
+
+#: .././alo-easymail_options.php:317
+msgid "Embed CSS file"
+msgstr "Ενσωμάτωση  αρχείου CSS"
+
+#: .././alo-easymail_options.php:318
+msgid "If yes, the plugin loads the CSS styles from a file in its directory"
+msgstr "Εάν ναι, το πρόσθετο φορτώνει το στυλ CSS από ένα αρχείο στον κατάλογο του"
+
+#: .././alo-easymail_options.php:318
+msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
+msgstr "Συμβουλή: αντιγράψτε το &#39;alo-easymail.css&#39;στο στυλ του θέματος σας και επεξεργαστείτε το εκεί. Χρήσιμο ώστε να αποτρέψετε την απώλεια του στυλ κατά την αναβάθμιση του πρόσθετου"
+
+#: .././alo-easymail_options.php:329
+msgid "Disable activation e-mail"
+msgstr "Απενεργοποίηση ενεργοποίησης e-mail"
+
+#: .././alo-easymail_options.php:330
+msgid "If yes, a new subscriber is automatically activated without confirmation e-mail"
+msgstr "Εάν ναι, ο νέος συνδρομητής ενεργοποιείται αυτόματα χωρίς επιβεβαίωση e-mail"
+
+#: .././alo-easymail_options.php:349
+msgid "Filters to the newsletter text"
+msgstr "Φίλτρα στο κείμενο του ενημερωτικού δελτίου"
+
+#: .././alo-easymail_options.php:351
+msgid "Apply 'the_content' filters and shortcodes to newsletter content"
+msgstr "Εφαρμόζει 'the_content' φίλτρα και σύντομους κωδικούς στο περιεχόμενο του ενημερωτικού δελτίου"
+
+#: .././alo-easymail_options.php:364
+msgid "Load only plugin javascript in list generation screen"
+msgstr "Φορτώνει μόνο την javascript του πρόσθετου"
+
+#: .././alo-easymail_options.php:366
+msgid "Load only plugin javascript files during list of recipients"
+msgstr "Φόρτωση  μόνο των αρχείων javascript του πρόσθετου κατά τη διάρκεια της λίστα παραληπτών"
+
+#: .././alo-easymail_options.php:366
+msgid "Useful to avoid conflicts with javascripts of other plugins"
+msgstr "Χρήσιμο για την αποφυγή συγκρούσεων με javascripts άλλων πρόσθετων"
+
+#: .././alo-easymail_options.php:379
+msgid "Debug newsletters"
+msgstr "Λειτουργία εντοπισμού ενημερωτικών δελτίων"
+
+#: .././alo-easymail_options.php:382
+msgid "no"
+msgstr "όχι"
+
+#: .././alo-easymail_options.php:383
+#: .././alo-easymail_options.php:390
+msgid "send all emails to the author"
+msgstr "Να αποσταλούν όλα τα μηνύματα στο συντάκτη"
+
+#: .././alo-easymail_options.php:383
+#: .././alo-easymail_options.php:391
+msgid "put all emails into a log file"
+msgstr "Τοποθέτησε όλα τα μηνύματα σε ένα αρχείο καταγραφής  "
+
+#: .././alo-easymail_options.php:388
+msgid "If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients"
+msgstr "Αν επιλέξετε μια κατάσταση εντοπισμού σφαλμάτων τα ενημερωτικά δελτία δεν θα σταλούν στους επιλεγμένους παραλήπτες"
+
+#: .././alo-easymail_options.php:392
+#, php-format
+msgid "called %s and saved in %s"
+msgstr "που ονομάζεται %s αποθηκεύονται στο %s"
+
+#: .././alo-easymail_options.php:392
+msgid "the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!"
+msgstr "το αρχείο καταγραφής είναι διαθέσιμο στο διακομιστή σας και περιέχει προσωπικές πληροφορίες έτσι πρέπει να το διαγράψετε, το συντομότερο δυνατόν!"
+
+#: .././alo-easymail_options.php:405
+msgid "Show credit banners in back-end"
+msgstr "Εμφάνιση πιστωτικών banners στο back-end"
+
+#: .././alo-easymail_options.php:406
+msgid "You are free to hide the credits, but in that case it's a common practice to make a small donatation via Paypal to the plugin author"
+msgstr "Είστε ελεύθεροι να κάνετε απόκρυψη τις πιστώσεις, αλλά στην περίπτωση αυτή είναι μια κοινή πρακτική να κάνει μια μικρή δωρεά μέσω Paypal στον δημιουργό του πρόσθετου"
+
+#: .././alo-easymail_options.php:417
+#: .././alo-easymail_options.php:419
+#: .././alo-easymail_options.php:420
+msgid "Delete all plugin data on deactivation"
+msgstr "Διαγραφή όλων των δεδομένων του πρόσθετου κατά την απενεργοποίηση"
+
+#: .././alo-easymail_options.php:418
+msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
+msgstr "Στην απενεργοποίηση, όλες οι ρυθμίσεις, οι προτιμήσεις και οι πίνακες της βάσης δεδομένων  του πρόσθετου (συμπεριλαμβανομένων όλων των ενημερωτικών δελτίων και τα δεδομένα των συνδρομητών) θα διαγραφούν οριστικά"
+
+#: .././alo-easymail_options.php:418
+msgid "If you need these data make sure you do a database backup before plugin deactivation"
+msgstr "Εάν χρειάζεστε τα στοιχεία αυτά βεβαιωθείτε ότι έχετε κάνει ένα αντίγραφο ασφαλείας βάσης δεδομένων πριν από την απενεργοποίηση του"
+
+#: .././alo-easymail_options.php:420
+msgid "Yes, I understand"
+msgstr "Ναι, καταλαβαίνω"
+
+#: .././alo-easymail_options.php:430
+#: .././alo-easymail_options.php:462
+#: .././alo-easymail_options.php:673
+#: .././alo-easymail_options.php:738
+#: .././alo-easymail_options.php:877
+msgid "Update"
+msgstr "Ενημέρωση"
+
+#: .././alo-easymail_options.php:454
+msgid "No multilanguage plugin is enabled, so you will only see texts in the main language of the site"
+msgstr "Το πρόσθετο της πολυγλωσσικότητας δεν είναι ενεργοποιημένο, οπότε θα δείτε μόνο τα κείμενα στην κύρια γλώσσα του διαδικτυακού τόπου"
+
+#: .././alo-easymail_options.php:455
+msgid "Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality"
+msgstr "Συνιστώμενα πρόσθετα, πλήρως συμβατά με το EasyMail, για μια πλήρη πολύγλωσση λειτουργικότητα"
+
+#: .././alo-easymail_options.php:459
+msgid "If you like here you can list the languages available"
+msgstr "Αν θέλετε εδώ μπορείτε να παραθέσετε και άλλες γλώσσες"
+
+#: .././alo-easymail_options.php:463
+msgid "List of two-letter language codes separated by commas"
+msgstr "Λίστα κωδικών για γλώσσα δύο γραμμάτων που διαχωρίζονται με κόμματα"
+
+#: .././alo-easymail_options.php:463
+#: .././alo-easymail_subscribers.php:331
+msgid "iso 639-1 codes"
+msgstr "κωδικοί iso 639-1"
+
+#: .././alo-easymail_options.php:463
+msgid "Sample:"
+msgstr "Δείγμα:"
+
+#: .././alo-easymail_options.php:465
+msgid "The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly"
+msgstr "Το πρόσθετο ψάχνει για την γλώσσα του συνδρομητή στις ρυθμίσεις του προγράμματος περιήγησης και στέλνει  e-mail ανάλογα"
+
+#: .././alo-easymail_options.php:466
+msgid "If you are not using a multilanguage site ignore this piece of information"
+msgstr "Αν δεν χρησιμοποιείτε  πολυγλωσσικό site αγνοήσει αυτό το κομμάτι των πληροφοριών"
+
+#: .././alo-easymail_options.php:476
+msgid "Widget/Page Texts"
+msgstr "Widget/Σελίδα κειμένων"
+
+#: .././alo-easymail_options.php:490
+msgid "Optin message"
+msgstr "Μήνυμα αποδοχής"
+
+#: .././alo-easymail_options.php:491
+msgid "Optout message"
+msgstr "Μήνυμα απόρηψης"
+
+#: .././alo-easymail_options.php:492
+msgid "Invite to join mailing lists"
+msgstr "Πρόσκληση για συμμετοχή στις λίστες"
+
+#: .././alo-easymail_options.php:493
+msgid "Policy claim"
+msgstr "Πολιτική προστασίας"
+
+#: .././alo-easymail_options.php:494
+msgid "Top claim"
+msgstr "Τίτλος"
+
+#: .././alo-easymail_options.php:498
+#: .././alo-easymail_options.php:555
+#: .././alo-easymail_options.php:594
+#: .././alo-easymail_options.php:633
+msgid "Leave blank to use default text"
+msgstr "Αφήστε κενό για να χρησιμοποιήσετε το προεπιλεγμένο κείμενο"
+
+#: .././alo-easymail_options.php:505
+#: .././alo-easymail_options.php:509
+msgid "empty"
+msgstr "κενό"
+
+#: .././alo-easymail_options.php:506
+msgid "If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy"
+msgstr "Αν συμπληρωθεί θα υπάρχει στο κάτω μέρος της σελίδας μονάδων. Χρήσιμο για να εμφανίσει σύνδεσμο περισσότερα σχετικά με τους όρους χρήσης "
+
+#: .././alo-easymail_options.php:510
+msgid "If filled in it will appear at the top of widget/page. Useful to invite to subscribe"
+msgstr "Αν συμπληρωθεί θα υπάρχει στην κορυφή της σελίδας μονάδων. Χρήσιμο για να προσκαλέσετε νέους συνδρομητές "
+
+#: .././alo-easymail_options.php:549
+msgid "Communications"
+msgstr "Επικοινωνία"
+
+#: .././alo-easymail_options.php:554
+msgid "Activation e-mail"
+msgstr "Ενεργοποίηση e-mail"
+
+#: .././alo-easymail_options.php:583
+#: .././alo-easymail_options.php:622
+#: .././alo-easymail_options.php:659
+msgid "You can use the following tags"
+msgstr "Μπορείτε να χρησιμοποιήσετε τις ακόλουθες ετικέτες"
+
+#: .././alo-easymail_options.php:585
+#: .././alo-easymail_options.php:624
+msgid "the blog name"
+msgstr "το όνομα του blog"
+
+#: .././alo-easymail_options.php:586
+msgid "the subscriber name"
+msgstr "το όνομα του συνδρομητή"
+
+#: .././alo-easymail_options.php:587
+msgid "the url that the new subscriber must click/visit to confirm the subscription"
+msgstr " σύνδεσμος στον οποίο ο νέος συνδρομητής πρέπει να κάνει κλικ η να επισκεφτεί για να επιβεβαιώσει την συνδρομή "
+
+#: .././alo-easymail_options.php:593
+msgid "Unsubscription disclaimer"
+msgstr "Διαγραφή συνδρομητή"
+
+#: .././alo-easymail_options.php:596
+#: .././alo-easymail_functions.php:1430
+msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
+msgstr "Έχετε λάβει αυτό το μήνυμα επειδή έχετε εγγραφεί στο ενημερωτικό δελτίο μας. Αν θέλετε να διαγραφείτε:"
+
+#: .././alo-easymail_options.php:597
+#: .././alo-easymail_functions.php:1431
+msgid "visit this link"
+msgstr "επισκεφτείτε αυτό το σύνδεσμο"
+
+#: .././alo-easymail_options.php:625
+msgid "the url that the new subscriber must click/visit to unsubscribe the newsletter"
+msgstr "ο σύνδεσμος που ο νέος συνδρομητής πρέπει να κάνει κλικ η να επισκεφτεί για να διαγραφεί από το ενημερωτικό δελτίο"
+
+#: .././alo-easymail_options.php:632
+msgid "Read newsletter online"
+msgstr "Διαβάστε online το ενημερωτικό δελτίο"
+
+#: .././alo-easymail_options.php:635
+#: .././alo-easymail_functions.php:1407
+msgid "To read the newsletter online you can visit this link"
+msgstr "Για να διαβάσετε το ηλεκτρονικό ενημερωτικό δελτίο, μπορείτε να επισκεφθείτε αυτόν τον σύνδεσμο"
+
+#: .././alo-easymail_options.php:661
+msgid "the newsletter web url"
+msgstr "ο σύνδεσμος του ενημερωτικού δελτίου"
+
+#: .././alo-easymail_options.php:699
+#, php-format
+msgid "Some parameters are already setted up in %s, so the values below could be ignored"
+msgstr "Ορισμένες παράμετροι έχουν ήδη ρυθμιστεί σε %s, έτσι ώστε οι τιμές που ακολουθούν μπορούν να αγνοηθούν"
+
+#: .././alo-easymail_options.php:706
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "Μέγιστος αριθμός μηνυμάτων ηλεκτρονικού ταχυδρομείου που μπορούν να αποσταλούν σε διάστημα 24 ωρών"
+
+#: .././alo-easymail_options.php:712
+msgid "Maximum number of emails that can be sent per batch"
+msgstr "Μέγιστος αριθμός email που μπορεί να αποσταλεί ανά παρτίδα"
+
+#: .././alo-easymail_options.php:718
+msgid "Interval between emails in a single batch, in milliseconds"
+msgstr "Διάστημα μεταξύ των emails σε μία μόνο παρτίδα, σε χιλιοστά του δευτερολέπτου"
+
+#: .././alo-easymail_options.php:720
+msgid "Default"
+msgstr "Προεπιλεγμένο "
+
+#: .././alo-easymail_options.php:720
+msgid "Usually you do not have to modify this value"
+msgstr "Συνήθως δεν χρειάζεται να τροποποιήσετε αυτήν την τιμή"
+
+#: .././alo-easymail_options.php:720
+msgid "It is useful if your provider allows a maximum number of emails that can be sent per second or minute"
+msgstr "Είναι χρήσιμο ο πάροχος  σας  να επιτρέπει μέγιστο αριθμό μηνυμάτων τα οποία μπορούν να σταλούν ανά δευτερόλεπτο ή λεπτό"
+
+#: .././alo-easymail_options.php:720
+msgid "The higher this value, the lower the number of emails sent for each batch"
+msgstr "Όσο υψηλότερη είναι αυτή η τιμή, τόση είναι  η μείωση του αριθμού των email που στέλνονται ανα παρτίδα"
+
+#: .././alo-easymail_options.php:725
+msgid "Important advice to calculate the best limit"
+msgstr "Σημαντικές συμβουλές για να υπολογίσει το καλύτερο όριο"
+
+#: .././alo-easymail_options.php:727
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "Ρωτήστε τον πάροχο σας πόσα e-mail μπορείτε να στέλνετε ανά μέρα. Πολλαπλασιάζοντας το ωριαίο όριο με 24 δεν είναι ο σωστός τρόπος για να υπολογίσετε το όριο ανα μέρα: πολύ συχνά ο αριθμός που προκύπτει είναι κατά πολύ υψηλότερο από το πραγματικό."
+
+#: .././alo-easymail_options.php:728
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+
+#: .././alo-easymail_options.php:729
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "Συμβουλή: αντιγράψτε το  &#39;alo-easymail.css&#39; στο στυλ του  θέματος σας συνήθως στο &#39;style.css&#39;  και  επεξεργαστείτε το εκεί. Είναι χρήσιμο για την πρόληψη της απώλειας του στυλ κατά την αναβάθμιση του πρόσθετου "
+
+#: .././alo-easymail_options.php:730
+msgid "For more info, visit the FAQ of the site."
+msgstr "Για περισσότερες πληροφορίες, επισκεφτείτε το FAQ του site."
+
+#: .././alo-easymail_options.php:765
+msgid "The lowest role can send newsletters"
+msgstr "Ο χαμηλότερος ρόλος που μπορεί να στελνειι ενημερωτικά δελτία"
+
+#: .././alo-easymail_options.php:792
+#: .././alo-easymail_options.php:819
+#, php-format
+msgid "The authorised roles are the same with the %s capability"
+msgstr "Οι εξουσιοδοτημένοι ρόλοι είναι το ίδιο με την ικανότητα του %s"
+
+#: .././alo-easymail_options.php:793
+msgid "The user with this capability can manage own newsletters (view the report, delete)"
+msgstr "Ο χρήστης με αυτά τα δικαιώματα μπορεί να διαχειριστεί τα δικά του  ενημερωτικά δελτία (προβολή αναφοράς, διαγραφή)"
+
+#: .././alo-easymail_options.php:799
+msgid "The lowest role can manage newsletters"
+msgstr "Ο χαμηλότερος ρόλος που μπορεί να διαχειριστεί τα ενημερωτικά δελτία"
+
+#: .././alo-easymail_options.php:820
+msgid "The user with this capability can manage newsletters of all users (view the report, delete)"
+msgstr "Ο χρήστης με αυτά τα δικαιώματα μπορεί να διαχειριστεί τα ενημερωτικά δελτία όλων των χρηστών (προβολή αναφοράς, διαγραφή)"
+
+#: .././alo-easymail_options.php:827
+msgid "The lowest role can manage subscribers"
+msgstr "Ο χαμηλότερος ρόλος που μπορεί να διαχειριστεί τους συνδρομητές"
+
+#: .././alo-easymail_options.php:843
+msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
+msgstr "Ο χρήστης με αυτά τα δικαιώματα μπορεί να διαχειριστεί τους συνδρομητές (προσθήκη, διαγραφή, εκχωρήση σε λίστες ...)"
+
+#: .././alo-easymail_options.php:849
+msgid "The lowest role can manage options"
+msgstr "Ο χαμηλότερος ρόλος που μπορεί να διαχειριστεί τις επιλογές"
+
+#: .././alo-easymail_options.php:864
+msgid "The user with this capability can set up these setting sections"
+msgstr "Ο χρήστης με αυτά τα δικαιώματα μπορεί να ρυθμίσει τα τμήματα ρύθμισεων"
+
+#: .././alo-easymail_options.php:867
+msgid "Other sections can be modified only by administrators"
+msgstr "Άλλα τμήματα μπορούν να τροποποιηθούν μόνο από τους διαχειριστές"
+
+#: .././alo-easymail_options.php:948
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "Οι εισαγωγές είναι ατελής ή λάθος. Παρακαλούμε ελέγξτε και προσπαθήστε ξανά."
+
+#: .././alo-easymail_options.php:975
+msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
+msgstr "Μπορείτε να ρυθμίσετε τις λίστες. Για κάθε λίστα πρέπει να καθορίσετε το όνομα, τη σειρά (η χαμηλότερη εμφανίζεται στην κορυφή) και τη διαθεσιμότητα"
+
+#: .././alo-easymail_options.php:977
+#: .././alo-easymail_options.php:1029
+#: .././alo-easymail_options.php:1074
+msgid "hidden"
+msgstr "κρυμμένο"
+
+#: .././alo-easymail_options.php:977
+msgid "the list can be shown only here in settings and nowhere in the site"
+msgstr "η λίστα μπορεί να εμφανίζετε μόνο εδώ στις ρυθμίσεις και πουθενά αλλού στο site"
+
+#: .././alo-easymail_options.php:978
+#: .././alo-easymail_options.php:1030
+#: .././alo-easymail_options.php:1077
+msgid "admin side only"
+msgstr "Μόνο η πλευρά του διαχειριστή"
+
+#: .././alo-easymail_options.php:978
+msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
+msgstr "η λίστα είναι διαθέσιμη μόνο για τον διαχειριστή  (ρυθμίσεις, αποστολή σελίδας, οι συνδρομητές), έτσι ώστε οι συνδρομητές δεν μπορούν να την δουν"
+
+#: .././alo-easymail_options.php:979
+#: .././alo-easymail_options.php:1031
+#: .././alo-easymail_options.php:1080
+msgid "entire site"
+msgstr "Ολόκληρος ο ιστότοπος"
+
+#: .././alo-easymail_options.php:979
+msgid "the list is available in the whole site, so subscribers can see it"
+msgstr "η λίστα διατίθεται σε ολόκληρο το ιστότοπο , έτσι ώστε οι συνδρομητές να μπορούν να την δούν"
+
+#: .././alo-easymail_options.php:983
+#: .././alo-easymail_options.php:1091
+#: .././alo-easymail_options.php:1092
+msgid "Edit list"
+msgstr "Επεξεργασία λίστας"
+
+#: .././alo-easymail_options.php:983
+msgid "New list"
+msgstr "Νέα λίστα"
+
+#: .././alo-easymail_options.php:988
+#: .././alo-easymail_options.php:1055
+msgid "List name"
+msgstr "Όνομα λίστας"
+
+#: .././alo-easymail_options.php:989
+#: .././alo-easymail_options.php:1056
+msgid "Availability"
+msgstr "Διαθεσιμότητα"
+
+#: .././alo-easymail_options.php:990
+#: .././alo-easymail_options.php:1057
+msgid "Order"
+msgstr "Ταξινόμηση"
+
+#: .././alo-easymail_options.php:1008
+msgid "no translation for this language, yet"
+msgstr "καμία μετάφραση για αυτή τη γλώσσα, ακόμα"
+
+#: .././alo-easymail_options.php:1042
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: .././alo-easymail_options.php:1044
+#: .././alo-easymail_subscribers.php:149
+#: .././alo-easymail_subscribers.php:196
+#: .././alo-easymail_subscribers.php:265
+#: .././alo-easymail_subscribers.php:372
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: .././alo-easymail_options.php:1059
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: .././alo-easymail_options.php:1094
+#: .././alo-easymail_options.php:1096
+msgid "Delete list"
+msgstr "Διαγραφή λίστας"
+
+#: .././alo-easymail_options.php:1095
+msgid "Do you really want to DELETE this list?"
+msgstr "Θέλετε πραγματικά να ΔΙΑΓΡΑΨΕΤΕ αυτήν τη λίστα;"
+
+#: .././alo-easymail_options.php:1103
+#: .././alo-easymail_subscribers.php:155
+msgid "There are no available lists"
+msgstr "Δεν υπάρχουν διαθέσιμες λίστες"
+
+#: .././alo-easymail_subscribers.php:16
+msgid "Activation state updated"
+msgstr "Κατάσταση ενεργοποίησης επικαιροποιημένο"
+
+#: .././alo-easymail_subscribers.php:18
+msgid "Not updated"
+msgstr "Δεν έχει ενημερωθεί"
+
+#: .././alo-easymail_subscribers.php:25
+msgid "Subscriber deleted"
+msgstr "Ο συνδρομητής έχει διαγραφεί"
+
+#: .././alo-easymail_subscribers.php:28
+msgid "Not deleted"
+msgstr "Δεν έχει διαγραφεί"
+
+#: .././alo-easymail_subscribers.php:99
+#: .././alo-easymail_subscribers.php:162
+#: .././alo-easymail_subscribers.php:209
+#: .././alo-easymail_subscribers.php:222
+#: .././alo-easymail_subscribers.php:235
+#: .././alo-easymail_subscribers.php:380
+#: .././alo-easymail_subscribers.php:419
+#: .././alo-easymail_subscribers.php:453
+#: .././alo-easymail_subscribers.php:703
+msgid "No subscriber selected"
+msgstr "Δεν έχει επιλεγεί συνδρομητής"
+
+#: .././alo-easymail_subscribers.php:100
+#: .././alo-easymail_subscribers.php:420
+msgid "No list selected"
+msgstr "Δεν έχει επιλεγεί λίστα"
+
+#: .././alo-easymail_subscribers.php:106
+#: .././alo-easymail_subscribers.php:745
+msgid "Edit subscription to mailing lists"
+msgstr "Επεξεργασία εγγραφών στις λίστες ταχυδρομείου"
+
+#: .././alo-easymail_subscribers.php:107
+#: .././alo-easymail_subscribers.php:170
+msgid "Selected subscribers"
+msgstr "Επιλεγμένοι συνδρομητές"
+
+#: .././alo-easymail_subscribers.php:120
+msgid "Choose mailing lists"
+msgstr "Επιλέξτε λίστες ταχυδρομείου"
+
+#: .././alo-easymail_subscribers.php:131
+msgid "Choose an action"
+msgstr "Επιλέξτε μια ενέργεια"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:343
+msgid "Add to selected lists"
+msgstr "Προσθήκη σε επιλεγμένες λίστες"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:136
+msgid "ignore not selected lists"
+msgstr "αγνόηση των μη επιλεγμένων λιστών"
+
+#: .././alo-easymail_subscribers.php:136
+msgid "Remove from selected lists"
+msgstr "Αφαίρεση από επιλεγμένες λίστες"
+
+#: .././alo-easymail_subscribers.php:140
+msgid "Add to selected lists and remove from not selected lists"
+msgstr "Προσθήκη στις επιλεγμένες λίστες  και αφαιρέση από τις  λίστες που δεν έχουν επιλεγεί"
+
+#: .././alo-easymail_subscribers.php:148
+#: .././alo-easymail_subscribers.php:195
+#: .././alo-easymail_subscribers.php:763
+msgid "Apply"
+msgstr "Εφαρμογή "
+
+#: .././alo-easymail_subscribers.php:163
+#: .././alo-easymail_subscribers.php:454
+msgid "No language option selected"
+msgstr "Δεν έχει επιλεγεί κάποια επιλογή γλώσσες"
+
+#: .././alo-easymail_subscribers.php:169
+#: .././alo-easymail_subscribers.php:746
+msgid "Change language ascribed to subscribers"
+msgstr "Αλλαγή γλώσσας που αποδίδεται στους συνδρομητές"
+
+#: .././alo-easymail_subscribers.php:182
+#: .././alo-easymail_subscribers.php:622
+msgid "Choose a language"
+msgstr "Επιλέξτε μια γλώσσα"
+
+#: .././alo-easymail_subscribers.php:183
+msgid "No language"
+msgstr "Καμία γλώσσα"
+
+#: .././alo-easymail_subscribers.php:202
+msgid "No language available"
+msgstr "Καμία γλώσσα διαθέσιμη"
+
+#: .././alo-easymail_subscribers.php:216
+msgid "Subscribers deleted"
+msgstr "Διαγραμμένοι συνδρομητές"
+
+#: .././alo-easymail_subscribers.php:229
+msgid "Subscribers activated"
+msgstr "Ενεργοποιημένοι  συνδρομητές"
+
+#: .././alo-easymail_subscribers.php:242
+msgid "Subscribers deactivated"
+msgstr "Απενεργοποιημένοι  συνδρομητές"
+
+#: .././alo-easymail_subscribers.php:268
+msgid "Add a subscriber"
+msgstr "Προσθήκη συνδρομητή"
+
+#: .././alo-easymail_subscribers.php:271
+msgid "mandatory"
+msgstr "υποχρεωτικό"
+
+#: .././alo-easymail_subscribers.php:310
+msgid "Add"
+msgstr "Προσθήκη"
+
+#: .././alo-easymail_subscribers.php:314
+msgid "Import from WP registered users"
+msgstr "Εισαγωγή εγγεγραμμένων  χρηστών από το WP"
+
+#: .././alo-easymail_subscribers.php:315
+msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
+msgstr "Μπορείτε να εισάγετε νέους συνδρομητές από τους εγγεγραμμένους χρήστες του WordPress. Κάθε μέλος θα πρέπει να εγγραφεί στο ενημερωτικό δελτίο."
+
+#: .././alo-easymail_subscribers.php:316
+msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
+msgstr "Αυτή η δυνατότητα είναι χρήσιμη αν έχετε εγκαταστήσει πρόσφατα το πρόσθετο και θα θέλατε να εγγράψετε  αυτόματα υπάρχοντες χρήστες."
+
+#: .././alo-easymail_subscribers.php:317
+msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
+msgstr "Αλλά να είστε προσεκτικοί αν το χρησιμοποιήσετε αργότερα: μπορεί να εγγράψει συνδομητές όλους τους εγγεγραμμένους χρήστες, συμπεριλαμβανομένων και των μελών που έχουν ήδη διαγραφεί από το ενημερωτικό δελτίο!"
+
+#: .././alo-easymail_subscribers.php:319
+msgid "Blog registered users"
+msgstr "Εγγεγραμμένοι χρήστες blog"
+
+#: .././alo-easymail_subscribers.php:324
+msgid "Import from WP members"
+msgstr "Εισαγωγή από τα μέλη του WP"
+
+#: .././alo-easymail_subscribers.php:328
+msgid "Import from uploaded CSV file"
+msgstr "Εισαγωγή από ανεβασμένο αρχείο CSV"
+
+#: .././alo-easymail_subscribers.php:329
+msgid "You can import new subscribers from a CSV file."
+msgstr "Μπορείτε να εισάγετε νέους συνδρομητές από ένα αρχείο CSV."
+
+#: .././alo-easymail_subscribers.php:330
+msgid "For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields."
+msgstr "Για κάθε γραμμή πρέπει να καθορίσετε: e-mail (υποχρεωτικό), όνομα (προαιρετικά), κωδικός γλώσσας (προαιρετικά). Χρησιμοποιήστε το ερωτηματικό (;) για να διαχωρίσετε τα πεδία."
+
+#: .././alo-easymail_subscribers.php:331
+msgid "You can list only languages available in the blog"
+msgstr "Μπορείτε να κάνετε  λίστα μόνο τις  γλώσσες  που είναι διαθέσιμες στο blog"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "you can set them up in Settings &gt; Newsletter"
+msgstr "μπορείτε να τα ρυθμίσετε στις Ρυθμίσεις &gt; Newsletter"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "Language codes"
+msgstr "Κωδικοί γλώσσας"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+msgstr "Συμβουλή αν έχετε προβλήματα: μπορείτε να δοκιμάσετε να αλλάξετε την επέκταση αρχείου από .csv σε .txt; κάντε χρήση διπλών εισαγωγικών για την οριοθέτηση κάθε πεδίου (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "try using a different browser"
+msgstr "δοκιμάστε να χρησιμοποιήσετε ένα διαφορετικό πρόγραμμα περιήγησης"
+
+#: .././alo-easymail_subscribers.php:339
+msgid "Test mode (no importation, show records on screen)"
+msgstr "Δοκιμαστική λειτουργία (δεν υπάρχει εισαγωγή, εμφανίζονται εγγραφές στην οθόνη)"
+
+#: .././alo-easymail_subscribers.php:358
+msgid "Upload CSV file"
+msgstr "Ανεβάστε αρχείο CSV"
+
+#: .././alo-easymail_subscribers.php:362
+msgid "Export subscribers"
+msgstr "Εξαγωγή συνδρομητών"
+
+#: .././alo-easymail_subscribers.php:363
+msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
+msgstr "Μπορείτε να κάνετε εξαγωγή τους συνδρομητές των ενημερωτικών δελτίων: το πρόσθετο εμφανίζει της εγγραφές στην οθόνη έτσι ώστε να μπορείτε να τις αντιγράψετε και να τις επικολλήσετε σε ένα αρχείο κειμένου ή σε οποιαδήποτε εφαρμογή"
+
+#: .././alo-easymail_subscribers.php:368
+msgid "Export"
+msgstr "Εξαγωγή"
+
+#: .././alo-easymail_subscribers.php:379
+#: .././alo-easymail_subscribers.php:589
+#: .././alo-easymail_subscribers.php:707
+msgid "No action selected"
+msgstr "Δεν έχει επιλεγεί κάποια ενέργεια"
+
+#: .././alo-easymail_subscribers.php:396
+#: .././alo-easymail_subscribers.php:492
+#: .././alo-easymail_functions.php:953
+msgid "The e-email address is not correct"
+msgstr "Η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν είναι σωστή"
+
+#: .././alo-easymail_subscribers.php:398
+#: .././alo-easymail_subscribers.php:474
+#: .././alo-easymail_subscribers.php:520
+#: .././alo-easymail_subscribers.php:574
+#: .././alo-easymail_subscribers.php:583
+msgid "Back"
+msgstr "Πίσω"
+
+#: .././alo-easymail_subscribers.php:411
+msgid "New subscriber added"
+msgstr "Προστέθηκε νέος συνδρομητής "
+
+#: .././alo-easymail_subscribers.php:476
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: .././alo-easymail_subscribers.php:494
+msgid "There is already a subscriber with this e-email address"
+msgstr "Υπάρχει ήδη συνδρομητής με αυτή τη διεύθυνση email"
+
+#: .././alo-easymail_subscribers.php:517
+#, php-format
+msgid "Found %d records"
+msgstr "Βρέθηκαν %d εγγραφές"
+
+#: .././alo-easymail_subscribers.php:518
+msgid "Check the Error column to modify records that otherwise will not be imported"
+msgstr "Ελέγξτε τη στήλη Σφάλματος ώστε να τροποποιήσει τις εγγραφές,  διαφορετικά δεν θα εισαχθεί"
+
+#: .././alo-easymail_subscribers.php:523
+#, php-format
+msgid "Successfully import: %d records out of %d total"
+msgstr "Επιτυχής εισαγωγή: %d εγραφές απο το σύνολο %d "
+
+#: .././alo-easymail_subscribers.php:525
+msgid "Some records have not been imported"
+msgstr "Μερικές εγγραφές δεν έχουν εισαχθεί"
+
+#: .././alo-easymail_subscribers.php:542
+msgid "Not valid CSV file uploaded"
+msgstr "Δεν είναι έγκυρο  το αρχείο CSV που φορτώθηκε "
+
+#: .././alo-easymail_subscribers.php:564
+#, php-format
+msgid "%d new subscribers successfully added from blog members"
+msgstr "%d νέοι συνδρομητές προστέθηκαν επιτυχώς από τα εγγεγραμμένα  μέλη του blog"
+
+#: .././alo-easymail_subscribers.php:566
+msgid "No subscribers added from blog members"
+msgstr "Δεν προστίθενται συνδρομητές από τα μέλη του blog"
+
+#: .././alo-easymail_subscribers.php:611
+msgid "Select a mailing list"
+msgstr "Επιλέξτε μια λίστα"
+
+#: .././alo-easymail_subscribers.php:631
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: .././alo-easymail_subscribers.php:644
+msgid "Import/export subscribers"
+msgstr "Εισαγωγή/εξαγωγή συνδρομητών"
+
+#: .././alo-easymail_subscribers.php:647
+#, php-format
+msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
+msgstr "Εάν θέλετε μπορείτε να εισάγετε  συνδρομητές τα εγγεγραμμένα μέλη του blog σας ή από εξωτερικό αρχείο (χρησιμοποιώντας CSV). Κάντε κλικ στο κουμπί &#39;%s&#39;"
+
+#: .././alo-easymail_subscribers.php:648
+msgid "Do not show it again"
+msgstr "Να μην εμφανιστεί ξανά"
+
+#: .././alo-easymail_subscribers.php:711
+msgid "Do you really want to DELETE these subscribers?"
+msgstr "Θέλετε πραγματικά να διαγράψετε αυτούς τους συνδρομητές;"
+
+#: .././alo-easymail_subscribers.php:721
+msgid "Per page"
+msgstr "Ανα σελίδα"
+
+#: .././alo-easymail_subscribers.php:744
+msgid "Bulk Actions"
+msgstr "Μαζικές ενέργειες"
+
+#: .././alo-easymail_subscribers.php:747
+msgid "Activate"
+msgstr "Ενεργοποίηση"
+
+#: .././alo-easymail_subscribers.php:748
+msgid "Deactivate"
+msgstr "Απενεργοποίηση"
+
+#: .././alo-easymail_subscribers.php:749
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: .././alo-easymail_subscribers.php:774
+msgid "Order by e-mail"
+msgstr "Ταξινόμηση κατά  e-mail"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "Username"
+msgstr "Όνομα χρήστη"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "Το όνομα χρήστη των εγγεγραμμένων χρηστών. Είναι κενό για δημόσιους συνδρομητές."
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Order by join date"
+msgstr "Ταξινόμηση κατά ημερομηνία εγγραφής"
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Join date"
+msgstr "Ημερομηνία εγγραφής"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Order by activation state"
+msgstr "Ταξινόμηση κατά κατάσταση ενεργοποίησης"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Activated"
+msgstr "Ενεργοί"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "Για τους εγγεγραμμένους χρήστες η προεπιλεγμένη κατάσταση του χρήστη είναι ενεργοποιημένη. Για τους συνδρομητές η προεπιλεγμένη κατάσταση είναι απενεργοποιημένη και θα ενεργοποιηθεί κάνοντας κλικ στο σύνδεσμο ενεργοποίησης στο e-mail."
+
+#: .././alo-easymail_subscribers.php:778
+msgid "A subscriber will be deleted if not activated in 5 days."
+msgstr "Ο συνδρομητής θα διαγραφεί αν δεν έχει ενεργοποιηθεί εντός 5 ημερών."
+
+#: .././alo-easymail_subscribers.php:780
+msgid "Order by language"
+msgstr "Ταξινόμηση κατά γλώσσα"
+
+#: .././alo-easymail_subscribers.php:781
+msgid "Actions"
+msgstr "Ενέργειες"
+
+#: .././alo-easymail_subscribers.php:857
+msgid "View user profile"
+msgstr "Επισκόπηση του προφίλ των χρηστών"
+
+#: .././alo-easymail_subscribers.php:864
+msgid "Modify activation state"
+msgstr "Τροποποίηση της κατάστασης ενεργοποίησης"
+
+#: .././alo-easymail_subscribers.php:865
+msgid "Do you really want to modify the activation state?"
+msgstr "Θέλετε πραγματικά να τροποποιήσετε την κατάσταση ενεργοποίησης;"
+
+#: .././alo-easymail_subscribers.php:888
+msgid "Delete subscriber"
+msgstr "Διαγραφή συνδρομητή"
+
+#: .././alo-easymail_subscribers.php:889
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "Θέλετε πραγματικά να ΔΙΑΓΡΑΨΕΤΕ αυτόν τον συνδρομητή;"
+
+#: .././alo-easymail_functions.php:111
+msgid "Please visit the plugin site for more info and feedback"
+msgstr "Παρακαλούμε επισκεφθείτε την ιστοσελίδα του πρόσθετου για περισσότερες πληροφορίες"
+
+#: .././alo-easymail_functions.php:113
+msgid "For more links you can use the Help button"
+msgstr "Για περισσότερους σύνδεσμους μπορείτε να χρησιμοποιήσετε το κουμπί Βοήθεια"
+
+#: .././alo-easymail_functions.php:118
+msgid "If you use this plugin consider the idea of donating and supporting its development"
+msgstr "Εάν χρησιμοποιείτε αυτό το πρόσθετο σκεφτείτε την ιδέα της δωρεάς και υποστήριξη του"
+
+#: .././alo-easymail_functions.php:270
+msgid "Languages"
+msgstr "Γλώσσες"
+
+#: .././alo-easymail_functions.php:849
+msgid "Post tags"
+msgstr "Δημοσίευση ετικετών"
+
+#: .././alo-easymail_functions.php:851
+msgid "The link to the title of the selected post."
+msgstr "Ο σύνδεσμος για τον τίτλο του επιλεγμένου άρθρου"
+
+#: .././alo-easymail_functions.php:851
+msgid "This tag works also in the <strong>subject</strong>"
+msgstr "Αυτή η ετικέτα λειτουργεί επίσης στο <strong>θέμα</strong>"
+
+#: .././alo-easymail_functions.php:852
+msgid "The excerpt (if any) of the post."
+msgstr "The excerpt (if any) of the post."
+
+#: .././alo-easymail_functions.php:853
+msgid "The main content of the post."
+msgstr "Το κύριο περιεχόμενο της δημοσίευσης"
+
+#: .././alo-easymail_functions.php:857
+msgid "Subscriber tags"
+msgstr "Ετικέτες συνδρομητή"
+
+#: .././alo-easymail_functions.php:859
+msgid "Name and surname of registered user."
+msgstr "Όνομα και επώνυμο του εγγεγραμμένου χρήστη."
+
+#: .././alo-easymail_functions.php:859
+#: .././alo-easymail_functions.php:860
+msgid "For subscribers: the name used for registration"
+msgstr "Για τους συνδρομητές: το όνομα χρησιμοποιείται για την εγγραφή"
+
+#: .././alo-easymail_functions.php:860
+msgid "First name of registered user."
+msgstr "Όνομα του εγγεγραμμένου χρήστη."
+
+#: .././alo-easymail_functions.php:864
+msgid "Other tags"
+msgstr "Άλλες ετικέτες"
+
+#: .././alo-easymail_functions.php:866
+msgid "The link to the site"
+msgstr "Σύνδεσμος στην ιστοσελίδα"
+
+#: .././alo-easymail_functions.php:928
+msgid "Successfully updated"
+msgstr "Ενημερώθηκε με επιτυχία"
+
+#: .././alo-easymail_functions.php:954
+msgid "The name field is empty"
+msgstr "Το πεδίο όνομα είναι άδειο"
+
+#: .././alo-easymail_functions.php:955
+msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
+msgstr "Προειδοποίηση: αυτή η διεύθυνση έχει ήδη καταχωρηθεί, αλλά δεν ενεργοποιήθηκε.Αποστέλουμε τώρα ένα άλλο e-mail ενεργοποίησης"
+
+#: .././alo-easymail_functions.php:956
+msgid "Warning: this email address has already been subscribed"
+msgstr "Προειδοποίηση: αυτή η διεύθυνση έχει ήδη εγγραφεί"
+
+#: .././alo-easymail_functions.php:957
+msgid "Error during sending: please try again"
+msgstr "Σφάλμα κατά την αποστολή: παρακαλώ προσπαθήστε ξανά"
+
+#: .././alo-easymail_functions.php:959
+msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
+msgstr "Εγγραφή επιτυχής. Θα λάβετε ένα e-mail με έναν σύνδεσμο. Κάνετε κλικ στο σύνδεσμο για να ενεργοποιήσετε τη συνδρομή σας."
+
+#: .././alo-easymail_functions.php:1667
+msgid "Subscriber"
+msgstr "Συνδρομητής"
+
