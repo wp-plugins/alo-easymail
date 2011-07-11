@@ -79,10 +79,10 @@ if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail"
 <title><?php  _e("Newsletter subscribers creation", "alo-easymail") ?></title>
 
 <?php // 1/2) Load only plugin js
-if ( get_option('alo_em_js_rec_list') == "yes" ) : ?>
+if ( get_option('alo_em_js_rec_list') == "ajax_minimal" ) : ?>
 
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.js"></script>
-<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater-3.0.02beta.js"></script>
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater.js?ver=3.1.00"></script>
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend-recipients-list.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
@@ -93,8 +93,8 @@ var easymailJs = {
 	newsletter: "<?php echo $newsletter ?>",
 	nonce: "<?php echo wp_create_nonce( 'alo-easymail_recipients-list') ?>",
 	ajaxurl: "<?php echo admin_url('admin-ajax.php') ?>",
-	txt_success_added: "<?php echo esc_js( __( 'Recipients successfully added', "alo-easymail" ) ) ?>",
-	txt_success_sent: "<?php echo esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) ) ?>"
+	txt_success_added: "<?php echo esc_js( __( "Recipients successfully added", "alo-easymail" ) ) ?>",
+	txt_success_sent: "<?php echo esc_js( __( "Newsletter successfully sent to recipients", "alo-easymail" ) ) ?>"
 };
 /* ]]> */
 </script>
@@ -115,7 +115,7 @@ var easymailJs = {
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'thickbox' );
-	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater-3.0.02beta.js' );
+	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater.js', array('jquery'), '3.1.00' );
 	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
 
 	$rec_url = wp_create_nonce( 'alo-easymail_recipients-list');

@@ -16,6 +16,7 @@ $alo_em_textpre = array();
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['en'] = "Confirm your subscription to %BLOGNAME% Newsletter";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['br'] = "Confirme a sua assinatura na newsletter de %BLOGNAME%";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['de'] = "Bestätigung Ihres Newsletter Abonnements von %BLOGNAME%";
+$alo_em_textpre['alo_em_txtpre_activationmail_subj']['el'] = "Επιβεβαιώσετε την εγγραφή σας στην %BLOGNAME% Δελτίο νέων";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['es'] = "Confirmar su suscripción a %BLOGNAME% Newsletter";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['fa'] = "اشتراک خود را به %EMANGOLB% خبرنامه تایید کنید";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['fr'] = "Veuillez confirmer votre abonnement au bulletin %BLOGNAME%";
@@ -56,6 +57,15 @@ um Ihr Abonnement des %BLOGNAME% Newsletters abzuschließen müssen Sie auf den 
 
 Wenn Sie diesen Newsletter nicht abonniert haben, ignorieren Sie bitte diese Nachricht.
 Danke für Ihr Interesse
+%BLOGNAME%";
+
+$alo_em_textpre['alo_em_txtpre_activationmail_mail']['el'] = "Γεια %NAME%,
+για να ολοκληρώσετε την εγγραφή σας στο δελτίο νέων του %BLOGNAME% πρέπει να κάνετε κλικ στο παρακάτω σύνδεσμο (ή επικολλήστε το στη γραμμή διευθύνσεων του browser σας):
+
+%ACTIVATIONLINK%
+
+Εάν δεν ζητήσατε αυτή τη συνδρομή αγνοήστε αυτό το μήνυμα.
+Ευχαριστούμε
 %BLOGNAME%";
 
 $alo_em_textpre['alo_em_txtpre_activationmail_mail']['es'] = "Hola %NAME%,
@@ -147,6 +157,7 @@ Mulţumim
 $alo_em_textpre['alo_em_custom_unsub_footer']['en'] = "<p><em>You have received this message because you subscribed to our newsletter. If you want to unsubscribe: visit this link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['br'] = "<p><em>Recebeu esta mensagem porque assinou a nossa newsletter. Se quiser remover a assinatura clique nesta ligação<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['de'] = "<p><em>Sie erhalten diese Nachricht, weil diese Emailadresse für den Newsletter eingetragen wurde. Zum Abbestellen klicken Sie auf folgenden Link<br /> %UNSUBSCRIBELINK%</em></p>";
+$alo_em_textpre['alo_em_custom_unsub_footer']['el'] = "<p><em>Έχετε λάβει αυτό το μήνυμα επειδή έχετε εγγραφεί στο ενημερωτικό δελτίο μας. Αν θέλετε να διαγραφείτε: επισκεφτείτε αυτό το σύνδεσμο<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['es'] = "<p><em>Recibió este mensaje porque se ha suscripto a nuestro newsletter. Si desea desuscribirse visite este link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['fa'] = "<p><em>You have received this message because you subscribed to our newsletter. If you want to unsubscribe: visit this link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['fr'] = "<p><em>Vous avez reçu ce message parce que vous vous êtes abonné à notre bulletin.  Si vous désirez annuler votre abonnement Visiter ce lien<br /> %UNSUBSCRIBELINK%</em></p>";
@@ -165,6 +176,7 @@ $alo_em_textpre['alo_em_custom_unsub_footer']['ro'] = "<p><em>Ai primit acest me
 $alo_em_textpre['alo_em_custom_viewonline_msg']['en'] = "<p><em>To read the newsletter online you can visit this link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['br'] = "<p><em>Para ler o boletim informativo on-line clique nesta ligação: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['de'] = "<p><em>So lesen Sie den Newsletter online können Sie unter diesem Link: %NEWSLETTERLINK%</em></p>";
+$alo_em_textpre['alo_em_custom_viewonline_msg']['el'] = "<p><em>Για να διαβάσετε το ηλεκτρονικό ενημερωτικό δελτίο, μπορείτε να επισκεφθείτε αυτόν τον σύνδεσμο: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['es'] = "<p><em>Para leer el boletín en línea visite este enlace: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['fa'] = "<p><em>To read the newsletter online you can visit this link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['fr'] = "<p><em>Pour lire le bulletin en ligne, vous pouvez visiter ce lien: %NEWSLETTERLINK%</em></p>";

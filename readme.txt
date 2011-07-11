@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 2.0.3
+Stable tag: 2.1
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -26,6 +26,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **collect subscribers**: on registration form and with an ajax widget/page
 * **import/export subscribers**: import from existing registered users or from a CSV file
 * **create and manage mailing lists**: only admin can assign subscribers to them, or subscribers can freely choose them
+* **newsletter themes**: using html files in plugin or theme folder
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter
@@ -46,7 +47,7 @@ Available languages:
 
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.2.0.3 (by Francesca Bovone)
+* English v.2.1 (by Alessandro Massasso, Francesca Bovone)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
@@ -92,6 +93,13 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.1 =
+* Added: newsletter themes using html files in plugin or theme folder (thanks to iwan, again!)
+* Added: placeholders for newsletter content
+* Added: an option to create list or recipients without ajax
+* Added: 'Newsletter' settings tab
+* Updated: smartupdater.js v.3.1
 
 = 2.0.3 =
 * Fixed: now loading "registration.php", it solves a bug about creation of recipients' list and batch sending

@@ -75,13 +75,8 @@ if ( isset($_REQUEST['submit']) ) {
 	if ( current_user_can('manage_options') ) {
 		// Tab GENERAL
 		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_general" ) {
-		
-			if(isset($_POST['sender_email'])) update_option('alo_em_sender_email', trim($_POST['sender_email']));
-			if(isset($_POST['sender_name'])) update_option('alo_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
-			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('alo_em_lastposts', trim($_POST['lastposts']));	
-		
+			
 			if(isset($_POST['subsc_page']) && (int)$_POST['subsc_page'] ) update_option('alo_em_subsc_page', trim($_POST['subsc_page']));
-			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('alo_em_debug_newsletters', $_POST['debug_newsletters']);
 		
 			if ( isset($_POST['show_subscripage']) ) {
 				update_option('alo_em_show_subscripage', "yes");
@@ -103,14 +98,22 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_no_activation_mail', "no") ;
 			}				
-			/*
-			// maybe useless in v.2...
-			if ( isset($_POST['filter_br']) ) {
-				update_option('alo_em_filter_br', "yes");
+			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
+				update_option('alo_em_delete_on_uninstall', "yes");
 			} else {
-				update_option('alo_em_filter_br', "no") ;
+				update_option('alo_em_delete_on_uninstall', "no") ;
 			}
-			*/
+			
+		} // end Tab GENERAL
+
+		// Tab NEWSLETTER
+		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_newsletter" ) {
+		
+			if(isset($_POST['sender_email'])) update_option('alo_em_sender_email', trim($_POST['sender_email']));
+			if(isset($_POST['sender_name'])) update_option('alo_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
+			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('alo_em_lastposts', trim($_POST['lastposts']));	
+		
+			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('alo_em_debug_newsletters', $_POST['debug_newsletters']);
 			if ( isset($_POST['filter_the_content']) ) {
 				update_option('alo_em_filter_the_content', "yes");
 			} else {
@@ -120,15 +123,14 @@ if ( isset($_REQUEST['submit']) ) {
 				update_option('alo_em_js_rec_list', "yes");
 			} else {
 				update_option('alo_em_js_rec_list', "no") ;
-			}					
-			if ( isset($_POST['delete_on_uninstall']) && isset($_POST['delete_on_uninstall_2']) ) {
-				update_option('alo_em_delete_on_uninstall', "yes");
-			} else {
-				update_option('alo_em_delete_on_uninstall', "no") ;
-			}
+			}			
+			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","no_ajax_onsavepost") ) ) update_option('alo_em_js_rec_list', $_POST['js_rec_list']);		
 			
-		} // end Tab GENERAL
-
+			$theme_options = array_merge ( array('yes'=>'1','no'=>'1'), alo_easymail_get_all_themes() );
+			if ( isset($_POST['use_themes']) && array_key_exists( $_POST['use_themes'], $theme_options ) ) update_option('alo_em_use_themes', $_POST['use_themes']);
+			
+		} // end Tab NEWSLETTER
+		
 		// Tab BATCH SENDING
 		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_batch" ) {
 			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('alo_em_dayrate', trim((int)$_POST['dayrate']));
@@ -225,8 +227,9 @@ if ( isset($_REQUEST['submit']) ) {
 <div class="icon32" id="icon-options-general"><br></div>
 <h2>Alo EasyMail Newsletter Options</h2>
 
-<ul id="tabs">
+<ul id="easymail_options_tabs">
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#general">' . __("General", "alo-easymail") .'</a></li>'; ?>
+	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#newsletter">' . __("Newsletter", "alo-easymail") .'</a></li>'; ?>
 	<li><a href="#texts"><?php _e("Texts", "alo-easymail") ?></a></li>
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#batchsending">' . __("Batch sending", "alo-easymail") .'</a></li>'; ?>
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#permissions">' . __("Permissions", "alo-easymail") .'</a></li>'; ?>
@@ -246,21 +249,6 @@ GENERAL
 <h2><?php _e("General", "alo-easymail") ?></h2>
 
 <table class="form-table"><tbody>
-<tr valign="top">
-<th scope="row"><label for="lastposts"><?php _e("Number of last posts to display", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="lastposts" value="<?php echo get_option('alo_em_lastposts') ?>" id="lastposts" size="2" maxlength="2" />
-<span class="description"><?php _e("Number of recent posts to show in the dropdown list of the newsletter sending form", "alo-easymail");?></span></td>
-</tr>
-
-<tr valign="top">
-<th scope="row"><label for="sender_email"><?php _e("Sender's email address", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="sender_email" value="<?php echo get_option('alo_em_sender_email') ?>" id="sender_email" size="30" maxlength="100" /></td>
-</tr>
-
-<tr valign="top">
-<th scope="row"><label for="sender_name"><?php _e("Sender's name", "alo-easymail") ?>:</label></th>
-<td><input type="text" name="sender_name" value="<?php esc_attr_e( get_option('alo_em_sender_name') ) ?>" id="sender_name" size="30" maxlength="100" /></td>
-</tr>
 
 <?php 
 if ( get_option('alo_em_subsc_page') ) {
@@ -330,69 +318,6 @@ if ( get_option('alo_em_no_activation_mail') == "yes" ) {
 <td><input type="checkbox" name="no_activation_mail" id="no_activation_mail" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, a new subscriber is automatically activated without confirmation e-mail", "alo-easymail") ?>.</span></td>
 </tr>
 
-<?php
-/*
-// maybe useless in v.2...
-if ( get_option('alo_em_filter_br') != "no" ) {
-	$checked_filter_br = 'checked="checked"';
-} else {
-	$checked_filter_br = "";
-}
-*/
-if ( get_option('alo_em_filter_the_content') != "no" ) {
-	$checked_filter_the_content = 'checked="checked"';
-} else {
-	$checked_filter_the_content = "";
-}
-?>
-<tr valign="top">
-<th scope="row"><?php _e("Filters to the newsletter text", "alo-easymail") ?>:</th>
-<td>
-<input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><span class="description"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></span>
-</td>
-</tr>
-
-
-<?php
-if ( get_option('alo_em_js_rec_list') == "yes" ) {
-	$checked_js_rec_list = 'checked="checked"';
-} else {
-	$checked_js_rec_list = "";
-}
-?>
-<tr valign="top">
-<th scope="row"><?php _e("Load only plugin javascript on list generation screen", "alo-easymail") ?>:</th>
-<td>
-<input type="checkbox" name="js_rec_list" id="js_rec_list" value="yes" <?php echo $checked_js_rec_list ?> /> <span class="description"><?php _e("Load only plugin javascript files on list of recipients thickbox", "alo-easymail" ) ?>. <?php _e("Useful to prevent conflicts with javascripts of other plugins", "alo-easymail" ) ?>.</span>
-</td>
-</tr>
-
-
-<?php  
-if ( get_option('alo_em_debug_newsletters') ) {
-	$selected_debug_newsletters = get_option('alo_em_debug_newsletters');
-} else {
-	$selected_debug_newsletters = "";
-}
-?>
-<tr valign="top">
-<th scope="row"><?php _e("Debug newsletters", "alo-easymail") ?>:</th>
-<td>
-<select name='debug_newsletters' id='debug_newsletters'>";
-	<option value=''><?php _e("no", "alo-easymail") ?></option>
-	<?php $values_debug_newsletters = array ( "to_author" => __("send all emails to the author", "alo-easymail"), "to_file" => __("put all emails into a log file", "alo-easymail") );
-	foreach( $values_debug_newsletters as $key => $label ) :
-		echo "<option value='$key' ". ( ( $key == $selected_debug_newsletters )? " selected='selected'": "") .">$label</option>";
-	endforeach; ?>
-</select>
-<br /><span class="description"><?php _e("If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients", "alo-easymail") ?>:<br />
-<ul style="margin-left:20px;font-size:90%">
-<li><code><?php _e("send all emails to the author", "alo-easymail") ?></code>: <?php _e("all messages will be sent to the newsletter author", "alo-easymail") ?>.</li>
-<li><code><?php _e("put all emails into a log file", "alo-easymail") ?></code>: <?php _e("all messages will be recorded into a log file", "alo-easymail") ?> 
-(<?php printf( __("called %s and saved in %s", "alo-easymail"), "&quot;user_{AUTHOR-ID}_newsletter_{NEWSLETTER-ID}.log&quot;", "&quot;".WP_CONTENT_DIR."&quot;" ) ?>): <?php _e("the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!", "alo-easymail") ?></li>
-</ul>
-</span></td>
-</tr>
 
 <?php 
 if ( get_option('alo_em_show_credit_banners') == "yes" ) {
@@ -434,6 +359,153 @@ if ( get_option('alo_em_delete_on_uninstall') == "yes" ) {
 </div> <!-- end general -->
 
 <?php endif; /* only admin can */ ?>
+
+
+
+<!-- --------------------------------------------
+NEWSLETTER
+--------------------------------------------  -->
+
+<?php if ( current_user_can('manage_options') ) : /* only admin can */ ?>
+
+<div id="newsletter">
+
+<form action="#newsletter" method="post">
+<h2><?php _e("Newsletter", "alo-easymail") ?></h2>
+
+<table class="form-table"><tbody>
+<tr valign="top">
+<th scope="row"><label for="lastposts"><?php _e("Number of last posts to display", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="lastposts" value="<?php echo get_option('alo_em_lastposts') ?>" id="lastposts" size="2" maxlength="2" />
+<span class="description"><?php _e("Number of recent posts to show in the dropdown list of the newsletter sending form", "alo-easymail");?></span></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="sender_email"><?php _e("Sender's email address", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="sender_email" value="<?php echo get_option('alo_em_sender_email') ?>" id="sender_email" size="30" maxlength="100" /></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="sender_name"><?php _e("Sender's name", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="sender_name" value="<?php esc_attr_e( get_option('alo_em_sender_name') ) ?>" id="sender_name" size="30" maxlength="100" /></td>
+</tr>
+
+
+<?php
+/*
+// maybe useless in v.2...
+if ( get_option('alo_em_filter_br') != "no" ) {
+	$checked_filter_br = 'checked="checked"';
+} else {
+	$checked_filter_br = "";
+}
+*/
+if ( get_option('alo_em_filter_the_content') != "no" ) {
+	$checked_filter_the_content = 'checked="checked"';
+} else {
+	$checked_filter_the_content = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Filters to the newsletter text", "alo-easymail") ?>:</th>
+<td>
+<input type="checkbox" name="filter_the_content" id="filter_the_content" value="yes" <?php echo $checked_filter_the_content ?> /><span class="description"> <?php esc_html_e(__("Apply 'the_content' filters and shortcodes to newsletter content", "alo-easymail")) ?></span>
+</td>
+</tr>
+
+
+<?php  
+if ( get_option('alo_em_use_themes') ) {
+	$selected_use_themes = get_option('alo_em_use_themes');
+} else {
+	$selected_use_themes = "yes"; // deafaut: use theme
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Use themes", "alo-easymail") ?>:</th>
+<td>
+<select name='use_themes' id='use_themes'>";	
+	<option value='no' <?php echo ( ( 'no' == $selected_use_themes )? " selected='selected'": "") ?> ><?php _e("no", "alo-easymail") ?></option>
+	<option value='yes' <?php echo ( ( 'yes' == $selected_use_themes )? " selected='selected'": "") ?>><?php echo __("yes", "alo-easymail") . ", " .__(" free choice for authors", "alo-easymail") ?></option>
+	<?php 
+	$values_use_themes = alo_easymail_get_all_themes();
+	foreach( $values_use_themes as $key => $label ) :
+		echo "<option value='$key' ". ( ( $key == $selected_use_themes )? " selected='selected'": "") .">". __("yes", "alo-easymail") ." ". __("but always use", "alo-easymail") . ": " . esc_html( $key ). "</option>";
+	endforeach; ?>
+</select>
+<br /><span class="description"><?php _e("Tip: copy &#39;alo-easymail-themes&#39; folder to your theme directory and edit your themes there. Useful to prevent the loss of themes when you upgrade the plugin", "alo-easymail") ?>
+</span></td>
+</tr>
+
+
+<?php  
+if ( get_option('alo_em_js_rec_list') ) {
+	$selected_js_rec_list = get_option('alo_em_js_rec_list');
+} else {
+	$selected_js_rec_list = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Method of creation of the recipient list", "alo-easymail") ?>:</th>
+<td>
+<select name='js_rec_list' id='js_rec_list'>";
+	<?php $values_js_rec_list = array ( 
+		"ajax_normal" 		=> __("ajax (standard)", "alo-easymail"), 
+		"ajax_minimal" 		=> __("ajax", "alo-easymail"). " (" . __("loading only javascript of the plugin", "alo-easymail") .")",
+		"no_ajax_onsavepost"=> __("no ajax", "alo-easymail"). " (" . __("creation when newsletter is saved", "alo-easymail") .")"
+	);
+	foreach( $values_js_rec_list as $key => $label ) :
+		echo "<option value='$key' ". ( ( $key == $selected_js_rec_list )? " selected='selected'": "") .">". esc_html( $label ) ."</option>";
+	endforeach; ?>
+</select>
+<br /><span class="description"><?php _e("If the standard and cool method does not work for you, you can try another option", "alo-easymail") ?>.
+<?php _e("You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins", "alo-easymail") ?>.
+<?php _e("Otherwise, you can create the list directly when the newsletter is saved, without use of ajax", "alo-easymail") ?>:
+<?php _e("this is the quickest and safest mode, but it could not work if case of several thousands of recipients", "alo-easymail") ?>.
+</span></td>
+</tr>
+
+
+<?php  
+if ( get_option('alo_em_debug_newsletters') ) {
+	$selected_debug_newsletters = get_option('alo_em_debug_newsletters');
+} else {
+	$selected_debug_newsletters = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Debug newsletters", "alo-easymail") ?>:</th>
+<td>
+<select name='debug_newsletters' id='debug_newsletters'>";
+	<option value=''><?php _e("no", "alo-easymail") ?></option>
+	<?php $values_debug_newsletters = array ( "to_author" => __("send all emails to the author", "alo-easymail"), "to_file" => __("put all emails into a log file", "alo-easymail") );
+	foreach( $values_debug_newsletters as $key => $label ) :
+		echo "<option value='$key' ". ( ( $key == $selected_debug_newsletters )? " selected='selected'": "") .">". esc_html( $label ). "</option>";
+	endforeach; ?>
+</select>
+<br /><span class="description"><?php _e("If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients", "alo-easymail") ?>:<br />
+<ul style="margin-left:20px;font-size:90%">
+<li><code><?php _e("send all emails to the author", "alo-easymail") ?></code>: <?php _e("all messages will be sent to the newsletter author", "alo-easymail") ?>.</li>
+<li><code><?php _e("put all emails into a log file", "alo-easymail") ?></code>: <?php _e("all messages will be recorded into a log file", "alo-easymail") ?> 
+(<?php printf( __("called %s and saved in %s", "alo-easymail"), "&quot;user_{AUTHOR-ID}_newsletter_{NEWSLETTER-ID}.log&quot;", "&quot;".WP_CONTENT_DIR."&quot;" ) ?>): <?php _e("the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!", "alo-easymail") ?></li>
+</ul>
+</span></td>
+</tr>
+
+</tbody> </table>
+
+<p class="submit">
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
+<input type="hidden" name="task" value="tab_newsletter" /> <?php // reset task ?>
+<!--<span id="autosave"></span>-->
+<input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>" class="button-primary" />
+</p>
+</form>
+
+</div> <!-- end general -->
+
+<?php endif; /* only admin can */ ?>
+
 
 <!-- --------------------------------------------
 TEXTS
@@ -783,9 +855,9 @@ if ( $get_author->has_cap ('send_easymail_newsletters') ) {
 ?>
 <!--
 <select name="can_send_newsletters" id="can_send_newsletters">
-	<option value='admin' <?php echo $selected_admin; ?> ><?php echo translate_user_role ($rolenames['administrator']) ?> </option>
-	<option value='editor' <?php echo $selected_editor; ?> ><?php echo translate_user_role ($rolenames['editor']) ?> </option>
-	<option value='author' <?php echo $selected_author; ?> ><?php echo translate_user_role ($rolenames['author']) ?> </option>
+	<option value='admin' <?php //echo $selected_admin; ?> ><?php //echo translate_user_role ($rolenames['administrator']) ?> </option>
+	<option value='editor' <?php //echo $selected_editor; ?> ><?php //echo translate_user_role ($rolenames['editor']) ?> </option>
+	<option value='author' <?php //echo $selected_author; ?> ><?php //echo translate_user_role ($rolenames['author']) ?> </option>
 </select><br />
 -->
 <span class="description">
@@ -811,8 +883,8 @@ if ( $get_editor->has_cap ('manage_easymail_newsletters') ) {
 ?>
 <!--
 <select name="can_manage_newsletters" id="can_manage_newsletters">
-	<option value='admin' <?php echo $selected_admin; ?> ><?php echo translate_user_role ($rolenames['administrator']) ?> </option>
-	<option value='editor' <?php echo $selected_editor; ?> ><?php echo translate_user_role ($rolenames['editor']) ?> </option>
+	<option value='admin' <?php //echo $selected_admin; ?> ><?php //echo translate_user_role ($rolenames['administrator']) ?> </option>
+	<option value='editor' <?php //echo $selected_editor; ?> ><?php //echo translate_user_role ($rolenames['editor']) ?> </option>
 </select><br />
 -->
 <span class="description">
@@ -990,7 +1062,7 @@ if ( isset( $_REQUEST['task'] ) ) {
 	<th><?php _e('Order', 'alo-easymail') ?></th>
 	<th></th>
 </tr>	
-<tr>
+<tr  valign="bottom">
 <td>
 
 <!--

@@ -608,7 +608,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 	<?php
 	if ($mailinglists) { ?>
 	<select name="filter_list">
-		<option selected="selected" value=""><?php _e('Select a mailing list') ?>...</option>
+		<option selected="selected" value=""><?php _e( 'Select a mailing list', "alo-easymail" ) ?>...</option>
 		<?php foreach ( $mailinglists as $list => $val ) {
 			$selected = ( $filter_list == $list ) ? 'selected="selected"' : '';
 			echo '<option value="'.$list.'" '.$selected.'>'. alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) .'</option>';
@@ -619,7 +619,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 	<?php // Lang select
 	if ( $languages ) { ?>
 	<select name="filter_lang">
-		<option selected="selected" value=""><?php _e('Choose a language') ?>...</option>
+		<option selected="selected" value=""><?php _e( 'Choose a language', "alo-easymail" ) ?>...</option>
 		<?php foreach ( $languages as $key => $val ) {
 			$selected = ( $filter_lang == $val ) ? 'selected="selected"' : '';
 			$lang_name = esc_html ( alo_em_get_lang_name ( $val ) );
@@ -700,15 +700,15 @@ function checkBulkForm (form, field) {
 		}
 	}
 	if ( output == false ) {
-		alert ('<?php _e("No subscriber selected", "alo-easymail")?>');
+		alert ('<?php echo esc_js( __("No subscriber selected", "alo-easymail") )?>');
 		return false;
 	}
 	if (document.getElementById(form).action.value == '') {
-		alert ('<?php _e("No action selected", "alo-easymail") ?>');
+		alert ('<?php echo esc_js( __("No action selected", "alo-easymail") ) ?>');
 		return false;
 	}
 	if (document.getElementById(form).action.value == 'delete') {
-		return confirm ('<?php _e("Do you really want to DELETE these subscribers?", "alo-easymail")?>');
+		return confirm ('<?php echo esc_js( __("Do you really want to DELETE these subscribers?", "alo-easymail") )?>');
 	}
 }
 
@@ -859,7 +859,7 @@ if (count($all_subscribers)) {
 		?>
 		</td>
 		<td>
-		    <?php echo date("d/m/Y", strtotime($subscriber->join_date))." h.".date("H:i", strtotime($subscriber->join_date)) ?></td>
+		    <?php echo date_i18n( __( "d/m/Y \h.H:i", "alo-easymail" ), strtotime( $subscriber->join_date ) ) ?></td>
 		<td><?php // Check the state (active/no-active)
     		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=". ( ( isset($_GET['order']) ) ? $_GET['order'] : "" ). "' title='".__("Modify activation state", "alo-easymail")."' ";
 		    echo " onclick=\"return confirm('". __("Do you really want to modify the activation state?", "alo-easymail") ."');\">";
@@ -946,7 +946,6 @@ if ( $page_links ) echo "<div class='tablenav-pages'>$page_links</div>";
         </div> <?php // Closes #dashboard-widgets ?>
         
         
-        <div class="clear">
-        </div>
-    </div><!-- dashboard-widgets-wrap -->
+        <div class="clear"></div>
+  
 </div><!-- wrap -->	

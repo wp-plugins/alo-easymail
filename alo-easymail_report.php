@@ -106,13 +106,13 @@ if ( $newsletter ) {
 					<dd><?php echo get_user_meta( $newsletter_post->post_author, 'nickname', true ) ?></dd></dl>
 				<dl>
 					<dt><?php _e("Start", "alo-easymail") ?>:</dt>
-					<dd><?php echo date_i18n( __( 'j M Y @ G:i' ), strtotime( $newsletter_post->post_date ) ) ?></dd>
+					<dd><?php echo date_i18n( __( 'j M Y @ G:i', "alo-easymail" ), strtotime( $newsletter_post->post_date ) ) ?></dd>
 				</dl>
 				<dl>
 					<dt><?php _e("Completed", "alo-easymail") ?>:</dt>
 					<dd><?php 
 						$end = get_post_meta ( $newsletter, "_easymail_completed", current_time( 'mysql', 0 ) );
-						echo ( $end ) ? date_i18n( __( 'j M Y @ G:i' ), strtotime( $end ) ) : __("No", "alo-easymail" );
+						echo ( $end ) ? date_i18n( __( 'j M Y @ G:i', "alo-easymail" ), strtotime( $end ) ) : __("No", "alo-easymail" );
 					 ?></dd>
 				</dl>		
 				<dl>
