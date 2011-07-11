@@ -21,9 +21,15 @@ jQuery(document).ready( function($) {
 		
 		jQuery( "#easymail-recipients-all-subscribers" ).live( "click", function() {
 			var status = jQuery( this ).is(':checked');
-			jQuery( ".check_list" ).attr( "checked", status );
+			jQuery( ".check_list" ).prop( "checked", status );
 		});
 	
+		jQuery( "#easymail-theme-select-preview" ).live( "click", function() {
+			var theme = jQuery( '#easymail-theme-select' ).val();
+			if ( theme != "" ) jQuery.fn.easymailThemePreviewPopup( theme );
+			return false;
+		});
+			
 	}
 
 	/*
@@ -74,6 +80,11 @@ jQuery(document).ready( function($) {
 		tb_show ( easymailJs.subscribersPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&action=open_popup&TB_iframe=true&height=400&width=700&modal=true", false );
 		return false;
     }
+    
+	jQuery.fn.easymailThemePreviewPopup = function( theme ) {
+		window.open ( easymailJs.themePreviewUrl + theme );
+		return false;
+	}	    
     
 	jQuery.fn.easymailPausePlay = function( postId, button ) {
 		var data = {

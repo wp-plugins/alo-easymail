@@ -478,9 +478,11 @@ function alo_em_get_recipient_by_email_and_newsletter ( $email, $newsletter ) {
     										WHERE r.email=%s AND r.newsletter=%d", $email, $newsletter ) );	
     if ( $rec ) {
     	if ( $user_id = email_exists( $email ) ) {
+    		$rec->user_id = $user_id;
     		if ( get_user_meta( $user_id, 'first_name', true ) != "" ) $rec->firstname = ucfirst( get_user_meta( $user_id, 'first_name', true ) );
 	 	} else {
 	 		$rec->firstname = $rec->name;
+	 		$rec->user_id = false;
 	 	}	
     }
     return $rec;    										
@@ -497,9 +499,11 @@ function alo_em_get_recipient_by_id ( $recipient ) {
     										WHERE r.ID=%d", $recipient ) );
     if ( $rec && isset( $rec->email ) ) {
     	if ( $user_id = email_exists( $rec->email ) ) {
+    		$rec->user_id = $user_id;
 			if ( get_user_meta( $user_id, 'first_name', true ) != "" ) $rec->firstname = ucfirst( get_user_meta( $user_id, 'first_name', true ) );
 	 	} else {
 	 		$rec->firstname = $rec->name;
+	 		$rec->user_id = false;
 	 	}	
     }
     return $rec;
@@ -850,7 +854,7 @@ function alo_em_tags_table ( $post_id ) {
 			"tags" 			=> array (
 				"[POST-TITLE]" 		=> __("The link to the title of the selected post.", "alo-easymail") .". ". __("This tag works also in the <strong>subject</strong>", "alo-easymail"),
 				"[POST-EXCERPT]" 	=> __("The excerpt (if any) of the post.", "alo-easymail"),
-				"[POST-CONTENT]"	=> __("The main content of the post.", "alo-easymail")
+				"[POST-CONTENT]"	=> __("The main content of the post.", "alo-easymail")						
 			)
 		),
 		"easymail_subscriber" => array (
@@ -859,19 +863,14 @@ function alo_em_tags_table ( $post_id ) {
 				"[USER-NAME]"		=> __("Name and surname of registered user.", "alo-easymail") ." (". __("For subscribers: the name used for registration", "alo-easymail") .")",
 				"[USER-FIRST-NAME]"	=> __("First name of registered user.", "alo-easymail") ." (". __("For subscribers: the name used for registration", "alo-easymail") .")"
 			)
-		),
-		"easymail_misc" => array (
-			"title" 		=> __( "Other tags", "alo-easymail" ),
-			"tags" 			=> array (
-				"[SITE-LINK]"		=> __("The link to the site", "alo-easymail")
-			)
-		)				
+		)		
 	);
 	
 	$placeholders = apply_filters ( 'alo_easymail_newsletter_placeholders_table', $placeholders ); 
 	
 	if ( $placeholders ) :
-		foreach ( $placeholders as $type => $placeholder ) : ?>
+		foreach ( $placeholders as $type => $placeholder ) : 
+			if ( isset( $placeholder['tags'] )) : ?>
 		
 		<table class="widefat" style="margin-top:10px">
 		<thead><tr><th scope="col" style="width:20%"><?php esc_html_e ( $placeholder['title'] ) ?></th>
@@ -885,7 +884,9 @@ function alo_em_tags_table ( $post_id ) {
 			<?php endforeach; endif; // $placeholder['tags'] ?>
 			
 		</tbody></table>
-		<?php endforeach; // $placeholders
+		<?php 
+		endif;
+		endforeach; // $placeholders
 		
 	endif; // if ( $placeholders ) ?>
 	
@@ -1357,7 +1358,7 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
  * @param	bol		if true forse to send, ignore debug setting
  * @return	bol		
  */
-function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
+ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 	global $wpdb;
 	$defaults = array(
 		'email' => false,
@@ -1367,7 +1368,8 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 		'name' => false,
 		'firstname' => false,
 		'subscriber' => false,
-		'unikey' => false
+		'unikey' => false,
+		'user_id' => false 
 	);
 	$args = wp_parse_args( (array)$recip, $defaults );
 	$recipient = (object)$args;
@@ -1382,15 +1384,16 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 	   
 	$content = alo_em_translate_text( $recipient->lang, $newsletter->post_content ); 
 	
-	// easymail standard and custom filters
-	$content = apply_filters( 'alo_easymail_newsletter_content', $content, $newsletter, $recipient, false ); 
-	
 	// general filters and shortcodes applied to 'the_content'?
 	if ( get_option('alo_em_filter_the_content') != "no" ) {
 		add_filter ( 'the_content', 'do_shortcode', 11 );
 		$content = apply_filters( "the_content", $content );
 	}
 	
+	// easymail standard and custom filters
+	$content = apply_filters( 'alo_easymail_newsletter_content', $content, $newsletter, $recipient, false ); 
+	
+		
 	/* // maybe useless in v.2...
 	if ( get_option('alo_em_filter_br') != "no" ) {
 		$content = wpautop( $content, 1 );
@@ -1400,7 +1403,8 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 	}
 	*/
 	
-	$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
+	/*
+$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
    	if ( $viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true ) ) {
 		$content .= $viewonline_msg;
 	} else {
@@ -1409,8 +1413,9 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 	}
 	$content = str_replace ( "%NEWSLETTERLINK%", " <a href='".$viewonline_url."'>". $viewonline_url ."</a>", $content );
 
+*/
 	// Unsubscribe link and tracking, only if subscriber
-	if ( $recipient->unikey && $recipient->ID ) {
+	//if ( $recipient->unikey && $recipient->ID ) {
 	
 		/*         
 		$div_email = explode( "@", $recipient->email ); // for link
@@ -1419,6 +1424,7 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
 		*/
 		
+/*
 		$uns_vars = $recipient->subscriber . "|" . $recipient->unikey;
 		$uns_vars = urlencode( base64_encode( $uns_vars ) );
 		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
@@ -1436,10 +1442,10 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 		$track_vars = $recipient->ID . "|" . $recipient->unikey;
         $track_vars = urlencode( base64_encode( $track_vars ) );
         
-        $nossl_plugin_url = str_replace( "https", "http", ALO_EM_PLUGIN_URL );
-		$content .= "\r\n<img src='". $nossl_plugin_url ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
+		$content .= "\r\n<img src='". ALO_EM_PLUGIN_URL ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
 		//$content .= "<pre>". print_r ( $recipient, true ) . "</pre>";
 	}
+*/
 		
 
 	
@@ -1482,6 +1488,118 @@ function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
 	}
 	return ( $mail_engine ) ? true : false;
 }
+
+ /*
+function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
+	global $wpdb;
+	$defaults = array(
+		'email' => false,
+		'newsletter' => false, 
+		'ID' => false,	// if false, it's a test sending
+		'lang' => alo_em_get_language (),
+		'name' => false,
+		'firstname' => false,
+		'subscriber' => false,
+		'unikey' => false
+	);
+	$args = wp_parse_args( (array)$recip, $defaults );
+	$recipient = (object)$args;
+	
+	if ( !is_email( $recipient->email ) ) return; 
+		
+	// Get newsletter details
+	$newsletter = alo_em_get_newsletter( $recipient->newsletter );
+	
+	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title ) );
+	$subject = apply_filters( 'alo_easymail_newsletter_title', $subject, $newsletter, $recipient ); 
+	   
+	$content = alo_em_translate_text( $recipient->lang, $newsletter->post_content ); 
+	
+	// easymail standard and custom filters
+	$content = apply_filters( 'alo_easymail_newsletter_content', $content, $newsletter, $recipient, false ); 
+	
+	// general filters and shortcodes applied to 'the_content'?
+	if ( get_option('alo_em_filter_the_content') != "no" ) {
+		add_filter ( 'the_content', 'do_shortcode', 11 );
+		$content = apply_filters( "the_content", $content );
+	}
+	
+	$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
+   	if ( $viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true ) ) {
+		$content .= $viewonline_msg;
+	} else {
+		$content .= "\r\n<p><em>". __("To read the newsletter online you can visit this link", "alo-easymail");
+		$content .=	": %NEWSLETTERLINK%</em></p>\r\n";
+	}
+	$content = str_replace ( "%NEWSLETTERLINK%", " <a href='".$viewonline_url."'>". $viewonline_url ."</a>", $content );
+
+	// Unsubscribe link and tracking, only if subscriber
+	if ( $recipient->unikey && $recipient->ID ) {
+			
+		$uns_vars = $recipient->subscriber . "|" . $recipient->unikey;
+		$uns_vars = urlencode( base64_encode( $uns_vars ) );
+		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
+		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
+		
+	   	if ( $unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true ) ) {
+			$content .= $unsubfooter;
+		} else {
+			$content .= "\r\n<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
+			$content .=	__("visit this link", "alo-easymail") ."<br />\r\n%UNSUBSCRIBELINK%";
+			$content .= "</em></p>\r\n";
+		}
+		$content = str_replace ( "%UNSUBSCRIBELINK%", " <a href='".$uns_link."'>". $uns_link ."</a>", $content );
+		
+		$track_vars = $recipient->ID . "|" . $recipient->unikey;
+        $track_vars = urlencode( base64_encode( $track_vars ) );
+        
+        $nossl_plugin_url = str_replace( "https", "http", ALO_EM_PLUGIN_URL );
+		$content .= "\r\n<img src='". $nossl_plugin_url ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
+		//$content .= "<pre>". print_r ( $recipient, true ) . "</pre>";
+	}
+		
+
+	
+	$mail_sender = ( get_option('alo_em_sender_email') ) ? get_option('alo_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
+	$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('alo_em_sender_name') ) );
+
+	$headers = "From: ". $from_name ." <".$mail_sender.">\n";
+	$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";		
+
+    // ---- Send MAIL (or DEBUG) ----
+    $send_mode = ( $force_send ) ? "" : get_option('alo_em_debug_newsletters');
+    switch ( $send_mode ) {
+    	case "to_author":
+	    		$author = get_userdata( $newsletter->post_author );
+    			$debug_subject = "( DEBUG - TO: ". $recipient->email ." ) " . $subject;
+    			$mail_engine = wp_mail( $author->user_email, $debug_subject, $content, $headers );
+				break;
+    	case "to_file":
+    			$log = fopen( WP_CONTENT_DIR . "/user_{$newsletter->post_author}_newsletter_{$newsletter->ID}.log", 'a+' );
+    			$log_message = 	"\n------------------------------ ". date_i18n( __( 'j M Y @ G:i', "alo-easymail" ) ) ." ------------------------------\n\n";
+    			$log_message .=	"HEADERS:\n". $headers ."\n";
+    			$log_message .=	"TO:\t\t\t". $recipient->email ."\n";
+    			$log_message .=	"SUBJECT:\t". $subject ."\n\n";
+    			$log_message .=	"CONTENT:\n". $content ."\n\n";
+				$mail_engine = ( fwrite ( $log, $log_message ) ) ? true : false;
+				fclose ( $log );
+				break;
+    	default:  // no debug: send it!
+				$mail_engine = wp_mail( $recipient->email, $subject, $content, $headers );       					        					
+    }
+      
+    $sent = ( $mail_engine ) ? "1" : "-1";
+	
+	// If recipient is in db (eg. ID exists) update db
+	if ( $recipient->ID ) {
+		$wpdb->update(    "{$wpdb->prefix}easymail_recipients",
+		    array ( 'result' => $sent ),
+		    array ( 'ID' => $recipient->ID )
+		);
+	}
+	return ( $mail_engine ) ? true : false;
+}
+*/
 
 
 /**
@@ -1539,6 +1657,263 @@ function alo_em_batch_sending () {
 }
 
 
+
+/**
+ * alo newsletter custom email hooks
+ */
+function alo_em_zirkuss_custom_easymail_placeholders( $placeholders ) {
+	
+	$placeholders['easymail_subscriber']['tags']['[USER-UNSUBSCRIBE]'] = __ ( 'Text and URL to unsubscribe.', 'alo-easymail' ) . " (". __( 'You can customise this text in settings', 'alo-easymail' ) .".)";
+	$placeholders['easymail_subscriber']['tags']['[USER-UNSUBSCRIBE-URL]'] = __ ( 'URL to unsubscribe.', 'alo-easymail' );
+	
+	$placeholders['easymail_newsletter']['title'] = __( "Newsletter tags", "alo-easymail" );
+	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE]'] = __ ( 'Text and URL to the online version.', 'alo-easymail' ) . " (". __( 'You can customise this text in settings', 'alo-easymail' ) .".)";
+	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE-URL]'] = __ ( 'URL to the online version.', 'alo-easymail' );
+	$placeholders['easymail_newsletter']['tags']['[TITLE]'] = __ ( 'Title of the newsletter.', 'alo-easymail' );
+	$placeholders['easymail_newsletter']['tags']['[DATE]'] = __ ( 'Date of the newsletter.', 'alo-easymail' );
+	$placeholders['easymail_newsletter']['tags']['[THUMB]'] = __ ( 'Post Thumbnail of newsletter', 'alo-easymail' );
+	$placeholders['easymail_newsletter']['tags']['[GALLERY]'] = __ ( 'Image gallery of newsletter', 'alo-easymail' );
+
+	$placeholders['easymail_site']['title'] = __( "Site tags", "alo-easymail" );
+	$placeholders['easymail_site']['tags']['[SITE-LINK]'] = __("The link to the site", "alo-easymail");
+	$placeholders['easymail_site']['tags']['[SITE-URL]'] = __ ( 'URL to the site.', 'alo-easymail' );
+	$placeholders['easymail_site']['tags']['[SITE-NAME]'] = __('Site Title');
+	$placeholders['easymail_site']['tags']['[SITE-DESCRIPTION]'] = __('Tagline');
+
+	$placeholders['easymail_post']['tags']['[POST-THUMB]'] = __("Post Thumbnail", "alo-easymail");
+	$placeholders['easymail_post']['tags']['[POST-GALLERY]'] = __("The image gallery of the post", "alo-easymail")	;
+					
+	return $placeholders;
+}
+add_filter ( 'alo_easymail_newsletter_placeholders_table', 'alo_em_zirkuss_custom_easymail_placeholders', 5 );
+
+
+/**
+ * alo newsletter content
+ */
+function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $stop_recursive_the_content = false ) 
+{  
+	if ( !is_object( $recipient ) ) $recipient = new stdClass();
+	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
+	
+	// use the email theme only when emailing the
+	// newsletter. otherwise use the default
+	// wordpress theme to display the newsletter.
+	if ( ( isset( $recipient->unikey ) && isset( $recipient->ID ) ) /* || ( isset( $_POST['email'] ) && isset( $_POST['newsletter'] ) )*/ ) 
+	{	
+		// Create the message to read the newsletter online
+		$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
+		$viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true );
+		
+	   	if( empty( $viewonline_msg ) )
+	   	{
+			$viewonline_msg = __('To read the newsletter online you can visit this link:', 'alo-easymail') . ' %NEWSLETTERLINK%';
+		}
+		
+		$viewonline_msg = str_replace( '%NEWSLETTERLINK%', ' <a href="'.$viewonline_url.'">'. $viewonline_url .'</a>', $viewonline_msg );
+		$viewonline_msg = str_replace( '%NEWSLETTERURL%', $viewonline_url, $viewonline_msg );
+		
+		$uns_vars = $recipient->subscriber . '|' . $recipient->unikey;
+		$uns_vars = urlencode( base64_encode( $uns_vars ) );
+		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
+		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
+		
+		$unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true );
+		
+	   	if ( empty( $unsubfooter ) )
+	   	{
+			$unsubfooter = __('You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ', 'alo-easymail').' %UNSUBSCRIBELINK%';
+		}
+		
+		$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. $uns_link .'</a>', $unsubfooter );
+		$unsubfooter = str_replace ( '%UNSUBSCRIBEURL%', $uns_link, $unsubfooter );
+
+		// Tracking code
+		$track_vars = $recipient->ID . '|' . $recipient->unikey;
+        $track_vars = urlencode( base64_encode( $track_vars ) );    
+		$tracking_view = '<img src="'. ALO_EM_PLUGIN_URL .'/tr.php?v='. $track_vars .'" width="1" height="1" border="0" >';
+		
+		// Content default if not theme found
+		$html = $content;
+		
+		// Get the theme file
+		$default_theme = get_option('alo_em_use_themes');
+		if ( $default_theme != 'no' ) {
+			if ( $default_theme == "yes" ) { // Free choice
+				$theme = get_post_meta ( $newsletter->ID, '_easymail_theme', true );
+			} else { // Force theme by option
+				$theme = $default_theme;
+			}
+			if ( $theme != "" && array_key_exists( $theme, alo_easymail_get_all_themes() ) ) {
+				$themes = alo_easymail_get_all_themes();
+				$theme_path = ( isset( $themes[$theme] ) && file_exists( $themes[$theme] ) ) ? $themes[$theme] : false;
+				if ( $theme_path ) {
+					$html = file_get_contents( $theme_path );			
+					$html = str_replace('[CONTENT]', $content, $html);
+					$info = pathinfo( $theme );
+					$theme_dir =  basename( $theme, '.' . $info['extension'] );
+					$html = str_replace( $theme_dir, alo_easymail_get_themes_url().$theme_dir, $html );
+				}
+			} 
+		}
+	}
+	else
+	{
+		$viewonline_msg = $viewonline_url = ""; // nonsense: probably it's being read online...
+		$unsubfooter = $uns_link = $tracking_view = ""; // unuseful
+		
+		// Get the content
+		$html = $content;
+	}
+	
+
+	// Create the image gallery
+	$args = array( 'post_type' => 'attachment', 'post_mime_type' => array( 'image/jpeg', 'image/jpg', 'image/png', 'image/gif' ), 'numberposts' => -1, 'post_status' => null, 'post_parent' => $newsletter->ID, 'orderby' => 'menu_order', 'order' => 'ASC' ); 
+	$attachments = get_posts( $args );
+	$gallery = '';
+	
+	if ( $attachments ) {
+		foreach( $attachments as $index => $attachment ) {
+			/*	if ( $index == 0 ) {
+				$size = 'medium';
+			} else {
+				$size = 'thumbnail';
+			} */
+			$size = ( $size = get_post_meta ( $newsletter->ID, '_placeholder_newsletter_imgsize', true ) ) ? $size : 'thumbnail';
+			$src = wp_get_attachment_image_src( $attachment->ID, $size );
+			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
+		}
+	}
+	
+	// post thumbnail
+	if ( has_post_thumbnail( $newsletter->ID ) ) {
+		$size = ( $size = get_post_meta ( $newsletter->ID, '_placeholder_newsletter_imgsize', true ) ) ? $size : 'thumbnail';
+		$thumb = get_the_post_thumbnail( $newsletter->ID, $size, array( 'class'	=> "alo-easymail-thumb-newsletter" ) );
+	} else {
+		$thumb = "";
+	}
+	
+	// post thumb and gallery
+	$post_id = get_post_meta ( $newsletter->ID, '_placeholder_easymail_post', true );
+	$post_thumb = $post_gallery = "";
+	if ( $post_id ) {
+		
+		// Create the post gallery
+		$args = array( 'post_type' => 'attachment', 'post_mime_type' => array( 'image/jpeg', 'image/jpg', 'image/png', 'image/gif' ), 'numberposts' => -1, 'post_status' => null, 'post_parent' => $post_id, 'orderby' => 'menu_order', 'order' => 'ASC' ); 
+		$attachments = get_posts( $args );
+	
+		if ( $attachments ) {
+			foreach( $attachments as $index => $attachment ) {
+				$size = ( $size = get_post_meta ( $post_id, '_placeholder_post_imgsize', true ) ) ? $size : 'thumbnail';
+				$src = wp_get_attachment_image_src( $post_id, $size );
+				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
+			}
+		}
+	
+		// post thumbnail
+		if ( has_post_thumbnail( $post_id ) ) {
+			$size = ( $size = get_post_meta ( $post_id, '_placeholder_post_imgsize', true ) ) ? $size : 'thumbnail';
+			$post_thumb = get_the_post_thumbnail( $post_id, $size, array( 'class'	=> "alo-easymail-thumb-post" ) );
+		} 
+	}
+	
+	// site
+	$site_url = get_option ('siteurl');
+	$blogname = esc_html( get_option('blogname') );
+	$blogdescription = esc_html( get_option('blogdescription') );
+	
+	// title
+	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title ) );
+	$subject = apply_filters( 'alo_easymail_newsletter_title', $subject, $newsletter, $recipient ); 
+	
+	// newsletter
+	$date = date_i18n( __( 'j / n / Y', "alo-easymail" ), strtotime( $newsletter->post_date ) );
+	
+	// content	   
+	//$body = $content; 
+	
+	/*
+	if ( get_option('alo_em_filter_the_content') != "no" ) {
+		add_filter ( 'the_content', 'do_shortcode', 11 );
+		$body = apply_filters( "the_content", $body );
+	}
+	*/
+	
+	// replace all tags
+	$html = str_replace('[READ-ONLINE]', $viewonline_msg, $html);
+	$html = str_replace('[READ-ONLINE-URL]', $viewonline_url, $html);
+	$html = str_replace('[USER-UNSUBSCRIBE]', $unsubfooter, $html);
+	$html = str_replace('[USER-UNSUBSCRIBE-URL]', $uns_link, $html);
+	$html = str_replace('[TITLE]', $subject, $html);
+	$html = str_replace('[THUMB]', $thumb, $html);
+	$html = str_replace('[GALLERY]', $gallery, $html);	
+	$html = str_replace('[SITE-URL]', $site_url, $html);
+	$html = str_replace('[SITE-NAME]', $blogname, $html);
+	$html = str_replace('[SITE-DESCRIPTION]', $blogdescription, $html);	
+	$html = str_replace('[DATE]', $date, $html);
+	$html = str_replace('[POST-THUMB]', $post_thumb, $html);
+	$html = str_replace('[POST-GALLERY]', $post_gallery, $html);		
+	
+	// Insert tracking img before </body> if tag exists, otherwise at the end
+	if ( strpos( $html, "</body") !== false ) {
+		$html = str_replace( "</body", $tracking_view ."\n</body" , $html);
+	} else {
+		$html .= $tracking_view;
+	}
+	
+	return $html;	
+}
+add_filter ( 'alo_easymail_newsletter_content',  'alo_em_zirkuss_newsletter_content', 9, 4 );
+
+
+/**
+ * Add Img size in newsletter select in placeholders table
+ *
+ */
+function alo_em_placeholders_title_newsletter_imgsize ( $post_id ) {
+	echo __("Select the image size", "alo-easymail"). ": ";	
+	echo '<select name="placeholder_newsletter_imgsize" id="placeholder_newsletter_imgsize" >';
+	$sizes = array( 'thumbnail', 'medium', 'large' );
+	foreach ( $sizes as $size ) {
+	    $select_gallery_size = ( get_post_meta ( $post_id, '_placeholder_newsletter_imgsize', true) == $size ) ? 'selected="selected"': '';
+	    echo '<option value="'. $size .'" '. $select_gallery_size .'>'. $size . '</option>';
+	}
+	echo '</select>'; 
+}
+add_action('alo_easymail_newsletter_placeholders_title_easymail_newsletter', 'alo_em_placeholders_title_newsletter_imgsize', 12 );
+
+
+/**
+ * Add Img size in newsletter select in placeholders table
+ *
+ */
+function alo_em_placeholders_title_post_imgsize ( $post_id ) {
+	echo __("Select the image size", "alo-easymail"). ": ";	
+	echo '<select name="placeholder_post_imgsize" id="placeholder_post_imgsize" >';
+	$sizes = array( 'thumbnail', 'medium', 'large' );
+	foreach ( $sizes as $size ) {
+	    $select_gallery_size = ( get_post_meta ( $post_id, '_placeholder_post_imgsize', true) == $size ) ? 'selected="selected"': '';
+	    echo '<option value="'. $size .'" '. $select_gallery_size .'>'. $size . '</option>';
+	}
+	echo '</select>'; 
+}
+add_action('alo_easymail_newsletter_placeholders_title_easymail_post', 'alo_em_placeholders_title_post_imgsize', 12 );
+
+
+/**
+ * Save gallery size when the newsletter is saved
+ */
+function alo_em_save_placeholder_gallery ( $post_id ) {
+	if ( isset( $_POST['placeholder_newsletter_imgsize'] ) ) {
+		update_post_meta ( $post_id, '_placeholder_newsletter_imgsize', $_POST['placeholder_newsletter_imgsize'] );
+	}
+	if ( isset( $_POST['placeholder_post_imgsize'] ) ) {
+		update_post_meta ( $post_id, '_placeholder_post_imgsize', $_POST['placeholder_post_imgsize'] );
+	}	
+} 
+add_action('alo_easymail_save_newsletter_meta_extra', 'alo_em_save_placeholder_gallery' );
+
+
 /**
  * Filter Newsletter Title when sending
  */
@@ -1584,7 +1959,7 @@ add_filter ( 'single_post_title',  'alo_em_filter_title_bar' );
 function alo_em_filter_title_in_site ( $subject ) {
 	global $post, $pagenow;
 	// in frontend and in 'edit.php' screen in backend
-	if ( ( $post && !is_admin() ) || $pagenow == 'edit.php' ) {
+	if ( ( isset( $post ) && is_object( $post ) && !is_admin() ) || $pagenow == 'edit.php' ) {
 		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
 		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 		if ( $obj_post ) {
@@ -1651,7 +2026,7 @@ function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recurs
 		}        	
     }
     
-    $content = str_replace("[SITE-LINK]", "<a href='". esc_url ( alo_em_translate_url ( get_option ('siteurl'), $recipient->lang ) ) ."'>".get_option('blogname')."</a>", $content);  
+    $content = str_replace("[SITE-LINK]", "<a href='". esc_url ( alo_em_translate_url ( get_option ('siteurl'), $recipient->lang ) ) ."'>". esc_html( get_option('blogname') )."</a>", $content);  
     
 	return $content;	
 }
@@ -2340,24 +2715,72 @@ function alo_easymail_print_archive ( $atts=false, $content="" ) {
 	$args = wp_parse_args( $atts, $defaults );
 	$newsletters = alo_easymail_get_newsletters( $args );
 	if ( $newsletters ) { 
-		echo "<ul class='". $args['ul_class'] ."'>";
+		$output = "<ul class='". $args['ul_class'] ."'>";
 		foreach( $newsletters as $post ) : setup_postdata( $post ); 
 			switch ( $args['li_format'] ) : 
-				case "date_title": ?>
-					<li><span><?php echo get_the_date() ?></span> <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-					<?php break;
-				case "title": ?>						
-					<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-					<?php break;					
+				case "date_title":
+					$output .= "<li><span>". get_the_date() ."</span> <a href='". get_permalink() . "'>" . get_the_title( $post->ID ) ."</a></li>";
+					break;
+				case "title":
+					$output .= "<li><a href='". get_permalink() ."'>". get_the_title( $post->ID ) ."</a></li>";
+					break;					
 				case "title_date":
-				default: ?>						
-					<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <span><?php echo get_the_date() ?></span></li>					
-		<?php endswitch;
+				default:						
+					$output .= "<li><a href='". get_permalink() . "'>". get_the_title( $post->ID ) ."</a> <span>". get_the_date() ."</span></li>";
+		endswitch;
 		endforeach; 
-		echo "</ul>";
+		$output .= "</ul>";
 		wp_reset_postdata();
+		return $output;
 	}
 }
 add_shortcode('ALO-EASYMAIL-ARCHIVE', 'alo_easymail_print_archive');
 
+
+/*************************************************************************
+ * THEMES
+ 
+ *************************************************************************/ 
+
+
+/**
+ * Get all available themes
+ *
+ * First search in 'wp-content/themes/{active-theme}/alo-easymail-themes' folder; 
+ * if not exists search in 'wp-content/plugins/alo-easymail/alo-easymail-themes'
+ */
+ 
+function alo_easymail_get_all_themes () {
+	if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
+		$dir = trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/';
+	} else {
+		$dir = ALO_EM_PLUGIN_ABS."/alo-easymail-themes/";
+	}
+	$themes = glob( $dir. "*.{htm,html}", GLOB_BRACE );
+	if( $themes && count( $themes ) > 0 ) {
+		$return = array();
+		foreach( $themes as $theme ) {
+			$namefile = basename( $theme );
+			$return[ $namefile ] = $theme;
+		}
+	}
+	return $return;
+}
+
+
+/**
+ * Get url of themes (eg. for preview or for image url in themes)
+ *
+ * First search in 'wp-content/themes/{active-theme}/alo-easymail-themes' folder; 
+ * if not exists search in 'wp-content/plugins/alo-easymail/alo-easymail-themes'
+ */
+ 
+function alo_easymail_get_themes_url () {
+	if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
+		$url = trailingslashit( get_stylesheet_directory_uri() ) .'alo-easymail-themes/';
+	} else {
+		$url = ALO_EM_PLUGIN_URL."/alo-easymail-themes/";
+	}
+	return $url;
+}
 ?>

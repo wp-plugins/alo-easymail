@@ -29,8 +29,6 @@
 /**
  * Add placeholder to table in new/edit newsletter screen
  *
- * Standard placeholder indexes are: 
- * 'easymail_post', 'easymail_subscriber', 'easymail_misc'
  */
 function custom_easymail_placeholders ( $placeholders ) {
 	$placeholders["custom_latest"] = array (
