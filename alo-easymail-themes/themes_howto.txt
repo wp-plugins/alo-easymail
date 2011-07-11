@@ -1,6 +1,6 @@
-						ALO-EasyMail Newsletter
-							NEWSLETTER THEMES
-					   =========================
+                          ALO-EasyMail Newsletter
+                             NEWSLETTER THEMES
+                         =========================
 
 
 HOW TO CREATE A THEME:
