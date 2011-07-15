@@ -78,7 +78,7 @@ add_action('alo_easymail_save_newsletter_meta_extra', 'custom_save_placeholder_c
  * Replace the placeholder when the newsletter is sending 
  * @param	str		the newsletter text
  * @param	obj		newsletter object, with all post values
- * @param	obj		recipient object
+ * @param	obj		recipient object, with following properties: ID (int), newsletter (int: recipient ID), email (str), result (int: 1 if successfully sent or 0 if not), lang (str: 2 chars), unikey (str), name (str: subscriber name), user_id (int/false: user ID if registered user exists), subscriber (int: subscriber ID), firstname (str: firstname if registered user exists, otherwise subscriber name)
  * @param	bol    	if apply "the_content" filters: useful to avoid recursive and infinite loop
  */ 
 function custom_easymail_placeholders_get_latest ( $content, $newsletter, $recipient, $stop_recursive_the_content=false ) {  

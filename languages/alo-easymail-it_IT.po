@@ -1633,7 +1633,7 @@ msgstr "Nessuna azione selezionata"
 #: .././alo-easymail_subscribers.php:492
 #: .././alo-easymail_functions.php:954
 msgid "The e-email address is not correct"
-msgstr "L&#39;indirizzo e-mail non &egrave; corretto"
+msgstr "L&#39;indirizzo e-mail non è corretto"
 
 # @ alo-easymail
 #: .././alo-easymail_subscribers.php:398
@@ -1657,7 +1657,7 @@ msgstr "Errore"
 # @ alo-easymail
 #: .././alo-easymail_subscribers.php:494
 msgid "There is already a subscriber with this e-email address"
-msgstr "Esiste gi&agrave; un iscritto con questo indirizzo e-mail"
+msgstr "Esiste già un iscritto con questo indirizzo e-mail"
 
 # @ alo-easymail
 #: .././alo-easymail_subscribers.php:517
@@ -1962,7 +1962,7 @@ msgstr "Aggiornato con successo"
 # @ alo-easymail
 #: .././alo-easymail_functions.php:955
 msgid "The name field is empty"
-msgstr "Il campo nome &egrave; vuoto"
+msgstr "Il campo nome è vuoto"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:956

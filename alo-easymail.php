@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.1
+Version: 2.1.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -351,7 +351,7 @@ function alo_em_contextual_help() {
 				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">guide</a> |
 				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">faq</a> |
 				<a href="http://www.eventualo.net/blog/easymail-newsletter-for-developers/" target="_blank">for developers</a> |
-				<a href="http://www.eventualo.net/forum/forum/1" target="_blank">forum</a> |
+				<a href="http://www.eventualo.net/forum/" target="_blank">forum</a> |
 				<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">news</a>';
 		$html .= " | <form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
 			<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
@@ -373,6 +373,12 @@ function alo_em_contextual_help() {
 		$html .= "<p>". __("For more info, visit the FAQ of the site.", "alo-easymail") . ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">&raquo;</a>' ."</p>\n";
 		$html .= "</div>";
 		*/		
+		if ( $hook_suffix == 'alo-easymail/alo-easymail_options.php' ) {
+			// extra help
+		}
+		if ( $hook_suffix == 'alo-easymail/alo-easymail_subscribers.php' ) {
+			// extra help
+		}		
 		add_contextual_help( $hook_suffix, $html );
 	}
 }
@@ -549,7 +555,7 @@ function alo_em_table_column_value ( $columns ) {
   		}
 	}		
 	if ( $columns == "easymail_status" ) {
-  		if ( $recipients ) {
+  		if ( $count_recipients > 0 ) {
 			echo '<img src="'. ALO_EM_PLUGIN_URL. '/images/wpspin_light.gif" style="display:none;vertical-align: middle;" id="easymail-refresh-column-status-loading-'. $post->ID.'" />';  		
   			echo "<span id=\"alo-easymail-column-status-{$post->ID}\">\n";
   			alo_em_update_column_status ( $post->ID );
@@ -588,6 +594,88 @@ function alo_em_ajax_pauseplay_column_status () {
 	die();
 }
 add_action('wp_ajax_alo_easymail_pauseplay_column_status', 'alo_em_ajax_pauseplay_column_status');
+
+
+/**
+ * Return data for Subscriber edit inline
+ */
+function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
+	check_ajax_referer( "alo-easymail" );
+	$subscriber = $_POST['subscriber'];
+	$row_index = $_POST['row_index'];	
+	$inline_action = $_POST['inline_action'];	
+	
+	if ( $subscriber ) {
+		$mailinglists = alo_em_get_mailinglists( 'admin,public' );
+		$languages = alo_em_get_all_languages ( true );
+		
+		switch ( $inline_action ) {
+			case 'save':
+				// save data and return html row, red-only mode
+				$subscriber_obj =  alo_em_get_subscriber_by_id( $subscriber );
+				
+				$new_name = ( isset( $_POST['new_name'] ) ) ? stripslashes( trim ( $_POST['new_name'] ) ): false ;
+				$new_email = ( isset( $_POST['new_email'] ) && is_email( trim ( $_POST['new_email'] ) ) ) ? trim ( $_POST['new_email'] ) : false;				
+				$new_active = ( isset( $_POST['new_active'] ) && is_numeric( $_POST['new_active'] ) ) ? $_POST['new_active'] : 0;
+				$new_lang = ( isset( $_POST['new_lang'] ) && in_array( $_POST['new_lang'], $languages) ) ? $_POST['new_lang'] : "";
+				$new_lists = ( isset( $_POST['new_lists'] ) ) ? trim( $_POST['new_lists'] ) : false;
+				
+				/* if ( !$new_name ) {
+					echo "-error-name-is-empty";
+					break;
+				} */
+				
+				// Check if a subscriber with this email already exists
+				if ( $already = alo_em_is_subscriber ( $new_email ) && $already != $subscriber && $subscriber_obj->email != $new_email ) {
+					echo "-error-email-already-subscribed";
+					break;					
+				
+				// Last check before save
+				} else if ( $new_email ) {			
+					alo_em_update_subscriber_by_email ( $subscriber_obj->email, $new_email, $new_name, $new_active, $new_lang );
+					
+					$new_lists = explode ( ",", rtrim ( $new_lists, "," ) );
+					if ( is_array( $mailinglists ) ) : foreach ( $mailinglists as $mailinglist => $val ) :
+						if ( in_array ( $mailinglist, $new_lists ) ) {
+							alo_em_add_subscriber_to_list ( $subscriber, $mailinglist );
+						} else {
+							alo_em_delete_subscriber_from_list ( $subscriber, $mailinglist );
+						}
+					endforeach; endif;
+					
+					echo alo_em_get_subscriber_table_row ( $subscriber, $row_index, false, $mailinglists, $languages );		
+					
+				} else {
+					echo "-error-email-is-not-valid";
+				}						
+				break;
+
+			case 'delete':
+				// Delete the subscriber
+				if ( alo_em_delete_subscriber_by_id ( $subscriber ) ) {	
+					echo "-ok-deleted";
+					break;
+				} else {
+					echo "-1"; // error
+					break;
+				}		
+				
+				echo alo_em_get_subscriber_table_row ( $subscriber, $row_index, false, $mailinglists, $languages );		
+								
+			case 'cancel':
+				// return html row, red-only mode
+				echo alo_em_get_subscriber_table_row ( $subscriber, $row_index, false, $mailinglists, $languages );				
+				break;
+				
+			case 'edit':
+			default:
+				// return html row, edit mode
+				echo alo_em_get_subscriber_table_row ( $subscriber, $row_index, true, $mailinglists, $languages );					
+		}
+	}
+	die();
+}
+add_action('wp_ajax_alo_easymail_subscriber_edit_inline', 'alo_em_ajax_alo_easymail_subscriber_edit_inline');
 
 
 /**
@@ -834,16 +922,23 @@ function alo_em_add_admin_script () {
 add_action('admin_print_scripts', 'alo_em_add_admin_script' );
 
 function alo_em_localize_admin_script () {
-	global $post, $pagenow;
+	global $post, $pagenow, $current_screen;
 	$post_id = ( $post ) ? $post->ID : false;
+	$screen_id = ( $current_screen ) ? $current_screen->id : false; 
     return array(
     	'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'pluginPath' => ALO_EM_PLUGIN_URL."/",
         'postID' => $post_id,
         'pagenow' => $pagenow,
-        'reportPopupTitle' => __("Newsletter report", "alo-easymail"),
-        'subscribersPopupTitle' => __("Newsletter subscribers creation", "alo-easymail"),
-        'themePreviewUrl' => alo_easymail_get_themes_url()
+		'screenID' => $screen_id,
+        'reportPopupTitle' => esc_js( __("Newsletter report", "alo-easymail") ),
+        'subscribersPopupTitle' => esc_js( __("Newsletter subscribers creation", "alo-easymail") ),
+        'themePreviewUrl' => alo_easymail_get_themes_url(),
+		'nonce' => wp_create_nonce( 'alo-easymail' ),
+		'errEmailNotValid' => esc_js( __("The e-email address is not correct", "alo-easymail") ),
+		'errNameIsBlank' => esc_js( __("The name field is empty", "alo-easymail") ),
+		'errEmailAlreadySubscribed'=> esc_js( __("There is already a subscriber with this e-email address", "alo-easymail") ),
+		'confirmDelSubscriber'=> esc_js( __("Do you really want to DELETE this subscriber?", "alo-easymail") )
     );
 }
 
@@ -1008,6 +1103,7 @@ function alo_em_meta_recipients ( $post ) {
 				</ul>	
 			</li>
 			<?php endif; // $languages ?>			
+
 			
 		</ul>
 		

@@ -424,7 +424,7 @@ if ( get_option('alo_em_use_themes') ) {
 <tr valign="top">
 <th scope="row"><?php _e("Use themes", "alo-easymail") ?>:</th>
 <td>
-<select name='use_themes' id='use_themes'>";	
+<select name='use_themes' id='use_themes'>
 	<option value='no' <?php echo ( ( 'no' == $selected_use_themes )? " selected='selected'": "") ?> ><?php _e("no", "alo-easymail") ?></option>
 	<option value='yes' <?php echo ( ( 'yes' == $selected_use_themes )? " selected='selected'": "") ?>><?php echo __("yes", "alo-easymail") . ", " .__(" free choice for authors", "alo-easymail") ?></option>
 	<?php 
@@ -448,7 +448,7 @@ if ( get_option('alo_em_js_rec_list') ) {
 <tr valign="top">
 <th scope="row"><?php _e("Method of creation of the recipient list", "alo-easymail") ?>:</th>
 <td>
-<select name='js_rec_list' id='js_rec_list'>";
+<select name='js_rec_list' id='js_rec_list'>
 	<?php $values_js_rec_list = array ( 
 		"ajax_normal" 		=> __("ajax (standard)", "alo-easymail"), 
 		"ajax_minimal" 		=> __("ajax", "alo-easymail"). " (" . __("loading only javascript of the plugin", "alo-easymail") .")",
@@ -476,7 +476,7 @@ if ( get_option('alo_em_debug_newsletters') ) {
 <tr valign="top">
 <th scope="row"><?php _e("Debug newsletters", "alo-easymail") ?>:</th>
 <td>
-<select name='debug_newsletters' id='debug_newsletters'>";
+<select name='debug_newsletters' id='debug_newsletters'>
 	<option value=''><?php _e("no", "alo-easymail") ?></option>
 	<?php $values_debug_newsletters = array ( "to_author" => __("send all emails to the author", "alo-easymail"), "to_file" => __("put all emails into a log file", "alo-easymail") );
 	foreach( $values_debug_newsletters as $key => $label ) :
