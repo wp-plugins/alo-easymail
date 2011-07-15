@@ -35,7 +35,7 @@ jQuery(document).ready( function($) {
 	/*
 	 * Newsletters' Table page
 	 */
-	 	
+
 	if ( easymailJs.pagenow == 'edit.php' ) {
 	
 		jQuery( ".easymail-column-short-summary" ).hide();
@@ -71,6 +71,191 @@ jQuery(document).ready( function($) {
 	
 	}	
 	
+
+	/*
+	 * Subscribers' Table page
+	 */
+
+	if ( easymailJs.pagenow == 'edit.php' && easymailJs.screenID == 'alo-easymail/alo-easymail_subscribers' ) {
+		
+		// Start inline-editing a subscriber
+		jQuery('.easymail-subscriber-edit-inline').live( "click", function() {
+			var id = jQuery( this ).attr('rel');
+			var row_index = jQuery.trim( jQuery('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
+			
+			// Get data...
+			var data = {
+				action			: 	'alo_easymail_subscriber_edit_inline',
+				inline_action	:	'edit',
+				subscriber		: 	id,
+				row_index		:	row_index,
+				_ajax_nonce		: 	easymailJs.nonce
+			};
+
+			jQuery( '#easymail-subscriber-edit-inline_'+ id  ).hide();
+			jQuery( '#easymail-subscriber-delete_'+ id  ).hide();			
+			jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).show();
+			
+			jQuery.post( easymailJs.ajaxurl, data, function(response) {
+				jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).hide();
+				
+				if ( response == "-1" ) { // error
+					alert ( "ERROR" );
+				} else {
+					//console.log ( response );
+					jQuery('tr#subscriber-row-'+ id ).html( response );
+				}
+			});
+			
+			return false;		
+		});	
+		
+		
+		// Save inline-editing subscriber
+		jQuery('.easymail-subscriber-edit-inline-save').live( "click", function() {
+			var id = jQuery( this ).attr('rel');
+			var row_index = jQuery.trim( jQuery('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
+			
+			// Prepare new info
+			var email = jQuery('#subscriber-'+ id +'-email-new').val();
+			var sname = jQuery('#subscriber-'+ id +'-name-new').val();
+			var lang = jQuery('#subscriber-'+ id +'-lang-new').val();
+			var active = ( jQuery('#subscriber-'+ id +'-active-new').is(':checked') ) ? 1 : 0;
+			
+			var lists = "";
+			jQuery('.subscriber-'+ id +'-lists-new:checked').each ( function () { 
+			 	lists = lists + jQuery(this).val() +","; 
+			});
+			
+			console.log( lists );
+			// Get data...
+			var data = {
+				action			: 	'alo_easymail_subscriber_edit_inline',
+				inline_action	:	'save',
+				subscriber		: 	id,
+				new_name		:	sname,
+				new_email		:	email,	
+				new_active		:	active,
+				new_lang		:	lang,
+				new_lists		:	lists,					
+				row_index		:	row_index,
+				_ajax_nonce		: 	easymailJs.nonce
+			};
+
+			jQuery( '#easymail-subscriber-edit-inline-save_'+ id  ).hide();
+			jQuery( '#easymail-subscriber-edit-inline-cancel_'+ id  ).hide();		
+			jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).show();
+			
+			jQuery.post( easymailJs.ajaxurl, data, function(response) {
+				jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).hide();
+				
+				switch ( response ) {
+					case "-1":
+						alert ( "ERROR" );
+						break;
+						
+					case "-error-email-is-not-valid":
+						jQuery( '#easymail-subscriber-edit-inline-save_'+ id  ).show();
+						jQuery( '#easymail-subscriber-edit-inline-cancel_'+ id  ).show();	
+						alert ( easymailJs.errEmailNotValid );
+						break;
+
+					case "-error-name-is-empty":
+						jQuery( '#easymail-subscriber-edit-inline-save_'+ id  ).show();
+						jQuery( '#easymail-subscriber-edit-inline-cancel_'+ id  ).show();	
+						alert ( easymailJs.errNameIsBlank );
+						break;
+
+					case "-error-email-already-subscribed":
+						jQuery( '#easymail-subscriber-edit-inline-save_'+ id  ).show();
+						jQuery( '#easymail-subscriber-edit-inline-cancel_'+ id  ).show();	
+						alert ( easymailJs.errEmailAlreadySubscribed );
+						break;							
+												
+					default: 
+						//console.log ( response );
+						jQuery('tr#subscriber-row-'+ id ).html( response );
+				}
+			});
+			
+			return false;				
+		});	
+		
+		// Cancel inline-editing subscriber
+		jQuery('.easymail-subscriber-edit-inline-cancel').live( "click", function() {
+			var id = jQuery( this ).attr('rel');
+			var row_index = jQuery.trim( jQuery('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
+			
+			// Get data...
+			var data = {
+				action			: 	'alo_easymail_subscriber_edit_inline',
+				inline_action	:	'cancel',
+				subscriber		: 	id,
+				row_index		:	row_index,
+				_ajax_nonce		: 	easymailJs.nonce
+			};
+
+			jQuery( '#easymail-subscriber-edit-inline-save_'+ id  ).hide();
+			jQuery( '#easymail-subscriber-edit-inline-cancel_'+ id  ).hide();			
+			jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).show();
+			
+			jQuery.post( easymailJs.ajaxurl, data, function(response) {
+				jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).hide();
+				
+				if ( response == "-1" ) { // error
+					alert ( "ERROR" );
+				} else {
+					//console.log ( response );
+					jQuery('tr#subscriber-row-'+ id ).html( response );
+				}
+			});
+			return false;		
+		});	
+
+		// Delete a subscriber
+		jQuery('.easymail-subscriber-delete').live( "click", function() {
+			var id = jQuery( this ).attr('rel');
+			var row_index = jQuery.trim( jQuery('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
+			
+			if ( !confirm( easymailJs.confirmDelSubscriber ) ) return false;
+			
+			// Get data...
+			var data = {
+				action			: 	'alo_easymail_subscriber_edit_inline',
+				inline_action	:	'delete',
+				subscriber		: 	id,
+				row_index		:	row_index,
+				_ajax_nonce		: 	easymailJs.nonce
+			};
+
+			jQuery( '#easymail-subscriber-edit-inline_'+ id  ).hide();
+			jQuery( '#easymail-subscriber-delete_'+ id  ).hide();			
+			jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).show();
+			
+			jQuery.post( easymailJs.ajaxurl, data, function(response) {
+				jQuery( '#easymail-subscriber-'+ id +'-actions-loading' ).hide();
+				
+				if ( response == "-1" ) { // error
+					alert ( "ERROR" );
+				} else if ( response == "-ok-deleted" ) {
+					jQuery('tr#subscriber-row-'+ id ).slideToggle(
+						'fast', 
+						function() { 
+							jQuery(this).remove(); 
+						});
+				}
+			});
+						
+			return false;		
+		});	
+				
+	}	
+	
+	
+	/*
+	 * Functions
+	 */
+	
 	jQuery.fn.easymailReportPopup = function( url, newsletter, lang ) {
 		tb_show ( easymailJs.reportPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&TB_iframe=true&height=570&width=800", false );
 		return false;
@@ -100,6 +285,7 @@ jQuery(document).ready( function($) {
 			jQuery( '#alo-easymail-column-status-'+postId).html( response ).show();
 		});
 		return false;
-	}	    
+	}	   
+		   	
 });
 

@@ -720,7 +720,7 @@ function checkBulkForm (form, field) {
 $array_num = array( 10, 20, 50, 100, 200 );
 echo __("Per page", "alo-easymail").": <select name='select_num' id='select_num' onchange=\"MM_jumpMenu('parent',this,0)\" style='vertical-align:middle'>";
 foreach($array_num as $n) {
-    $selected_test = ($id_test == $test->ID ? ' selected="selected" ': '');
+    //$selected_test = ($id_test == $test->ID ? ' selected="selected" ': '');
     echo "<option value='$n' ".($items_per_page == $n ? "selected='selected'": "").">$n</option>";
 }
 echo "</select>";
@@ -831,75 +831,25 @@ if (count($all_subscribers)) {
 	$row_count = 0;
 	foreach($all_subscribers as $subscriber) {
 		$row_count++;
-		
-		$class = ('alternate' == $class) ? '' : 'alternate';
-		print "<tr id='res-{$subscriber->ID}' class='$class'>\n";
-		?>
-		
-		<th scope="row">
-		    <?php echo ( ($page -1) * $items_per_page + $row_count); ?>
-        </th>
-        <td style="vertical-align: middle;">
-	        <input type="checkbox" name="subscribers[]" id="subscribers_<?php echo $subscriber->ID ?>" value="<?php echo $subscriber->ID ?>" />
-	    </td>
-		<td><?php 
-          echo get_avatar($subscriber->email, 30) ;
-        ?></td>
-		<td>
-		    <?php echo $subscriber->email; ?>
-		</td>
-		<td>
-		    <?php echo $subscriber->name; ?>
-		</td>
-		<td><?php // search for user detail (if user)
-		    if ( email_exists($subscriber->email) ) {
-		        $user_info = get_userdata( email_exists($subscriber->email) );
-                echo "<a href='". admin_url() ."/profile.php?user_id={$user_info->ID}' title='".__("View user profile", "alo-easymail")."'>{$user_info->user_login}</a>";
-		    }
-		?>
-		</td>
-		<td>
-		    <?php echo date_i18n( __( "d/m/Y \h.H:i", "alo-easymail" ), strtotime( $subscriber->join_date ) ) ?></td>
-		<td><?php // Check the state (active/no-active)
-    		echo "<a href='".$link_string."&amp;task=active&amp;subscriber_id=".$subscriber->ID. "&amp;act=".(($subscriber->active == 1)? "0":"1")."&amp;sortby=".$_GET['sortby']. "&amp;order=". ( ( isset($_GET['order']) ) ? $_GET['order'] : "" ). "' title='".__("Modify activation state", "alo-easymail")."' ";
-		    echo " onclick=\"return confirm('". __("Do you really want to modify the activation state?", "alo-easymail") ."');\">";
-		    echo "<img src='".ALO_EM_PLUGIN_URL."/images/".(($subscriber->active == 1)? "yes.png":"no.png") ."' /></a>";
-    		?>
-        </td>
-        
-       	<td><?php // Mailing Lists
-    		//echo "<pre>";print_r( alo_em_get_user_mailinglists ( $subscriber->ID ) );echo "</pre>";
-    		$user_lists = alo_em_get_user_mailinglists ( $subscriber->ID );
-    		if ( $user_lists && is_array ($user_lists) ) {
-    			echo "<ul class='userlists'>";     			
-    			foreach ( $user_lists as $user_list ) {
-	    			echo "<li>" . alo_em_translate_multilangs_array ( alo_em_get_language(), $mailinglists[$user_list]["name"], true ) . "</li>";
-	    		}
-	    		echo "</ul>";
-    		}
-    		?>
-		</td>
 
-		<td>
-		    <?php echo alo_em_get_lang_flag($subscriber->lang, 'name'); ?>
-		</td>
-		        
-		<td><?php // Actions   		
-    		echo "<a href='".$link_string."&amp;task=delete&amp;subscriber_id=".$subscriber->ID. "&amp;sortby=".$_GET['sortby']."&amp;order=".( ( isset($_GET['order']) ) ? $_GET['order'] : "" ). "' title='".__("Delete subscriber", "alo-easymail")."' ";
-		    echo " onclick=\"return confirm('".__("Do you really want to DELETE this subscriber?", "alo-easymail")."');\">";
-		    echo "<img src='".ALO_EM_PLUGIN_URL."/images/trash.png' /></a>";
-    		?>
-		</td>
-		</tr>
+		$row_index = ( ($page -1) * $items_per_page + $row_count);
+		echo "<tr id='subscriber-row-{$subscriber->ID}' class='subscriber-row'>\n";		
+		
+		// the subscriber row
+		echo alo_em_get_subscriber_table_row ( $subscriber->ID, $row_index, false, $mailinglists, $languages );
+		echo "</tr>\n";
+		?>
+		
 <?php
-		}
-	} else {
+	}
+
+} else {
 ?>
 	<tr>
 		<td colspan="8"><?php _e("No subscribers", "alo-easymail") ?>.</td>
 	</tr>
 <?php
-}
+} // subscribers
 ?>
 	</tbody>
 </table>
