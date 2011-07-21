@@ -1775,16 +1775,14 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 	$gallery = '';
 	
 	if ( $attachments ) {
+		$size = ( $size = get_post_meta ( $newsletter->ID, '_placeholder_newsletter_imgsize', true ) ) ? $size : 'thumbnail';
+				
 		foreach( $attachments as $index => $attachment ) {
-			/*	if ( $index == 0 ) {
-				$size = 'medium';
-			} else {
-				$size = 'thumbnail';
-			} */
-			$size = ( $size = get_post_meta ( $newsletter->ID, '_placeholder_newsletter_imgsize', true ) ) ? $size : 'thumbnail';
 			$src = wp_get_attachment_image_src( $attachment->ID, $size );
 			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
 		}
+		
+		$gallery = apply_filters( 'alo_easymail_placeholder_newsletter_gallery', $gallery,  $attachments, $size, $newsletter->ID );
 	}
 	
 	// post thumbnail
@@ -1793,6 +1791,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 		if ( has_post_thumbnail( $newsletter->ID ) ) {
 			$size = ( $size = get_post_meta ( $newsletter->ID, '_placeholder_newsletter_imgsize', true ) ) ? $size : 'thumbnail';
 			$thumb = get_the_post_thumbnail( $newsletter->ID, $size, array( 'class'	=> "alo-easymail-thumb-newsletter" ) );
+			$thumb = apply_filters( 'alo_easymail_placeholder_newsletter_thumb', $thumb,  $size, $newsletter->ID );
 		} 
 	}
 	
@@ -1806,11 +1805,14 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 		$attachments = get_posts( $args );
 	
 		if ( $attachments ) {
+			$size = ( $size = get_post_meta ( $post_id, '_placeholder_post_imgsize', true ) ) ? $size : 'thumbnail';
+							
 			foreach( $attachments as $index => $attachment ) {
-				$size = ( $size = get_post_meta ( $post_id, '_placeholder_post_imgsize', true ) ) ? $size : 'thumbnail';
 				$src = wp_get_attachment_image_src( $post_id, $size );
 				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
 			}
+		
+			$post_gallery = apply_filters( 'alo_easymail_placeholder_post_gallery', $post_gallery,  $attachments, $size, $post_id );
 		}
 	
 		// post thumbnail
@@ -1818,6 +1820,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 			if ( has_post_thumbnail( $post_id ) ) {
 				$size = ( $size = get_post_meta ( $post_id, '_placeholder_post_imgsize', true ) ) ? $size : 'thumbnail';
 				$post_thumb = get_the_post_thumbnail( $post_id, $size, array( 'class'	=> "alo-easymail-thumb-post" ) );
+				$post_thumb = apply_filters( 'alo_easymail_placeholder_post_thumb', $post_thumb,  $size, $post_id );
 			} 
 		}
 	}
@@ -2813,7 +2816,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 	
 		$html .= "<td class=\"subscriber-email\">";
 		if ( $edit ) {
-			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-email-new\" name=\"subscriber-". $subscriber_id ."-email-new\" value=\"". format_to_edit( $subscriber->email ) . "\" />\n";
+			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-email-new\" name=\"subscriber-". $subscriber_id ."-email-new\" class=\"subscriber-email-new\" value=\"". format_to_edit( $subscriber->email ) . "\" />\n";
 		} else {
 			$html .= $subscriber->email;
 		}
@@ -2821,7 +2824,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 
 		$html .= "<td class=\"subscriber-name\">";
 		if ( $edit ) {
-			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-name-new\" name=\"subscriber-". $subscriber_id ."-name-new\" value=\"". format_to_edit( $subscriber->name ). "\" />\n";
+			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-name-new\" name=\"subscriber-". $subscriber_id ."-name-new\" class=\"subscriber-name-new\" value=\"". format_to_edit( $subscriber->name ). "\" />\n";
 		} else {
 			$html .= $subscriber->name;
 		}
@@ -2842,7 +2845,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		$html .= "<td class=\"subscriber-active\">\n";
 		if ( $edit ) {
 			$active_checked = ($subscriber->active == 1) ? " checked=\"checked\" ": "";
-			$html .= "<input type=\"checkbox\" id=\"subscriber-". $subscriber_id ."-active-new\" name=\"subscriber-". $subscriber_id ."-active-new\" $active_checked />\n";
+			$html .= "<input type=\"checkbox\" id=\"subscriber-". $subscriber_id ."-active-new\" name=\"subscriber-". $subscriber_id ."-active-new\" class=\"subscriber-active-new\" $active_checked />\n";
 		} else {
 			$html .= "<img src=\"".ALO_EM_PLUGIN_URL."/images/".( ($subscriber->active == 1) ? "yes.png":"no.png" ) ."\" />\n";
 		}
@@ -2854,7 +2857,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		if ( $edit && is_array( $all_lists ) ) {
 			foreach ( $all_lists as $list => $val ) {
 				$checked = ( is_array( $user_lists ) && in_array( $list, $user_lists ) ) ? " checked=\"checked\" " : "";
-				$html .= "<input type=\"checkbox\" name=\"subscriber-". $subscriber_id ."-lists-new[]\" class=\"subscriber-". $subscriber_id ."-lists-new\" id=\"subscriber-". $subscriber_id ."-lists-new_". $list ."\" value=\"". $list ."\" $checked /><label for=\"subscriber-". $subscriber_id ."-lists-new_". $list ."\">". alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true )."</label><br />\n";
+				$html .= "<input type=\"checkbox\" name=\"subscriber-". $subscriber_id ."-lists-new[]\" class=\"subscriber-lists-new subscriber-". $subscriber_id ."-lists-new\" id=\"subscriber-". $subscriber_id ."-lists-new_". $list ."\" value=\"". $list ."\" $checked /><label for=\"subscriber-". $subscriber_id ."-lists-new_". $list ."\">". alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true )."</label><br />\n";
 			} 
 
 		} else {

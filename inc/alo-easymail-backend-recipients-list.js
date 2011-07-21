@@ -1,45 +1,95 @@
 jQuery(document).ready( function($) {
 	
+	// 'Stop' and 'Restart' not yet available with periodicalupdater
+	if ( easymailJs.updaterLibrary == 'periodicalupdater' ){
+		jQuery('.easymail-recipients-pause-loop').remove();
+		jQuery('.easymail-recipients-restart-loop').remove();		
+	}
+	
 	jQuery.fn.easymailStartRecipientsLoop = function( send ) {
 		var sendnow = false;
 		if ( send == true ) sendnow = "yes";
-    	jQuery('#ajaxloop-response').smartupdater( {
-				url : easymailJs.em_ajaxurl,
-				data: { 
-					action: 			easymailJs.action, 
-					newsletter:			easymailJs.newsletter, 
-					_ajax_nonce: 		easymailJs.nonce, 
-					txt_success_added: 	easymailJs.txt_success_added, 
-					txt_success_sent: 	easymailJs.txt_success_sent, 
-					sendnow: 			sendnow 
-				},
-				type: 'POST',
-				dataType: 'json',
-				minTimeout: 100
-			},
-			function ( data ) {
-				jQuery('#alo-easymail-bar-outer').show();
-				jQuery('#alo-easymail-bar-inner').css( 'width', data.perc + "%" );
-				jQuery('#ajaxloop-response').empty();
-				if ( data.n_done >= data.n_tot ) {
-					var txt_succ = ( sendnow == "yes" ) ? easymailJs.txt_success_sent : easymailJs.txt_success_added ;
-					jQuery('#ajaxloop-response').html( "<p>"+ txt_succ + "!</p>" );
-					jQuery( '#alo-easymail-bar-inner').addClass ( 'stopped' );
-					jQuery('.easymail-recipients-start-loop').hide();
-					jQuery('.easymail-recipients-start-loop-and-send').hide();
-					jQuery('.easymail-recipients-pause-loop').hide();
-					jQuery('.easymail-recipients-restart-loop').hide();					
-					jQuery('#ajaxloop-response').smartupdaterStop();
-					jQuery(this).easymailUpdateColumStatus( easymailJs.newsletter );
-				} else {
-					jQuery('#ajaxloop-response').html( data.perc + "% <small>(" + data.n_done + "/" + data.n_tot + ")</small>" );
-				}
-		});
+		
+		// Use requested updater library
+		switch ( easymailJs.updaterLibrary ) {
+			case 'periodicalupdater':
+		
+				jQuery.PeriodicalUpdater( easymailJs.em_ajaxurl, {
+					method: 'post',         
+					data: { 
+						action: 			easymailJs.action, 
+						newsletter:			easymailJs.newsletter, 
+						_ajax_nonce: 		easymailJs.nonce, 
+						txt_success_added: 	easymailJs.txt_success_added, 
+						txt_success_sent: 	easymailJs.txt_success_sent, 
+						sendnow: 			sendnow 
+					},               
+					minTimeout: 100,       // starting value for the timeout in milliseconds
+					maxTimeout: 1000,       // maximum length of time between requests
+					multiplier: 2,          // the amount to expand the timeout by if the response hasn't changed (up to maxTimeout)
+					type: 'json',           // response type - text, xml, json, etc.  See $.ajax config options
+					maxCalls: 0,            // maximum number of calls. 0 = no limit.
+					autoStop: 3             // automatically stop requests after this many returns of the same data. 0 = disabled.
+				}, function( data, success, xhr, handle ) {
+					jQuery(this).easymailReturnFromUpdate( data, sendnow, handle );
+				});
+				break;
+	
+			default: // Default: smartupdater
+		
+				jQuery('#ajaxloop-response').smartupdater( {
+						url : easymailJs.em_ajaxurl,
+						data: { 
+							action: 			easymailJs.action, 
+							newsletter:			easymailJs.newsletter, 
+							_ajax_nonce: 		easymailJs.nonce, 
+							txt_success_added: 	easymailJs.txt_success_added, 
+							txt_success_sent: 	easymailJs.txt_success_sent, 
+							sendnow: 			sendnow 
+						},
+						type: 'POST',
+						dataType: 'json',
+						minTimeout: 100
+					},
+					function ( data ) {
+						jQuery(this).easymailReturnFromUpdate( data, sendnow, false );
+				});
+					
+		} // end library switch
+		
 		jQuery('.easymail-recipients-start-loop').hide();
 		jQuery('.easymail-recipients-start-loop-and-send').hide();
 		jQuery('.easymail-recipients-pause-loop').show();
 		jQuery('.easymail-recipients-restart-loop').hide();
-	};
+
+	}
+	
+	// After each periodic update...
+	jQuery.fn.easymailReturnFromUpdate = function( data, sendnow, handle ) {
+		jQuery('#alo-easymail-bar-outer').show();
+		jQuery('#alo-easymail-bar-inner').css( 'width', data.perc + "%" );
+		jQuery('#ajaxloop-response').empty();
+		if ( data.n_done >= data.n_tot ) {
+			var txt_succ = ( sendnow == "yes" ) ? easymailJs.txt_success_sent : easymailJs.txt_success_added ;
+			jQuery('#ajaxloop-response').html( "<p>"+ txt_succ + "!</p>" );
+			jQuery( '#alo-easymail-bar-inner').addClass ( 'stopped' );
+			jQuery('.easymail-recipients-start-loop').hide();
+			jQuery('.easymail-recipients-start-loop-and-send').hide();
+			jQuery('.easymail-recipients-pause-loop').hide();
+			jQuery('.easymail-recipients-restart-loop').hide();					
+			jQuery(this).easymailUpdateColumStatus( easymailJs.newsletter );
+			switch ( easymailJs.updaterLibrary ) {
+				case 'periodicalupdater':
+					if ( handle ) handle.stop();
+					break;
+				default:
+					jQuery('#ajaxloop-response').smartupdaterStop();
+			}
+		} else {
+			jQuery('#ajaxloop-response').html( data.perc + "% <small>(" + data.n_done + "/" + data.n_tot + ")</small>" );
+		}
+	}
+	
 	
 	jQuery.fn.easymailSendMailTest = function() {
 		var email = jQuery('#easymail-testmail').val();
@@ -96,7 +146,13 @@ jQuery(document).ready( function($) {
 	});
 	
 	jQuery('.easymail-recipients-restart-loop').live( "click", function() {
-		jQuery('#ajaxloop-response').smartupdaterRestart();
+		switch ( easymailJs.updaterLibrary ) {
+			case 'periodicalupdater':
+				//jQuery.PeriodicalUpdater.restart(); // TODO
+				break;
+			default:
+				jQuery('#ajaxloop-response').smartupdaterRestart();
+		}
 		jQuery('.easymail-recipients-pause-loop').show();
 		jQuery('.easymail-recipients-restart-loop').hide();
 		jQuery( '#alo-easymail-bar-inner').removeClass ( 'stopped' );
@@ -104,7 +160,14 @@ jQuery(document).ready( function($) {
 	});
 
 	jQuery('.easymail-recipients-pause-loop').live( "click", function() {
-		jQuery('#ajaxloop-response').smartupdaterStop();
+		switch ( easymailJs.updaterLibrary ) {
+			case 'periodicalupdater':
+				// jQuery.PeriodicalUpdater // TODO
+				console.log ( jQuery.PeriodicalUpdater );
+				break;
+			default:
+				jQuery('#ajaxloop-response').smartupdaterStop();
+		}
 		jQuery('.easymail-recipients-restart-loop').show();
 		jQuery('.easymail-recipients-pause-loop').hide();
 		jQuery( '#alo-easymail-bar-inner').addClass ( 'stopped' );		

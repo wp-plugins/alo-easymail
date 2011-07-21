@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -94,6 +94,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 
 == Changelog ==
 
+= 2.1.2 =
+* Added: option for alternative js library for recipient list (PeriodicalUpdater.js)
+* Added: an admin notice if plugin db tables are missing
+* Added: new filters for thumb and gallery placeholders (thanks to iwan!)
+* Added: "enter" key disabled on edit-inline subscriber fields
+* Added: a filter for args of 'register_post_type' newsletter
 
 = 2.1.1 =
 * Added: inline-edit in admin list of subscribers
@@ -318,3 +324,6 @@ Fixed some important bugs.
 
 = 2.1.1 =
 New inline-edit subscribers. Some bug fixes.
+
+= 2.1.2 =
+Option for alternative js library for recipient list.

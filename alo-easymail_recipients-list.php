@@ -78,7 +78,7 @@ if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail"
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php  _e("Newsletter subscribers creation", "alo-easymail") ?></title>
 
-<?php // 1/2) Load only plugin js
+<?php // 1) Load only plugin js: smartupdater.js
 if ( get_option('alo_em_js_rec_list') == "ajax_minimal" ) : ?>
 
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.js"></script>
@@ -100,18 +100,34 @@ var easymailJs = {
 </script>
 <link rel='stylesheet' id='global-css'  href="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend.css" type='text/css'/>
 
+<?php elseif ( get_option('alo_em_js_rec_list') == "ajax_periodicalupdater" ) : // 2) otherwise load alternative js: jquery.periodicalupdater.js
 
-<?php else : // 2/2) otherwise load default js
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'thickbox' );
+	wp_enqueue_script( 'alo-easymail-periodicalupdater', ALO_EM_PLUGIN_URL . '/inc/jquery.periodicalupdater.js', array('jquery'), '3.1.00' );
+	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
 
-	/* // TODO try to dequeue not used js
-	global $wp_scripts;
-	foreach ( $wp_scripts->registered as $script => $s ) {
-		$keep = array( 'jquery', 'thickbox' );
-		if ( in_array( $s->handle, $keep ) ) continue;
-		wp_deregister_script( $s->handle );
-		wp_dequeue_script( $s->handle );
-	}
-	*/
+	$rec_url = wp_create_nonce( 'alo-easymail_recipients-list');
+	if ( !isset( $offset ) ) $offset = 0;
+
+	$localize = array(
+		'updaterLibrary' => 'periodicalupdater',
+		'pagenow' 	=> $pagenow,
+		'em_ajaxurl' 	=> ALO_EM_PLUGIN_URL . '/'. $pagenow,
+		'action' 	=> "easymail_do_ajaxloop",
+		'newsletter'=> $newsletter,
+		'nonce'		=> $rec_url,
+		'ajaxurl' => admin_url('admin-ajax.php'),
+		'txt_success_added' => esc_js( __( 'Recipients successfully added', "alo-easymail" ) ),
+	   	'txt_success_sent' => esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) )
+	);
+	wp_localize_script( 'alo-easymail-backend-recipients-list', 'easymailJs', $localize );
+	wp_enqueue_style( 'alo-easymail-backend-css', ALO_EM_PLUGIN_URL.'/inc/alo-easymail-backend.css' );
+
+	do_action('admin_print_scripts' );
+	do_action( "admin_print_styles" );
+	
+else : // 3) otherwise load default js: smartupdater.js
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'thickbox' );
@@ -122,6 +138,7 @@ var easymailJs = {
 	if ( !isset( $offset ) ) $offset = 0;
 
 	$localize = array(
+		'updaterLibrary' => 'smartupdater',
 		'pagenow' 	=> $pagenow,
 		'em_ajaxurl' 	=> ALO_EM_PLUGIN_URL . '/'. $pagenow,
 		'action' 	=> "easymail_do_ajaxloop",
@@ -161,7 +178,7 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 	<p><?php _e("Warning: do not close or reload the browser window during process", "alo-easymail") ?>.</p>
 	<br /><br />
 	<p><?php _e("You can send the newsletter as test to", "alo-easymail") ?>:</strong>
-		<input type="text" id="easymail-testmail" name="easymail-testmail" size="12" value="<?php echo $user_email; ?>" />
+		<input type="text" id="easymail-testmail" name="easymail-testmail" size="20" value="<?php echo $user_email; ?>" />
 		<a href="#" class="easymail-navbutton easymail-send-testmail"><?php _e("Send", "alo-easymail") ?></a> 
 		<img src="<?php echo ALO_EM_PLUGIN_URL?>/images/wpspin_light.gif" style="display:none;vertical-align: middle;" id="easymail-testmail-loading" />
 		<img src="<?php echo ALO_EM_PLUGIN_URL?>/images/no.png" style="display:none;vertical-align: middle;"  id="easymail-testmail-no" alt="<?php _e("Yes", "alo-easymail") ?>" />
@@ -179,7 +196,7 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 	<a href="#" class="easymail-navbutton easymail-recipients-close-popup" rel="<?php echo $newsletter ?>"><?php _e("close", "alo-easymail") ?></a>  
 </div>
 
-<?php if ( get_option('alo_em_js_rec_list') != "yes" ) do_action('admin_print_footer_scripts'); ?>
+<?php if ( get_option('alo_em_js_rec_list') != "ajax_minimal" ) do_action('admin_print_footer_scripts'); ?>
 </body>
 </html>
 <?php 

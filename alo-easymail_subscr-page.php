@@ -27,11 +27,11 @@ else: // if can go on
 
 // Activate
 if ($action == 'activate') {
-    if (alo_em_edit_subscriber_state_by_email($email, "1", $unikey)) {
+    if (alo_em_edit_subscriber_state_by_email($email, "1", $unikey) === FALSE) {
+        echo "<p>".__("Error during activation. Please check the activation link.", "alo-easymail")."</p>";
+    } else {
         echo "<p>".__("Your subscription was successfully activated. You will receive the next newsletter. Thank you.", "alo-easymail")."</p>";
         do_action ( 'alo_easymail_subscriber_updated', $email, $email );
-    } else {
-        echo "<p>".__("Error during activation. Please check the activation link.", "alo-easymail")."</p>";
     }
 }
     
@@ -39,8 +39,8 @@ if ($action == 'activate') {
 if ($action == 'unsubscribe') {
 	$mailinglists = alo_em_get_mailinglists( 'public' );
 	if ($mailinglists) { // only if there are public lists
-		echo "<h3>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . ":</h3>";
-		echo '<form method="post" action="'. get_permalink() .'">';
+		echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_manage_subscriptions">';
+		echo "<p>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . "</p>";
 		echo '<div class="alo_easymail_lists_table">';
 		echo alo_em_html_mailinglists_table_to_edit ( $email, "" );
 		echo '</div>';
@@ -52,10 +52,9 @@ if ($action == 'unsubscribe') {
 		echo '</form>'; 
     }
     
-    echo "<p>&nbsp;</p>";
-    echo "<h3>".__("To unsubscribe the newsletter for good click this button", "alo-easymail") . ":</h3>";
-    echo '<form method="post" action="'. get_permalink() .'">';
-   	echo '<input type="hidden" name="ac" value="do_unsubscribe" />';
+    echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_unsubscribe_form">';
+    echo "<p>".__("To unsubscribe the newsletter for good click this button", "alo-easymail") . "</p>";
+ 	echo '<input type="hidden" name="ac" value="do_unsubscribe" />';
     echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
     echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
     echo '<input type="hidden" name="uk" value="'. $unikey .'" />';

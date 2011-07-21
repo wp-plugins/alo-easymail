@@ -238,7 +238,7 @@ jQuery(document).ready( function($) {
 				if ( response == "-1" ) { // error
 					alert ( "ERROR" );
 				} else if ( response == "-ok-deleted" ) {
-					jQuery('tr#subscriber-row-'+ id ).slideToggle(
+					jQuery('tr#subscriber-row-'+ id ).animate({backgroundColor:'#ff0000'}, 500).fadeOut(
 						'fast', 
 						function() { 
 							jQuery(this).remove(); 
@@ -248,9 +248,15 @@ jQuery(document).ready( function($) {
 						
 			return false;		
 		});	
+
+		// Disable Enter key when edit-inline
+		jQuery('.subscriber-email-new, .subscriber-name-new, .subscriber-active-new, .subscriber-lists-new').live("keypress", function(e) {
+		 	if (e.keyCode == 13) return false;
+		});		
 				
 	}	
 	
+
 	
 	/*
 	 * Functions

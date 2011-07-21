@@ -124,7 +124,7 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_js_rec_list', "no") ;
 			}			
-			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","no_ajax_onsavepost") ) ) update_option('alo_em_js_rec_list', $_POST['js_rec_list']);		
+			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","ajax_periodicalupdater","no_ajax_onsavepost") ) ) update_option('alo_em_js_rec_list', $_POST['js_rec_list']);		
 			
 			$theme_options = array_merge ( array('yes'=>'1','no'=>'1'), alo_easymail_get_all_themes() );
 			if ( isset($_POST['use_themes']) && array_key_exists( $_POST['use_themes'], $theme_options ) ) update_option('alo_em_use_themes', $_POST['use_themes']);
@@ -450,9 +450,10 @@ if ( get_option('alo_em_js_rec_list') ) {
 <td>
 <select name='js_rec_list' id='js_rec_list'>
 	<?php $values_js_rec_list = array ( 
-		"ajax_normal" 		=> __("ajax (standard)", "alo-easymail"), 
-		"ajax_minimal" 		=> __("ajax", "alo-easymail"). " (" . __("loading only javascript of the plugin", "alo-easymail") .")",
-		"no_ajax_onsavepost"=> __("no ajax", "alo-easymail"). " (" . __("creation when newsletter is saved", "alo-easymail") .")"
+		"ajax_normal" 		=> __("ajax", "alo-easymail"). ": smartupdater.js (" . __("Default", "alo-easymail").")" ,
+		"ajax_minimal" 		=> __("ajax", "alo-easymail").": smartupdater.js " . " (" . __("loading only javascript of the plugin", "alo-easymail") .")",
+		"ajax_periodicalupdater" => __("ajax", "alo-easymail") . ": periodicalupdater.js", 
+		"no_ajax_onsavepost"=> __("no ajax", "alo-easymail"). ": " . __("creation when newsletter is saved", "alo-easymail")
 	);
 	foreach( $values_js_rec_list as $key => $label ) :
 		echo "<option value='$key' ". ( ( $key == $selected_js_rec_list )? " selected='selected'": "") .">". esc_html( $label ) ."</option>";

@@ -3,16 +3,16 @@
                          =========================
 
 
+
 HOW TO CREATE A THEME:
 ======================
 
 - create an html theme file, called for example: 
   myname_mytheme.html
-  (look at default themes fo inspiration and samples)
   
-- if you need images for your theme, you have to store theme in a 
+- if you need images for your theme, you have to store them in a 
   folder named as the html theme file, e.g.: 
-  /myname_mytheme
+  /myname_mytheme/
 
 - the "src" attribute of <img> tag must include relative url to images, e.g.:
   <img src="myname_mytheme/image.jpg" />
@@ -23,7 +23,9 @@ HOW TO CREATE A THEME:
 
 - then, you can use all placeholders available for newsletters
 	
-	
+- you can look at default themes fo inspiration and samples
+
+
 	
 TIP:
 ===
