@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.1.1
+Version: 2.1.2
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -56,6 +56,10 @@ require_once( 'alo-easymail-widget.php' );
 if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) include ( ALO_EM_PLUGIN_ABS. '/alo-easymail_custom-hooks.php' );
 
 
+// Update when DB tables change
+define( "ALO_EM_DB_VERSION", 2014 );
+
+
 /**
  * On plugin activation 
  */
@@ -96,19 +100,8 @@ function alo_em_install() {
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	
     //-------------------------------------------------------------------------
-	// TO MODIFY IF UPDATE NEEDED
-	$database_version = '2014';
 	
-	// Db version
-	$installed_db = get_option('alo_em_db_version');
-	
-	$missing_table = false; // Check if tables not yet installed
-	$tables = array ( $wpdb->prefix."easymail_subscribers", $wpdb->prefix."easymail_recipients", $wpdb->prefix."easymail_stats" );
-	foreach ( $tables as $table_name ) {
-		if ( $wpdb->get_var("show tables like '$table_name'") != $table_name ) $missing_table = true;
-	}
-	
-    if ( $missing_table || $database_version != $installed_db ) {
+    if ( alo_em_db_tables_need_update()  ) {
 	    
 		if( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' ) {
 			$collate = constant( 'DB_COLLATE' );
@@ -127,7 +120,7 @@ function alo_em_install() {
 				    lists varchar(255) DEFAULT '|',
 				    lang varchar(5) DEFAULT NULL,					    
 				    PRIMARY KEY  (ID),
-				    UNIQUE KEY  `email` (`email`)
+				    UNIQUE KEY  email (email)
 				    ) DEFAULT CHARSET=".$collate.";
 
 				CREATE TABLE {$wpdb->prefix}easymail_recipients (
@@ -152,12 +145,13 @@ function alo_em_install() {
 	    dbDelta($sql);
 	    
 		// Update the old "lists" field if upgrading from v. 1.x
+		$installed_db = get_option('alo_em_db_version');
 		if ( $installed_db < 2012 ) {
-			$wpdb->query( "UPDATE ".$table_name." SET lists = REPLACE( lists, '_', '|');" );
+			$wpdb->query( "UPDATE ". $wpdb->prefix."easymail_subscribers SET lists = REPLACE( lists, '_', '|');" );
 			$wpdb->query( "UPDATE {$wpdb->options} SET option_name = REPLACE( option_name, 'ALO_em_', 'alo_em_');" );
 		}	    
 		
-	    update_option( "alo_em_db_version", $database_version );
+	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
     }
 	
 	//-------------------------------------------------------------------------
@@ -189,6 +183,24 @@ function alo_em_install() {
 	$wp_roles->add_cap( 'administrator', 'manage_easymail_subscribers');		
 	//$wp_roles->add_cap( 'administrator', 'manage_easymail_newsletters');
 	//$wp_roles->add_cap( 'administrator', 'send_easymail_newsletters');
+}
+
+
+
+/**
+ * Check if plugin tables are already properly installed
+ */
+function alo_em_db_tables_need_update() {
+	global $wpdb;
+	
+	$installed_db = get_option('alo_em_db_version');
+	
+	$missing_table = false; // Check if tables not yet installed
+	$tables = array ( $wpdb->prefix."easymail_subscribers", $wpdb->prefix."easymail_recipients", $wpdb->prefix."easymail_stats" );
+	foreach ( $tables as $table_name ) {
+		if ( $wpdb->get_var("show tables like '$table_name'") != $table_name ) $missing_table = true;
+	}
+	return ( $missing_table || ALO_EM_DB_VERSION != $installed_db ) ? true : false;
 }
 
 
@@ -315,7 +327,7 @@ register_deactivation_hook( __FILE__, 'alo_em_deactivate' );
 /**
  * Plugin activation whren new blog on multisite (thanks to kzyz!)
  */
-function alo_em_new_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+function alo_em_new_blog( $blog_id ) {
 	global $wpdb;
 
 	if ( is_plugin_active_for_network( ALO_EM_PLUGIN_DIR. '/'. basename( __FILE__ ) ) ) {
@@ -452,6 +464,7 @@ function alo_em_register_newsletter_type () {
 		'can_export' => true,
 		'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
 	); 
+	$args = apply_filters ( 'alo_easymail_register_newsletter_args', $args ); 
 	register_post_type( 'newsletter', $args );
 }
 add_action('init', 'alo_em_register_newsletter_type');
@@ -1519,6 +1532,14 @@ function alo_em_admin_notice() {
 			echo ".</p>";
 			echo '</div>';
 		}
+	}
+	if ( alo_em_db_tables_need_update() ) {
+		echo '<div class="error">';
+		echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>'. __("ALO Easymail Newsletter needs attention", "alo-easymail") ."!</strong><br />";
+		echo __("The plugin database tables have not properly installed", "alo-easymail") .": " . __("you can try to deactivate and activate the plugin", "alo-easymail").".";
+		echo "<br /><a href=\"http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/\" target=\"_blank\">". __("For more info, visit the FAQ of the site.", "alo-easymail")."</a>";
+		echo ".</p>";
+		echo '</div>';
 	}
 }
 add_action('admin_notices', "alo_em_admin_notice");
