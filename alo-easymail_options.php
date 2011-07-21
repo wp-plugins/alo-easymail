@@ -461,6 +461,7 @@ if ( get_option('alo_em_js_rec_list') ) {
 </select>
 <br /><span class="description"><?php _e("If the standard and cool method does not work for you, you can try another option", "alo-easymail") ?>.
 <?php _e("You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins", "alo-easymail") ?>.
+<?php _e("You can try an alternative javascript library", "alo-easymail") ?>.
 <?php _e("Otherwise, you can create the list directly when the newsletter is saved, without use of ajax", "alo-easymail") ?>:
 <?php _e("this is the quickest and safest mode, but it could not work if case of several thousands of recipients", "alo-easymail") ?>.
 </span></td>
