@@ -1,0 +1,1787 @@
+# Translation of the WordPress plugin ALO EasyMail Newsletter 1.8 by Alessandro Massasso.
+# Copyright (C) 2010 Alessandro Massasso
+# This file is distributed under the same license as the ALO EasyMail Newsletter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: alo-easymail\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-11 22:13+0100\n"
+"PO-Revision-Date: 2011-07-25 20:16+0100\n"
+"Last-Translator: Alex <groucho75@email.it>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././alo-easymail.php:335
+#: .././alo-easymail.php:1187
+#: .././alo-easymail.php:1362
+#: .././alo-easymail_options.php:1130
+#: .././alo-easymail_subscribers.php:50
+msgid "Subscribers"
+msgstr "Liitujad"
+
+#: .././alo-easymail.php:337
+msgid "Settings"
+msgstr "Seaded"
+
+#: .././alo-easymail.php:349
+msgid "Resources about EasyMail Newsletter"
+msgstr "EasyMail Uudiskirja andmed"
+
+#: .././alo-easymail.php:416
+#: .././alo-easymail.php:427
+#: .././alo-easymail.php:1356
+#: .././alo-easymail.php:1357
+msgid "Newsletters"
+msgstr "Uudiskirjad"
+
+#: .././alo-easymail.php:417
+#: .././alo-easymail.php:722
+#: .././alo-easymail-widget.php:206
+#: .././alo-easymail_options.php:232
+#: .././alo-easymail_options.php:374
+msgid "Newsletter"
+msgstr "Uudiskiri"
+
+#: .././alo-easymail.php:418
+msgid "Add New"
+msgstr "Lisa uus"
+
+#: .././alo-easymail.php:419
+msgid "Add New Newsletter"
+msgstr "Lisa uus uudiskiri"
+
+#: .././alo-easymail.php:420
+msgid "Edit Newsletter"
+msgstr "Muuda uudiskirja"
+
+#: .././alo-easymail.php:421
+msgid "New Newsletter"
+msgstr "Uus uudiskiri"
+
+#: .././alo-easymail.php:422
+msgid "View Newsletter"
+msgstr "Vaata uudiskirja"
+
+#: .././alo-easymail.php:423
+msgid "Search Newsletters"
+msgstr "Otsi uudiskirju"
+
+#: .././alo-easymail.php:424
+msgid "No Newsletters found"
+msgstr "Uudiskirju ei leitud"
+
+#: .././alo-easymail.php:425
+msgid "No Newsletters found in Trash"
+msgstr "Prügikastist ei leitud ühtegi uudiskirja"
+
+#: .././alo-easymail.php:426
+#: .././alo-easymail.php:428
+msgid "Parent Newsletter"
+msgstr "Peamine uudiskiri"
+
+#: .././alo-easymail.php:460
+#, php-format
+msgid "Newsletter updated. <a href=\"%s\">View Newsletter</a>"
+msgstr "Uudiskirja uuendatud. <a href=\"%s\">Vaata uudiskirja</a>"
+
+#: .././alo-easymail.php:461
+msgid "Custom field updated."
+msgstr "Eriväli uuendatud"
+
+#: .././alo-easymail.php:462
+msgid "Custom field deleted."
+msgstr "Eriväli kustutatud"
+
+#: .././alo-easymail.php:463
+msgid "Newsletter updated."
+msgstr "Uudiskiri uuendatud."
+
+#: .././alo-easymail.php:465
+#, php-format
+msgid "Newsletter restored to revision from %s"
+msgstr "Uudiskiri taastatud versioonile %s"
+
+#: .././alo-easymail.php:466
+#, php-format
+msgid "Newsletter published. <a href=\"%s\">View Newsletter</a>"
+msgstr "Uudiskiri avaldatud. <a href=\"%s\">Vaata uudiskirja</a>"
+
+#: .././alo-easymail.php:467
+msgid "Newsletter saved."
+msgstr "Uudiskiri salvestatud."
+
+#: .././alo-easymail.php:468
+#, php-format
+msgid "Newsletter submitted. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Uudiskiri lisatud. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+
+#: .././alo-easymail.php:469
+#, php-format
+msgid "Newsletter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Newsletter</a>"
+msgstr "Uudiskiri kavandatud: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Uudiskirja eelvaade</a>"
+
+#: .././alo-easymail.php:471
+#: .././alo-easymail.php:608
+#: .././alo-easymail.php:1181
+#: .././alo-easymail_report.php:109
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_functions.php:1468
+msgid "j M Y @ G:i"
+msgstr "j M Y @ G:i"
+
+#: .././alo-easymail.php:472
+#, php-format
+msgid "Newsletter draft updated. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Uudiskirja mustand uuendatud. <a target=\"_blank\" href=\"%s\">Vaata uudiskirja</a>"
+
+#: .././alo-easymail.php:515
+msgid "Title"
+msgstr "Pealkiri"
+
+#: .././alo-easymail.php:515
+#: .././alo-easymail_report.php:86
+#: .././alo-easymail_options.php:639
+msgid "Subject"
+msgstr "Teema"
+
+#: .././alo-easymail.php:516
+#: .././alo-easymail.php:915
+msgid "Recipients"
+msgstr "Saajad"
+
+#: .././alo-easymail.php:517
+msgid "Newsletter status"
+msgstr "Uudiskirja staatus"
+
+#: .././alo-easymail.php:518
+#: .././alo-easymail_report.php:108
+msgid "Start"
+msgstr "Algus"
+
+#: .././alo-easymail.php:519
+msgid "Author"
+msgstr "Autor"
+
+#: .././alo-easymail.php:536
+#: .././alo-easymail_recipients-list.php:72
+msgid "No recipients selected yet"
+msgstr "Saajaid ei ole veel valitud"
+
+#: .././alo-easymail.php:540
+#: .././alo-easymail_report.php:136
+msgid "Total recipients"
+msgstr "Saajaid kokku"
+
+#: .././alo-easymail.php:600
+#: .././alo-easymail.php:601
+msgid "Report"
+msgstr "Raport"
+
+#: .././alo-easymail.php:606
+#: .././alo-easymail_report.php:112
+msgid "Completed"
+msgstr "Lõpule viidud"
+
+#: .././alo-easymail.php:616
+msgid "On sending queue"
+msgstr "Saatmise järjekorras"
+
+#: .././alo-easymail.php:617
+#: .././alo-easymail.php:646
+#: .././alo-easymail.php:1180
+msgid "Progress"
+msgstr "Edenemine"
+
+#: .././alo-easymail.php:619
+#: .././alo-easymail.php:632
+msgid "refresh"
+msgstr "värskenda"
+
+#: .././alo-easymail.php:621
+#: .././alo-easymail_recipients-list.php:176
+msgid "pause"
+msgstr "peata"
+
+#: .././alo-easymail.php:621
+msgid "pause the sending"
+msgstr "peata saatmine"
+
+#: .././alo-easymail.php:627
+msgid "Pending Review"
+msgstr "Läbivaatamise ootel"
+
+#: .././alo-easymail.php:630
+msgid "Scheduled"
+msgstr "Planeeritud"
+
+#: .././alo-easymail.php:636
+msgid "Draft"
+msgstr "Mustand"
+
+#: .././alo-easymail.php:639
+msgid "Pending"
+msgstr "Ootel"
+
+#: .././alo-easymail.php:645
+msgid "Paused"
+msgstr "Paeatatud"
+
+#: .././alo-easymail.php:650
+#: .././alo-easymail_recipients-list.php:177
+msgid "continue"
+msgstr "jätka"
+
+#: .././alo-easymail.php:650
+msgid "continue the sending"
+msgstr "jätka saatmist"
+
+#: .././alo-easymail.php:661
+msgid "Required"
+msgstr "Kohustuslik"
+
+#: .././alo-easymail.php:661
+#: .././alo-easymail_recipients-list.php:154
+msgid "Create list of recipients"
+msgstr "Loo saajate nimekiri"
+
+#: .././alo-easymail.php:676
+#: .././alo-easymail_report.php:171
+msgid "Sent"
+msgstr "Saadetud"
+
+#: .././alo-easymail.php:725
+#: .././alo-easymail.php:1233
+#: .././alo-easymail-widget.php:57
+#: .././alo-easymail_subscr-page.php:20
+#: .././alo-easymail_options.php:573
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "Jah, soovin uudiskirja"
+
+#: .././alo-easymail.php:729
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list.php:167
+msgid "Yes"
+msgstr "Jah"
+
+#: .././alo-easymail.php:730
+#: .././alo-easymail.php:1030
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list.php:168
+msgid "No"
+msgstr "Ei"
+
+#: .././alo-easymail.php:843
+#: .././alo-easymail_report.php:32
+msgid "Newsletter report"
+msgstr "Uudiskirja raport"
+
+#: .././alo-easymail.php:844
+#: .././alo-easymail_recipients-list.php:79
+msgid "Newsletter subscribers creation"
+msgstr "Uudiskirja saajate loomine"
+
+#: .././alo-easymail.php:916
+msgid "Themes"
+msgstr "Kujundused"
+
+#: .././alo-easymail.php:917
+msgid "Placeholders"
+msgstr "Kohatäited"
+
+#: .././alo-easymail.php:929
+msgid "Selected recipients"
+msgstr "Valitud saajad"
+
+#: .././alo-easymail.php:932
+msgid "This newsletter was already sent"
+msgstr "Uudiskiri on juba saadetud"
+
+#: .././alo-easymail.php:938
+msgid "The creation of the recipients list has already started"
+msgstr "Saajate nimekirja loomine on juba alanud"
+
+#: .././alo-easymail.php:940
+msgid "Check this flag to delete the existing list and save new recipients now"
+msgstr "Vali see, et kustutada olemasolevl nimekiri ja salvestada uued saajad"
+
+#: .././alo-easymail.php:948
+msgid "Users"
+msgstr "Kasutajad"
+
+#: .././alo-easymail.php:951
+#: .././alo-easymail_functions.php:263
+msgid "All registered users"
+msgstr "Kõik registreerunud kasutajad"
+
+#: .././alo-easymail.php:959
+#: .././alo-easymail_subscribers.php:318
+msgid "Newsletter subscribers"
+msgstr "Uudiskirjaga liitunud"
+
+#: .././alo-easymail.php:962
+#: .././alo-easymail_functions.php:265
+msgid "All subscribers"
+msgstr "Kõik liitunud"
+
+#: .././alo-easymail.php:969
+msgid "Filter subscribers according to lists"
+msgstr "Sorteeri liitunuid nimekirjade kaupa"
+
+#: .././alo-easymail.php:989
+msgid "Filter subscribers according to languages"
+msgstr "Sorteeri liitunuid keelte kaupa"
+
+#: .././alo-easymail.php:1004
+msgid "Not specified / others"
+msgstr "Määramata / teised"
+
+#: .././alo-easymail.php:1036
+msgid "View"
+msgstr "Vaata"
+
+#: .././alo-easymail.php:1073
+msgid "Choose a post"
+msgstr "Vali postitus"
+
+#: .././alo-easymail.php:1077
+msgid "j M Y"
+msgstr "j M Y"
+
+#: .././alo-easymail.php:1081
+msgid "There are no posts"
+msgstr "Postitused puuduvad"
+
+#: .././alo-easymail.php:1174
+msgid "Newsletters scheduled for sending"
+msgstr "Uudiskiri lisatud saatmise plaani"
+
+#: .././alo-easymail.php:1178
+msgid "now sending"
+msgstr "saatmine"
+
+#: .././alo-easymail.php:1181
+msgid "Added on"
+msgstr "Lisatud"
+
+#: .././alo-easymail.php:1182
+#: .././alo-easymail_report.php:105
+msgid "Scheduled by"
+msgstr "Planeeritud"
+
+#: .././alo-easymail.php:1185
+msgid "There are no newsletters in queue"
+msgstr "Ootel ei ole uudiskirju"
+
+#: .././alo-easymail.php:1190
+#, php-format
+msgid "There are %d subscribers: %d activated, %d not activated"
+msgstr "On %d liitunut: %d aktiveeritud, %d aktiveerimata"
+
+#: .././alo-easymail.php:1192
+#: .././alo-easymail_subscribers.php:581
+#: .././alo-easymail_subscribers.php:899
+msgid "No subscribers"
+msgstr "Liitunuid ei ole"
+
+#: .././alo-easymail.php:1195
+msgid "Updates from plugin developer"
+msgstr "Uuendused plugina arendajalt"
+
+#: .././alo-easymail.php:1212
+msgid "j F Y"
+msgstr "j F Y"
+
+#: .././alo-easymail.php:1239
+#: .././alo-easymail-widget.php:20
+#: .././alo-easymail_options.php:575
+#: .././alo-easymail_functions.php:2248
+msgid "You can also sign up for specific lists"
+msgstr "Soovi korral saad liituda ka eraldi listidesse"
+
+#: .././alo-easymail.php:1305
+msgid "Confirm your subscription to %BLOGNAME% Newsletter"
+msgstr "Kinnita oma liitumist %BLOGNAME% uudiskirjaga"
+
+#: .././alo-easymail.php:1315
+msgid ""
+"Hi %NAME%\n"
+"to complete your subscription to %BLOGNAME% newsletter you need to click on the following link (or paste it in the address bar of your browser):\n"
+msgstr ""
+"Tere, %NAME%!\n"
+"%BLOGNAME% uudiskirjaga liitumise kinnitamiseks vajuta järgnevat linki (või kopeerige see oma veebilehitseja aadressribale):\n"
+
+#: .././alo-easymail.php:1317
+msgid "If you did not ask for this subscription ignore this message."
+msgstr "Kui Te ei ole soovinud uudiskirjaga liituda, siis jätke käesolev kiri tähelepanuta."
+
+#: .././alo-easymail.php:1318
+msgid "Thank you"
+msgstr "Täname!"
+
+#: .././alo-easymail.php:1358
+msgid "Send newsletter"
+msgstr "Saada uudiskiri"
+
+#: .././alo-easymail.php:1359
+#: .././alo-easymail_subscribers.php:633
+msgid "Show all"
+msgstr "Näita kõiki"
+
+#: .././alo-easymail.php:1365
+msgid "Options"
+msgstr "Seaded"
+
+#: .././alo-easymail.php:1419
+msgid "Debug mode is activated"
+msgstr "Testrežiim on aktiivne"
+
+#: .././alo-easymail.php:1420
+#: .././alo-easymail_options.php:488
+msgid "all messages will be sent to the newsletter author"
+msgstr "kõik kirjad saadetakse uudiskirja autorile"
+
+#: .././alo-easymail.php:1421
+#: .././alo-easymail_options.php:489
+msgid "all messages will be recorded into a log file"
+msgstr "kõik kirjad salvestatakse logifaili"
+
+#: .././alo-easymail-widget.php:58
+#: .././alo-easymail_options.php:574
+msgid "No, please do not email me"
+msgstr "Ei soovi uudiskirja"
+
+#: .././alo-easymail-widget.php:60
+msgid "Updating..."
+msgstr "Uuendan..."
+
+#: .././alo-easymail-widget.php:81
+#: .././alo-easymail_functions.php:965
+msgid "sending..."
+msgstr "saatmine..."
+
+#: .././alo-easymail-widget.php:87
+#: .././alo-easymail_report.php:169
+#: .././alo-easymail_subscribers.php:273
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:775
+msgid "Name"
+msgstr "Nimi"
+
+#: .././alo-easymail-widget.php:91
+#: .././alo-easymail_report.php:168
+#: .././alo-easymail_subscribers.php:271
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:774
+msgid "E-mail"
+msgstr "E-post"
+
+#: .././alo-easymail-widget.php:97
+#: .././alo-easymail_functions.php:964
+msgid "Subscribe"
+msgstr "Liitu"
+
+#: .././alo-easymail-widget.php:111
+msgid "Allow users to opt in/out of email"
+msgstr "Luba kasutajatel liituda uudiskirjaga / lahkuda listist."
+
+#: .././alo-easymail-widget.php:117
+msgid "ALO Easymail Widget"
+msgstr "Uudiskirja vidin"
+
+#: .././alo-easymail_subscr-page.php:18
+#: .././alo-easymail_options.php:985
+#: .././alo-easymail_options.php:1017
+#: .././alo-easymail_options.php:1036
+#: .././alo-easymail_options.php:1039
+#: .././alo-easymail_subscribers.php:18
+#: .././alo-easymail_subscribers.php:28
+#: .././alo-easymail_subscribers.php:98
+#: .././alo-easymail_subscribers.php:161
+#: .././alo-easymail_subscribers.php:208
+#: .././alo-easymail_subscribers.php:221
+#: .././alo-easymail_subscribers.php:234
+#: .././alo-easymail_subscribers.php:378
+#: .././alo-easymail_subscribers.php:395
+#: .././alo-easymail_subscribers.php:418
+#: .././alo-easymail_subscribers.php:452
+msgid "Error during operation."
+msgstr "Tegevuse käigus ilmnes viga."
+
+#: .././alo-easymail_subscr-page.php:31
+#: .././alo-easymail_functions.php:962
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "Uudiskirjaga liitumine on edukalt aktiveeritud. Järgmine uudiskiri saadetakse Teile e-postiga. Täname!"
+
+#: .././alo-easymail_subscr-page.php:34
+msgid "Error during activation. Please check the activation link."
+msgstr "Aktiveerimine ebaõnnestus. Kontrollige aktiveerimise linki."
+
+#: .././alo-easymail_subscr-page.php:42
+msgid "To modify your subscription to mailing lists use this form"
+msgstr "Oma liitumise muutmiseks kasuta seda vormi"
+
+#: .././alo-easymail_subscr-page.php:51
+msgid "Edit"
+msgstr "Muuda"
+
+#: .././alo-easymail_subscr-page.php:56
+msgid "To unsubscribe the newsletter for good click this button"
+msgstr "Et loobuda uudiskirjast lõplikult, vajuta seda nuppu"
+
+#: .././alo-easymail_subscr-page.php:62
+msgid "Unsubscribe me"
+msgstr "Eemalda mind"
+
+#: .././alo-easymail_subscr-page.php:69
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "Teie liitumine on tühistatud"
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Error during unsubscription."
+msgstr "Viga liitumise tühistamise käigus."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Try again."
+msgstr "Proovi uuesti."
+
+#: .././alo-easymail_subscr-page.php:73
+msgid "If it fails again you can contact the administrator"
+msgstr "Kui see ei õnnestu võid kontakteeruda administraatoriga"
+
+#: .././alo-easymail_subscr-page.php:90
+msgid "Your subscription to mailing lists successfully updated"
+msgstr "Sinu liitumist uudiskirjaga uuendati edukalt"
+
+#: .././alo-easymail_report.php:5
+#: .././alo-easymail_report.php:19
+#: .././alo-easymail_report.php:21
+#: .././alo-easymail_options.php:3
+#: .././alo-easymail_subscribers.php:3
+#: .././alo-easymail_recipients-list.php:6
+#: .././alo-easymail_recipients-list.php:17
+#: .././alo-easymail_recipients-list.php:23
+#: .././alo-easymail_recipients-list.php:25
+msgid "Cheatin&#8217; uh?"
+msgstr "Cheatin&#8217; uh?"
+
+#: .././alo-easymail_report.php:17
+#: .././alo-easymail_report.php:18
+#: .././alo-easymail_recipients-list.php:21
+#: .././alo-easymail_recipients-list.php:22
+msgid "The required newsletter does not exist"
+msgstr "Soovitud uudiskirja ei eksisteeri"
+
+#: .././alo-easymail_report.php:80
+msgid "open in a new window"
+msgstr "ava uues aknas"
+
+#: .././alo-easymail_report.php:119
+#: .././alo-easymail_options.php:643
+msgid "Main body"
+msgstr "Põhiosa"
+
+#: .././alo-easymail_report.php:119
+msgid "without formatting"
+msgstr "ilma vorminguta"
+
+#: .././alo-easymail_report.php:137
+msgid "Sendings done"
+msgstr "Saatmised lõpetatud"
+
+#: .././alo-easymail_report.php:138
+msgid "Sendings succesful"
+msgstr "Saatmised õnnestusid"
+
+#: .././alo-easymail_report.php:139
+msgid "Sendings failed"
+msgstr "Saatmised ebaõnnestusid"
+
+#: .././alo-easymail_report.php:141
+msgid "Unique views"
+msgstr "Unikaalseid vaatamisi"
+
+#: .././alo-easymail_report.php:143
+msgid "The plugin tries to count how many recipients open the newsletter"
+msgstr "Süsteem üritab lugeda, mitu saajat on uudiskirja avanud"
+
+#: .././alo-easymail_report.php:144
+msgid "The number includes max a view per recipient"
+msgstr "Number sisaldab maksimaalselt ühte vaatamist saaja kohta"
+
+#: .././alo-easymail_report.php:148
+#: .././alo-easymail_report.php:173
+msgid "Clicks"
+msgstr "Klikke"
+
+#: .././alo-easymail_report.php:150
+msgid "The number includes all clicks by all recipients"
+msgstr "Number sisaldab kõiki klikke kõikide saajate poolt"
+
+#: .././alo-easymail_report.php:170
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:780
+msgid "Language"
+msgstr "Keel"
+
+#: .././alo-easymail_report.php:172
+msgid "Viewed"
+msgstr "Vaadatud"
+
+#: .././alo-easymail_custom-hooks-sample.php:35
+msgid "Latest posts"
+msgstr "Viimased postitused"
+
+#: .././alo-easymail_custom-hooks-sample.php:37
+msgid "A list with the latest published posts"
+msgstr "Nimekiri viimati avaladatud postitustega"
+
+#: .././alo-easymail_custom-hooks-sample.php:55
+msgid "Select how many posts"
+msgstr "Vali, mitut postitust näidata"
+
+#: .././alo-easymail_options.php:200
+#: .././alo-easymail_options.php:1015
+#: .././alo-easymail_options.php:1034
+#: .././alo-easymail_subscribers.php:446
+#: .././alo-easymail_subscribers.php:463
+msgid "Updated"
+msgstr "Uuendatud"
+
+#: .././alo-easymail_options.php:231
+#: .././alo-easymail_options.php:249
+msgid "General"
+msgstr "Üldine"
+
+#: .././alo-easymail_options.php:233
+#: .././alo-easymail_options.php:517
+#: .././alo-easymail_options.php:937
+msgid "Texts"
+msgstr "Tekstid"
+
+#: .././alo-easymail_options.php:234
+#: .././alo-easymail_options.php:761
+msgid "Batch sending"
+msgstr "Seeria saatmine"
+
+#: .././alo-easymail_options.php:235
+#: .././alo-easymail_options.php:833
+msgid "Permissions"
+msgstr "Õigused"
+
+#: .././alo-easymail_options.php:236
+#: .././alo-easymail_options.php:938
+#: .././alo-easymail_options.php:962
+#: .././alo-easymail_options.php:1124
+#: .././alo-easymail_subscribers.php:292
+#: .././alo-easymail_subscribers.php:779
+#: .././alo-easymail_functions.php:267
+msgid "Mailing Lists"
+msgstr "Postiloendid"
+
+#: .././alo-easymail_options.php:261
+msgid "Subscription page"
+msgstr "Liitumisleht"
+
+#: .././alo-easymail_options.php:280
+msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
+msgstr "See leht peaks sisalsama [ALO-EASYMAIL-PAGE] koodi. Vaikimisi on selle lehe nimi &#39;Newsletter&#39;"
+
+#: .././alo-easymail_options.php:293
+msgid "Show subscription page"
+msgstr "Näita liitumise lehte"
+
+#: .././alo-easymail_options.php:294
+msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
+msgstr "Kui jah, siis leht liitumisvormiga ilmub menüüs või vidinas, mis sisaldab kõikide postituste nimekirja"
+
+#: .././alo-easymail_options.php:305
+msgid "Embed CSS file"
+msgstr "Lisatud CSS fail"
+
+#: .././alo-easymail_options.php:306
+msgid "If yes, the plugin loads the CSS styles from a file in its directory"
+msgstr "Kui jah, siis laetakse CSS failid plugina kataloogist"
+
+#: .././alo-easymail_options.php:306
+msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
+msgstr "Nõuanne: kopeeri &#39;alo-easymail.css&#39; oma kujundusteema kataloogi ja muuda seda seal. Võimaldab säilitada muudatused peale plugina uuendamist"
+
+#: .././alo-easymail_options.php:317
+msgid "Disable activation e-mail"
+msgstr "Keela aktiveerimiskiri"
+
+#: .././alo-easymail_options.php:318
+msgid "If yes, a new subscriber is automatically activated without confirmation e-mail"
+msgstr "Kui jah, siis uus liituja on automaatselt aktiveeritud ja kinnituskirja talle ei saadeta"
+
+#: .././alo-easymail_options.php:330
+msgid "Show credit banners in back-end"
+msgstr "Näita looja infot seadete lehel"
+
+#: .././alo-easymail_options.php:331
+msgid "You are free to hide the credits, but in that case it's a common practice to make a small donatation via Paypal to the plugin author"
+msgstr "Võid bännerid eemaldada, kuid tavapraktika näeb siis ette väikese annetuse PayPal kaudu plugina autorile"
+
+#: .././alo-easymail_options.php:342
+#: .././alo-easymail_options.php:344
+#: .././alo-easymail_options.php:345
+msgid "Delete all plugin data on deactivation"
+msgstr "Kogu plugina teave kustutakse deaktiveerimisel"
+
+#: .././alo-easymail_options.php:343
+msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
+msgstr "Plugina deaktiveerimisel kõik plugina seaded, eelsitused, andmebaasid (koos uudiskirjade ja liitujate andmetega) kustutakse lõplikult"
+
+#: .././alo-easymail_options.php:343
+msgid "If you need these data make sure you do a database backup before plugin deactivation"
+msgstr "Kui soovid, et pluginaga seotud andmed säiliks, tee kindlasti andbaasist vasrukoopia enne plugina deaktiveerimist"
+
+#: .././alo-easymail_options.php:345
+msgid "Yes, I understand"
+msgstr "Jah, selge"
+
+#: .././alo-easymail_options.php:355
+#: .././alo-easymail_options.php:501
+#: .././alo-easymail_options.php:534
+#: .././alo-easymail_options.php:745
+#: .././alo-easymail_options.php:810
+#: .././alo-easymail_options.php:949
+msgid "Update"
+msgstr "Uuenda"
+
+#: .././alo-easymail_options.php:378
+msgid "Number of last posts to display"
+msgstr "Mitut viimast postitust näidata"
+
+#: .././alo-easymail_options.php:380
+msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
+msgstr "Mitut viimast postitust näidata uudiskirja saatmise rippmenüüs"
+
+#: .././alo-easymail_options.php:384
+msgid "Sender's email address"
+msgstr "Saatja e-posti aadress"
+
+#: .././alo-easymail_options.php:389
+msgid "Sender's name"
+msgstr "Saatja nimi"
+
+#: .././alo-easymail_options.php:410
+msgid "Filters to the newsletter text"
+msgstr "Sorteeri uudiskirja teksti"
+
+#: .././alo-easymail_options.php:412
+msgid "Apply 'the_content' filters and shortcodes to newsletter content"
+msgstr "Rakenda 'the_content' filtreid ja lühikoode uudiskirja sisule"
+
+#: .././alo-easymail_options.php:425
+msgid "Use themes"
+msgstr "Kasuta kujundusi"
+
+#: .././alo-easymail_options.php:428
+#: .././alo-easymail_options.php:480
+msgid "no"
+msgstr "ei"
+
+#: .././alo-easymail_options.php:429
+#: .././alo-easymail_options.php:433
+msgid "yes"
+msgstr "jah"
+
+#: .././alo-easymail_options.php:429
+msgid " free choice for authors"
+msgstr "autori valik"
+
+#: .././alo-easymail_options.php:433
+msgid "but always use"
+msgstr "kasuta  alati"
+
+#: .././alo-easymail_options.php:436
+msgid "Tip: copy &#39;alo-easymail-themes&#39; folder to your theme directory and edit your themes there. Useful to prevent the loss of themes when you upgrade the plugin"
+msgstr "Nõuanne: kopeeri &#39;alo-easymail-themes&#39; oma kujundusteema kataloogi ja muuda seda seal. Võimaldab säilitada muudatused peale plugina uuendamist"
+
+#: .././alo-easymail_options.php:449
+msgid "Method of creation of the recipient list"
+msgstr "Saajate nimekirja loomise meetod"
+
+#: .././alo-easymail_options.php:453
+msgid "ajax (standard)"
+msgstr "ajax (standard)"
+
+#: .././alo-easymail_options.php:454
+msgid "ajax"
+msgstr "ajax"
+
+#: .././alo-easymail_options.php:454
+msgid "loading only javascript of the plugin"
+msgstr "laetakse ainult plugina javascript osa"
+
+#: .././alo-easymail_options.php:455
+msgid "no ajax"
+msgstr "ilma ajax-ita"
+
+#: .././alo-easymail_options.php:455
+msgid "creation when newsletter is saved"
+msgstr "loodud uudiskirja salvestamisel"
+
+#: .././alo-easymail_options.php:461
+msgid "If the standard and cool method does not work for you, you can try another option"
+msgstr "Kui tavameetod ei tööta võid kasutada teisi variante."
+
+#: .././alo-easymail_options.php:462
+msgid "You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins"
+msgstr "Võid laadida ainult plugina javascript osa - aitab vältida konflikte teiste pluginatega."
+
+#: .././alo-easymail_options.php:463
+msgid "Otherwise, you can create the list directly when the newsletter is saved, without use of ajax"
+msgstr "Listi on võimalik luua ka otse peale uudiskirja salvestamist"
+
+#: .././alo-easymail_options.php:464
+msgid "this is the quickest and safest mode, but it could not work if case of several thousands of recipients"
+msgstr "see on kiireim ja turvaliseim meetod, kuid see ei pruugi töötada mitme tuhande saaja korral"
+
+#: .././alo-easymail_options.php:477
+msgid "Debug newsletters"
+msgstr "kontrolli uudiskirju hooldusrežiimil"
+
+#: .././alo-easymail_options.php:481
+#: .././alo-easymail_options.php:488
+msgid "send all emails to the author"
+msgstr "saada kõik kirjad autorile"
+
+#: .././alo-easymail_options.php:481
+#: .././alo-easymail_options.php:489
+msgid "put all emails into a log file"
+msgstr "aseta kõik kirjad logifaili"
+
+#: .././alo-easymail_options.php:486
+msgid "If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients"
+msgstr "Hooldusrežiimil ei saadeta kirju saajate nimekirjale"
+
+#: .././alo-easymail_options.php:490
+#, php-format
+msgid "called %s and saved in %s"
+msgstr "kutsutud %s salvestatud %s"
+
+#: .././alo-easymail_options.php:490
+msgid "the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!"
+msgstr "Logifail on serveris avalik ning sisaldab isiklikku informatsiooni. Kustuta see esimesel võimalusel!"
+
+#: .././alo-easymail_options.php:526
+msgid "No multilanguage plugin is enabled, so you will only see texts in the main language of the site"
+msgstr "Mitmekeelsust ei ole aktiveeritud, tekste näidatakse ainult põhikeeles"
+
+#: .././alo-easymail_options.php:527
+msgid "Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality"
+msgstr "Soovituslikud pluginad, mis on täielikult ühilduvad EasyMail-iga ning toetavad mitmekeelsust"
+
+#: .././alo-easymail_options.php:531
+msgid "If you like here you can list the languages available"
+msgstr "Soovi korral saad siin kirjeldada saadaolevad keeled"
+
+#: .././alo-easymail_options.php:535
+msgid "List of two-letter language codes separated by commas"
+msgstr "Kahe-tähelised keelekoodid komaga eraldatuna"
+
+#: .././alo-easymail_options.php:535
+#: .././alo-easymail_subscribers.php:331
+msgid "iso 639-1 codes"
+msgstr "iso 639-1 koodid"
+
+#: .././alo-easymail_options.php:535
+msgid "Sample:"
+msgstr "Näidis:"
+
+#: .././alo-easymail_options.php:537
+msgid "The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly"
+msgstr "Plugin kontrollib kasutaja veebilehitseja keeleseadeid ning saadab selle alusel e-kirja"
+
+#: .././alo-easymail_options.php:538
+msgid "If you are not using a multilanguage site ignore this piece of information"
+msgstr "Kui Sa ei kasuta lehel mitmekeelsust, siis jäta see osa tähelepanuta"
+
+#: .././alo-easymail_options.php:548
+msgid "Widget/Page Texts"
+msgstr "Vidina/Lehe tekstid"
+
+#: .././alo-easymail_options.php:562
+msgid "Optin message"
+msgstr "Liitumisteade"
+
+#: .././alo-easymail_options.php:563
+msgid "Optout message"
+msgstr "Lahkumisteade"
+
+#: .././alo-easymail_options.php:564
+msgid "Invite to join mailing lists"
+msgstr "Kutsu liituma uudiskirjaga"
+
+#: .././alo-easymail_options.php:565
+msgid "Policy claim"
+msgstr "Privaatsuspliitika teade"
+
+#: .././alo-easymail_options.php:566
+msgid "Top claim"
+msgstr "Top nõue"
+
+#: .././alo-easymail_options.php:570
+#: .././alo-easymail_options.php:627
+#: .././alo-easymail_options.php:666
+#: .././alo-easymail_options.php:705
+msgid "Leave blank to use default text"
+msgstr "Jäta tühjaks, et kuvada vaikimisi tekst"
+
+#: .././alo-easymail_options.php:577
+#: .././alo-easymail_options.php:581
+msgid "empty"
+msgstr "tühi"
+
+#: .././alo-easymail_options.php:578
+msgid "If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy"
+msgstr "Kui täidetud, siis ilmub lehe või vidina allääres. Vajalik selleks, et kuvada linke privaatsuspoliitika, info, rohkem infot jne."
+
+#: .././alo-easymail_options.php:582
+msgid "If filled in it will appear at the top of widget/page. Useful to invite to subscribe"
+msgstr "Kui on täidetud, ilmub lehe/vidina päises. Kasulik näiteks selleks, et kutsuda liituma uudiskirjaga."
+
+#: .././alo-easymail_options.php:621
+msgid "Communications"
+msgstr "Ühendused"
+
+#: .././alo-easymail_options.php:626
+msgid "Activation e-mail"
+msgstr "Aktiveerimiskiri"
+
+#: .././alo-easymail_options.php:655
+#: .././alo-easymail_options.php:694
+#: .././alo-easymail_options.php:731
+msgid "You can use the following tags"
+msgstr "Saad kasutada järgneviad silte"
+
+#: .././alo-easymail_options.php:657
+#: .././alo-easymail_options.php:696
+msgid "the blog name"
+msgstr "blogi nimi"
+
+#: .././alo-easymail_options.php:658
+msgid "the subscriber name"
+msgstr "liituja nimi"
+
+#: .././alo-easymail_options.php:659
+msgid "the url that the new subscriber must click/visit to confirm the subscription"
+msgstr "link, mida uus liituja peab vajutama / külastama, et kinnitada liitumist"
+
+#: .././alo-easymail_options.php:665
+msgid "Unsubscription disclaimer"
+msgstr "Liitumise lõpetamise kinnitus"
+
+#: .././alo-easymail_options.php:668
+#: .././alo-easymail_functions.php:1725
+msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
+msgstr "Selle kirja saite vastusena liitumisele meie uudikirja postiloendiga. Kui te soovite loobuda uudiskirjast:"
+
+#: .././alo-easymail_options.php:669
+msgid "visit this link"
+msgstr "külasta seda linki"
+
+#: .././alo-easymail_options.php:697
+msgid "the url that the new subscriber must click/visit to unsubscribe the newsletter"
+msgstr "link, mida värske liituja peab külastama / klikkima, et loobuda uudiskirjast"
+
+#: .././alo-easymail_options.php:704
+msgid "Read newsletter online"
+msgstr "Loe uudskirja veebis"
+
+#: .././alo-easymail_options.php:707
+msgid "To read the newsletter online you can visit this link"
+msgstr "Selle lingi abil saad lugeda uudiskirja veebis"
+
+#: .././alo-easymail_options.php:733
+msgid "the newsletter web url"
+msgstr "uudiskirja veebiaadress"
+
+#: .././alo-easymail_options.php:771
+#, php-format
+msgid "Some parameters are already setted up in %s, so the values below could be ignored"
+msgstr "Osad parameeetrid on juba seatud %s, mistõttu võib allolevaid väärtusi ignoreerida"
+
+#: .././alo-easymail_options.php:778
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "Maksimum arv e-kirju, mida võib saata 24-tunni jooksul"
+
+#: .././alo-easymail_options.php:784
+msgid "Maximum number of emails that can be sent per batch"
+msgstr "Maksimum arv e-kirju, mida võib saata ühes voorus"
+
+#: .././alo-easymail_options.php:790
+msgid "Interval between emails in a single batch, in milliseconds"
+msgstr "Vahe e-kirjade saatmise vahel millisekundites ühe vooru piires"
+
+#: .././alo-easymail_options.php:792
+msgid "Default"
+msgstr "Vaikimisi"
+
+#: .././alo-easymail_options.php:792
+msgid "Usually you do not have to modify this value"
+msgstr "Harilikult ei ole vaja seda väärtust muuta"
+
+#: .././alo-easymail_options.php:792
+msgid "It is useful if your provider allows a maximum number of emails that can be sent per second or minute"
+msgstr "See on vajalik, kui veebiserveri pakkuja on piiranud minutis saadetavate e-kirjade maksimumarvu"
+
+#: .././alo-easymail_options.php:792
+msgid "The higher this value, the lower the number of emails sent for each batch"
+msgstr "Mida kõrgem väärtus, seda madalam number e-kirju saadetakse igas voorus"
+
+#: .././alo-easymail_options.php:797
+msgid "Important advice to calculate the best limit"
+msgstr "Tähtis nõuanne, et arvutada parimat piirangute seadet"
+
+#: .././alo-easymail_options.php:799
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "Uuri oma veebiserveri pakkujalt maksimaalset e-kirjade arvu päeva kohta. Tunniliimidi korrutamine 24-ga ei anna kõige täpsemat tulemust."
+
+#: .././alo-easymail_options.php:800
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "Lahuta sellest piirarvust e-kirjad, mida soovid saata oma blogi kaudu. (võta arvesse kõik kirjad: registreerumine, loobumine, teiste pluginate teated jne.)"
+
+#: .././alo-easymail_options.php:801
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "Kui kahtled, siis vali number, mis on kindlasti allpool limiiti: nii on suurem võimalus kirjad kindlasti kohale saata ja vähem võimalusi sattuda musta nimekirja..."
+
+#: .././alo-easymail_options.php:802
+msgid "For more info, visit the FAQ of the site."
+msgstr "Rohkem infot FAQ lehel."
+
+#: .././alo-easymail_options.php:837
+msgid "The lowest role can send newsletters"
+msgstr "Madalaim roll, millel on õigused uudiskirja saatmiseks"
+
+#: .././alo-easymail_options.php:864
+#: .././alo-easymail_options.php:891
+#, php-format
+msgid "The authorised roles are the same with the %s capability"
+msgstr "Autoriseeritud rollid on samad, mis %s roll"
+
+#: .././alo-easymail_options.php:865
+msgid "The user with this capability can manage own newsletters (view the report, delete)"
+msgstr "Selliste õigustega kasutaja saab hallata enda uudiskirju (vaadata raportit ja kustutada)"
+
+#: .././alo-easymail_options.php:871
+msgid "The lowest role can manage newsletters"
+msgstr "Madalaim roll, mis saab hallata uudiskirju"
+
+#: .././alo-easymail_options.php:892
+msgid "The user with this capability can manage newsletters of all users (view the report, delete)"
+msgstr "Selliste õigustega kasutaja saab hallata kõiki uudiskirju (näha raportit, kustutada)"
+
+#: .././alo-easymail_options.php:899
+msgid "The lowest role can manage subscribers"
+msgstr "Madalaim roll, mis saab hallata liitunuid"
+
+#: .././alo-easymail_options.php:915
+msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
+msgstr "Selliste õigustega kasutaja saab hallata liitunuid (lisada, kustuta, lisada postiloendisse...)"
+
+#: .././alo-easymail_options.php:921
+msgid "The lowest role can manage options"
+msgstr "Madalaim roll, millega saab hallata seadeid"
+
+#: .././alo-easymail_options.php:936
+msgid "The user with this capability can set up these setting sections"
+msgstr "Selliste õigustega kasutaja saab hallata neid seadete sektsioone"
+
+#: .././alo-easymail_options.php:939
+msgid "Other sections can be modified only by administrators"
+msgstr "Teisi sektsioone saavad hallata ainult administraatorid"
+
+#: .././alo-easymail_options.php:1020
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "Sisestatud andmed on valed või ebatäpsed. Palun kontrolli ja proovi uuesti."
+
+#: .././alo-easymail_options.php:1047
+msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
+msgstr "Sul on võimalus luua postiloendeid. Igaühele tuleb määrata nimi, järjekord (madalaim kuvatakse üleval) ja saadavus"
+
+#: .././alo-easymail_options.php:1049
+#: .././alo-easymail_options.php:1101
+#: .././alo-easymail_options.php:1146
+msgid "hidden"
+msgstr "varjatud"
+
+#: .././alo-easymail_options.php:1049
+msgid "the list can be shown only here in settings and nowhere in the site"
+msgstr "postiloend saab olla nähtav ainult siin seadete lehel ja mitte kuskil mujal"
+
+#: .././alo-easymail_options.php:1050
+#: .././alo-easymail_options.php:1102
+#: .././alo-easymail_options.php:1149
+msgid "admin side only"
+msgstr "ainult administreerimisliideses"
+
+#: .././alo-easymail_options.php:1050
+msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
+msgstr "postiloend on saadaval ainult administreerimisliideses, liitujad seda ei näe"
+
+#: .././alo-easymail_options.php:1051
+#: .././alo-easymail_options.php:1103
+#: .././alo-easymail_options.php:1152
+msgid "entire site"
+msgstr "tervel lehel"
+
+#: .././alo-easymail_options.php:1051
+msgid "the list is available in the whole site, so subscribers can see it"
+msgstr "postiloend on liitujatele nähtav"
+
+#: .././alo-easymail_options.php:1055
+#: .././alo-easymail_options.php:1163
+#: .././alo-easymail_options.php:1164
+msgid "Edit list"
+msgstr "Muuda postiloendit"
+
+#: .././alo-easymail_options.php:1055
+msgid "New list"
+msgstr "Uus postiloend"
+
+#: .././alo-easymail_options.php:1060
+#: .././alo-easymail_options.php:1127
+msgid "List name"
+msgstr "Postiloendi nimi"
+
+#: .././alo-easymail_options.php:1061
+#: .././alo-easymail_options.php:1128
+msgid "Availability"
+msgstr "Saadavus"
+
+#: .././alo-easymail_options.php:1062
+#: .././alo-easymail_options.php:1129
+msgid "Order"
+msgstr "Järjestus"
+
+#: .././alo-easymail_options.php:1080
+msgid "no translation for this language, yet"
+msgstr "sellesse keelede ei ole veel  tõlget"
+
+#: .././alo-easymail_options.php:1114
+msgid "Save"
+msgstr "Salvesta"
+
+#: .././alo-easymail_options.php:1116
+#: .././alo-easymail_subscribers.php:149
+#: .././alo-easymail_subscribers.php:196
+#: .././alo-easymail_subscribers.php:265
+#: .././alo-easymail_subscribers.php:372
+msgid "Cancel"
+msgstr "Tühista"
+
+#: .././alo-easymail_options.php:1131
+msgid "Action"
+msgstr "Tegevus"
+
+#: .././alo-easymail_options.php:1166
+#: .././alo-easymail_options.php:1168
+msgid "Delete list"
+msgstr "Kustuta postiloend"
+
+#: .././alo-easymail_options.php:1167
+msgid "Do you really want to DELETE this list?"
+msgstr "Kas oled kindel, et soovid selle postiloendi kustutada?"
+
+#: .././alo-easymail_options.php:1175
+#: .././alo-easymail_subscribers.php:155
+msgid "There are no available lists"
+msgstr "Ühtegi postiloendit ei ole saadaval"
+
+#: .././alo-easymail_subscribers.php:16
+msgid "Activation state updated"
+msgstr "Aktiveerimise seisund muudetud"
+
+#: .././alo-easymail_subscribers.php:18
+msgid "Not updated"
+msgstr "Uuendamata"
+
+#: .././alo-easymail_subscribers.php:25
+msgid "Subscriber deleted"
+msgstr "Liituja kustutatud"
+
+#: .././alo-easymail_subscribers.php:28
+msgid "Not deleted"
+msgstr "Kustutamata"
+
+#: .././alo-easymail_subscribers.php:99
+#: .././alo-easymail_subscribers.php:162
+#: .././alo-easymail_subscribers.php:209
+#: .././alo-easymail_subscribers.php:222
+#: .././alo-easymail_subscribers.php:235
+#: .././alo-easymail_subscribers.php:380
+#: .././alo-easymail_subscribers.php:419
+#: .././alo-easymail_subscribers.php:453
+#: .././alo-easymail_subscribers.php:703
+msgid "No subscriber selected"
+msgstr "Ühtegi liitujat ei kustutatud"
+
+#: .././alo-easymail_subscribers.php:100
+#: .././alo-easymail_subscribers.php:420
+msgid "No list selected"
+msgstr "Ühtegi loendit ei ole valitud"
+
+#: .././alo-easymail_subscribers.php:106
+#: .././alo-easymail_subscribers.php:745
+msgid "Edit subscription to mailing lists"
+msgstr "Muuda postiloendiga liitumise staatust"
+
+#: .././alo-easymail_subscribers.php:107
+#: .././alo-easymail_subscribers.php:170
+msgid "Selected subscribers"
+msgstr "Valitud liitujad"
+
+#: .././alo-easymail_subscribers.php:120
+msgid "Choose mailing lists"
+msgstr "Vali postiloend"
+
+#: .././alo-easymail_subscribers.php:131
+msgid "Choose an action"
+msgstr "Vali tegevus"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:343
+msgid "Add to selected lists"
+msgstr "Lisa valitud loendisse"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:136
+msgid "ignore not selected lists"
+msgstr "Ära arvesta valimata loendeid"
+
+#: .././alo-easymail_subscribers.php:136
+msgid "Remove from selected lists"
+msgstr "Eemalda valitud loenditest"
+
+#: .././alo-easymail_subscribers.php:140
+msgid "Add to selected lists and remove from not selected lists"
+msgstr "Lisa valitud loenditesse ja eemalda neist, mida pole valitud"
+
+#: .././alo-easymail_subscribers.php:148
+#: .././alo-easymail_subscribers.php:195
+#: .././alo-easymail_subscribers.php:763
+msgid "Apply"
+msgstr "Kinnita"
+
+#: .././alo-easymail_subscribers.php:163
+#: .././alo-easymail_subscribers.php:454
+msgid "No language option selected"
+msgstr "Keelevalik tegemata"
+
+#: .././alo-easymail_subscribers.php:169
+#: .././alo-easymail_subscribers.php:746
+msgid "Change language ascribed to subscribers"
+msgstr "Change language ascribed to subscribers"
+
+#: .././alo-easymail_subscribers.php:182
+#: .././alo-easymail_subscribers.php:622
+msgid "Choose a language"
+msgstr "Vali keel"
+
+#: .././alo-easymail_subscribers.php:183
+msgid "No language"
+msgstr "Keel puudub"
+
+#: .././alo-easymail_subscribers.php:202
+msgid "No language available"
+msgstr "Keel ei ole saadaval"
+
+#: .././alo-easymail_subscribers.php:216
+msgid "Subscribers deleted"
+msgstr "Liitujad kustutatud"
+
+#: .././alo-easymail_subscribers.php:229
+msgid "Subscribers activated"
+msgstr "Liitujad aktiveeritud"
+
+#: .././alo-easymail_subscribers.php:242
+msgid "Subscribers deactivated"
+msgstr "Liitujad deaktiveeritud"
+
+#: .././alo-easymail_subscribers.php:268
+msgid "Add a subscriber"
+msgstr "Lisa liituja"
+
+#: .././alo-easymail_subscribers.php:271
+msgid "mandatory"
+msgstr "kohustuslik"
+
+#: .././alo-easymail_subscribers.php:310
+msgid "Add"
+msgstr "Lisa"
+
+#: .././alo-easymail_subscribers.php:314
+msgid "Import from WP registered users"
+msgstr "Impordi registreerunud kasutajad"
+
+#: .././alo-easymail_subscribers.php:315
+msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
+msgstr "Saad lisada registreerunud kasutajad postiloendi liitujateks."
+
+#: .././alo-easymail_subscribers.php:316
+msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
+msgstr "See on mugav võimalus lisada uudiskirja saajateks automaatselt kõik lehe registreerunud kasutajad."
+
+#: .././alo-easymail_subscribers.php:317
+msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
+msgstr "Ole selle funktsiooniga hiljem ettevaatlik, sest see lisab uudiskirja postioloendisse KÕIK kasutajad, ka need, kes on juba loobunud uudiskirjast."
+
+#: .././alo-easymail_subscribers.php:319
+msgid "Blog registered users"
+msgstr "Blogi registreerunud kasutajad"
+
+#: .././alo-easymail_subscribers.php:324
+msgid "Import from WP members"
+msgstr "Impordi WP kasutajate hulgast"
+
+#: .././alo-easymail_subscribers.php:328
+msgid "Import from uploaded CSV file"
+msgstr "Impordi üleslaetud CSV failist"
+
+#: .././alo-easymail_subscribers.php:329
+msgid "You can import new subscribers from a CSV file."
+msgstr "Saad lisada uued liitujad CSV failist."
+
+#: .././alo-easymail_subscribers.php:330
+msgid "For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields."
+msgstr "Igal real tuleb määrata: e-posti aadress(kohustuslik), nimi(valikuline), keel(valikuline). Väljade eraldamiseks kasuta semikoolonit (;)."
+
+#: .././alo-easymail_subscribers.php:331
+msgid "You can list only languages available in the blog"
+msgstr "Loetellu saab lisada ainult blogis saadaolevad keeled"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "you can set them up in Settings &gt; Newsletter"
+msgstr "Neid on võimalik seadistada Uudiskirjad &gt; Seaded menüüs"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "Language codes"
+msgstr "Keelekoodid"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+msgstr "Nõuanne probleemide esinemise korral: proovi muuta faili laiendit .csv -st .txt; kasuta kahekordseid jutumärke iga välja eraldamiseks (&quot;eposti_aadress1@domain.ltd&quot;;&quot;nimi1 perekonnanimi1&quot;)"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "try using a different browser"
+msgstr "proovi kasutada mõnda teist veebilehitsejat"
+
+#: .././alo-easymail_subscribers.php:339
+msgid "Test mode (no importation, show records on screen)"
+msgstr "Testrežiim (importi ei toimu, kirjed kuvatakse ekraanile)"
+
+#: .././alo-easymail_subscribers.php:358
+msgid "Upload CSV file"
+msgstr "Lae üles CSV file"
+
+#: .././alo-easymail_subscribers.php:362
+msgid "Export subscribers"
+msgstr "Ekspordi liitunud"
+
+#: .././alo-easymail_subscribers.php:363
+msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
+msgstr "Saad eksportida uudiskirjaga liitunute andmed: Kirjed kuvatakse ekraanile, kopperides ja asetades on need võimalik lisada teise faili"
+
+#: .././alo-easymail_subscribers.php:368
+msgid "Export"
+msgstr "Ekspordi"
+
+#: .././alo-easymail_subscribers.php:379
+#: .././alo-easymail_subscribers.php:589
+#: .././alo-easymail_subscribers.php:707
+msgid "No action selected"
+msgstr "Tegevust ei ole valitud"
+
+#: .././alo-easymail_subscribers.php:396
+#: .././alo-easymail_subscribers.php:492
+#: .././alo-easymail_functions.php:954
+msgid "The e-email address is not correct"
+msgstr "E-posti aadress ei ole korrektne"
+
+#: .././alo-easymail_subscribers.php:398
+#: .././alo-easymail_subscribers.php:474
+#: .././alo-easymail_subscribers.php:520
+#: .././alo-easymail_subscribers.php:574
+#: .././alo-easymail_subscribers.php:583
+msgid "Back"
+msgstr "Tagasi"
+
+#: .././alo-easymail_subscribers.php:411
+msgid "New subscriber added"
+msgstr "Uus liituja lisatud"
+
+#: .././alo-easymail_subscribers.php:476
+msgid "Error"
+msgstr "Viga"
+
+#: .././alo-easymail_subscribers.php:494
+msgid "There is already a subscriber with this e-email address"
+msgstr "Selline e-posti aadress on juba kasutusel"
+
+#: .././alo-easymail_subscribers.php:517
+#, php-format
+msgid "Found %d records"
+msgstr "Leiti % kirjet"
+
+#: .././alo-easymail_subscribers.php:518
+msgid "Check the Error column to modify records that otherwise will not be imported"
+msgstr "Kontrolli viga sisaldavat tulpa ning paranda kirje, vastasel juhul kirjet ei impordita"
+
+#: .././alo-easymail_subscribers.php:523
+#, php-format
+msgid "Successfully import: %d records out of %d total"
+msgstr "Edukalt imporditud %d kirjet %d kirje hulgast"
+
+#: .././alo-easymail_subscribers.php:525
+msgid "Some records have not been imported"
+msgstr "Osasid kirjeid ei imporditud"
+
+#: .././alo-easymail_subscribers.php:542
+msgid "Not valid CSV file uploaded"
+msgstr "Vigane CSV fail"
+
+#: .././alo-easymail_subscribers.php:564
+#, php-format
+msgid "%d new subscribers successfully added from blog members"
+msgstr "%d uut liitujat lisatud blogi kasutajate hulgast"
+
+#: .././alo-easymail_subscribers.php:566
+msgid "No subscribers added from blog members"
+msgstr "Mitte ühtegi liitujat ei lisatud blogi kasutajate hulgast"
+
+#: .././alo-easymail_subscribers.php:611
+msgid "Select a mailing list"
+msgstr "Vali postiloend"
+
+#: .././alo-easymail_subscribers.php:631
+msgid "Search"
+msgstr "Otsi"
+
+#: .././alo-easymail_subscribers.php:644
+msgid "Import/export subscribers"
+msgstr "Impordi / ekspordi liitujaid"
+
+#: .././alo-easymail_subscribers.php:647
+#, php-format
+msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
+msgstr "Ehk soovid  uudiskirjaga liitujad importida oma blogi kasutajate hulgast või välisest arhiivist (CSV). Vajuta &#39;%s&#39; nuppu"
+
+#: .././alo-easymail_subscribers.php:648
+msgid "Do not show it again"
+msgstr "Ära seda enam näita"
+
+#: .././alo-easymail_subscribers.php:711
+msgid "Do you really want to DELETE these subscribers?"
+msgstr "Oled kindel, et soovid need liitujad kustutada"
+
+#: .././alo-easymail_subscribers.php:721
+msgid "Per page"
+msgstr "Lehel"
+
+#: .././alo-easymail_subscribers.php:744
+msgid "Bulk Actions"
+msgstr "Masstegevused"
+
+#: .././alo-easymail_subscribers.php:747
+msgid "Activate"
+msgstr "Aktiveeri"
+
+#: .././alo-easymail_subscribers.php:748
+msgid "Deactivate"
+msgstr "Deaktiveeri"
+
+#: .././alo-easymail_subscribers.php:749
+msgid "Delete"
+msgstr "Kustuta"
+
+#: .././alo-easymail_subscribers.php:774
+msgid "Order by e-mail"
+msgstr "Sorteeri e-posti järgi"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "Username"
+msgstr "Kasutajanimi"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "Registreerunud kasutajate kasutajanimi. Avalike kasutajate puhul jätta tühjaks."
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Order by join date"
+msgstr "Sorteeri liitumisaja järgi"
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Join date"
+msgstr "Liitumisaeg"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Order by activation state"
+msgstr "Sorteerti aktiveerimise staatuse järgi"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Activated"
+msgstr "Aktiveeritud"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "Registreeritud kasutajate jaoks vaikimisi staatus on aktiveeritud. Avalike kasutajate jaoks vaikimisi staatus on deaktiveeritud: staatus muutub aktiivseks, kui kasutaja klikib meili teel saadud aktiveerimiskirjas linki."
+
+#: .././alo-easymail_subscribers.php:778
+msgid "A subscriber will be deleted if not activated in 5 days."
+msgstr "Kasutaja kustutatakse, kui ei ole 5 päeva jooksul aktiveeritud."
+
+#: .././alo-easymail_subscribers.php:780
+msgid "Order by language"
+msgstr "Sorteeri keele järgi"
+
+#: .././alo-easymail_subscribers.php:781
+msgid "Actions"
+msgstr "Tegevused"
+
+#: .././alo-easymail_subscribers.php:857
+msgid "View user profile"
+msgstr "Vaata kasutaja profiili"
+
+#: .././alo-easymail_subscribers.php:862
+msgid "d/m/Y \\h.H:i"
+msgstr "d/m/Y \\h.H:i"
+
+#: .././alo-easymail_subscribers.php:864
+msgid "Modify activation state"
+msgstr "Muuda aktiveerimise staatust"
+
+#: .././alo-easymail_subscribers.php:865
+msgid "Do you really want to modify the activation state?"
+msgstr "Oled kindel, et soovi muuta aktiveerimise staatust?"
+
+#: .././alo-easymail_subscribers.php:888
+msgid "Delete subscriber"
+msgstr "Kustuta liituja"
+
+#: .././alo-easymail_subscribers.php:889
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "Oled kindel, et soovid kustutada seda liitujat?"
+
+#: .././alo-easymail_recipients-list.php:5
+#: .././alo-easymail_recipients-list.php:179
+msgid "close"
+msgstr "sulge"
+
+#: .././alo-easymail_recipients-list.php:68
+msgid "The required newsletter seems to already have a list"
+msgstr "Soovitud uudiskirjale on juba loodud nimekiri"
+
+#: .././alo-easymail_recipients-list.php:96
+#: .././alo-easymail_recipients-list.php:131
+msgid "Recipients successfully added"
+msgstr "Saajad edukalt lisatud"
+
+#: .././alo-easymail_recipients-list.php:97
+#: .././alo-easymail_recipients-list.php:132
+msgid "Newsletter successfully sent to recipients"
+msgstr "Uudiskiri on edukalt saadetud saajatele"
+
+#: .././alo-easymail_recipients-list.php:159
+msgid "You have to prepare the list of recipients to send the newsletter to"
+msgstr "Uudiskirja saatmiseks tuleb ette valmistada saajate nimekiri"
+
+#: .././alo-easymail_recipients-list.php:160
+msgid "You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)"
+msgstr "Võid lisada saajad saatmisjärjekorda (parim valik) või saata kirja kohe (soovitav ainult väheste saajate korral)."
+
+#: .././alo-easymail_recipients-list.php:161
+msgid "Warning: do not close or reload the browser window during process"
+msgstr "HOIATUS: ära sule ega lae uuesti seda lehte saatmisprotsessi ajal"
+
+#: .././alo-easymail_recipients-list.php:163
+msgid "You can send the newsletter as test to"
+msgstr "Sa võid saata uudiskirja testina"
+
+#: .././alo-easymail_recipients-list.php:165
+msgid "Send"
+msgstr "Saada"
+
+#: .././alo-easymail_recipients-list.php:173
+msgid "Add to sending queue"
+msgstr "Lisa saatmisjärjekorda"
+
+#: .././alo-easymail_recipients-list.php:175
+msgid "Send now"
+msgstr "Saada kohe"
+
+#: .././alo-easymail_functions.php:111
+msgid "Please visit the plugin site for more info and feedback"
+msgstr "Külasta plugina lehte, et saada rohkem informatiooni või anda tagasisidet"
+
+#: .././alo-easymail_functions.php:113
+msgid "For more links you can use the Help button"
+msgstr "Rohkema info saamiseks võid kasutada Abiinfo nuppu"
+
+#: .././alo-easymail_functions.php:118
+msgid "If you use this plugin consider the idea of donating and supporting its development"
+msgstr "Kui Sa kasutada seda pluginat, siis kaalu mõtet annetuse tegemisest ja selle plugina arendamise toetamisest."
+
+#: .././alo-easymail_functions.php:270
+msgid "Languages"
+msgstr "Keeled"
+
+#: .././alo-easymail_functions.php:853
+msgid "Post tags"
+msgstr "Posituse sildid"
+
+#: .././alo-easymail_functions.php:855
+msgid "The link to the title of the selected post."
+msgstr "Viide valitud postituse pealkirjale"
+
+#: .././alo-easymail_functions.php:855
+msgid "This tag works also in the <strong>subject</strong>"
+msgstr "See silt töötab ka <strong>teemas</strong>"
+
+#: .././alo-easymail_functions.php:856
+msgid "The excerpt (if any) of the post."
+msgstr "Postituse kokkuvõte (kui on olemas)."
+
+#: .././alo-easymail_functions.php:857
+msgid "The main content of the post."
+msgstr "Postituse sisu."
+
+#: .././alo-easymail_functions.php:861
+msgid "Subscriber tags"
+msgstr "Liitujate sildid"
+
+#: .././alo-easymail_functions.php:863
+msgid "Name and surname of registered user."
+msgstr "Registreerunud kasutaja ees- ja perekonnanimi."
+
+#: .././alo-easymail_functions.php:863
+#: .././alo-easymail_functions.php:864
+msgid "For subscribers: the name used for registration"
+msgstr "Liitujatele: nimi, mida kasutasite registreerumisel"
+
+#: .././alo-easymail_functions.php:864
+msgid "First name of registered user."
+msgstr "Registreerunud kasutaja eesnimi."
+
+#: .././alo-easymail_functions.php:929
+msgid "Successfully updated"
+msgstr "Edukalt uuendatud"
+
+#: .././alo-easymail_functions.php:955
+msgid "The name field is empty"
+msgstr "Nime väli on tühi"
+
+#: .././alo-easymail_functions.php:956
+msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
+msgstr "Hoiatus: see e-poti aadress on juba liitunud, kuid ei ole veel aktiveeritud. Teile saadetakse uus kiri koos aktiveerimisjuhisega"
+
+#: .././alo-easymail_functions.php:957
+msgid "Warning: this email address has already been subscribed"
+msgstr "Hoiatus: see e-posti aadress on juba liitunud uudiskirjaga"
+
+#: .././alo-easymail_functions.php:958
+msgid "Error during sending: please try again"
+msgstr "Viga saatmisel: palun proovi uuesti"
+
+#: .././alo-easymail_functions.php:960
+msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
+msgstr "Liitumine õnnestus. Teile saadetakse e-mailiga link, mille kaudu saate oma liitumist kinnitada."
+
+#: .././alo-easymail_functions.php:1666
+msgid "Text and URL to unsubscribe."
+msgstr "Tekst ja link uudiskirjast loobumiseks."
+
+#: .././alo-easymail_functions.php:1666
+#: .././alo-easymail_functions.php:1670
+msgid "You can customise this text in settings"
+msgstr "Seda teksti saad muuta seadete all"
+
+#: .././alo-easymail_functions.php:1667
+msgid "URL to unsubscribe."
+msgstr "Link listist lahkumiseks."
+
+#: .././alo-easymail_functions.php:1669
+msgid "Newsletter tags"
+msgstr "Uudiskirja sildid"
+
+#: .././alo-easymail_functions.php:1670
+msgid "Text and URL to the online version."
+msgstr "Tekst ja viide veebiversioonile."
+
+#: .././alo-easymail_functions.php:1671
+msgid "URL to the online version."
+msgstr "Link veebiversioonile."
+
+#: .././alo-easymail_functions.php:1672
+msgid "Title of the newsletter."
+msgstr "Uudiskirja pealkiri."
+
+#: .././alo-easymail_functions.php:1673
+msgid "Date of the newsletter."
+msgstr "Uudiskirja kuupäev."
+
+#: .././alo-easymail_functions.php:1674
+msgid "Post Thumbnail of newsletter"
+msgstr "Uudiskirja pisipilt"
+
+#: .././alo-easymail_functions.php:1675
+msgid "Image gallery of newsletter"
+msgstr "Uudiskirja pildigalerii"
+
+#: .././alo-easymail_functions.php:1677
+msgid "Site tags"
+msgstr "Lehe sildid"
+
+#: .././alo-easymail_functions.php:1678
+msgid "The link to the site"
+msgstr "Viide lehele"
+
+#: .././alo-easymail_functions.php:1679
+msgid "URL to the site."
+msgstr "Link lehele"
+
+#: .././alo-easymail_functions.php:1680
+msgid "Site Title"
+msgstr "Lehe pealkiri"
+
+#: .././alo-easymail_functions.php:1681
+msgid "Tagline"
+msgstr "Hüüdlause"
+
+#: .././alo-easymail_functions.php:1683
+msgid "Post Thumbnail"
+msgstr "Postituse pisipilt"
+
+#: .././alo-easymail_functions.php:1684
+msgid "The image gallery of the post"
+msgstr "Postituse pisipilt"
+
+#: .././alo-easymail_functions.php:1710
+msgid "To read the newsletter online you can visit this link:"
+msgstr "Uudiskirja lugemiseks veebis võid kasutada seda linki:"
+
+#: .././alo-easymail_functions.php:1830
+msgid "j / n / Y"
+msgstr "j / n / Y"
+
+#: .././alo-easymail_functions.php:1874
+#: .././alo-easymail_functions.php:1891
+msgid "Select the image size"
+msgstr "Vali pildi suurus"
+
+#: .././alo-easymail_functions.php:2042
+msgid "Subscriber"
+msgstr "Liituja"
+
