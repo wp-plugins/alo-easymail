@@ -1123,7 +1123,7 @@ function alo_em_pubblic_form_callback() {
 		// Compose JavaScript for return
 		$feedback = "";
 		$feedback .= "document.alo_easymail_widget_form.submit.disabled = false;";
-		$feedback .= "document.alo_easymail_widget_form.submit.value = '". stripslashes(trim($_POST['alo_em_txt_subscribe'])). "';";
+		$feedback .= "document.alo_easymail_widget_form.submit.value = '". esc_js( $_POST['alo_em_txt_subscribe'] ). "';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '$output';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '$classfeedback';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
