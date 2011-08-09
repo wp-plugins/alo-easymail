@@ -27,6 +27,7 @@ $alo_em_textpre['alo_em_txtpre_activationmail_subj']['nl'] = "Bevestig uw aanmel
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['pl'] = "Prosimy o potwierdzenia chęci zapisania się do %BLOGNAME% Newslettera";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['pt'] = "Confirme a sua assinatura na newsletter de %BLOGNAME%";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['ro'] = "Confirmă abonamentul la newsletter %BLOGNAME%";
+$alo_em_textpre['alo_em_txtpre_activationmail_subj']['sv'] = "Verifiera din prenumeration av %BLOGNAME% nyhetsbrev";
 
 
 /*
@@ -159,6 +160,8 @@ Dacă nu ai solicitat acest abonament ignoră acest mesaj.
 Mulţumim
 %BLOGNAME%";
 
+// $alo_em_textpre['alo_em_txtpre_activationmail_mail']['sv'] = MISSING
+
 
 /*
  * Unsubscription notice
@@ -178,6 +181,7 @@ $alo_em_textpre['alo_em_custom_unsub_footer']['nl'] = "<p><em>U ontvangt dit ber
 $alo_em_textpre['alo_em_custom_unsub_footer']['pl'] = "<p><em>Otrzymujesz tą wiadomość ponieważ twój adres e-mail został zapisany w naszej bazie osób zainteresowanych naszym newsletterem. Jeżeli chcesz wypisać się odwiedź ten link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['pt'] = "<p><em>Recebeu esta mensagem porque assinou a nossa newsletter. Se quiser remover a assinatura clique nesta ligação<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['ro'] = "<p><em>Ai primit acest mesaj pentru că eşti abonat la newsletter-ul nostru. Dacă doreşti să te dezabonezi vizitați acest link<br /> %UNSUBSCRIBELINK%</em></p>";
+$alo_em_textpre['alo_em_custom_unsub_footer']['sv'] = "<p><em>Du har fått detta meddelande då du har anmält dig till vårt nyhetsbrev. Om du vill avsluta prenumerationen besök denna länk<br /> %UNSUBSCRIBELINK%</em></p>";
 
 
 /*
@@ -198,4 +202,5 @@ $alo_em_textpre['alo_em_custom_viewonline_msg']['nl'] = "<p><em>Het lezen van de
 $alo_em_textpre['alo_em_custom_viewonline_msg']['pl'] = "<p><em>Aby przeczytać online biuletyn można odwiedzić ten link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['pt'] = "<p><em>Para ler o boletim informativo on-line, pode visitar este link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['ro'] = "<p><em>Pentru a citi online, newsletter-ul puteţi vizita acest link: %NEWSLETTERLINK%</em></p>";
+// $alo_em_textpre['alo_em_custom_viewonline_msg']['sv'] = MISSING
 ?>
