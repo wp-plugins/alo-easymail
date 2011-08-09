@@ -643,7 +643,7 @@ msgstr "Om uw gegevens aan te passen kunt u dit formulier gebruiken"
 
 #: .././easymail-subscr-page.php:56
 msgid "To unsubscribe the newsletter for good click this button"
-msgstr "Om uw af te melden klik op deze knop"
+msgstr "Om u af te melden klik op deze knop"
 
 #: .././easymail-subscr-page.php:62
 msgid "Unsubscribe me"
@@ -1596,20 +1596,28 @@ msgstr "Aanmelding gelukt U ontvangt een e-mail met een link. U dient op deze li
 #~ msgstr ""
 #~ "Let op: dit label plaatst de complete tekst , inclusief codes van andere "
 #~ "plugins."
+
 #~ msgid "Receive Newsletters?"
 #~ msgstr "Nieuwsbrieven ontvangen?"
+
 #~ msgid "Default template for the email content"
 #~ msgstr "Standaard sjabloon voor e-mail inhoud"
+
 #~ msgid "For registered users"
 #~ msgstr "Voor geregistreerde gebruikers"
+
 #~ msgid "For all subscribers"
 #~ msgstr "Voor alle abonnees"
+
 #~ msgid "ID"
 #~ msgstr "ID"
+
 #~ msgid "click here"
 #~ msgstr "Klik hier"
+
 #~ msgid "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
 #~ msgstr "http://www.eventualo.net/blog/wp-alo-easymail-newsletter/"
+
 #~ msgid ""
 #~ "To send e-mails and newsletters. Features: collect subcribers on "
 #~ "registration or with an ajax widget, mailing lists, cron batch sending."
@@ -1617,8 +1625,9 @@ msgstr "Aanmelding gelukt U ontvangt een e-mail met een link. U dient op deze li
 #~ "Om e-mails en nieuwsbrieven te verzenden. Mogelijkheden: verzamel "
 #~ "abonnees bij registratie of met een ajax widget, mailing lijsten, cron "
 #~ "batch verzending"
+
 #~ msgid "Alessandro Massasso"
 #~ msgstr "Alessandro Massasso"
+
 #~ msgid "http://www.eventualo.net"
 #~ msgstr "http://www.eventualo.net"
-

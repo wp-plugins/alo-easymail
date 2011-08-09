@@ -59,6 +59,7 @@ Available languages:
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
 * Spanish v.1.8.7 - es_ES (by Mauro Macchiaroli)
+* Swedish v.2.1.2 - sv_SE (by Richard Desiatnik)
 
 You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
 

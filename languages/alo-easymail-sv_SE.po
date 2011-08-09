@@ -1,0 +1,1669 @@
+# Translation of the WordPress plugin ALO EasyMail Newsletter 1.8 by Alessandro Massasso.
+# Copyright (C) 2010 Alessandro Massasso
+# This file is distributed under the same license as the ALO EasyMail Newsletter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ALO EasyMail Newsletter ver.2.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-15 00:30+0100\n"
+"PO-Revision-Date: 2011-08-08 21:22+0100\n"
+"Last-Translator: JornB <jornblack@gmail.com>\n"
+"Language-Team: George Stavropoulos (HDnet)  www.hdnet.gr <info@hdnet.gr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././alo-easymail.php:269
+#: .././alo-easymail.php:1057
+#: .././alo-easymail.php:1232
+#: .././alo-easymail_options.php:1058
+#: .././alo-easymail_subscribers.php:50
+msgid "Subscribers"
+msgstr "Prenumeranter"
+
+#: .././alo-easymail.php:271
+msgid "Settings"
+msgstr "Inställningar"
+
+#: .././alo-easymail.php:283
+msgid "Resources about EasyMail Newsletter"
+msgstr "Resurser om EasyMail Newsletter"
+
+#: .././alo-easymail.php:322
+#: .././alo-easymail.php:1226
+#: .././alo-easymail.php:1227
+msgid "Newsletters"
+msgstr "Nyhetsbrev"
+
+#: .././alo-easymail.php:323
+#: .././alo-easymail.php:625
+#: .././alo-easymail-widget.php:206
+msgid "Newsletter"
+msgstr "Nyhetsbrev"
+
+#: .././alo-easymail.php:324
+msgid "Add New"
+msgstr "Skapa ny"
+
+#: .././alo-easymail.php:325
+msgid "Add New Newsletter"
+msgstr "Skapa nytt nyhetsbrev"
+
+#: .././alo-easymail.php:326
+msgid "Edit Newsletter"
+msgstr "Ändra nyhetsbrev"
+
+#: .././alo-easymail.php:327
+msgid "New Newsletter"
+msgstr "Nytt nyhetsbrev"
+
+#: .././alo-easymail.php:328
+msgid "View Newsletter"
+msgstr "Läsa nyhetsbrev"
+
+#: .././alo-easymail.php:329
+msgid "Search Newsletters"
+msgstr "Sök nyhetsbrev"
+
+#: .././alo-easymail.php:330
+msgid "No Newsletters found"
+msgstr "Hittade inga nyhetsbrev"
+
+#: .././alo-easymail.php:331
+msgid "No Newsletters found in Trash"
+msgstr "Hittade inga nyhetsbrev i papperskorgen"
+
+#: .././alo-easymail.php:332
+#: .././alo-easymail.php:334
+msgid "Parent Newsletter"
+msgstr "Föräldranyhetsbrev"
+
+#: .././alo-easymail.php:366
+#, php-format
+msgid "Newsletter updated. <a href=\"%s\">View Newsletter</a>"
+msgstr "Nyhetsbrev uppdaterat. <a href=\"%s\">Läsa nyhetsbrevet</a>"
+
+#: .././alo-easymail.php:367
+msgid "Custom field updated."
+msgstr "Anpassade fältet uppdaterat."
+
+#: .././alo-easymail.php:368
+msgid "Custom field deleted."
+msgstr "Anpassade fältet borttaget."
+
+#: .././alo-easymail.php:369
+msgid "Newsletter updated."
+msgstr "Nyhetsbrev uppdaterad."
+
+#: .././alo-easymail.php:371
+#, php-format
+msgid "Newsletter restored to revision from %s"
+msgstr "Nyhetsbrev återställt från %s"
+
+#: .././alo-easymail.php:372
+#, php-format
+msgid "Newsletter published. <a href=\"%s\">View Newsletter</a>"
+msgstr "Nyhetsbrev publiserad. <a href=\"%s\">Läsa nyhetsbrevet</a>"
+
+#: .././alo-easymail.php:373
+msgid "Newsletter saved."
+msgstr "Nyhetsbrev sparat."
+
+#: .././alo-easymail.php:374
+#, php-format
+msgid "Newsletter submitted. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Nyhetsbrev skickat. <a target=\"_blank\" href=\"%s\">Förhandsgranska nyhetsbrev</a>"
+
+#: .././alo-easymail.php:375
+#, php-format
+msgid "Newsletter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Newsletter</a>"
+msgstr "Nyhetsbrev planerat för den: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Förhandsgranska nyhetsbrevet</a>"
+
+#: .././alo-easymail.php:377
+#: .././alo-easymail.php:513
+#: .././alo-easymail.php:1051
+#: .././alo-easymail_report.php:109
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_functions.php:1462
+msgid "j M Y @ G:i"
+msgstr "j M Y @ G:i"
+
+#: .././alo-easymail.php:378
+#, php-format
+msgid "Newsletter draft updated. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Utkast till nyhetsbrev uppdaterat. <a target=\"_blank\" href=\"%s\">Förhandsgranska nyhetsbrev</a>"
+
+#: .././alo-easymail.php:421
+msgid "Title"
+msgstr "Titel"
+
+#: .././alo-easymail.php:421
+#: .././alo-easymail_report.php:86
+#: .././alo-easymail_options.php:567
+msgid "Subject"
+msgstr "Ämne"
+
+#: .././alo-easymail.php:422
+#: .././alo-easymail.php:825
+msgid "Recipients"
+msgstr "Mottagare"
+
+#: .././alo-easymail.php:423
+msgid "Newsletter status"
+msgstr "Status för nyhetsbrev"
+
+#: .././alo-easymail.php:424
+#: .././alo-easymail_report.php:108
+msgid "Start"
+msgstr "Start"
+
+#: .././alo-easymail.php:425
+msgid "Author"
+msgstr "Författare"
+
+#: .././alo-easymail.php:441
+#: .././alo-easymail_recipients-list (copia).php:72
+#: .././alo-easymail_recipients-list.php:72
+msgid "No recipients selected yet"
+msgstr "Inga mottagare valda än"
+
+#: .././alo-easymail.php:445
+#: .././alo-easymail_report.php:136
+msgid "Total recipients"
+msgstr "Totalt antal mottagare"
+
+#: .././alo-easymail.php:505
+#: .././alo-easymail.php:506
+msgid "Report"
+msgstr "Rapport"
+
+#: .././alo-easymail.php:511
+#: .././alo-easymail_report.php:112
+msgid "Completed"
+msgstr "Färdiga"
+
+#: .././alo-easymail.php:521
+msgid "On sending queue"
+msgstr "Sändningslista"
+
+#: .././alo-easymail.php:522
+#: .././alo-easymail.php:551
+#: .././alo-easymail.php:1050
+msgid "Progress"
+msgstr "Framsteg"
+
+#: .././alo-easymail.php:524
+#: .././alo-easymail.php:537
+msgid "refresh"
+msgstr "uppdatera"
+
+#: .././alo-easymail.php:526
+#: .././alo-easymail_recipients-list (copia).php:148
+#: .././alo-easymail_recipients-list.php:177
+msgid "pause"
+msgstr "pausa"
+
+#: .././alo-easymail.php:526
+msgid "pause the sending"
+msgstr "pausa sändningen"
+
+#: .././alo-easymail.php:532
+msgid "Pending Review"
+msgstr "Väntar granskning"
+
+#: .././alo-easymail.php:535
+msgid "Scheduled"
+msgstr "Schemalagd"
+
+#: .././alo-easymail.php:541
+msgid "Draft"
+msgstr "Utkast"
+
+#: .././alo-easymail.php:544
+msgid "Pending"
+msgstr "Avvaktan"
+
+#: .././alo-easymail.php:550
+msgid "Paused"
+msgstr "Pausad"
+
+#: .././alo-easymail.php:555
+#: .././alo-easymail_recipients-list (copia).php:149
+#: .././alo-easymail_recipients-list.php:178
+msgid "continue"
+msgstr "fortsätt"
+
+#: .././alo-easymail.php:555
+msgid "continue the sending"
+msgstr "fortsätta sändningen"
+
+#: .././alo-easymail.php:565
+msgid "Required"
+msgstr "Krävs"
+
+#: .././alo-easymail.php:565
+#: .././alo-easymail_recipients-list (copia).php:126
+#: .././alo-easymail_recipients-list.php:155
+msgid "Create list of recipients"
+msgstr "Skapa lista med mottagare"
+
+#: .././alo-easymail.php:579
+#: .././alo-easymail_report.php:171
+msgid "Sent"
+msgstr "Skickat"
+
+#: .././alo-easymail.php:628
+#: .././alo-easymail.php:1103
+#: .././alo-easymail-widget.php:57
+#: .././alo-easymail_subscr-page.php:20
+#: .././alo-easymail_options.php:501
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "Ja, jag vill ha ert nyhetsbrev"
+
+#: .././alo-easymail.php:632
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list (copia).php:139
+#: .././alo-easymail_recipients-list.php:168
+msgid "Yes"
+msgstr "Ja"
+
+#: .././alo-easymail.php:633
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list
+#: (copia).php:140
+#: .././alo-easymail_recipients-list.php:169
+msgid "No"
+msgstr "Nej"
+
+#: .././alo-easymail.php:746
+#: .././alo-easymail_report.php:32
+msgid "Newsletter report"
+msgstr "Nyhetsbrevsrapport"
+
+#: .././alo-easymail.php:747
+#: .././alo-easymail_recipients-list (copia).php:79
+#: .././alo-easymail_recipients-list.php:79
+msgid "Newsletter subscribers creation"
+msgstr "Skapa mottagare för nyhetsbrev"
+
+#: .././alo-easymail.php:826
+msgid "Placeholders"
+msgstr "Platshållare"
+
+#: .././alo-easymail.php:838
+msgid "Selected recipients"
+msgstr "Valda mottagare"
+
+#: .././alo-easymail.php:841
+msgid "This newsletter was already sent"
+msgstr "Detta nyhetsbrev har redan skickats"
+
+#: .././alo-easymail.php:847
+msgid "The creation of the recipients list has already started"
+msgstr "Skapandet av mottagarlistan har redan startats"
+
+#: .././alo-easymail.php:849
+msgid "Check this flag to delete the existing list and save new recipients now"
+msgstr "Markera denna flagga för att ta bort den existerande listan och spara nya mottagare nu"
+
+#: .././alo-easymail.php:857
+msgid "Users"
+msgstr "Användare"
+
+#: .././alo-easymail.php:860
+#: .././alo-easymail_functions.php:263
+msgid "All registered users"
+msgstr "Alla registrerade användare"
+
+#: .././alo-easymail.php:868
+#: .././alo-easymail_subscribers.php:318
+msgid "Newsletter subscribers"
+msgstr "Nyhetsbrev prenumeranter"
+
+#: .././alo-easymail.php:871
+#: .././alo-easymail_functions.php:265
+msgid "All subscribers"
+msgstr "Alla prenumeranter"
+
+#: .././alo-easymail.php:878
+msgid "Filter subscribers according to lists"
+msgstr "Filtrera prenumeranter enligt listan"
+
+#: .././alo-easymail.php:898
+msgid "Filter subscribers according to languages"
+msgstr "Filtrera prenumeranter enligt språk"
+
+#: .././alo-easymail.php:913
+msgid "Not specified / others"
+msgstr "Inte specificerad/ andra"
+
+#: .././alo-easymail.php:949
+msgid "Choose a post"
+msgstr "Välj ett inlägg"
+
+#: .././alo-easymail.php:954
+msgid "j M Y"
+msgstr "j M Y"
+
+#: .././alo-easymail.php:1044
+msgid "Newsletters scheduled for sending"
+msgstr "Nyhetsbrev planerat att skickas"
+
+#: .././alo-easymail.php:1048
+msgid "now sending"
+msgstr "skickas nu"
+
+#: .././alo-easymail.php:1051
+msgid "Added on"
+msgstr "Tillagd den"
+
+#: .././alo-easymail.php:1052
+#: .././alo-easymail_report.php:105
+msgid "Scheduled by"
+msgstr "Planerat av"
+
+#: .././alo-easymail.php:1055
+msgid "There are no newsletters in queue"
+msgstr "Det finns inga nyhetsbrev i kön"
+
+#: .././alo-easymail.php:1060
+#, php-format
+msgid "There are %d subscribers: %d activated, %d not activated"
+msgstr "Det är %d prenumeranter: %d aktiverade, %d ej aktiverade"
+
+#: .././alo-easymail.php:1062
+#: .././alo-easymail_subscribers.php:581
+#: .././alo-easymail_subscribers.php:899
+msgid "No subscribers"
+msgstr "Inga prenumeranter"
+
+#: .././alo-easymail.php:1065
+msgid "Updates from plugin developer"
+msgstr "Uppdateringar från utvecklaren av pluginen"
+
+#: .././alo-easymail.php:1082
+msgid "j F Y"
+msgstr "j F Y"
+
+#: .././alo-easymail.php:1109
+#: .././alo-easymail-widget.php:20
+#: .././alo-easymail_options.php:503
+#: .././alo-easymail_functions.php:1873
+msgid "You can also sign up for specific lists"
+msgstr "Du kan även välja specifika listor"
+
+#: .././alo-easymail.php:1175
+msgid "Confirm your subscription to %BLOGNAME% Newsletter"
+msgstr "Verifiera din prenumeration av %BLOGNAME% nyhetsbrev"
+
+#: .././alo-easymail.php:1185
+msgid "Hi %NAME%"
+msgstr "Hej %NAME%"
+
+#: .././alo-easymail.php:1187
+msgid "If you did not ask for this subscription ignore this message."
+msgstr "Om du inte har bett om vårt nyhetsbrev ignorera då detta meddelande."
+
+#: .././alo-easymail.php:1188
+msgid "Thank you"
+msgstr "Tack så mycket!"
+
+#: .././alo-easymail.php:1228
+msgid "Send newsletter"
+msgstr "Skicka nyhetsbrev"
+
+#: .././alo-easymail.php:1229
+#: .././alo-easymail_subscribers.php:633
+msgid "Show all"
+msgstr "Visa alla"
+
+#: .././alo-easymail.php:1235
+msgid "Options"
+msgstr "Val"
+
+#: .././alo-easymail.php:1278
+msgid "Debug mode is activated"
+msgstr "Felsökningsläge är aktiverat"
+
+#: .././alo-easymail.php:1279
+#: .././alo-easymail_options.php:390
+msgid "all messages will be sent to the newsletter author"
+msgstr "alla meddelanden kommer att sändas till författaren av nyhetsbrevet"
+
+#: .././alo-easymail.php:1280
+#: .././alo-easymail_options.php:391
+msgid "all messages will be recorded into a log file"
+msgstr "alla meddelanden kommer att sparas i en logfil"
+
+#: .././alo-easymail-widget.php:58
+#: .././alo-easymail_options.php:502
+msgid "No, please do not email me"
+msgstr "Nej, jag vill inte ha ert nyhetsbrev"
+
+#: .././alo-easymail-widget.php:60
+msgid "Updating..."
+msgstr "Uppdaterar ..."
+
+#: .././alo-easymail-widget.php:81
+#: .././alo-easymail_functions.php:964
+msgid "sending..."
+msgstr "skickar ..."
+
+#: .././alo-easymail-widget.php:87
+#: .././alo-easymail_report.php:169
+#: .././alo-easymail_subscribers.php:273
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:775
+msgid "Name"
+msgstr "Namn"
+
+#: .././alo-easymail-widget.php:91
+#: .././alo-easymail_report.php:168
+#: .././alo-easymail_subscribers.php:271
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:774
+msgid "E-mail"
+msgstr "E-post"
+
+#: .././alo-easymail-widget.php:97
+#: .././alo-easymail_functions.php:963
+msgid "Subscribe"
+msgstr "Skicka"
+
+#: .././alo-easymail-widget.php:111
+msgid "Allow users to opt in/out of email"
+msgstr "Tillåt användare att välja in/ut av e-posten"
+
+#: .././alo-easymail-widget.php:117
+msgid "ALO Easymail Widget"
+msgstr "ALO Easymail Widget"
+
+#: .././alo-easymail_subscr-page.php:18
+#: .././alo-easymail_options.php:913
+#: .././alo-easymail_options.php:945
+#: .././alo-easymail_options.php:964
+#: .././alo-easymail_options.php:967
+#: .././alo-easymail_subscribers.php:18
+#: .././alo-easymail_subscribers.php:28
+#: .././alo-easymail_subscribers.php:98
+#: .././alo-easymail_subscribers.php:161
+#: .././alo-easymail_subscribers.php:208
+#: .././alo-easymail_subscribers.php:221
+#: .././alo-easymail_subscribers.php:234
+#: .././alo-easymail_subscribers.php:378
+#: .././alo-easymail_subscribers.php:395
+#: .././alo-easymail_subscribers.php:418
+#: .././alo-easymail_subscribers.php:452
+msgid "Error during operation."
+msgstr "Fel under behandling."
+
+#: .././alo-easymail_subscr-page.php:31
+#: .././alo-easymail_functions.php:961
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "Din prenumeration på vårt nyhetsbrev är aktiverad. Tack så mycket."
+
+#: .././alo-easymail_subscr-page.php:34
+msgid "Error during activation. Please check the activation link."
+msgstr "Fel under aktivering. Var god kolla aktiveringslänken."
+
+#: .././alo-easymail_subscr-page.php:42
+msgid "To modify your subscription to mailing lists use this form"
+msgstr "För att modifiera din prenumeration vid val av listor använd detta formulär"
+
+#: .././alo-easymail_subscr-page.php:51
+msgid "Edit"
+msgstr "Ändra"
+
+#: .././alo-easymail_subscr-page.php:56
+msgid "To unsubscribe the newsletter for good click this button"
+msgstr "För att avsluta din prenumeration på vårt nyhetsbrev, klicka på denna knapp"
+
+#: .././alo-easymail_subscr-page.php:62
+msgid "Unsubscribe me"
+msgstr "Avsluta prenumeration"
+
+#: .././alo-easymail_subscr-page.php:69
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "Din prenumeration har avslutats."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Error during unsubscription."
+msgstr "Fel under avslutning av prenumeration."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "Try again."
+msgstr "Prova igen."
+
+#: .././alo-easymail_subscr-page.php:73
+msgid "If it fails again you can contact the administrator"
+msgstr "Om det uppstår problem igen, kontakta administratören."
+
+#: .././alo-easymail_subscr-page.php:90
+msgid "Your subscription to mailing lists successfully updated"
+msgstr "Din prenumeration på listorna har uppdaterats"
+
+#: .././alo-easymail_report.php:5
+#: .././alo-easymail_report.php:19
+#: .././alo-easymail_report.php:21
+#: .././alo-easymail_recipients-list
+#: (copia).php:6
+#: (copia).php:17
+#: (copia).php:23
+#: (copia).php:25
+#: .././alo-easymail_options.php:3
+#: .././alo-easymail_subscribers.php:3
+#: .././alo-easymail_recipients-list.php:6
+#: .././alo-easymail_recipients-list.php:17
+#: .././alo-easymail_recipients-list.php:23
+#: .././alo-easymail_recipients-list.php:25
+msgid "Cheatin&#8217; uh?"
+msgstr "Fuskar va?"
+
+#: .././alo-easymail_report.php:17
+#: .././alo-easymail_report.php:18
+#: .././alo-easymail_recipients-list (copia).php:21
+#: (copia).php:22
+#: .././alo-easymail_recipients-list.php:21
+#: .././alo-easymail_recipients-list.php:22
+msgid "The required newsletter does not exist"
+msgstr "Nyhetsbrevet som krävs finns inte"
+
+#: .././alo-easymail_report.php:80
+msgid "open in a new window"
+msgstr "öppna i ett nytt fönster"
+
+#: .././alo-easymail_report.php:119
+#: .././alo-easymail_options.php:571
+msgid "Main body"
+msgstr "Huvudel"
+
+#: .././alo-easymail_report.php:119
+msgid "without formatting"
+msgstr "utan formatering"
+
+#: .././alo-easymail_report.php:137
+msgid "Sendings done"
+msgstr "Utskick avklarat"
+
+#: .././alo-easymail_report.php:138
+msgid "Sendings succesful"
+msgstr "Utskick lyckades"
+
+#: .././alo-easymail_report.php:139
+msgid "Sendings failed"
+msgstr "Utskick misslyckades"
+
+#: .././alo-easymail_report.php:141
+msgid "Unique views"
+msgstr "Unika visningar"
+
+#: .././alo-easymail_report.php:143
+msgid "The plugin tries to count how many recipients open the newsletter"
+msgstr "Pluginen försöker räkna hur många prenumeranter som öppnat nyhetsbrevet"
+
+#: .././alo-easymail_report.php:144
+msgid "The number includes max a view per recipient"
+msgstr "Siffran inkluderar maximalt antal visningar per mottagare"
+
+#: .././alo-easymail_report.php:148
+#: .././alo-easymail_report.php:173
+msgid "Clicks"
+msgstr "Klick"
+
+#: .././alo-easymail_report.php:150
+msgid "The number includes all clicks by all recipients"
+msgstr "Siffran inkluderar alla klick av alla prenumeranter"
+
+#: .././alo-easymail_report.php:170
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:780
+msgid "Language"
+msgstr "Språk"
+
+#: .././alo-easymail_report.php:172
+msgid "Viewed"
+msgstr "Sedd"
+
+#: .././alo-easymail_custom-hooks-sample.php:31
+msgid "Latest posts"
+msgstr "Senaste inläggen"
+
+#: .././alo-easymail_custom-hooks-sample.php:33
+msgid "A list with the latest published posts"
+msgstr "En lista med de senast publiserade inläggen"
+
+#: .././alo-easymail_custom-hooks-sample.php:51
+msgid "Select how many posts"
+msgstr "Välj hur många inlägg"
+
+#: .././alo-easymail_recipients-list (copia).php:5
+#: (copia).php:151
+#: .././alo-easymail_recipients-list.php:5
+#: .././alo-easymail_recipients-list.php:180
+msgid "close"
+msgstr "stäng"
+
+#: .././alo-easymail_recipients-list (copia).php:68
+#: .././alo-easymail_recipients-list.php:68
+msgid "The required newsletter seems to already have a list"
+msgstr "Nyhetsbrevet som krävs verkar redan ha en lista"
+
+#: .././alo-easymail_recipients-list (copia).php:105
+#: .././alo-easymail_recipients-list.php:97
+#: .././alo-easymail_recipients-list.php:132
+msgid "Recipients successfully added"
+msgstr "Prenumeranter tillagda"
+
+#: .././alo-easymail_recipients-list (copia).php:106
+#: .././alo-easymail_recipients-list.php:98
+#: .././alo-easymail_recipients-list.php:133
+msgid "Newsletter successfully sent to recipients"
+msgstr "Nyhetsbrevet skickades till alla prenumeranter"
+
+#: .././alo-easymail_recipients-list (copia).php:131
+#: .././alo-easymail_recipients-list.php:160
+msgid "You have to prepare the list of recipients to send the newsletter to"
+msgstr "Du måste förbereda listan med prenumeranter för att kunna skicka nyhetsbrevet"
+
+#: .././alo-easymail_recipients-list (copia).php:132
+#: .././alo-easymail_recipients-list.php:161
+msgid "You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)"
+msgstr "Du kan lägga till prenumeranter till sändkön (bästa valet) eller skicka nyhetsbrevet direkt (rekommenderas vid enbart ett fåtal prenumeranter)"
+
+#: .././alo-easymail_recipients-list (copia).php:133
+#: .././alo-easymail_recipients-list.php:162
+msgid "Warning: do not close or reload the browser window during process"
+msgstr "Varning: stäng eller uppdatera inte webbläsarfönstret under processen"
+
+#: .././alo-easymail_recipients-list (copia).php:135
+#: .././alo-easymail_recipients-list.php:164
+msgid "You can send the newsletter as test to"
+msgstr "Du kan skicka nyhetsbrevet som test till"
+
+#: .././alo-easymail_recipients-list (copia).php:137
+#: .././alo-easymail_recipients-list.php:166
+msgid "Send"
+msgstr "Skicka"
+
+#: .././alo-easymail_recipients-list (copia).php:145
+#: .././alo-easymail_recipients-list.php:174
+msgid "Add to sending queue"
+msgstr "Lägg till sändkön"
+
+#: .././alo-easymail_recipients-list (copia).php:147
+#: .././alo-easymail_recipients-list.php:176
+msgid "Send now"
+msgstr "Skicka nu"
+
+#: .././alo-easymail_options.php:198
+#: .././alo-easymail_options.php:943
+#: .././alo-easymail_options.php:962
+#: .././alo-easymail_subscribers.php:446
+#: .././alo-easymail_subscribers.php:463
+msgid "Updated"
+msgstr "Uppdaterad"
+
+#: .././alo-easymail_options.php:229
+#: .././alo-easymail_options.php:246
+msgid "General"
+msgstr "Allmänt"
+
+#: .././alo-easymail_options.php:230
+#: .././alo-easymail_options.php:445
+#: .././alo-easymail_options.php:865
+msgid "Texts"
+msgstr "Texter"
+
+#: .././alo-easymail_options.php:231
+#: .././alo-easymail_options.php:689
+msgid "Batch sending"
+msgstr "Massutskick"
+
+#: .././alo-easymail_options.php:232
+#: .././alo-easymail_options.php:761
+msgid "Permissions"
+msgstr "Rättigheter"
+
+#: .././alo-easymail_options.php:233
+#: .././alo-easymail_options.php:866
+#: .././alo-easymail_options.php:890
+#: .././alo-easymail_options.php:1052
+#: .././alo-easymail_subscribers.php:292
+#: .././alo-easymail_subscribers.php:779
+#: .././alo-easymail_functions.php:267
+msgid "Mailing Lists"
+msgstr "E-post listor"
+
+#: .././alo-easymail_options.php:250
+msgid "Number of last posts to display"
+msgstr "Antal av senaste inläggen att visa"
+
+#: .././alo-easymail_options.php:252
+msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
+msgstr "Antal senaste inlägg att visa i gardinmenyn i formuläret för nyhetsbrevet "
+
+#: .././alo-easymail_options.php:256
+msgid "Sender's email address"
+msgstr "E-post avsändare"
+
+#: .././alo-easymail_options.php:261
+msgid "Sender's name"
+msgstr "Avsändarens namn"
+
+#: .././alo-easymail_options.php:273
+msgid "Subscription page"
+msgstr "Prenumerationssida"
+
+#: .././alo-easymail_options.php:292
+msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
+msgstr "Detta är den sida som innehåller [ALO-EASYMAIL-PAGE] kortkoden . Enligt grundinställningen har sidan titeln &#39;Nyhetsbrev&#39;"
+
+#: .././alo-easymail_options.php:305
+msgid "Show subscription page"
+msgstr "Visa prenumerationssidan"
+
+#: .././alo-easymail_options.php:306
+msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
+msgstr "Om JA så visas prenumerationssidan i menyn eller i en widget som visar alla sidor"
+
+#: .././alo-easymail_options.php:317
+msgid "Embed CSS file"
+msgstr "Inkludera CSS-filen"
+
+#: .././alo-easymail_options.php:318
+msgid "If yes, the plugin loads the CSS styles from a file in its directory"
+msgstr "Om JA så laddar pluginen CSS-filen från en fil i katalogen"
+
+#: .././alo-easymail_options.php:318
+msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
+msgstr "Tips: kopiera &#39;alo-easymail.css&#39;till din tema mapp och ändra den där. Väldigt användbart då det annars försvinner vid en eventuell uppgradering av pluginen."
+
+#: .././alo-easymail_options.php:329
+msgid "Disable activation e-mail"
+msgstr "Ingen e-post aktivering"
+
+#: .././alo-easymail_options.php:330
+msgid "If yes, a new subscriber is automatically activated without confirmation e-mail"
+msgstr "Om JA så aktiveras prenumerater automatiskt utan någon konfimerings mail."
+
+#: .././alo-easymail_options.php:349
+msgid "Filters to the newsletter text"
+msgstr "Filter för nyhetsbrevetstext"
+
+#: .././alo-easymail_options.php:351
+msgid "Apply 'the_content' filters and shortcodes to newsletter content"
+msgstr "Tillämpa 'the_content' filter och kortkoder för nyhetsbrevets innehåll"
+
+#: .././alo-easymail_options.php:364
+msgid "Load only plugin javascript in list generation screen"
+msgstr "Ladda endast pluginens javascript vid skapandet av listor"
+
+#: .././alo-easymail_options.php:366
+msgid "Load only plugin javascript files during list of recipients"
+msgstr "Ladda endast pluginens javascript under skapandet av mottagarlistan"
+
+#: .././alo-easymail_options.php:366
+msgid "Useful to avoid conflicts with javascripts of other plugins"
+msgstr "Användbart när man vill undvika konflikter mellan andra plugin script"
+
+#: .././alo-easymail_options.php:379
+msgid "Debug newsletters"
+msgstr "Nyhetsbrev för felsökning"
+
+#: .././alo-easymail_options.php:382
+msgid "no"
+msgstr "nej"
+
+#: .././alo-easymail_options.php:383
+#: .././alo-easymail_options.php:390
+msgid "send all emails to the author"
+msgstr "skicka alla e-post meddelanden till författaren"
+
+#: .././alo-easymail_options.php:383
+#: .././alo-easymail_options.php:391
+msgid "put all emails into a log file"
+msgstr "lägg alla e-post meddelanden i logfilen"
+
+#: .././alo-easymail_options.php:388
+msgid "If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients"
+msgstr "Om du väljer felsökningsläge så kommer inte nyhetsbreven att skickas till de valda mottagarna"
+
+#: .././alo-easymail_options.php:392
+#, php-format
+msgid "called %s and saved in %s"
+msgstr "heter %s och sparades i %s"
+
+#: .././alo-easymail_options.php:392
+msgid "the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!"
+msgstr "logfilen är tillgänglig på din server och innehåller personliginformation så du måste ta bort den så snart som möjligt!"
+
+#: .././alo-easymail_options.php:405
+msgid "Show credit banners in back-end"
+msgstr "Visa vem som skapat pluginen i adminläget"
+
+#: .././alo-easymail_options.php:406
+msgid "You are free to hide the credits, but in that case it's a common practice to make a small donatation via Paypal to the plugin author"
+msgstr "Du får gömma vem som skapat pluginen, men som oftast brukar man då göra en liten donation via Paypal till skaparen"
+
+#: .././alo-easymail_options.php:417
+#: .././alo-easymail_options.php:419
+#: .././alo-easymail_options.php:420
+msgid "Delete all plugin data on deactivation"
+msgstr "Ta bort all plugindata vid deaktivering"
+
+#: .././alo-easymail_options.php:418
+msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
+msgstr "Vid deaktivering av pluginen, kommer alla inställningar, val och databastabeller (inklusive alla nyhetsbrev och prenumerater) tas bort"
+
+#: .././alo-easymail_options.php:418
+msgid "If you need these data make sure you do a database backup before plugin deactivation"
+msgstr "Om du behöver detta data, gör då en backup av databasen -innan- du deaktiverar pluginen"
+
+#: .././alo-easymail_options.php:420
+msgid "Yes, I understand"
+msgstr "Ja, jag förstår"
+
+#: .././alo-easymail_options.php:430
+#: .././alo-easymail_options.php:462
+#: .././alo-easymail_options.php:673
+#: .././alo-easymail_options.php:738
+#: .././alo-easymail_options.php:877
+msgid "Update"
+msgstr "Uppdatera"
+
+#: .././alo-easymail_options.php:454
+msgid "No multilanguage plugin is enabled, so you will only see texts in the main language of the site"
+msgstr "Ingen plugin för flerspråksstöd hittades, så du kommer endast se text i det språk som hemsidan har"
+
+#: .././alo-easymail_options.php:455
+msgid "Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality"
+msgstr "Rekommenderade pluginer, fullt kompatibla med EasyMail, för komplett flerspråksstöd"
+
+#: .././alo-easymail_options.php:459
+msgid "If you like here you can list the languages available"
+msgstr "Om du "
+
+#: .././alo-easymail_options.php:463
+msgid "List of two-letter language codes separated by commas"
+msgstr "Lista med språkkoder (två tecken) separerade med komma"
+
+#: .././alo-easymail_options.php:463
+#: .././alo-easymail_subscribers.php:331
+msgid "iso 639-1 codes"
+msgstr "iso 639-1 koder"
+
+#: .././alo-easymail_options.php:463
+msgid "Sample:"
+msgstr "Exempel:"
+
+#: .././alo-easymail_options.php:465
+msgid "The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly"
+msgstr "Pluginen letar efter prenumerantens språkinställning i webbläsaren och skickar e-post meddelande enligt det"
+
+#: .././alo-easymail_options.php:466
+msgid "If you are not using a multilanguage site ignore this piece of information"
+msgstr "Om du inte använder en hemsida med flerspråksstöd behöver du inte bry dig om denna information"
+
+#: .././alo-easymail_options.php:476
+msgid "Widget/Page Texts"
+msgstr "Widget/ sidtext"
+
+#: .././alo-easymail_options.php:490
+msgid "Optin message"
+msgstr "Text för att tacka ja"
+
+#: .././alo-easymail_options.php:491
+msgid "Optout message"
+msgstr "Text för att tacka nej"
+
+#: .././alo-easymail_options.php:492
+msgid "Invite to join mailing lists"
+msgstr "Text för att välja specifik e-post lista"
+
+#: .././alo-easymail_options.php:493
+msgid "Policy claim"
+msgstr "Text för integritetspolicy"
+
+#: .././alo-easymail_options.php:494
+msgid "Top claim"
+msgstr "Informationstext"
+
+#: .././alo-easymail_options.php:498
+#: .././alo-easymail_options.php:555
+#: .././alo-easymail_options.php:594
+#: .././alo-easymail_options.php:633
+msgid "Leave blank to use default text"
+msgstr "Lämna tomt för att använda standardtexten"
+
+#: .././alo-easymail_options.php:505
+#: .././alo-easymail_options.php:509
+msgid "empty"
+msgstr "tom"
+
+#: .././alo-easymail_options.php:506
+msgid "If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy"
+msgstr "Om du fyller i texten kommer den att visas längst ner på sidan/ widget. Användbart för att visa/ länka till mer informatiom om integritet"
+
+#: .././alo-easymail_options.php:510
+msgid "If filled in it will appear at the top of widget/page. Useful to invite to subscribe"
+msgstr "Om du fyller i texten kommer den att visas högst upp på sidan/ widget. Användbart för att bjuda in prenumeranter"
+
+#: .././alo-easymail_options.php:549
+msgid "Communications"
+msgstr "Kommunikation"
+
+#: .././alo-easymail_options.php:554
+msgid "Activation e-mail"
+msgstr "E-post meddelande för aktivering"
+
+#: .././alo-easymail_options.php:583
+#: .././alo-easymail_options.php:622
+#: .././alo-easymail_options.php:659
+msgid "You can use the following tags"
+msgstr "Du kan använda följande taggar"
+
+#: .././alo-easymail_options.php:585
+#: .././alo-easymail_options.php:624
+msgid "the blog name"
+msgstr "hemsidans namn"
+
+#: .././alo-easymail_options.php:586
+msgid "the subscriber name"
+msgstr "prenumerantens namn"
+
+#: .././alo-easymail_options.php:587
+msgid "the url that the new subscriber must click/visit to confirm the subscription"
+msgstr "URL:en som nya prenumeranter måste klicka/ besöka för att verifiera sin prenumeration"
+
+#: .././alo-easymail_options.php:593
+msgid "Unsubscription disclaimer"
+msgstr "Text för att avbryta prenumerationen"
+
+#: .././alo-easymail_options.php:596
+#: .././alo-easymail_functions.php:1430
+msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
+msgstr "Du har fått detta meddelande då du har anmält dig till vårt nyhetsbrev. Om du vill avsluta prenumerationen:"
+
+#: .././alo-easymail_options.php:597
+#: .././alo-easymail_functions.php:1431
+msgid "visit this link"
+msgstr "besök denna länk"
+
+#: .././alo-easymail_options.php:625
+msgid "the url that the new subscriber must click/visit to unsubscribe the newsletter"
+msgstr "UTL:en som den nya prenumeranten måste besöka/ klicka på för att avsluta prenumerationen av nyhetsbrevet"
+
+#: .././alo-easymail_options.php:632
+msgid "Read newsletter online"
+msgstr "Läs nyhetsbrevet online"
+
+#: .././alo-easymail_options.php:635
+#: .././alo-easymail_functions.php:1407
+msgid "To read the newsletter online you can visit this link"
+msgstr "För att läsa nyhetsbrevet online kan du besöka denna länk"
+
+#: .././alo-easymail_options.php:661
+msgid "the newsletter web url"
+msgstr "nyhetsbrevets URL"
+
+#: .././alo-easymail_options.php:699
+#, php-format
+msgid "Some parameters are already setted up in %s, so the values below could be ignored"
+msgstr "Några parametrar som redan är tillgängliga %s, så värdena nedan kan du ignorera"
+
+#: .././alo-easymail_options.php:706
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "Maximalt antal e-post meddelanden som kan skickas inom en 24-timmars period"
+
+#: .././alo-easymail_options.php:712
+msgid "Maximum number of emails that can be sent per batch"
+msgstr "Maximalt antal e-post meddelanden som kan skickas i en omgång"
+
+#: .././alo-easymail_options.php:718
+msgid "Interval between emails in a single batch, in milliseconds"
+msgstr "Intervall mellan e-post meddelanden i en sänding, i millisekunder"
+
+#: .././alo-easymail_options.php:720
+msgid "Default"
+msgstr "Standard"
+
+#: .././alo-easymail_options.php:720
+msgid "Usually you do not have to modify this value"
+msgstr "Vanligtvis behöver du inte ändra detta värdet"
+
+#: .././alo-easymail_options.php:720
+msgid "It is useful if your provider allows a maximum number of emails that can be sent per second or minute"
+msgstr "Det är väldigt användbart om din leverantör tillåter ett maximalt antal e-post meddelanden som kan skickas per sekund eller minut"
+
+#: .././alo-easymail_options.php:720
+msgid "The higher this value, the lower the number of emails sent for each batch"
+msgstr "Ju högre värde, desto mindre antal e-post meddelande kan skickas per omgång"
+
+#: .././alo-easymail_options.php:725
+msgid "Important advice to calculate the best limit"
+msgstr "Viktiga tips för att beräkna bästa tröskelvärdet"
+
+#: .././alo-easymail_options.php:727
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "Fråga din leverantör hur många e-postmeddelanden du kan skicka per dag. Att multiplicera värdet per timme med 24 är inte helt rätt sätt att beräkna gränsen per dag: oftast är den resulterande siffran högre än den faktiska."
+
+#: .././alo-easymail_options.php:728
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "Dra bort antalet e-post meddelanden som du vill skicka från din hemsida (ex. registreringsprocedur, aktivering och avaktivering av EasyMail mm) med värdet du fick via beräkningen."
+
+#: .././alo-easymail_options.php:729
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "Om du är tveksam, välj ett nummer som är klart under det faktiska värdet: då har du en störra chans att e-posten skickas och du löper en mindre risk att svarlistas..."
+
+#: .././alo-easymail_options.php:730
+msgid "For more info, visit the FAQ of the site."
+msgstr "För mer information besök FAQ:en på utvecklarens hemsida."
+
+#: .././alo-easymail_options.php:765
+msgid "The lowest role can send newsletters"
+msgstr "Lägsta användarroll som kan skicka nyhetsbrev"
+
+#: .././alo-easymail_options.php:792
+#: .././alo-easymail_options.php:819
+#, php-format
+msgid "The authorised roles are the same with the %s capability"
+msgstr "Auktoriserade roller är de samma med %s förmåga"
+
+#: .././alo-easymail_options.php:793
+msgid "The user with this capability can manage own newsletters (view the report, delete)"
+msgstr "Användare med denna rättighet kan hantera egna nyhetsbrev (läsa rapporter, ta bort mm)"
+
+#: .././alo-easymail_options.php:799
+msgid "The lowest role can manage newsletters"
+msgstr "Den lägsta rollen som kan hantera nyhetsbrev"
+
+#: .././alo-easymail_options.php:820
+msgid "The user with this capability can manage newsletters of all users (view the report, delete)"
+msgstr "Användare med denna rättighet kan hantera alla nyhetsbrev (läsa rapporter, ta bort mm)"
+
+#: .././alo-easymail_options.php:827
+msgid "The lowest role can manage subscribers"
+msgstr "Den lägsta rollen som kan hantera prenumeranter"
+
+#: .././alo-easymail_options.php:843
+msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
+msgstr "Användare med denna rättighet kan hantera prenumeranter (lägga till, ta bort, lägg till i listor mm)"
+
+#: .././alo-easymail_options.php:849
+msgid "The lowest role can manage options"
+msgstr "Den lägsta rollen som kan hantera inställningar"
+
+#: .././alo-easymail_options.php:864
+msgid "The user with this capability can set up these setting sections"
+msgstr "Användare med denna rättighet kan hantera dessa inställningar"
+
+#: .././alo-easymail_options.php:867
+msgid "Other sections can be modified only by administrators"
+msgstr "Andra delar kan endast hanteras av administratörer"
+
+#: .././alo-easymail_options.php:948
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "Inmatningen är inkomplett eller fel. Försök igen."
+
+#: .././alo-easymail_options.php:975
+msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
+msgstr "Du kan skapa e-post listor. För varje lista måste du ange namn, ordning (den lägsta visas överst) och tillgänglighet"
+
+#: .././alo-easymail_options.php:977
+#: .././alo-easymail_options.php:1029
+#: .././alo-easymail_options.php:1074
+msgid "hidden"
+msgstr "gömd"
+
+#: .././alo-easymail_options.php:977
+msgid "the list can be shown only here in settings and nowhere in the site"
+msgstr "listan visas endast här i inställningarna och ingen annanstans på webbplatsen"
+
+#: .././alo-easymail_options.php:978
+#: .././alo-easymail_options.php:1030
+#: .././alo-easymail_options.php:1077
+msgid "admin side only"
+msgstr "endast administratörssidorna"
+
+#: .././alo-easymail_options.php:978
+msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
+msgstr "listan är endast tillgänglig för administratörerna (inställningar, skicka, prenumeranter), prenumeranter kan inte se den"
+
+#: .././alo-easymail_options.php:979
+#: .././alo-easymail_options.php:1031
+#: .././alo-easymail_options.php:1080
+msgid "entire site"
+msgstr "hela sajten"
+
+#: .././alo-easymail_options.php:979
+msgid "the list is available in the whole site, so subscribers can see it"
+msgstr "listan är tillgängligt på hela webbplatsen, prenumeranterna kan se den"
+
+#: .././alo-easymail_options.php:983
+#: .././alo-easymail_options.php:1091
+#: .././alo-easymail_options.php:1092
+msgid "Edit list"
+msgstr "Ändra listan"
+
+#: .././alo-easymail_options.php:983
+msgid "New list"
+msgstr "Ny lista"
+
+#: .././alo-easymail_options.php:988
+#: .././alo-easymail_options.php:1055
+msgid "List name"
+msgstr "Listans namn"
+
+#: .././alo-easymail_options.php:989
+#: .././alo-easymail_options.php:1056
+msgid "Availability"
+msgstr "Tillgänglighet"
+
+#: .././alo-easymail_options.php:990
+#: .././alo-easymail_options.php:1057
+msgid "Order"
+msgstr "Ordning"
+
+#: .././alo-easymail_options.php:1008
+msgid "no translation for this language, yet"
+msgstr "ingen översättning för detta språket än"
+
+#: .././alo-easymail_options.php:1042
+msgid "Save"
+msgstr "Spara"
+
+#: .././alo-easymail_options.php:1044
+#: .././alo-easymail_subscribers.php:149
+#: .././alo-easymail_subscribers.php:196
+#: .././alo-easymail_subscribers.php:265
+#: .././alo-easymail_subscribers.php:372
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: .././alo-easymail_options.php:1059
+msgid "Action"
+msgstr "Åtgärder"
+
+#: .././alo-easymail_options.php:1094
+#: .././alo-easymail_options.php:1096
+msgid "Delete list"
+msgstr "Ta bort listan"
+
+#: .././alo-easymail_options.php:1095
+msgid "Do you really want to DELETE this list?"
+msgstr "Vill du verkligen ta bort denna listan?"
+
+#: .././alo-easymail_options.php:1103
+#: .././alo-easymail_subscribers.php:155
+msgid "There are no available lists"
+msgstr "Det finns inga listor tillgängliga"
+
+#: .././alo-easymail_subscribers.php:16
+msgid "Activation state updated"
+msgstr "Aktivering statusuppdatering"
+
+#: .././alo-easymail_subscribers.php:18
+msgid "Not updated"
+msgstr "Inte uppdaterad"
+
+#: .././alo-easymail_subscribers.php:25
+msgid "Subscriber deleted"
+msgstr "Prenumerant borttagen"
+
+#: .././alo-easymail_subscribers.php:28
+msgid "Not deleted"
+msgstr "Inte borttagen"
+
+#: .././alo-easymail_subscribers.php:99
+#: .././alo-easymail_subscribers.php:162
+#: .././alo-easymail_subscribers.php:209
+#: .././alo-easymail_subscribers.php:222
+#: .././alo-easymail_subscribers.php:235
+#: .././alo-easymail_subscribers.php:380
+#: .././alo-easymail_subscribers.php:419
+#: .././alo-easymail_subscribers.php:453
+#: .././alo-easymail_subscribers.php:703
+msgid "No subscriber selected"
+msgstr "Ingen prenumerant vald"
+
+#: .././alo-easymail_subscribers.php:100
+#: .././alo-easymail_subscribers.php:420
+msgid "No list selected"
+msgstr "Ingen lista vald"
+
+#: .././alo-easymail_subscribers.php:106
+#: .././alo-easymail_subscribers.php:745
+msgid "Edit subscription to mailing lists"
+msgstr "Ändra prenumeration på e-post listor"
+
+#: .././alo-easymail_subscribers.php:107
+#: .././alo-easymail_subscribers.php:170
+msgid "Selected subscribers"
+msgstr "Valda prenumeranter"
+
+#: .././alo-easymail_subscribers.php:120
+msgid "Choose mailing lists"
+msgstr "Välj e-post listor"
+
+#: .././alo-easymail_subscribers.php:131
+msgid "Choose an action"
+msgstr "Välj en åtgärd"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:343
+msgid "Add to selected lists"
+msgstr "Lägg till valda listor"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:136
+msgid "ignore not selected lists"
+msgstr "ignorera icke vald listor"
+
+#: .././alo-easymail_subscribers.php:136
+msgid "Remove from selected lists"
+msgstr "Ta bort från vald listor"
+
+#: .././alo-easymail_subscribers.php:140
+msgid "Add to selected lists and remove from not selected lists"
+msgstr "Lägg till de markerade listorna och ta bort från listor som inte är markerade"
+
+#: .././alo-easymail_subscribers.php:148
+#: .././alo-easymail_subscribers.php:195
+#: .././alo-easymail_subscribers.php:763
+msgid "Apply"
+msgstr "Tillämpa"
+
+#: .././alo-easymail_subscribers.php:163
+#: .././alo-easymail_subscribers.php:454
+msgid "No language option selected"
+msgstr "Inga språkinställningar valda"
+
+#: .././alo-easymail_subscribers.php:169
+#: .././alo-easymail_subscribers.php:746
+msgid "Change language ascribed to subscribers"
+msgstr "Ändra tilldelat språk för prenumeranterna"
+
+#: .././alo-easymail_subscribers.php:182
+#: .././alo-easymail_subscribers.php:622
+msgid "Choose a language"
+msgstr "Välj ett språk"
+
+#: .././alo-easymail_subscribers.php:183
+msgid "No language"
+msgstr "Inget språk"
+
+#: .././alo-easymail_subscribers.php:202
+msgid "No language available"
+msgstr "Inga språk tillgängliga"
+
+#: .././alo-easymail_subscribers.php:216
+msgid "Subscribers deleted"
+msgstr "Prenumeranter borttagna"
+
+#: .././alo-easymail_subscribers.php:229
+msgid "Subscribers activated"
+msgstr "Prenumeranter aktiverade"
+
+#: .././alo-easymail_subscribers.php:242
+msgid "Subscribers deactivated"
+msgstr "Prenumeranter avaktiverade"
+
+#: .././alo-easymail_subscribers.php:268
+msgid "Add a subscriber"
+msgstr "Lägg till en prenumerant"
+
+#: .././alo-easymail_subscribers.php:271
+msgid "mandatory"
+msgstr "obligatoriskt"
+
+#: .././alo-easymail_subscribers.php:310
+msgid "Add"
+msgstr "Lägg till"
+
+#: .././alo-easymail_subscribers.php:314
+msgid "Import from WP registered users"
+msgstr "Importera registrerade användare från WP"
+
+#: .././alo-easymail_subscribers.php:315
+msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
+msgstr "Du kan importera nya prenumeranter från registrerade användare av WordPress. Varje medlem prenumerera då på nyhetsbrevet."
+
+#: .././alo-easymail_subscribers.php:316
+msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
+msgstr "Denna funktion är användbar om du nyligen har installerat pluginen och skulle vilja att registrerade användare automatiskt prenumererade på nyhetsbrevet."
+
+#: .././alo-easymail_subscribers.php:317
+msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
+msgstr "Men var försiktig om du använder den senare: den gör alla registrerade användare till prenumeranter, inklusive medlemmar som valt att avregistrera sig från nyhetsbrevet!"
+
+#: .././alo-easymail_subscribers.php:319
+msgid "Blog registered users"
+msgstr "Hemsidans registrerade användare"
+
+#: .././alo-easymail_subscribers.php:324
+msgid "Import from WP members"
+msgstr "Importera från WPs användare"
+
+#: .././alo-easymail_subscribers.php:328
+msgid "Import from uploaded CSV file"
+msgstr "Importera från uppladdad CSV fil"
+
+#: .././alo-easymail_subscribers.php:329
+msgid "You can import new subscribers from a CSV file."
+msgstr "Du kan importera prenumeranter från en CSV fil."
+
+#: .././alo-easymail_subscribers.php:330
+msgid "For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields."
+msgstr "För varje rad måste du ange: E-post (krävs), namn (frivilligt), språkkod (frivilligt). Använd ett semikolon (;) för att separera fälten."
+
+#: .././alo-easymail_subscribers.php:331
+msgid "You can list only languages available in the blog"
+msgstr "Du kan endast lista tillgängliga språk på hemsidan"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "you can set them up in Settings &gt; Newsletter"
+msgstr "du kan ställa in de under Inställningar &gt; Nyhetsbrev"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "Language codes"
+msgstr "Språkkoder"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+msgstr "Tips om du har problem: du kan försöka ändra filtillägget från CSV till txt; använda sedan dubbla citattecken för att definiera varje fält (&quot;epost_adress1@doman.se&quot;;&quot;namn1 förnamn1&quot;)"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "try using a different browser"
+msgstr "prova använd en annan webbläsare"
+
+#: .././alo-easymail_subscribers.php:339
+msgid "Test mode (no importation, show records on screen)"
+msgstr "Testkörning (ingen importering, poster visas på skärmen)"
+
+#: .././alo-easymail_subscribers.php:358
+msgid "Upload CSV file"
+msgstr "Ladda upp CSV fil"
+
+#: .././alo-easymail_subscribers.php:362
+msgid "Export subscribers"
+msgstr "Exportera prenumeranter"
+
+#: .././alo-easymail_subscribers.php:363
+msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
+msgstr "Du kan exportera prenumeranter på nyhetsbrevet: Pluginen visar de på skärmen så att du kan kopiera och klistra in i en textfil eller något program"
+
+#: .././alo-easymail_subscribers.php:368
+msgid "Export"
+msgstr "Exportera"
+
+#: .././alo-easymail_subscribers.php:379
+#: .././alo-easymail_subscribers.php:589
+#: .././alo-easymail_subscribers.php:707
+msgid "No action selected"
+msgstr "Ingen åtgärd vald"
+
+#: .././alo-easymail_subscribers.php:396
+#: .././alo-easymail_subscribers.php:492
+#: .././alo-easymail_functions.php:953
+msgid "The e-email address is not correct"
+msgstr "E-post adressen är inte korrekt"
+
+#: .././alo-easymail_subscribers.php:398
+#: .././alo-easymail_subscribers.php:474
+#: .././alo-easymail_subscribers.php:520
+#: .././alo-easymail_subscribers.php:574
+#: .././alo-easymail_subscribers.php:583
+msgid "Back"
+msgstr "Tillbaka"
+
+#: .././alo-easymail_subscribers.php:411
+msgid "New subscriber added"
+msgstr "Ny prenumerant tillagd"
+
+#: .././alo-easymail_subscribers.php:476
+msgid "Error"
+msgstr "Fel"
+
+#: .././alo-easymail_subscribers.php:494
+msgid "There is already a subscriber with this e-email address"
+msgstr "Det finns redan en prenumerant med denna e-post adressen"
+
+#: .././alo-easymail_subscribers.php:517
+#, php-format
+msgid "Found %d records"
+msgstr "Hittade %d uppgifter"
+
+#: .././alo-easymail_subscribers.php:518
+msgid "Check the Error column to modify records that otherwise will not be imported"
+msgstr "Kontrollera fel kolumnen för att ändra poster som annars inte kommer att importeras"
+
+#: .././alo-easymail_subscribers.php:523
+#, php-format
+msgid "Successfully import: %d records out of %d total"
+msgstr "Import lyckades: %d poster av totalt %d "
+
+#: .././alo-easymail_subscribers.php:525
+msgid "Some records have not been imported"
+msgstr "Vissa poster importerades inte"
+
+#: .././alo-easymail_subscribers.php:542
+msgid "Not valid CSV file uploaded"
+msgstr "Försök att ladda upp en icke valid CSS fil"
+
+#: .././alo-easymail_subscribers.php:564
+#, php-format
+msgid "%d new subscribers successfully added from blog members"
+msgstr "%d nya prenumeranter har lagts till från hemsidans användare"
+
+#: .././alo-easymail_subscribers.php:566
+msgid "No subscribers added from blog members"
+msgstr "Inga prenumeranter tillagd från hemsidans användare"
+
+#: .././alo-easymail_subscribers.php:611
+msgid "Select a mailing list"
+msgstr "Välj en e-post lista"
+
+#: .././alo-easymail_subscribers.php:631
+msgid "Search"
+msgstr "Sök"
+
+#: .././alo-easymail_subscribers.php:644
+msgid "Import/export subscribers"
+msgstr "Importera/ exportera prenumeranter"
+
+#: .././alo-easymail_subscribers.php:647
+#, php-format
+msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
+msgstr "Om du vill importera prenumeranter från de registrerade användarna på din hemsida eller via en extern fil (med hjälp av CSV). Klicka på &#39;%s&#39; knappen"
+
+#: .././alo-easymail_subscribers.php:648
+msgid "Do not show it again"
+msgstr "Visa inte det igen"
+
+#: .././alo-easymail_subscribers.php:711
+msgid "Do you really want to DELETE these subscribers?"
+msgstr "Vill du verkligen ta bort dessa prenumeranter?"
+
+#: .././alo-easymail_subscribers.php:721
+msgid "Per page"
+msgstr "per sida"
+
+#: .././alo-easymail_subscribers.php:744
+msgid "Bulk Actions"
+msgstr "Volymåtgärd"
+
+#: .././alo-easymail_subscribers.php:747
+msgid "Activate"
+msgstr "Aktivera"
+
+#: .././alo-easymail_subscribers.php:748
+msgid "Deactivate"
+msgstr "Avaktivera"
+
+#: .././alo-easymail_subscribers.php:749
+msgid "Delete"
+msgstr "Ta bort"
+
+#: .././alo-easymail_subscribers.php:774
+msgid "Order by e-mail"
+msgstr "Beställ via e-post"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "Username"
+msgstr "Användarnamn"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "Användarnamnet för registrerade användare är tomt för publika prenumeranter."
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Order by join date"
+msgstr "Ordna efter registreringsdatum"
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Join date"
+msgstr "Registreringsdatum"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Order by activation state"
+msgstr "Ordna efter aktiveringsstatus"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Activated"
+msgstr "Aktiverad"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "För registrerade användare är standardläget aktiverad. För prenumeranter, är standardläget avaktiverade: de aktiveras då de klickar på aktiveringslänken i e-post meddelandet."
+
+#: .././alo-easymail_subscribers.php:778
+msgid "A subscriber will be deleted if not activated in 5 days."
+msgstr "Prenumeranten kommer att tas bort om de inte aktiveras inom 5 dagar."
+
+#: .././alo-easymail_subscribers.php:780
+msgid "Order by language"
+msgstr "Ordning efter språk"
+
+#: .././alo-easymail_subscribers.php:781
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: .././alo-easymail_subscribers.php:857
+msgid "View user profile"
+msgstr "Se användarprofil"
+
+#: .././alo-easymail_subscribers.php:864
+msgid "Modify activation state"
+msgstr "Ändra aktiveringsstatus"
+
+#: .././alo-easymail_subscribers.php:865
+msgid "Do you really want to modify the activation state?"
+msgstr "Vill du verkligen ändra aktiveringsstatus?"
+
+#: .././alo-easymail_subscribers.php:888
+msgid "Delete subscriber"
+msgstr "Ta bort prenumerant"
+
+#: .././alo-easymail_subscribers.php:889
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "Vill du verkligen ta bort denna prenumerant?"
+
+#: .././alo-easymail_functions.php:111
+msgid "Please visit the plugin site for more info and feedback"
+msgstr "Besök utvecklarenshemsida för mer information och återkoppling"
+
+#: .././alo-easymail_functions.php:113
+msgid "For more links you can use the Help button"
+msgstr "För fler länkar kan du använda Hjälp knappen"
+
+#: .././alo-easymail_functions.php:118
+msgid "If you use this plugin consider the idea of donating and supporting its development"
+msgstr "Om du använder denna plungin ha i åtanke att donera för dess utveckling."
+
+#: .././alo-easymail_functions.php:270
+msgid "Languages"
+msgstr "Språk"
+
+#: .././alo-easymail_functions.php:849
+msgid "Post tags"
+msgstr "Inläggstaggar"
+
+#: .././alo-easymail_functions.php:851
+msgid "The link to the title of the selected post."
+msgstr "Länken till titeln för det valda inlägget."
+
+#: .././alo-easymail_functions.php:851
+msgid "This tag works also in the <strong>subject</strong>"
+msgstr "Denna tagg fungerar även i <strong>ämnet</strong>"
+
+#: .././alo-easymail_functions.php:852
+msgid "The excerpt (if any) of the post."
+msgstr "Utdrag (om något) från inlägget."
+
+#: .././alo-easymail_functions.php:853
+msgid "The main content of the post."
+msgstr "Huvudinnehållet från inlägget."
+
+#: .././alo-easymail_functions.php:857
+msgid "Subscriber tags"
+msgstr "Prenumerant taggar"
+
+#: .././alo-easymail_functions.php:859
+msgid "Name and surname of registered user."
+msgstr "För- och efternamn på den registrerade användaren."
+
+#: .././alo-easymail_functions.php:859
+#: .././alo-easymail_functions.php:860
+msgid "For subscribers: the name used for registration"
+msgstr "För prenumeranter: namnet vid registeringen"
+
+#: .././alo-easymail_functions.php:860
+msgid "First name of registered user."
+msgstr "Förnamnet för den registrerade användaren."
+
+#: .././alo-easymail_functions.php:864
+msgid "Other tags"
+msgstr "Andra taggar"
+
+#: .././alo-easymail_functions.php:866
+msgid "The link to the site"
+msgstr "Länken till hemsidan"
+
+#: .././alo-easymail_functions.php:928
+msgid "Successfully updated"
+msgstr "Uppdatering lyckades"
+
+#: .././alo-easymail_functions.php:954
+msgid "The name field is empty"
+msgstr "Namnfältet är tomt"
+
+#: .././alo-easymail_functions.php:955
+msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
+msgstr "Varning: Denna e-post adress är redan registrerad, men inte aktiverad. Vi skickar nu en till e-post aktivering"
+
+#: .././alo-easymail_functions.php:956
+msgid "Warning: this email address has already been subscribed"
+msgstr "Varning: Denna e-post adress är redan registrerad"
+
+#: .././alo-easymail_functions.php:957
+msgid "Error during sending: please try again"
+msgstr "Fel vid försök att skicka: försök igen"
+
+#: .././alo-easymail_functions.php:959
+msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
+msgstr "Registrering framgångsrik. Du får ett e-postmeddelande med en länk. Klicka på länken för att aktivera din prenumeration."
+
+#: .././alo-easymail_functions.php:1667
+msgid "Subscriber"
+msgstr "Prenumeranter"
+
