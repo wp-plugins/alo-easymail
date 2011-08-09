@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: alo-easymail\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-13 23:37+0100\n"
-"PO-Revision-Date: 2011-03-13 23:37+0100\n"
+"PO-Revision-Date: 2011-07-27 22:47+0100\n"
 "Last-Translator: Alex <groucho75@email.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1600,34 +1600,47 @@ msgstr "Demande d'abonnement effectuée. Vous allez à présent recevoir un cour
 #~ msgstr ""
 #~ "Avertissement: cette balise insère le texte original, incluant les "
 #~ "\"shortcodes\" des autres plugins."
+
 #~ msgid "Receive Newsletters?"
 #~ msgstr "Recevoir notre bulletin?"
+
 #~ msgid "Default template for the email content"
 #~ msgstr "Modèle de base pour le contenu du courriel"
+
 #~ msgid "For registered users"
 #~ msgstr "Pour les utilisateurs inscrits"
+
 #~ msgid "For all subscribers"
 #~ msgstr "Pour tous les abonnés"
+
 #~ msgid "ID"
 #~ msgstr "ID"
+
 #~ msgid "click here"
 #~ msgstr "cliquer ici"
+
 #~ msgid "To allow editors to send emails, check this option"
 #~ msgstr ""
 #~ "Pour permettre aux visiteurs d'envoyer des courriels, sélectionnez cette "
 #~ "option"
+
 #~ msgid "Editors can send emails"
 #~ msgstr "Les éditeurs peuvent envoyer des courriels"
+
 #~ msgid "Registered users"
 #~ msgstr "Utilisateurs enregistrés"
+
 #~ msgid "None of the above"
 #~ msgstr "Aucune de ces réponses"
+
 #~ msgid "plain text"
 #~ msgstr "texte ordinaire"
+
 #~ msgid "Total sent"
 #~ msgstr "Total expédié"
+
 #~ msgid "Succesful sendings"
 #~ msgstr "Envois réussis"
+
 #~ msgid "Search e-mail or name"
 #~ msgstr "Recherchez un courriel ou nom"
-
