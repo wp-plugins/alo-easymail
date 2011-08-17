@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -12,9 +12,9 @@ To send newsletters. Features: collect subcribers on registration or with an aja
 
 ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers. It supports internationalization and multilanguage.
 
-**Here you are a short screencast:** [How to create and send a newsletter](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
-
 Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
+
+**Here you are a short screencast:** [How to create and send a newsletter](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/)
 
 **Before upgrading from v.1 to v.2, [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-upgrade-2)**
 
@@ -47,14 +47,14 @@ Available languages:
 
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.2.1 (by eventualo, Francesca Bovone)
+* English v.2.1.3 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
 * Greek v.2.0.3 - el (by [George Stavropoulos HDnet](http://www.hdnet.gr))    
 * Hungarian v.2.1.2 - hu_HU (by [László Viktor](http://www.hunstart.hu))
-* Italian v.2.0.3 - it_IT (by eventualo)
+* Italian v.2.1.3 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -95,6 +95,17 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+
+= 2.1.3 =
+* Fixed: now the list of recipients is properly created when including registered users
+* Fixed: unwanted redirect to dashboard using IE when saving subscriber in inline edit
+* Fixed: the theme dropdown select in newsletter edit screen now saves properly
+* Fixed: a better replacement in theme files about theme folder url from relative to absolute
+* Fixed: improvements in newsletter text-plain version (thanks to sanderbontje!)
+* Fixed: missing escape of form button text
+* Added: when importing csv the exiting emails can be assigned to other lists
+* Added: sender email is customisable in activation mail too (thanks to Matthias!)
 
 = 2.1.2 =
 * Added: option for alternative js library for recipient list (PeriodicalUpdater.js)
@@ -259,7 +270,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * Added: the result page opens in a popup with report of each recipients
 * Added: a [POST-CONTENT] tag 
 
-= 0.9.3 Reloaded by GREG LAMBERT (greg4@mskiana.com) =
+= 0.9.3 Reloaded by GREG LAMBERT =
 * THANKS to Greg for the following important features:
 * Added: widget to manage user subscription
 * Added: optin/out option to the user's profile 
@@ -329,3 +340,6 @@ New inline-edit subscribers. Some bug fixes.
 
 = 2.1.2 =
 Option for alternative js library for recipient list.
+
+= 2.1.3 =
+Solved major bug: now the list of recipients is properly created when including registered users

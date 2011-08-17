@@ -166,6 +166,20 @@ add_action('alo_easymail_new_subscriber_added',  'custom_easymail_new_subscriber
 
 
 /**
+ * Automatically add a new subscriber to a mailing list
+ * @since 	2.1.3 
+ * @param	obj
+ * @param	int		user id optional: only if subscriber is also a registered user
+ */ 
+function custom_easymail_auto_add_subscriber_to_list ( $subscriber, $user_id=false ) {
+	/*** Uncomment the next lines to make it works ***/
+	// $list_id = 1; // put the ID of mailing list
+	// alo_em_add_subscriber_to_list ( $subscriber->ID, $list_id ); 
+}
+add_action ( 'alo_easymail_new_subscriber_added',  'custom_easymail_auto_add_subscriber_to_list', 10, 2 );
+
+
+/**
  * Do something when a subscriber updates own subscription info
  * @param	obj
  * @param	str 

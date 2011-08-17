@@ -89,10 +89,22 @@ function alo_em_html2plain ( $text ) {
         $text );
     // from <br> to \n
    	$text = preg_replace('/<br(\s+)?\/?>/i', "\n", $text );
-	// reduce 2 or more consecutive <br> to one
-	$text = preg_replace ("|(\\n\s*){2,}|s","\n", $text);
- 	
-    return strip_tags( $text );
+	
+    // Next lines added by sanderbontje
+    
+	// Try to preserve links before stripping all tags
+	// by rewriting '<a id="123" href="url" rel="bookmark" target="_blank" style="mystyle">link</a>' to 'link (url)'
+	$text = preg_replace('/<a(.*)href=\"([^"]+)\"(.*)>(.*)<\/a>/', "$4 ($2)", $text );
+	
+    $text = strip_tags( $text );
+
+	// remove excessive spaces and tabs
+	$text = preg_replace("/[ \t]+/", " ", $text);
+
+	// strip blank lines (blank, with tabs or spaces)
+	$text = preg_replace("/[\r\n]+[\s\t]*[\r\n]+/", "\n\n", $text );
+
+	return $text;
 }
 
 
@@ -394,7 +406,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			
 			for ( $i = $start; $i <= $end; $i ++ ) {
 				
-				if ( $i == $end ) $finished = $now_doing; // // if end reached, group finished
+				if ( $i == $end ) $finished = $now_doing; // if end reached, group finished
 						
 				if ( !isset( $recipients[$i] ) ) {
 					// if ( $i == count( $recipients )-1 ) break; else continue;
@@ -403,6 +415,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 				
 				$email = ( $now_doing == "registered" ) ? $recipients[$i]->user_email : $recipients[$i]->email;
 				if ( alo_em_get_recipient_by_email_and_newsletter( $email, $newsletter ) ) continue; // if already added, skip
+				
 				$args = array( 
 					'newsletter' => $newsletter,
 					'email' => $email
@@ -410,7 +423,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 				$new_id = alo_em_add_recipient( $args, true );
 				if ( $new_id ) {
 					$added ++;
-					
+					 
 					if ( $sendnow ) { // send only one mail (and wait the the request sleep) and exit
 						/*
 						$recipient = alo_em_get_subscriber( $email );
@@ -513,7 +526,7 @@ function alo_em_get_recipient_by_id ( $recipient ) {
 /**
  * Add Recipient by email and newsletter
  *@param 	arr			recipient info: email. newsletter...
- *@param 	bol			add only if subscriber is active
+ *@param 	bol			add only if subscriber is active (skip if registered user)
  *@return 	int|bol		id added of false
  */
 function alo_em_add_recipient ( $args, $only_if_active=true ) {
@@ -526,7 +539,7 @@ function alo_em_add_recipient ( $args, $only_if_active=true ) {
 	$fields = wp_parse_args( $args, $defaults );
 	$added = false;
 	if ( $fields['email'] && $fields['newsletter'] ) {
-		if ( !$only_if_active || ( $only_if_active && ( alo_em_check_subscriber_state( $fields['email'] ) == 1 /*|| email_exists( $fields['email'] )*/ ) ) ) {
+		if ( !$only_if_active || !alo_em_is_subscriber( $fields['email'] ) || ( $only_if_active && alo_em_is_subscriber( $fields['email'] ) && alo_em_check_subscriber_state( $fields['email'] ) == 1 ) ) {
 			$wpdb->insert ( "{$wpdb->prefix}easymail_recipients", $fields );
 			$added = $wpdb->insert_id;
 		}
@@ -809,7 +822,7 @@ function alo_em_check_subscriber_email_and_unikey ( $email, $unikey ) {
 function alo_em_send_activation_email($email, $name, $unikey, $lang) {
 	$blogname = html_entity_decode ( wp_kses_decode_entities ( get_option('blogname') ) );
     // Headers
-    $mail_sender = "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
+    $mail_sender = ( get_option('alo_em_sender_email') ) ? get_option('alo_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
     $headers =  "";//"MIME-Version: 1.0\n";
     $headers .= "From: ". $blogname ." <".$mail_sender.">\n";
     $headers .= "Content-Type: text/plain; charset=\"". get_bloginfo('charset') . "\"\n";
@@ -1123,7 +1136,7 @@ function alo_em_pubblic_form_callback() {
 		// Compose JavaScript for return
 		$feedback = "";
 		$feedback .= "document.alo_easymail_widget_form.submit.disabled = false;";
-		$feedback .= "document.alo_easymail_widget_form.submit.value = '". esc_js( $_POST['alo_em_txt_subscribe'] ). "';";
+		$feedback .= "document.alo_easymail_widget_form.submit.value = '". esc_js($_POST['alo_em_txt_subscribe']). "';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '$output';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '$classfeedback';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
@@ -1309,7 +1322,8 @@ function alo_em_delete_newsletter ( $newsletter ) {
  */
 function alo_em_alt_mail_body( $phpmailer ) {
 	$phpmailer->WordWrap = 50;
-	if( $phpmailer->ContentType == 'text/html' && $phpmailer->AltBody == '') {
+	//if( $phpmailer->ContentType == 'text/html' && $phpmailer->AltBody == '') {
+	if( $phpmailer->ContentType == 'text/html') { // added by sanderbontje
 		$plain_text = alo_em_html2plain ( $phpmailer->Body );
 		$phpmailer->AltBody = $plain_text;
 	}
@@ -1754,7 +1768,10 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 					$html = str_replace('[CONTENT]', $content, $html);
 					$info = pathinfo( $theme );
 					$theme_dir =  basename( $theme, '.' . $info['extension'] );
-					$html = str_replace( $theme_dir, alo_easymail_get_themes_url().$theme_dir, $html );
+					//$html = str_replace( $theme_dir, alo_easymail_get_themes_url().$theme_dir, $html );
+					$html = preg_replace( '/ src\=[\'|"]'. $theme_dir.'(.+?)[\'|"]/', ' src="'. alo_easymail_get_themes_url().$theme_dir. '$1"', $html ); // <img src="..." >
+					$html = preg_replace( '/url(.+?)[\s|\'|"]'. $theme_dir.'(.+?)[\s|\'|"]/', 'url("'. alo_easymail_get_themes_url() .$theme_dir. '$2"', $html ); // in style: url("...")
+					$html = preg_replace( '/ background\=[\'|"]'. $theme_dir.'(.+?)[\'|"]/', ' background="'. alo_easymail_get_themes_url().$theme_dir. '$1"', $html ); // <table background="..." >
 				}
 			} 
 		}
@@ -2833,7 +2850,12 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		$html .= "<td>";
 		if ( $user_id = email_exists($subscriber->email) ) {
 			$user_info = get_userdata( $user_id );
-			$html .= "<a href=\"". admin_url() ."/profile.php?user_id={$user_id}\" title=\"". esc_attr( __("View user profile", "alo-easymail") ) ."\">{$user_info->user_login}</a>";
+			if ( get_current_user_id() == $user_id ) {
+				$profile_link = 'profile.php';
+			} else {
+				$profile_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id={$user_id}" ) );
+			}
+			$html .= "<a href=\"". $profile_link . "\" title=\"". esc_attr( __("View user profile", "alo-easymail") ) ."\">{$user_info->user_login}</a>";
 		}
 		$html .= "</td>\n";
 		

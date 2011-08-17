@@ -296,7 +296,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 								if ( $val['available'] == "deleted" || $val['available'] == "hidden" ) {
 									//continue; 
 								} ?>
-								<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="list_<?php echo $list ?>"><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></label></li>
+								<li style="display:inline-block;margin-right:10px"><input type="checkbox" name="check_list[]" id="single_list_<?php echo $list ?>" value="<?php echo $list ?>" /><label for="single_list_<?php echo $list ?>"><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></label></li>
 							<?php 
 							} // end foreach 
 							echo "</ul>"; ?>
@@ -500,14 +500,18 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 							$html .= "<td>". $span_email ."</td><td>".$name."</td><td>".alo_em_get_lang_flag($lang, 'name')."</td>";
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
-							if ( $email && alo_em_add_subscriber( $email , $name , 1, $lang ) == "OK" ) {
+							if ( $email && $result = alo_em_add_subscriber( $email , $name , 1, $lang ) /*== "OK"*/ ) {
 								if ( isset($_REQUEST['check_list']) ) {
 									$subscriber_id = alo_em_is_subscriber( $email );
 									foreach ( $_REQUEST['check_list'] as $list ) {
 										alo_em_add_subscriber_to_list ( $subscriber_id, $list );
+										unset( $not_imported[$data[0]] );
+										if ( $result != "OK" ) { // if not just added
+											$not_imported[$data[0]] = __("There is already a subscriber with this e-email address", "alo-easymail").". ". __("Subscriber has been added to selected mailing lists", "alo-easymail") ;
+										}
 									}
 								}
-								$success ++;
+								if ( $result == "OK" ) $success ++;
 							}
 						}
 					}
@@ -630,7 +634,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 		
 	<input type="submit" value="<?php _e("Search") ?>" class="button" />
 	
-	<?php if ( $s || $filter_list || $filter_lang ) echo "&nbsp;&nbsp;<a href='users.php?page=alo-easymail/alo-easymail_subscribers.php&amp;num=".$items_per_page."'>".__("Show all", "alo-easymail")."</a>" ?>
+	<?php if ( $s || $filter_list || $filter_lang ) echo "&nbsp;&nbsp;<a href='".$link_base."&amp;num=".$items_per_page."'>".__("Show all", "alo-easymail")."</a>" ?>
 	
 	</p>
 </form>

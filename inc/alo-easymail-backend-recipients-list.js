@@ -163,7 +163,7 @@ jQuery(document).ready( function($) {
 		switch ( easymailJs.updaterLibrary ) {
 			case 'periodicalupdater':
 				// jQuery.PeriodicalUpdater // TODO
-				console.log ( jQuery.PeriodicalUpdater );
+				//console.log ( jQuery.PeriodicalUpdater );
 				break;
 			default:
 				jQuery('#ajaxloop-response').smartupdaterStop();

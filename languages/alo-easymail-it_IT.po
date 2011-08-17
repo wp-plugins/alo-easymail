@@ -428,9 +428,8 @@ msgstr ""
 
 # @ alo-easymail
 #: .././alo-easymail.php:1191
-#, fuzzy
 msgid "There are no posts"
-msgstr "Non ci sono modelli"
+msgstr "Non ci sono articoli"
 
 # @ alo-easymail
 #: .././alo-easymail.php:1284
@@ -956,28 +955,25 @@ msgstr "no"
 # @ alo-easymail
 #: .././alo-easymail_options.php:429
 #: .././alo-easymail_options.php:433
-#, fuzzy
 msgid "yes"
-msgstr "Si"
+msgstr "si"
 
 #: .././alo-easymail_options.php:429
 msgid " free choice for authors"
-msgstr ""
+msgstr " libera scelta agli autori"
 
 #: .././alo-easymail_options.php:433
 msgid "but always use"
-msgstr ""
+msgstr "ma usa sempre"
 
 # @ alo-easymail
 #: .././alo-easymail_options.php:436
-#, fuzzy
 msgid "Tip: copy &#39;alo-easymail-themes&#39; folder to your theme directory and edit your themes there. Useful to prevent the loss of themes when you upgrade the plugin"
-msgstr "Suggerimento: copia &#39;alo-easymail.css&#39; nella cartella del tuo tema e modificalo l&igrave;. Utile per evitare di perdere la tua formattazione quando aggiorni il plugin"
+msgstr "Suggerimento: copia &#39;alo-easymail-themes&#39; nella cartella del tuo tema e modifica i temi l&igrave;. Utile per evitare di perdere i tuoi temi quando aggiorni il plugin"
 
 #: .././alo-easymail_options.php:449
-#, fuzzy
 msgid "Method of creation of the recipient list"
-msgstr "La creazione della lista dei destinatari è già iniziata"
+msgstr "Sistema di creazione della lista dei destinatari"
 
 #: .././alo-easymail_options.php:453
 #: .././alo-easymail_options.php:454
@@ -993,9 +989,8 @@ msgid "Default"
 msgstr "Predefinito"
 
 #: .././alo-easymail_options.php:454
-#, fuzzy
 msgid "loading only javascript of the plugin"
-msgstr "Utile per evitare conflitti con i javascript di altri plugin"
+msgstr "carica solo il javascript del plugin"
 
 #: .././alo-easymail_options.php:456
 msgid "no ajax"
@@ -1003,18 +998,16 @@ msgstr ""
 
 # @ alo-easymail
 #: .././alo-easymail_options.php:456
-#, fuzzy
 msgid "creation when newsletter is saved"
-msgstr "Non ci sono newsletter in attesa di invio"
+msgstr "generazione quando la newsletter viene salvata"
 
 #: .././alo-easymail_options.php:462
 msgid "If the standard and cool method does not work for you, you can try another option"
 msgstr "Se hai problemi con il metodo standard, puoi provare un'altra opzione"
 
 #: .././alo-easymail_options.php:463
-#, fuzzy
 msgid "You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins"
-msgstr "Utile per evitare conflitti con i javascript di altri plugin"
+msgstr "Puoi caricare solo il javascript del plugin, utile per evitare conflitti con i javascript di altri plugin"
 
 #: .././alo-easymail_options.php:464
 msgid "Otherwise, you can create the list directly when the newsletter is saved, without use of ajax"
@@ -1981,58 +1974,52 @@ msgstr "Iscrizione inviata con successo. Ora riceverai una e-mail contenente un 
 
 #: .././alo-easymail_functions.php:1668
 msgid "Text and URL to unsubscribe."
-msgstr ""
+msgstr "Testo e URL per cancellarsi dalla newsletter"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1668
 #: .././alo-easymail_functions.php:1672
-#, fuzzy
 msgid "You can customise this text in settings"
-msgstr "Puoi usare i seguenti tag"
+msgstr "Puoi personalizzare questo testo nelle impostazioni"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1669
-#, fuzzy
 msgid "URL to unsubscribe."
-msgstr "Cancellami"
+msgstr "URL per la cancellazione."
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1671
-#, fuzzy
 msgid "Newsletter tags"
-msgstr "Stato newsletter"
+msgstr "Tag newsletter"
 
 #: .././alo-easymail_functions.php:1672
 msgid "Text and URL to the online version."
-msgstr ""
+msgstr "Testo e URL all versione leggibile online"
 
 #: .././alo-easymail_functions.php:1673
 msgid "URL to the online version."
-msgstr ""
+msgstr "URL alla versione leggibile online"
 
 #: .././alo-easymail_functions.php:1674
-#, fuzzy
 msgid "Title of the newsletter."
-msgstr "Filtri per il testo della newsletter"
+msgstr "Titolo della newsletter."
 
 #: .././alo-easymail_functions.php:1675
-#, fuzzy
 msgid "Date of the newsletter."
-msgstr "Filtri per il testo della newsletter"
+msgstr "Data della newsletter."
 
 #: .././alo-easymail_functions.php:1676
 msgid "Post Thumbnail of newsletter"
-msgstr ""
+msgstr "Immagine in evidenza della newsletter"
 
 #: .././alo-easymail_functions.php:1677
 msgid "Image gallery of newsletter"
-msgstr ""
+msgstr "Galleria immagini della newsletter"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1679
-#, fuzzy
 msgid "Site tags"
-msgstr "Vedi tag"
+msgstr "Tag sito"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1680
@@ -2041,14 +2028,12 @@ msgstr "Il link al sito"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1681
-#, fuzzy
 msgid "URL to the site."
-msgstr "Il link al sito"
+msgstr "URL al sito"
 
 #: .././alo-easymail_functions.php:1682
-#, fuzzy
 msgid "Site Title"
-msgstr "Titolo"
+msgstr "Titolo del sito"
 
 #: .././alo-easymail_functions.php:1683
 msgid "Tagline"
@@ -2056,19 +2041,17 @@ msgstr ""
 
 #: .././alo-easymail_functions.php:1685
 msgid "Post Thumbnail"
-msgstr ""
+msgstr "Immagine in evidenza"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1686
-#, fuzzy
 msgid "The image gallery of the post"
-msgstr "Il testo principale dell&#39;articolo."
+msgstr "Galleria immagini dell&#39;articolo"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:1712
-#, fuzzy
 msgid "To read the newsletter online you can visit this link:"
-msgstr "Per leggere la newsletter online vai a questo indirizzo"
+msgstr "Per leggere la newsletter online vai a questo indirizzo:"
 
 #: .././alo-easymail_functions.php:1838
 msgid "j / n / Y"
@@ -2077,9 +2060,8 @@ msgstr ""
 # @ default
 #: .././alo-easymail_functions.php:1882
 #: .././alo-easymail_functions.php:1899
-#, fuzzy
 msgid "Select the image size"
-msgstr "Scegli quanti articoli"
+msgstr "Scegli la dimensione delle immagini"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:2050
@@ -2098,7 +2080,7 @@ msgstr ""
 #: .././alo-easymail_functions.php:2900
 #: .././alo-easymail_functions.php:2901
 msgid "Quick edit"
-msgstr ""
+msgstr "Modifica veloce"
 
 # @ alo-easymail
 #: .././alo-easymail_functions.php:2903
