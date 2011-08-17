@@ -127,7 +127,7 @@ jQuery(document).ready( function($) {
 			 	lists = lists + jQuery(this).val() +","; 
 			});
 			
-			console.log( lists );
+			//console.log( lists );
 			// Get data...
 			var data = {
 				action			: 	'alo_easymail_subscriber_edit_inline',

@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.1.2
+Version: 2.1.3
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -71,7 +71,7 @@ function alo_em_install() {
         Hope to see you online!<br /><br />[SITE-LINK]');
 	if (!get_option('alo_em_list')) add_option('alo_em_list', '');
     if (!get_option('alo_em_lastposts')) add_option('alo_em_lastposts', 10);
-    if (!get_option('alo_em_dayrate')) add_option('alo_em_dayrate', 1500);
+    if (!get_option('alo_em_dayrate')) add_option('alo_em_dayrate', 2000);
     if (!get_option('alo_em_batchrate')) add_option('alo_em_batchrate', 60);
     if (!get_option('alo_em_sleepvalue')) add_option('alo_em_sleepvalue', 0);
 	if (!get_option('alo_em_sender_email')) {
@@ -639,7 +639,8 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 				} */
 				
 				// Check if a subscriber with this email already exists
-				if ( $already = alo_em_is_subscriber ( $new_email ) && $already != $subscriber && $subscriber_obj->email != $new_email ) {
+				$already = ( alo_em_is_subscriber ( $new_email ) ) ? alo_em_is_subscriber ( $new_email ) : false;
+				if ( $already && $already != $subscriber && $subscriber_obj->email != $new_email ) {
 					echo "-error-email-already-subscribed";
 					break;					
 				
@@ -1154,6 +1155,8 @@ function alo_em_meta_themes ( $post ) {
 function alo_em_save_newsletter_theme_meta ( $post_id ) {
 	if ( isset( $_POST['easymail-theme-select'] ) && array_key_exists( $_POST['easymail-theme-select'], alo_easymail_get_all_themes() ) ) {
 		update_post_meta ( $post_id, '_easymail_theme', $_POST['easymail-theme-select'] );
+	} else {
+		delete_post_meta ( $post_id, '_easymail_theme' );
 	}
 } 
 add_action('alo_easymail_save_newsletter_meta_extra',  'alo_em_save_newsletter_theme_meta' );
@@ -1186,9 +1189,9 @@ function my_easymail_placeholders_title_easymail_post ( $post_id ) {
 		    $select_post_selected = ( get_post_meta ( $post_id, '_placeholder_easymail_post', true) == $post->ID ) ? 'selected="selected"': '';
 		    echo '<option value="'.$post->ID.'" '. $select_post_selected .'>['. date_i18n( __( 'j M Y', "alo-easymail" ), strtotime( $post->post_date ) ) .'] '. get_the_title( $post->ID ).' </option>';
 		endforeach;
-		echo '</select> '; 
+		echo '</select><br />'; 
 	} else {
-		echo "<span class='easymail-txtwarning'>" . esc_html( __("There are no posts", "alo-easymail") ) . "!</span>&nbsp;&nbsp;";
+		echo "<span class='easymail-txtwarning'>" . esc_html( __("There are no posts", "alo-easymail") ) . "!</span> <br />";
 	}
 }
 add_action('alo_easymail_newsletter_placeholders_title_easymail_post',  'my_easymail_placeholders_title_easymail_post' );

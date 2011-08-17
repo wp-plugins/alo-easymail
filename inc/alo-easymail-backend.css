@@ -119,7 +119,7 @@ a.easymail-navbutton {
     line-height: 13px;
     padding: 4px 9px;
     text-decoration: none;
-    background: url("../images/white-grad.png") repeat-x scroll left top #F2F2F2;
+    background-color: #F2F2F2;
     text-shadow: 0 1px 0 #FFFFFF;    
 }
 

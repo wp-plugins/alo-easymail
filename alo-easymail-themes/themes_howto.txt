@@ -16,14 +16,17 @@ HOW TO CREATE A THEME:
 
 - the "src" attribute of <img> tag must include relative url to images, e.g.:
   <img src="myname_mytheme/image.jpg" />
-  the plugin will replace automatically the relative url with the absolute url
+  The plugin will replace automatically the theme folder name url 
+  (e.g. "myname_mytheme") with the absolute url to theme folder
+  (e.g. "http://yourblog.ltd/path/to/myname_mytheme"): so don't use a theme name 
+  that contains your domain name or the replacement will break your images urls.
   
 - to include the newsletter main content you must include the [CONTENT] tag
   into the html theme file
 
 - then, you can use all placeholders available for newsletters
 	
-- you can look at default themes fo inspiration and samples
+- you can look at default themes for inspiration and samples
 
 
 	
@@ -33,5 +36,5 @@ TIP:
 - Copy "alo-easymail-themes" folder to your theme directory and edit your themes
   there. Useful to prevent the loss of themes when you upgrade the plugin.
 
-- In Newsletter-> Setting->tab Newsletter you can disable/enable themes, or 
-  force a theme as default
+- In Newsletters-> Settings->tab Newsletter you can disable/enable themes, or 
+  force a specific theme as default
