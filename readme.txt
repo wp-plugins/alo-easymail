@@ -50,6 +50,7 @@ Available languages:
 * English v.2.1.3 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
+* Finnish v.2.1.3 - fi (by Teemu Muikku)
 * French v.1.8.4 - fr_FR (by Dominique Corbex, Eric Savalli, Nicolas Trubert)
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
 * Greek v.2.0.3 - el (by [George Stavropoulos HDnet](http://www.hdnet.gr))    
