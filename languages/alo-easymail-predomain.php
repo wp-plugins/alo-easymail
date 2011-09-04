@@ -170,7 +170,14 @@ Dacă nu ai solicitat acest abonament ignoră acest mesaj.
 Mulţumim
 %BLOGNAME%";
 
-// $alo_em_textpre['alo_em_txtpre_activationmail_mail']['sv'] = MISSING
+$alo_em_textpre['alo_em_txtpre_activationmail_mail']['sv'] =  "Hej %NAME%,
+för att prenumerera på %BLOGNAME% nyhetsbrev ska du klicka på följande länk (eller klistra adressen in i webbläsarens adressfält):
+
+%ACTIVATIONLINK%
+
+Om du inte har beställt denna prenumeration kan du ignorera detta meddelande.
+Tack
+%BLOGNAME%";
 
 
 /*
@@ -214,5 +221,6 @@ $alo_em_textpre['alo_em_custom_viewonline_msg']['nl'] = "<p><em>Het lezen van de
 $alo_em_textpre['alo_em_custom_viewonline_msg']['pl'] = "<p><em>Aby przeczytać online biuletyn można odwiedzić ten link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['pt'] = "<p><em>Para ler o boletim informativo on-line, pode visitar este link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['ro'] = "<p><em>Pentru a citi online, newsletter-ul puteţi vizita acest link: %NEWSLETTERLINK%</em></p>";
-// $alo_em_textpre['alo_em_custom_viewonline_msg']['sv'] = MISSING
+$alo_em_textpre['alo_em_custom_viewonline_msg']['sv'] = "<p><em>För att läsa nyhetsbrevet på webben kan du besöka: %NEWSLETTERLINK%</em></p>";
+
 ?>

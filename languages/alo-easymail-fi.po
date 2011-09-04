@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: alo-easymail\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-18 16:11+0200\n"
-"PO-Revision-Date: 2011-08-18 19:25+0100\n"
-"Last-Translator: Alex <groucho75@email.it>\n"
+"PO-Revision-Date: 2011-08-30 16:41+0200\n"
+"Last-Translator: Teemu Muikku <verkkomuikku@gmail.com>\n"
 "Language-Team: Verkkomuikku <verkkomuikku@gmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "Tekstit"
 #: .././alo-easymail_options.php:234
 #: .././alo-easymail_options.php:763
 msgid "Batch sending"
-msgstr "Lähetä paloissa"
+msgstr "Lähetä kimpuissa"
 
 #: .././alo-easymail_options.php:235
 #: .././alo-easymail_options.php:835
@@ -95,7 +95,7 @@ msgstr "Näytä tilaussivu"
 
 #: .././alo-easymail_options.php:294
 msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
-msgstr "Kyllä = näyttää tilaussivun päävalikossa tai vimpaimessa, joka listaa kaikki blogin sivut"
+msgstr "Näyttää tilaussivun päävalikossa tai vimpaimessa, joka listaa kaikki blogin sivut"
 
 #: .././alo-easymail_options.php:305
 msgid "Embed CSS file"
@@ -103,7 +103,7 @@ msgstr "Sisällytä CSS tiedosto"
 
 #: .././alo-easymail_options.php:306
 msgid "If yes, the plugin loads the CSS styles from a file in its directory"
-msgstr "Kyllä = ALO EasyMail lataa oman CSS tiedostonsa"
+msgstr "ALO EasyMail lataa oman CSS tiedostonsa"
 
 #: .././alo-easymail_options.php:306
 msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
@@ -115,7 +115,7 @@ msgstr "Älä vaadi tilauksen vahvistusta"
 
 #: .././alo-easymail_options.php:318
 msgid "If yes, a new subscriber is automatically activated without confirmation e-mail"
-msgstr "Kyllä = uudet tilaajat aktivoidaan automaattisesti ilman vahvistussähköpostin lähetystä ja vahvistuslinkin klikkaamista."
+msgstr "Uudet tilaajat aktivoidaan automaattisesti ilman vahvistussähköpostin lähetystä ja vahvistuslinkin klikkaamista."
 
 #: .././alo-easymail_options.php:330
 msgid "Show credit banners in back-end"
@@ -368,7 +368,7 @@ msgstr "Ei, en halua tilata uutiskirjettä"
 #: .././alo-easymail_functions.php:2273
 #: .././alo-easymail.php:1352
 msgid "You can also sign up for specific lists"
-msgstr "Voit myös tilata tietyt uutiskirjeet"
+msgstr "Osallistun myös näille sähköpostilistoille"
 
 #: .././alo-easymail_options.php:579
 #: .././alo-easymail_options.php:583
@@ -1407,7 +1407,7 @@ msgstr "sulje"
 
 #: .././alo-easymail_recipients-list.php:68
 msgid "The required newsletter seems to already have a list"
-msgstr "Uutiskirjeellä on jo lista"
+msgstr "Lähetyslista on jo luotu"
 
 #: .././alo-easymail_recipients-list.php:72
 #: .././alo-easymail.php:556
@@ -1434,7 +1434,7 @@ msgstr "Uutiskirjeen lähetys vastaanottajille onnistui"
 #: .././alo-easymail_recipients-list.php:171
 #: .././alo-easymail.php:764
 msgid "Create list of recipients"
-msgstr "Luo lista vastaanottajista"
+msgstr "Luo lähetyslista"
 
 #: .././alo-easymail_recipients-list.php:176
 msgid "You have to prepare the list of recipients to send the newsletter to"
@@ -1715,11 +1715,11 @@ msgstr "Käyttäjät"
 
 #: .././alo-easymail.php:1079
 msgid "Filter subscribers according to lists"
-msgstr "Suodata tilaajat listojen mukaan"
+msgstr "Tilaajat sähköpostilistojen mukaan"
 
 #: .././alo-easymail.php:1099
 msgid "Filter subscribers according to languages"
-msgstr "Suodata tilaajat kielen mukaan"
+msgstr "Tilaajat kielen mukaan"
 
 #: .././alo-easymail.php:1114
 msgid "Not specified / others"
@@ -1796,7 +1796,7 @@ msgstr "Lähetä uutiskirje"
 
 #: .././alo-easymail.php:1478
 msgid "Options"
-msgstr "Vaihtoehdot"
+msgstr "Asetukset"
 
 #: .././alo-easymail.php:1532
 msgid "Debug mode is activated"
