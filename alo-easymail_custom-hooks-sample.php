@@ -92,8 +92,8 @@ function custom_easymail_placeholders_get_latest ( $content, $newsletter, $recip
 		if ( $myposts ) :
 			$latest .= "<ul>\r\n";
 			foreach( $myposts as $post ) :	// setup_postdata( $post );
-				$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $post->post_title ) );
-	   			$latest .= "<li><a href='". esc_url ( alo_em_translate_url( get_permalink( $post->ID ), $recipient->lang ) ). "'>". $post_title ."</a></li>\r\n"; 
+				$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $post->post_title, $post->ID, 'post_title' ) );
+	   			$latest .= "<li><a href='". esc_url ( alo_em_translate_url( $post->ID, $recipient->lang ) ). "'>". $post_title ."</a></li>\r\n"; 
 			endforeach; 
 			$latest .= "</ul>\r\n";
 		endif;	     

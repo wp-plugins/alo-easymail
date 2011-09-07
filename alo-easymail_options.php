@@ -527,7 +527,8 @@ if ( alo_em_multilang_enabled_plugin() == false ) {
 		echo '<div class="text-alert">';
 		echo '<p>'. __('No multilanguage plugin is enabled, so you will only see texts in the main language of the site', 'alo-easymail') .'.</p>';
 		echo '<p>'. __('Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality', 'alo-easymail') .': ';
-		echo '<a href="http://wordpress.org/extend/plugins/qtranslate/" target="_blank">qTranslate</a>';
+		echo '<a href="http://wpml.org/" target="_blank">WPML</a>, ';
+		echo '<a href="http://wordpress.org/extend/plugins/qtranslate/" target="_blank">qTranslate</a>';		
 		echo '.</p>';
 		//echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .".</p>";
 		echo '<p>'. __('If you like here you can list the languages available', 'alo-easymail') .':<br />';

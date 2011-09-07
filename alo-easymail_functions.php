@@ -276,10 +276,20 @@ function alo_em_recipients_short_summary ( $recipients ) {
 	if ( isset( $recipients['subscribers'] ) ) {
 		$output .= "<li>" . __( 'All subscribers', "alo-easymail") . "</li>";
 	} else {
-		if ( isset( $recipients['list'] ) ) $output .= "<li>" . count( $recipients['list'] ) ." ". __( 'Mailing Lists', "alo-easymail") . "</li>";
+		if ( isset( $recipients['list'] ) ) {
+			$mailinglists = alo_em_get_mailinglists ( 'admin,public' );
+			if ( $mailinglists ) {
+				$list_str = "";
+				foreach ( $mailinglists as $list => $val ) {
+					if ( in_array ( $list, $recipients['list'] ) ) $list_str .= alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) .", ";
+				}
+				$list_str = trim ( $list_str, ", " );
+			}
+			$output .= "<li title=\"". esc_attr( $list_str ) ."\" >" . count( $recipients['list'] ) ." ". __( 'Mailing Lists', "alo-easymail") . "</li>";
+		}
 	}
 	if ( isset( $recipients['subscribers'] ) || isset( $recipients['list'] ) ) {
-		if ( isset( $recipients['lang'] ) ) $output .= "<li>" . count( $recipients['lang'] ) ." ". __( 'Languages', "alo-easymail") . "</li>";
+		if ( isset( $recipients['lang'] ) ) $output .= "<li title=\"". esc_attr( str_replace( "UNKNOWN", __("Not specified / others", "alo-easymail"), implode( ", ", $recipients['lang'] ) ) )."\">" . count( $recipients['lang'] ) ." ". __( 'Languages', "alo-easymail") . "</li>";
 	}
 	$output .= "</ul>";
 	return $output;
@@ -1395,10 +1405,10 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	// Get newsletter details
 	$newsletter = alo_em_get_newsletter( $recipient->newsletter );
 	
-	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title ) );
+	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title, $newsletter->ID, 'post_title' ) );
 	$subject = apply_filters( 'alo_easymail_newsletter_title', $subject, $newsletter, $recipient ); 
 	   
-	$content = alo_em_translate_text( $recipient->lang, $newsletter->post_content ); 
+	$content = alo_em_translate_text( $recipient->lang, $newsletter->post_content, $newsletter->ID, 'post_content' ); 
 	
 	// general filters and shortcodes applied to 'the_content'?
 	if ( get_option('alo_em_filter_the_content') != "no" ) {
@@ -1715,10 +1725,10 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 	// use the email theme only when emailing the
 	// newsletter. otherwise use the default
 	// wordpress theme to display the newsletter.
-	if ( ( isset( $recipient->unikey ) && isset( $recipient->ID ) ) /* || ( isset( $_POST['email'] ) && isset( $_POST['newsletter'] ) )*/ ) 
+	if ( isset( $recipient->ID ) ) 
 	{	
 		// Create the message to read the newsletter online
-		$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
+		$viewonline_url = alo_em_translate_url ( $recipient->newsletter /*get_permalink( $recipient->newsletter )*/, $recipient->lang );
 		$viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true );
 		
 	   	if( empty( $viewonline_msg ) )
@@ -1729,25 +1739,29 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 		$viewonline_msg = str_replace( '%NEWSLETTERLINK%', ' <a href="'.$viewonline_url.'">'. $viewonline_url .'</a>', $viewonline_msg );
 		$viewonline_msg = str_replace( '%NEWSLETTERURL%', $viewonline_url, $viewonline_msg );
 		
-		$uns_vars = $recipient->subscriber . '|' . $recipient->unikey;
-		$uns_vars = urlencode( base64_encode( $uns_vars ) );
-		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
-		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
+		$unsubfooter = $uns_link = $tracking_view = ""; // default empty
 		
-		$unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true );
+		if ( isset( $recipient->unikey ) ) { // if subscriber
+			$uns_vars = $recipient->subscriber . '|' . $recipient->unikey;
+			$uns_vars = urlencode( base64_encode( $uns_vars ) );
+			$uns_link = add_query_arg( 'emunsub', $uns_vars, alo_em_translate_home_url ( $recipient->lang ) /*trailingslashit( get_home_url() )*/ );
+			//$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
 		
-	   	if ( empty( $unsubfooter ) )
-	   	{
-			$unsubfooter = __('You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ', 'alo-easymail').' %UNSUBSCRIBELINK%';
-		}
+			$unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true );
 		
-		$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. $uns_link .'</a>', $unsubfooter );
-		$unsubfooter = str_replace ( '%UNSUBSCRIBEURL%', $uns_link, $unsubfooter );
+		   	if ( empty( $unsubfooter ) )
+		   	{
+				$unsubfooter = __('You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ', 'alo-easymail').' %UNSUBSCRIBELINK%';
+			}
+		
+			$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. $uns_link .'</a>', $unsubfooter );
+			$unsubfooter = str_replace ( '%UNSUBSCRIBEURL%', $uns_link, $unsubfooter );
 
-		// Tracking code
-		$track_vars = $recipient->ID . '|' . $recipient->unikey;
-        $track_vars = urlencode( base64_encode( $track_vars ) );    
-		$tracking_view = '<img src="'. ALO_EM_PLUGIN_URL .'/tr.php?v='. $track_vars .'" width="1" height="1" border="0" >';
+			// Tracking code
+			$track_vars = $recipient->ID . '|' . $recipient->unikey;
+		    $track_vars = urlencode( base64_encode( $track_vars ) );    
+			$tracking_view = '<img src="'. ALO_EM_PLUGIN_URL .'/tr.php?v='. $track_vars .'" width="1" height="1" border="0" >';
+		}
 		
 		// Content default if not theme found
 		$html = $content;
@@ -1764,7 +1778,8 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				$themes = alo_easymail_get_all_themes();
 				$theme_path = ( isset( $themes[$theme] ) && file_exists( $themes[$theme] ) ) ? $themes[$theme] : false;
 				if ( $theme_path ) {
-					$html = file_get_contents( $theme_path );			
+					$html = file_get_contents( $theme_path );
+					$html = alo_em_translate_text ( $recipient->lang, $html ); // translate the text ih html theme
 					$html = str_replace('[CONTENT]', $content, $html);
 					$info = pathinfo( $theme );
 					$theme_dir =  basename( $theme, '.' . $info['extension'] );
@@ -1843,12 +1858,12 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 	}
 	
 	// site
-	$site_url = get_option ('siteurl');
+	$site_url = alo_em_translate_home_url ( $recipient->lang ); //get_option ('siteurl');
 	$blogname = esc_html( get_option('blogname') );
 	$blogdescription = esc_html( get_option('blogdescription') );
 	
 	// title
-	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title ) );
+	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title, $newsletter->ID, 'post_title' ) );
 	$subject = apply_filters( 'alo_easymail_newsletter_title', $subject, $newsletter, $recipient ); 
 	
 	// newsletter
@@ -1948,7 +1963,7 @@ function alo_em_filter_title( $subject, $newsletter, $recipient ) {
 	$post_id = get_post_meta ( $newsletter->ID, '_placeholder_easymail_post', true );
 	$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 	if ( $obj_post ) {
-		$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_title ) );
+		$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_title, $post_id, 'post_title' ) );
 	    $subject = str_replace('[POST-TITLE]', $post_title, $subject);
 	} else {
 	    $subject = str_replace('[POST-TITLE]', "", $subject);
@@ -1967,7 +1982,7 @@ function alo_em_filter_title_bar( $subject ) {
 		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
 		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 		if ( $obj_post ) {
-			$post_title = stripslashes ( alo_em_translate_text ( alo_em_get_language (), $obj_post->post_title ) );
+			$post_title = stripslashes ( alo_em_translate_text ( alo_em_get_language (), $obj_post->post_title, $post_id, 'post_title' ) );
 			$subject = str_replace('[POST-TITLE]', $post_title, $subject);
 		} else {
 			$subject = str_replace('[POST-TITLE]', "", $subject);
@@ -1988,7 +2003,7 @@ function alo_em_filter_title_in_site ( $subject ) {
 		$post_id = get_post_meta ( $post->ID, '_placeholder_easymail_post', true );
 		$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 		if ( $obj_post ) {
-			$post_title = stripslashes ( alo_em_translate_text ( false, $obj_post->post_title ) );
+			$post_title = stripslashes ( alo_em_translate_text ( false, $obj_post->post_title, $post_id, 'post_title' ) );
 			$subject = str_replace('[POST-TITLE]', $post_title, $subject);
 		} else {
 			$subject = str_replace('[POST-TITLE]', "", $subject);
@@ -2009,14 +2024,14 @@ function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recurs
 	$obj_post = ( $post_id ) ? get_post( $post_id ) : false;
 
 	if ( $obj_post ) {
-		$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_title ) );
-	    $content = str_replace("[POST-TITLE]", "<a href='". esc_url ( alo_em_translate_url( get_permalink( $obj_post->ID ), $recipient->lang ) ). "'>". $post_title ."</a>", $content);      
+		$post_title = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_title, $post_id, 'post_title' ) );
+	    $content = str_replace("[POST-TITLE]", "<a href='". esc_url ( alo_em_translate_url( $obj_post->ID /*get_permalink( $obj_post->ID )*/, $recipient->lang ) ). "'>". $post_title ."</a>", $content);      
 	} else {
 	    $content = str_replace("[POST-TITLE]", "", $content);
 	}
 	
 	if ( $obj_post ) {
-		$postcontent =  stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_content ) );
+		$postcontent =  stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_content, $post_id, 'post_content' ) );
 		/*
 		if ( get_option('alo_em_filter_br') != "no" ) {
 			$postcontent = str_replace("\n", "<br />", $postcontent);
@@ -2032,7 +2047,7 @@ function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recurs
 	}
 	
 	if ( $obj_post && !empty($obj_post->post_excerpt)) {
-		$post_excerpt = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_excerpt ) );
+		$post_excerpt = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_excerpt, $post_id, 'post_excerpt' ) );
 	    $content = str_replace("[POST-EXCERPT]", $post_excerpt, $content);       
 	} else {
 	    $content = str_replace("[POST-EXCERPT]", "", $content);
@@ -2051,7 +2066,7 @@ function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recurs
 		}        	
     }
     
-    $content = str_replace("[SITE-LINK]", "<a href='". esc_url ( alo_em_translate_url ( get_option ('siteurl'), $recipient->lang ) ) ."'>". esc_html( get_option('blogname') )."</a>", $content);  
+    $content = str_replace("[SITE-LINK]", "<a href='". esc_url ( alo_em_translate_home_url ( $recipient->lang ) ) ."'>". esc_html( get_option('blogname') )."</a>", $content);  
     
 	return $content;	
 }
@@ -2361,11 +2376,16 @@ function alo_em_all_newsletter_trackings ( $newsletter, $request='' ) {
  * return the name of plugin, or false
  */
 function alo_em_multilang_enabled_plugin () {
+	// Choice by custom filters
+	$plugin_by_filter = apply_filters ( 'alo_easymail_multilang_enabled_plugin', false ); // Hook
+	if ( $plugin_by_filter ) return $plugin_by_filter;
+	
 	// 1st choice: qTranslate
 	global $q_config;
-	if( function_exists( 'qtrans_init') && isset($q_config) ) {
-		return "qTrans";
-	}
+	if( function_exists( 'qtrans_init') && isset($q_config) ) return "qTrans";
+	
+	// 2nd choice: using WPML
+	if( defined('ICL_SITEPRESS_VERSION') ) return "WPML";
 	
 	// TODO other choices...
 	
@@ -2399,16 +2419,26 @@ function alo_em__e ( $text ) {
 
 /**
  * Return a text after applying a multilanguage filter 
+ *
+ * 2nd param:			useful for qTrans: get the part of text of selected lang, e.g.: "<!--:en-->english text<!--:-->"
+ * 3rd and 4th params: 	useful for WPML: to get the $prop (title, content. excerpt...) of the $post
  */
-function alo_em_translate_text ( $lang, $text ) {
+function alo_em_translate_text ( $lang, $text, $post=false, $prop="post_title" ) {
 	// if blank lang or not installed on blog, get default lang
 	if ( empty($lang) || !in_array ( $lang, alo_em_get_all_languages( false )) ) $lang = alo_em_short_langcode ( get_locale() );
 	
-	// 1st choice: using qTranslate
+	// 1st choice: if using qTranslate, get the part of text of selected lang
 	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_use') ) {
 		return qtrans_use ( $lang, $text, false);
 	}
-	// TODO other choices...
+
+	// 2nd choice: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && is_numeric( $post ) && function_exists( 'icl_object_id' ) ) {
+		$transl_post = icl_object_id( $post, get_post_type( $post ), true, $lang );
+		$transl_post_obj = get_post( $transl_post );
+		$transl_post_text = $transl_post_obj->{$prop};
+		if ( $transl_post_text ) return $transl_post_text;
+	}		
 
 	// last case: return as is
 	return $text ;
@@ -2483,19 +2513,85 @@ function alo_em_translate_multilangs_array ( $lang, $array, $fallback=true ) {
 
 /** 
  * Return the url localised for the requested lang 
+ *
+ * param	$post	int		the post/page ID
+ * param	$lang	str		two-letter language codes, e.g.: "it"
  */
-function alo_em_translate_url ( $url, $lang ) {
-
-	// 1st choice: using qTranslate
-	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_convertURL') ) {
-		//return qtrans_convertURL( $url, $lang ); // TODO
-		return add_query_arg( "lang", $lang, $url );
-	}
+function alo_em_translate_url ( $post, $lang ) {
+	// if blank lang or not installed on blog, get default lang
+	if ( empty($lang) || !in_array ( $lang, alo_em_get_all_languages( false )) ) $lang = alo_em_short_langcode ( get_locale() );
 	
-	// TODO other choices...
+	// Choice by custom filters
+	$url_by_filter = apply_filters ( 'alo_easymail_multilang_translate_url', false, $post, $lang ); // Hook
+	if ( $url_by_filter ) return $url_by_filter;
+	
+	// 1st choice: using qTranslate
+	if( alo_em_multilang_enabled_plugin() == "qTrans" ) {
+		return add_query_arg( "lang", $lang, get_permalink( $post ) );
+	}
+
+	// 2nd choice: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_object_id' ) ) {
+		$translated_post = icl_object_id( $post, get_post_type( $post ), true, $lang );
+		//return add_query_arg( "lang", $lang, $url );
+		return add_query_arg( "lang", $lang, get_permalink( $translated_post ) );
+	}	
 	
 	// last case: return th url with a "lang" var... maybe it could be useful...
-	return add_query_arg( "lang", $lang, $url );
+	return add_query_arg( "lang", $lang, get_permalink( $post ) );
+}
+
+
+/** 
+ * Return the homepage url localised for the requested lang 
+ *
+ * param	$lang	str		two-letter language codes, e.g.: "it"
+ */
+function alo_em_translate_home_url ( $lang ) {
+	// if blank lang or not installed on blog, get default lang
+	if ( empty($lang) || !in_array ( $lang, alo_em_get_all_languages( false )) ) $lang = alo_em_short_langcode ( get_locale() );
+	
+	// Choice by custom filters
+	$url_by_filter = apply_filters ( 'alo_easymail_multilang_translate_home_url', false, $lang ); // Hook
+	if ( $url_by_filter ) return $url_by_filter;
+	
+	// 1st choice: using qTranslate
+	if( alo_em_multilang_enabled_plugin() == "qTrans" ) {
+		return add_query_arg( "lang", $lang, trailingslashit( get_home_url() ) );
+	}
+
+	// 2nd choice: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_get_home_url' ) ) {
+		return icl_get_home_url();
+	}	
+	
+	// last case: return th url with a "lang" var... maybe it could be useful...
+	return add_query_arg( "lang", $lang, trailingslashit( get_home_url() ) );
+}
+
+
+/** 
+ * Return the ID of subscription page: e.g. useful for WPML, or other purposes
+ */
+function alo_em_get_subscrpage_id ( $lang=false ) {
+
+	// Choice by custom filters
+	$page_by_filter = apply_filters ( 'alo_easymail_multilang_get_subscrpage_id', false, $lang ); // Hook
+	if ( $page_by_filter ) return $page_by_filter;
+	
+	// 1st choice: using qTranslate
+	if( alo_em_multilang_enabled_plugin() == "qTrans" ) {
+		return get_option('alo_em_subsc_page');
+	}
+
+	// 2nd choice: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_object_id' ) ) {
+		$original = get_option('alo_em_subsc_page');
+		return icl_object_id( $original, 'page', true, $lang );
+	}	
+	
+	// last case: return th same ID
+	return get_option('alo_em_subsc_page');
 }
 
 
@@ -2505,14 +2601,21 @@ function alo_em_translate_url ( $url, $lang ) {
  * param	bol		try lang detection form browser (eg. useful for subscription if multilang plugin not installed)
  */
 function alo_em_get_language ( $detect_from_browser=false ) {
+	// Choice by custom filters
+	$lang_by_filter = apply_filters ( 'alo_easymail_multilang_get_language', false, $detect_from_browser ); // Hook
+	if ( $lang_by_filter ) return strtolower( $lang_by_filter );
+	
 	// 1st choice: using qTranslate
 	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getLanguage') ) {
 		return strtolower( qtrans_getLanguage() );
 	}
-	
-	// TODO other choices...
-	
-	// get from browser only if requested and the lang .mo is available on blog
+
+	// 2nd choice: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && defined('ICL_LANGUAGE_CODE') ) {
+		return strtolower( ICL_LANGUAGE_CODE );
+	}
+		
+	// Last choice: get from browser only if requested and the lang .mo is available on blog
 	if ( $detect_from_browser ) {
 		$lang = alo_em_short_langcode ( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		if ( !empty($lang) && in_array($lang, alo_em_get_all_languages(false)) ) {
@@ -2581,12 +2684,20 @@ function alo_em_get_lang_flag ( $lang_code, $fallback=false ) {
 function alo_em_get_all_languages ( $fallback_by_users=false ) {
 	global $wp_version;
 	
-	// Case: using qTranslate
+	// Choice by custom filters
+	$langs_by_filter = apply_filters ( 'alo_easymail_multilang_get_all_languages', false, $fallback_by_users ); // Hook
+	if ( !empty( $langs_by_filter ) && is_array( $langs_by_filter ) ) return $langs_by_filter;
+	
+	// Case 1: using qTranslate
 	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getSortedLanguages') ) {
 		return qtrans_getSortedLanguages();
 	}
-	
-	// TODO other plugins
+
+	// Case 2: using WPML
+	if( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_get_languages') ) {
+		$languages = icl_get_languages('skip_missing=0&orderby=code');
+		if ( is_array( $languages ) ) return array_keys( $languages );
+	}	
 	
 	// Case: search for setting
 	if ( get_option( 'alo_em_langs_list' ) != "" ) {
@@ -2744,14 +2855,14 @@ function alo_easymail_print_archive ( $atts=false, $content="" ) {
 		foreach( $newsletters as $post ) : setup_postdata( $post ); 
 			switch ( $args['li_format'] ) : 
 				case "date_title":
-					$output .= "<li><span>". get_the_date() ."</span> <a href='". get_permalink() . "'>" . get_the_title( $post->ID ) ."</a></li>";
+					$output .= "<li><span>". get_the_date() ."</span> <a href='". alo_em_translate_url( $post->ID, alo_em_get_language() ) /*get_permalink()*/ . "'>" . get_the_title( $post->ID ) ."</a></li>";
 					break;
 				case "title":
-					$output .= "<li><a href='". get_permalink() ."'>". get_the_title( $post->ID ) ."</a></li>";
+					$output .= "<li><a href='". alo_em_translate_url( $post->ID, alo_em_get_language() ) ."'>". get_the_title( $post->ID ) ."</a></li>";
 					break;					
 				case "title_date":
 				default:						
-					$output .= "<li><a href='". get_permalink() . "'>". get_the_title( $post->ID ) ."</a> <span>". get_the_date() ."</span></li>";
+					$output .= "<li><a href='". alo_em_translate_url( $post->ID, alo_em_get_language() ) . "'>". get_the_title( $post->ID ) ."</a> <span>". get_the_date() ."</span></li>";
 		endswitch;
 		endforeach; 
 		$output .= "</ul>";
