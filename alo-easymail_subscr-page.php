@@ -4,7 +4,6 @@ global $wpdb;
 // example:
 // http://{blog_url}/?page_id=4&ac=unsubscribe&em1=email_account&em2=domain.ltd&uk={uniquekey}
 
-
 $concat_email = ( isset($_REQUEST['em1']) && isset($_REQUEST['em2']) ) ? $_REQUEST['em1'] . "@" . $_REQUEST['em2'] : false; 
 
 $email  = ( $concat_email ) ? stripslashes($wpdb->escape($concat_email)) : false; 

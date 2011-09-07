@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.3
+Stable tag: 2.2
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -30,7 +30,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter
-* **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
+* **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [WPML](http://wpml.org/), [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
 * **debug tool**: rather than the recipients, you can send all emails of a newsletter to the author or you can have them recorded into a log file
 
 Improvements in **v.2** over v.1:
@@ -97,6 +97,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 
 == Changelog ==
 
+= 2.2 =
+* Added: compatubility with WPML (WordPress Multilingual Plugin)
+* Fixed: now html theme loaded also when recipient is a registered user
+* Fixed: now translation of text in html theme file
+* Added: 'updates from plugin developer' in dashboard only for administrators
+* Fixed: alo_easymail_print_archive() and [ALO-EASYMAIL-ARCHIVE] print newsletter properly localised
 
 = 2.1.3 =
 * Fixed: now the list of recipients is properly created when including registered users
@@ -344,3 +350,6 @@ Option for alternative js library for recipient list.
 
 = 2.1.3 =
 Solved major bug: now the list of recipients is properly created when including registered users
+
+= 2.2 =
+Added compatubility with WPML (WordPress Multilingual Plugin)

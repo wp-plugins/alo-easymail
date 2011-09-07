@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.1.3
+Version: 2.2
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -40,6 +40,8 @@ if ( !defined( 'ALO_EM_INTERVAL_MIN' ) ) define( "ALO_EM_INTERVAL_MIN", 10 );
 define( "ALO_EM_PLUGIN_DIR", basename( dirname(__FILE__) ) );
 define( "ALO_EM_PLUGIN_URL", WP_PLUGIN_URL ."/" . ALO_EM_PLUGIN_DIR );
 define( "ALO_EM_PLUGIN_ABS", WP_PLUGIN_DIR . "/". ALO_EM_PLUGIN_DIR );
+
+if ( !defined( 'WPML_LOAD_API_SUPPORT' ) ) define ( 'WPML_LOAD_API_SUPPORT', true );	// be sure to load WPML API
 
 /**
  * Required files
@@ -530,14 +532,13 @@ function alo_em_hide_quick_edit_css() {
  * Adds an type column in table
  */
 function alo_em_edit_table_columns ( $columns ) {
-	$columns = array(
-            "cb" => 	"<input type=\"checkbox\" />",
-            "title" => 	__( 'Title' ) ." / " . __( 'Subject', "alo-easymail"),
-			"easymail_recipients" => __( 'Recipients', "alo-easymail" ),            
-			"easymail_status" => __( 'Newsletter status', "alo-easymail" ),
-            "date" => 	__( 'Start', "alo-easymail" ),     
-            'author' =>	__( 'Author' )
-        );   	
+    unset ( $columns["date"] );
+   	$columns["cb"] 					= "<input type=\"checkbox\" />";
+   	$columns["title"] 				= __( 'Title' ) ." / " . __( 'Subject', "alo-easymail");
+   	$columns["easymail_recipients"] = __( 'Recipients', "alo-easymail" );
+   	$columns["easymail_status"] 	= __( 'Newsletter status', "alo-easymail" );
+   	$columns["date"] 				= __( 'Start', "alo-easymail" );
+   	$columns["author"]				= __( 'Author' );   	   	   	   	   	
   	return $columns;
 }
 add_filter ('manage_edit-newsletter_columns', 'alo_em_edit_table_columns');
@@ -923,6 +924,8 @@ add_action( 'widgets_init', 'alo_em_load_widgets' );
  */
 function alo_em_add_admin_script () {
 	global $post, $pagenow;
+
+
 	if ( isset($_GET['page']) && $_GET['page'] == "alo-easymail/alo-easymail_options.php") {
 		wp_enqueue_script('jquery-ui-tabs');
 		echo '<link rel="stylesheet" href="'.ALO_EM_PLUGIN_URL.'/inc/jquery.ui.tabs.css" type="text/css" media="print, projection, screen" />'."\n";
@@ -1305,30 +1308,35 @@ function alo_em_dashboard_widget_function() {
 		echo "<p>". __("No subscribers", "alo-easymail") . ".</p>";
 	}
 	
-	echo "<h5 style='margin-bottom:0.4em'>". __("Updates from plugin developer", "alo-easymail") ."</h5>";
-	$rss = fetch_feed( 'http://www.eventualo.net/blog/category/alo-easymail-newsletter/feed/' );
-	if ( !is_wp_error( $rss ) ) {
-		$maxitems = $rss->get_item_quantity( 3 ); 
-		$rss_items = $rss->get_items(0, $maxitems); 
-		echo "<ul style='padding-top: 0.5em'>";
-		if ( $maxitems == 0 ) {
-			echo '<li>No items.</li>';
+	if ( current_user_can('administrator') ) {
+		echo "<h5 style='margin-bottom:0.4em'>". __("Updates from plugin developer", "alo-easymail") ."</h5>";
+		$rss = fetch_feed( 'http://www.eventualo.net/blog/category/alo-easymail-newsletter/feed/' );
+		if ( !is_wp_error( $rss ) ) {
+			$maxitems = $rss->get_item_quantity( 3 ); 
+			$rss_items = $rss->get_items(0, $maxitems); 
+			echo "<ul style='padding-top: 0.5em'>";
+			if ( $maxitems == 0 ) {
+				echo '<li>No items.</li>';
+			} else {
+				// Loop through each feed item and display each item as a hyperlink.
+				foreach ( $rss_items as $item ) : 
+					$content = $item->get_content();
+					$content = esc_attr( wp_html_excerpt( $content, 350 ) ) . ' [...]'; ?>
+				<li>
+					<a href='<?php echo $item->get_permalink(); ?>'
+					title='<?php echo $content; ?>'>
+					<?php echo $item->get_title(); ?></a>
+					<?php echo date_i18n( __('j F Y', "alo-easymail" ), strtotime( $item->get_date() ) ); ?> 
+				</li>
+				<?php endforeach; 
+			} 
+			echo "</ul>";
 		} else {
-			// Loop through each feed item and display each item as a hyperlink.
-			foreach ( $rss_items as $item ) : 
-				$content = $item->get_content();
-				$content = esc_attr( wp_html_excerpt( $content, 350 ) ) . ' [...]'; ?>
-			<li>
-				<a href='<?php echo $item->get_permalink(); ?>'
-				title='<?php echo $content; ?>'>
-				<?php echo $item->get_title(); ?></a>
-				<?php echo date_i18n( __('j F Y', "alo-easymail" ), strtotime( $item->get_date() ) ); ?> 
-			</li>
-			<?php endforeach; 
-		} 
-		echo "</ul>";
-	}
-	
+			echo '<p>';
+			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
+			echo '</p>';
+		}
+	}	
 } 
 
 function alo_em_add_dashboard_widgets() {
@@ -1442,8 +1450,8 @@ function alo_em_handle_email ( $args ) {
 		
 		//$sub_vars = $subscriber->ID . "|" . $subscriber->unikey;
 		$sub_vars = urlencode( base64_encode( $sub_vars ) );
-		$sub_link = add_query_arg( 'emact', $sub_vars, trailingslashit( get_home_url() ) );
-		$sub_link = alo_em_translate_url ( $sub_link, $lang /*$subscriber->lang */ );
+		$sub_link = add_query_arg( 'emact', $sub_vars, alo_em_translate_home_url ( $lang ) /*trailingslashit( get_home_url() )*/ );
+		//$sub_link = alo_em_translate_url ( $sub_link, $lang /*$subscriber->lang */ );
 
 	  	$content = str_replace ( "%BLOGNAME%", $blogname, $content );
 	   	$content = str_replace ( "%NAME%", /* $subscriber->name */ $name, $content );
@@ -1563,8 +1571,8 @@ function alo_em_check_get_vars () {
 		if ( $subscriber ) {
 			$div_email = explode( "@", $subscriber->email );
 		   	$arr_params = array ('ac' => 'unsubscribe', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
-			$uns_link = add_query_arg( $arr_params, get_page_link (get_option('alo_em_subsc_page')) );
-			$uns_link = alo_em_translate_url ( $uns_link, $subscriber->lang );
+			$uns_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page') /*alo_em_get_subscrpage_id( $subscriber->lang )*/, $subscriber->lang ) );
+			//$uns_link = alo_em_translate_url ( $uns_link, $subscriber->lang );
 		}
 		wp_redirect( $uns_link );
 		exit;
@@ -1580,8 +1588,8 @@ function alo_em_check_get_vars () {
 		if ( $subscriber ) {
 			$div_email = explode( "@", $subscriber->email );
 			$arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
-			$act_link = add_query_arg( $arr_params, get_page_link (get_option('alo_em_subsc_page')) );
-			$act_link = alo_em_translate_url ( $act_link, $get[2] /* $subscriber->lang */ );
+			$act_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page') /*alo_em_get_subscrpage_id( $get[2] )*/, $get[2] ) );
+			//$act_link = alo_em_translate_url ( $act_link, $get[2] /* $subscriber->lang */ );
 		}		
 		wp_redirect( $act_link );
 		exit;
@@ -1596,5 +1604,52 @@ function alo_em_check_get_vars () {
 }
 add_action('init', 'alo_em_check_get_vars');
 
+
+/**
+ * If WPML is used: Try to create automatically a Newsletter subscription page 
+ * for each language, when language list is changed
+ */
+function alo_em_create_wpml_subscrpage_translations( $settings ) {
+	if ( !function_exists( 'wpml_get_active_languages' ) ) return; // if runs before WPML is completely loaded
+	$langs = wpml_get_active_languages();
+	
+	if ( is_array( $langs ) ) {
+		foreach ( $langs as $lang ) {
+			// Original page ID
+			$original_page_id = get_option('alo_em_subsc_page'); 
+			
+			// If the translated page doesn't exist, now create it
+			if ( icl_object_id( $original_page_id, 'page', false, $lang['code'] ) == null ) {
+				
+				// Found at: http://wordpress.stackexchange.com/questions/20143/plugin-wpml-how-to-create-a-translation-of-a-post-using-the-wpml-api
+				
+				$post_translated_title = get_post( $original_page_id )->post_title . ' (' . $lang['code'] . ')';
+				
+				// All page stuff
+				$my_page = array();
+				$my_page['post_title'] 		= $post_translated_title;
+				$my_page['post_content'] 	= '[ALO-EASYMAIL-PAGE]';
+				$my_page['post_status'] 	= 'publish';
+				$my_page['post_author'] 	= 1;
+				$my_page['comment_status'] 	= 'closed';
+				$my_page['post_type'] 		= 'page';
+				
+				// Insert translated post
+				$post_translated_id = wp_insert_post( $my_page );
+
+				// Get trid of original post
+				$trid = wpml_get_content_trid( 'post_'.'page', $original_page_id );
+
+				// Get default language
+				$default_lang = wpml_get_default_language();
+
+				// Associate original post and translated post
+				global $wpdb;
+				$wpdb->update( $wpdb->prefix.'icl_translations', array( 'trid' => $trid, 'language_code' => $lang['code'], 'source_language_code' => $default_lang ), array( 'element_id' => $post_translated_id ) );
+			}
+		}
+	}
+}
+add_action('icl_save_settings', 'alo_em_create_wpml_subscrpage_translations' );
 
 ?>

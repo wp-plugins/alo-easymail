@@ -137,7 +137,9 @@ class ALO_Easymail_Widget extends WP_Widget {
 		extract( $args );
         
         // add ALO: hide the widget in subscriber page
-        if ( is_page(get_option('alo_em_subsc_page')) ) return;
+        if ( is_page( get_option('alo_em_subsc_page') ) ) return;
+        if ( is_page( alo_em_get_subscrpage_id( alo_em_get_language() ) ) ) return;
+        //if ( is_page() ) return;
         
  		// Our variables from the widget settings.
 		$title = apply_filters('widget_title', $instance['title'] );
