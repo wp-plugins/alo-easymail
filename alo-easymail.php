@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.2
+Version: 2.2.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -59,7 +59,7 @@ if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) inclu
 
 
 // Update when DB tables change
-define( "ALO_EM_DB_VERSION", 2014 );
+define( "ALO_EM_DB_VERSION", 2015 );
 
 
 /**
@@ -130,6 +130,7 @@ function alo_em_install() {
 					newsletter int(11) unsigned NOT NULL,
 					email varchar(100) NOT NULL, 
 					result varchar(3) NOT NULL DEFAULT '0',	
+					user_id int(11) unsigned DEFAULT NULL,
 					PRIMARY KEY  (ID)
 					) DEFAULT CHARSET=".$collate.";
 

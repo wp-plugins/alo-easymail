@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.2
+Stable tag: 2.2.1
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -47,7 +47,7 @@ Available languages:
 
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Dutch v.1.8.3 - nl_NL (by Marius Gunu Siroen, Arnoud Huberts)
-* English v.2.1.3 (by eventualo, Francesca Bovone)
+* English v.2.2.1 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * Finnish v.2.1.3 - fi (by Teemu Muikku)
@@ -55,7 +55,7 @@ Available languages:
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
 * Greek v.2.0.3 - el (by [George Stavropoulos HDnet](http://www.hdnet.gr))    
 * Hungarian v.2.1.2 - hu_HU (by [László Viktor](http://www.hunstart.hu))
-* Italian v.2.1.3 - it_IT (by eventualo)
+* Italian v.2.2.1 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -96,6 +96,10 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+
+= 2.2.1 =
+* Fixed: now query that gets recipients in queue should be very faster
 
 = 2.2 =
 * Added: compatubility with WPML (WordPress Multilingual Plugin)
@@ -353,3 +357,6 @@ Solved major bug: now the list of recipients is properly created when including 
 
 = 2.2 =
 Added compatubility with WPML (WordPress Multilingual Plugin)
+
+= 2.2.1 =
+Query that gets recipients in queue was optimized: so the batch sending should be faster
