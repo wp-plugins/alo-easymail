@@ -426,9 +426,11 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 				$email = ( $now_doing == "registered" ) ? $recipients[$i]->user_email : $recipients[$i]->email;
 				if ( alo_em_get_recipient_by_email_and_newsletter( $email, $newsletter ) ) continue; // if already added, skip
 				
+				$user_id = ( email_exists( $email ) ) ? email_exists( $email ) : false;
 				$args = array( 
 					'newsletter' => $newsletter,
-					'email' => $email
+					'email' => $email,
+					'user_id' => $user_id
 				);
 				$new_id = alo_em_add_recipient( $args, true );
 				if ( $new_id ) {
@@ -544,7 +546,8 @@ function alo_em_add_recipient ( $args, $only_if_active=true ) {
     $defaults = array(
 		'email' => false,
 		'newsletter' => false,
-		'result' => '0'
+		'result' => '0',
+		'user_id' => ''
 	);
 	$fields = wp_parse_args( $args, $defaults );
 	$added = false;
@@ -1355,16 +1358,14 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	$query_limit = ( $limit ) ? " LIMIT ".$limit : "";
 	$query_newsletter = ( $newsletter ) ? " AND newsletter =". $newsletter ." " : "";
 	$recipients = $wpdb->get_results( 
-		"SELECT r.*, s.lang, s.unikey, s.name, u.ID as user_id, s.ID AS subscriber FROM {$wpdb->prefix}easymail_recipients AS r 
+		"SELECT r.*, s.lang, s.unikey, s.name, s.ID AS subscriber FROM {$wpdb->prefix}easymail_recipients AS r 
 		LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email 
-		LEFT JOIN {$wpdb->users} AS u ON r.email = u.user_email 
 		INNER JOIN {$wpdb->postmeta} AS pm ON pm.post_id = r.newsletter 
 		INNER JOIN {$wpdb->posts} AS p ON p.ID = r.newsletter 
 		WHERE pm.meta_key = '_easymail_status' AND pm.meta_value = 'sendable' AND r.result = 0 AND p.post_status = 'publish' ". $query_newsletter ." 
 		ORDER BY r.ID ASC" . $query_limit );
 	if ( $recipients ) : foreach ( $recipients as $recipient ) :
-			if ( $recipient->user_id ) {
-				$user_id = $recipient->user_id;
+			if ( $user_id = $recipient->user_id ) {
 				if ( get_user_meta( $user_id, 'first_name', true ) != "" ) {
 					$recipient->firstname = ucfirst( get_user_meta( $user_id, 'first_name', true ) );
 				} else {
