@@ -46,6 +46,7 @@ Improvements in **v.2** over v.1:
 Available languages:
 
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
+* Czech v.2.2.1 - cs_CZ (by [Martin Ondra](http://www.twomates.cz))
 * Dutch v.2.2.1 - nl_NL (by Frank Devocht, Marius Gunu Siroen, Arnoud Huberts)
 * English v.2.2.1 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
