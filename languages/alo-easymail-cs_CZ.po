@@ -1,0 +1,1809 @@
+# Translation of the WordPress plugin ALO EasyMail Newsletter 1.8 by Alessandro Massasso.
+# Copyright (C) 2010 Alessandro Massasso
+# This file is distributed under the same license as the ALO EasyMail Newsletter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: alo-easymail\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-21 23:32+0100\n"
+"PO-Revision-Date: 2011-10-09 17:08+0100\n"
+"Last-Translator: Martin Ondra <chci@twomates.cz>\n"
+"Language-Team: Twomates Webdesign <info@twomates.cz>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././alo-easymail.php:348
+#: .././alo-easymail.php:1297
+#: .././alo-easymail.php:1472
+#: .././alo-easymail_options.php:1131
+#: .././alo-easymail_subscribers.php:50
+msgid "Subscribers"
+msgstr "Odběratelé"
+
+#: .././alo-easymail.php:350
+msgid "Settings"
+msgstr "Nastavení"
+
+#: .././alo-easymail.php:362
+msgid "Resources about EasyMail Newsletter"
+msgstr "Informace o EasyMail Newsletteru"
+
+#: .././alo-easymail.php:435
+#: .././alo-easymail.php:446
+#: .././alo-easymail.php:1466
+#: .././alo-easymail.php:1467
+msgid "Newsletters"
+msgstr "Newslettery"
+
+#: .././alo-easymail.php:436
+#: .././alo-easymail.php:824
+#: .././alo-easymail-widget.php:206
+#: .././alo-easymail_options.php:232
+#: .././alo-easymail_options.php:374
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: .././alo-easymail.php:437
+msgid "Add New"
+msgstr "Přidat nový"
+
+#: .././alo-easymail.php:438
+msgid "Add New Newsletter"
+msgstr "Přidat nový Newsletter"
+
+#: .././alo-easymail.php:439
+msgid "Edit Newsletter"
+msgstr "Upravit Newsletter"
+
+#: .././alo-easymail.php:440
+msgid "New Newsletter"
+msgstr "Nový Newsletter"
+
+#: .././alo-easymail.php:441
+msgid "View Newsletter"
+msgstr "Zobrazit Newsletter"
+
+#: .././alo-easymail.php:442
+msgid "Search Newsletters"
+msgstr "Prohledat Newslettery"
+
+#: .././alo-easymail.php:443
+msgid "No Newsletters found"
+msgstr "Žádné Newslettery nenalezeny"
+
+#: .././alo-easymail.php:444
+msgid "No Newsletters found in Trash"
+msgstr "Žádné Newslettery nenalezeny v Koši"
+
+#: .././alo-easymail.php:445
+#: .././alo-easymail.php:447
+msgid "Parent Newsletter"
+msgstr "Rodičovský Newsletter"
+
+#: .././alo-easymail.php:480
+#, php-format
+msgid "Newsletter updated. <a href=\"%s\">View Newsletter</a>"
+msgstr "Newsletter aktualizován. <a href=\"%s\">Zobrazit Newsletter</a>"
+
+#: .././alo-easymail.php:481
+msgid "Custom field updated."
+msgstr "Vlastní pole aktualizováno."
+
+#: .././alo-easymail.php:482
+msgid "Custom field deleted."
+msgstr "Vlastní pole smazáno."
+
+#: .././alo-easymail.php:483
+msgid "Newsletter updated."
+msgstr "Newsletter aktualizován."
+
+#: .././alo-easymail.php:485
+#, php-format
+msgid "Newsletter restored to revision from %s"
+msgstr "Newsletter obnoven z revize %s"
+
+#: .././alo-easymail.php:486
+#, php-format
+msgid "Newsletter published. <a href=\"%s\">View Newsletter</a>"
+msgstr "Newsletter publikován. <a href=\"%s\">Zobrazit Newsletter</a>"
+
+#: .././alo-easymail.php:487
+msgid "Newsletter saved."
+msgstr "Newsletter uložen."
+
+#: .././alo-easymail.php:488
+#, php-format
+msgid "Newsletter submitted. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Newsletter odeslán. <a target=\"_blank\" href=\"%s\">Zobrazit Newsletter</a>"
+
+#: .././alo-easymail.php:489
+#, php-format
+msgid "Newsletter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Newsletter</a>"
+msgstr "Newsletter naplánován pro: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Zobrazit Newsletter</a>"
+
+#: .././alo-easymail.php:491
+#: .././alo-easymail.php:710
+#: .././alo-easymail.php:1291
+#: .././alo-easymail_report.php:109
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_functions.php:1470
+msgid "j M Y @ G:i"
+msgstr "j M Y @ G:i"
+
+#: .././alo-easymail.php:492
+#, php-format
+msgid "Newsletter draft updated. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+msgstr "Návrh Newsletteru aktualizován. <a target=\"_blank\" href=\"%s\">Zobrazit Newsletter</a>"
+
+#: .././alo-easymail.php:535
+msgid "Title"
+msgstr "Titulek"
+
+#: .././alo-easymail.php:535
+#: .././alo-easymail_report.php:86
+#: .././alo-easymail_options.php:640
+msgid "Subject"
+msgstr "Předmět"
+
+#: .././alo-easymail.php:536
+#: .././alo-easymail.php:1024
+msgid "Recipients"
+msgstr "Příjemci"
+
+#: .././alo-easymail.php:537
+msgid "Newsletter status"
+msgstr "Stav Newsletteru"
+
+#: .././alo-easymail.php:538
+#: .././alo-easymail_report.php:108
+msgid "Start"
+msgstr "Spustit"
+
+#: .././alo-easymail.php:539
+msgid "Author"
+msgstr "Autor"
+
+#: .././alo-easymail.php:556
+#: .././alo-easymail_recipients-list.php:72
+msgid "No recipients selected yet"
+msgstr "Nebyli vybrání žádní příjemci"
+
+#: .././alo-easymail.php:560
+#: .././alo-easymail_report.php:136
+msgid "Total recipients"
+msgstr "Celkem příjemců"
+
+#: .././alo-easymail.php:702
+#: .././alo-easymail.php:703
+msgid "Report"
+msgstr "Nahlásit"
+
+#: .././alo-easymail.php:708
+#: .././alo-easymail_report.php:112
+msgid "Completed"
+msgstr "Dokončeno"
+
+#: .././alo-easymail.php:718
+msgid "On sending queue"
+msgstr "Ve frontě odsílání"
+
+#: .././alo-easymail.php:719
+#: .././alo-easymail.php:748
+#: .././alo-easymail.php:1290
+msgid "Progress"
+msgstr "Pokrok"
+
+#: .././alo-easymail.php:721
+#: .././alo-easymail.php:734
+msgid "refresh"
+msgstr "obnovit"
+
+#: .././alo-easymail.php:723
+#: .././alo-easymail_recipients-list.php:193
+msgid "pause"
+msgstr "pozastavit"
+
+#: .././alo-easymail.php:723
+msgid "pause the sending"
+msgstr "pozastavit odesílání"
+
+#: .././alo-easymail.php:729
+msgid "Pending Review"
+msgstr "Čeká na kontrolu"
+
+#: .././alo-easymail.php:732
+msgid "Scheduled"
+msgstr "Naplánováno"
+
+#: .././alo-easymail.php:738
+msgid "Draft"
+msgstr "Náhled"
+
+#: .././alo-easymail.php:741
+msgid "Pending"
+msgstr "Čeká"
+
+#: .././alo-easymail.php:747
+msgid "Paused"
+msgstr "Pozastaveno"
+
+#: .././alo-easymail.php:752
+#: .././alo-easymail_recipients-list.php:194
+msgid "continue"
+msgstr "pokračovat"
+
+#: .././alo-easymail.php:752
+msgid "continue the sending"
+msgstr "pokračovat s odesíláním"
+
+#: .././alo-easymail.php:763
+msgid "Required"
+msgstr "Vyžadováno"
+
+#: .././alo-easymail.php:763
+#: .././alo-easymail_recipients-list.php:171
+msgid "Create list of recipients"
+msgstr "Vytvořit seznam příjemců"
+
+#: .././alo-easymail.php:778
+#: .././alo-easymail_report.php:171
+msgid "Sent"
+msgstr "Odeslat"
+
+#: .././alo-easymail.php:827
+#: .././alo-easymail.php:1343
+#: .././alo-easymail-widget.php:57
+#: .././alo-easymail_subscr-page.php:20
+#: .././alo-easymail_options.php:574
+msgid "Yes, I would like to receive the Newsletter"
+msgstr "Ano, chci dostávat novinky"
+
+#: .././alo-easymail.php:831
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list.php:184
+msgid "Yes"
+msgstr "Ano"
+
+#: .././alo-easymail.php:832
+#: .././alo-easymail.php:1140
+#: .././alo-easymail_report.php:115
+#: .././alo-easymail_report.php:188
+#: .././alo-easymail_recipients-list.php:185
+msgid "No"
+msgstr "Ne"
+
+#: .././alo-easymail.php:947
+#: .././alo-easymail_report.php:32
+msgid "Newsletter report"
+msgstr "Zprávy Newsletteru"
+
+#: .././alo-easymail.php:948
+#: .././alo-easymail_recipients-list.php:79
+msgid "Newsletter subscribers creation"
+msgstr "Vytvoření odběratelů Newsletteru"
+
+#: .././alo-easymail.php:951
+#: .././alo-easymail_subscribers.php:396
+#: .././alo-easymail_subscribers.php:492
+#: .././alo-easymail_functions.php:954
+msgid "The e-email address is not correct"
+msgstr "Emailová adresa není správná"
+
+#: .././alo-easymail.php:952
+#: .././alo-easymail_functions.php:955
+msgid "The name field is empty"
+msgstr "Políčko pro jméno je prázdné"
+
+#: .././alo-easymail.php:953
+#: .././alo-easymail_subscribers.php:494
+msgid "There is already a subscriber with this e-email address"
+msgstr "Tento email již odebírá novinky"
+
+#: .././alo-easymail.php:954
+msgid "Do you really want to DELETE this subscriber?"
+msgstr "Opravdu chcete SMAZAT tohoto odběratele?"
+
+#: .././alo-easymail.php:1025
+msgid "Themes"
+msgstr "Témata"
+
+#: .././alo-easymail.php:1026
+msgid "Placeholders"
+msgstr "Symboly"
+
+#: .././alo-easymail.php:1038
+msgid "Selected recipients"
+msgstr "Vybraní příjemci"
+
+#: .././alo-easymail.php:1041
+msgid "This newsletter was already sent"
+msgstr "Tento newsletter byl již odeslán"
+
+#: .././alo-easymail.php:1047
+msgid "The creation of the recipients list has already started"
+msgstr "Proces vytvoření seznamu příjemců již začal"
+
+#: .././alo-easymail.php:1049
+msgid "Check this flag to delete the existing list and save new recipients now"
+msgstr "Zaškrtněte toto políčko pro smazání existujícího seznamu příjemců a uložení nového"
+
+#: .././alo-easymail.php:1057
+msgid "Users"
+msgstr "Uživatelé"
+
+#: .././alo-easymail.php:1060
+#: .././alo-easymail_functions.php:263
+msgid "All registered users"
+msgstr "Všichni registrovaní uživatelé"
+
+#: .././alo-easymail.php:1068
+#: .././alo-easymail_subscribers.php:318
+msgid "Newsletter subscribers"
+msgstr "Odběratelé Newsletteru"
+
+#: .././alo-easymail.php:1071
+#: .././alo-easymail_functions.php:265
+msgid "All subscribers"
+msgstr "Všichni odběratelé"
+
+#: .././alo-easymail.php:1078
+msgid "Filter subscribers according to lists"
+msgstr "Filtrovat odběratele podle seznamu"
+
+#: .././alo-easymail.php:1098
+msgid "Filter subscribers according to languages"
+msgstr "FIltrovat odběratele podle jazyka"
+
+#: .././alo-easymail.php:1113
+msgid "Not specified / others"
+msgstr "Nespecifikovaní / ostatní"
+
+#: .././alo-easymail.php:1146
+msgid "View"
+msgstr "Zobrazit"
+
+#: .././alo-easymail.php:1183
+msgid "Choose a post"
+msgstr "Vyberte příspěvek"
+
+#: .././alo-easymail.php:1187
+msgid "j M Y"
+msgstr "j M Y"
+
+#: .././alo-easymail.php:1191
+msgid "There are no posts"
+msgstr "Nejsou zde žádné příspěvky"
+
+#: .././alo-easymail.php:1284
+msgid "Newsletters scheduled for sending"
+msgstr "Newslettery naplánovany pro odeslání"
+
+#: .././alo-easymail.php:1288
+msgid "now sending"
+msgstr "odesílá se"
+
+#: .././alo-easymail.php:1291
+msgid "Added on"
+msgstr "Přidáno"
+
+#: .././alo-easymail.php:1292
+#: .././alo-easymail_report.php:105
+msgid "Scheduled by"
+msgstr "Naplánováno od"
+
+#: .././alo-easymail.php:1295
+msgid "There are no newsletters in queue"
+msgstr "Ve frontě nejsou žádné newslettery"
+
+#: .././alo-easymail.php:1300
+#, php-format
+msgid "There are %d subscribers: %d activated, %d not activated"
+msgstr "Máte %d odběratelů: %d potvrzených, %d nepotvrzených"
+
+#: .././alo-easymail.php:1302
+#: .././alo-easymail_subscribers.php:581
+#: .././alo-easymail_subscribers.php:849
+msgid "No subscribers"
+msgstr "Žádní odběratelé"
+
+#: .././alo-easymail.php:1305
+msgid "Updates from plugin developer"
+msgstr "Aktualizace od vývojáře pluginu"
+
+#: .././alo-easymail.php:1322
+msgid "j F Y"
+msgstr "j F Y"
+
+#: .././alo-easymail.php:1349
+#: .././alo-easymail-widget.php:20
+#: .././alo-easymail_options.php:576
+#: .././alo-easymail_functions.php:2256
+msgid "You can also sign up for specific lists"
+msgstr "Můžete se také prihlásit k určitým seznamům"
+
+#: .././alo-easymail.php:1415
+msgid "Confirm your subscription to %BLOGNAME% Newsletter"
+msgstr "Potvrďte odběr novinek z %BLOGNAME%"
+
+#: .././alo-easymail.php:1425
+msgid ""
+"Hi %NAME%\n"
+"to complete your subscription to %BLOGNAME% newsletter you need to click on the following link (or paste it in the address bar of your browser):\n"
+msgstr ""
+"Ahoj %NAME%\n"
+"pro dokončení přihlášení k odběru novinek z %BLOGNAME% klikněte na tento odkaz:\n"
+
+#: .././alo-easymail.php:1427
+msgid "If you did not ask for this subscription ignore this message."
+msgstr "Pokud jste nežádal o zasílání novinek, ignorujte tuto zprávu."
+
+#: .././alo-easymail.php:1428
+msgid "Thank you"
+msgstr "Děkuji"
+
+#: .././alo-easymail.php:1468
+msgid "Send newsletter"
+msgstr "Odeslat newsletter"
+
+#: .././alo-easymail.php:1469
+#: .././alo-easymail_subscribers.php:633
+msgid "Show all"
+msgstr "Zobrazit vše"
+
+#: .././alo-easymail.php:1475
+msgid "Options"
+msgstr "Možnosti"
+
+#: .././alo-easymail.php:1529
+msgid "Debug mode is activated"
+msgstr "Debug mód je aktivní"
+
+#: .././alo-easymail.php:1530
+#: .././alo-easymail_options.php:489
+msgid "all messages will be sent to the newsletter author"
+msgstr "všechny zprávy budou odeslány autorovi newsletteru"
+
+#: .././alo-easymail.php:1531
+#: .././alo-easymail_options.php:490
+msgid "all messages will be recorded into a log file"
+msgstr "všechny zprávy budou zaznamenány do logu"
+
+#: .././alo-easymail.php:1538
+msgid "ALO Easymail Newsletter needs attention"
+msgstr "ALO Easymail Newsletter vyžaduje Vaší pozornost"
+
+#: .././alo-easymail.php:1539
+msgid "The plugin database tables have not properly installed"
+msgstr "Databáze pluginu nebyla správně nainstalována"
+
+#: .././alo-easymail.php:1539
+msgid "you can try to deactivate and activate the plugin"
+msgstr "můžete zkusit deaktivovat a znovu aktivovat plugin"
+
+#: .././alo-easymail.php:1540
+#: .././alo-easymail_options.php:803
+msgid "For more info, visit the FAQ of the site."
+msgstr "Pro více informací, nahlédněte do FAQ sekce na stránce pluginu."
+
+#: .././alo-easymail-widget.php:58
+#: .././alo-easymail_options.php:575
+msgid "No, please do not email me"
+msgstr "Ne, neposílejte mi emaily"
+
+#: .././alo-easymail-widget.php:60
+msgid "Updating..."
+msgstr "Aktualizuji..."
+
+#: .././alo-easymail-widget.php:81
+#: .././alo-easymail_functions.php:965
+msgid "sending..."
+msgstr "odesílám..."
+
+#: .././alo-easymail-widget.php:87
+#: .././alo-easymail_report.php:169
+#: .././alo-easymail_subscribers.php:273
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:775
+msgid "Name"
+msgstr "Jméno"
+
+#: .././alo-easymail-widget.php:91
+#: .././alo-easymail_report.php:168
+#: .././alo-easymail_subscribers.php:271
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:774
+msgid "E-mail"
+msgstr "E-mail"
+
+#: .././alo-easymail-widget.php:97
+#: .././alo-easymail_functions.php:964
+msgid "Subscribe"
+msgstr "Odebírat"
+
+#: .././alo-easymail-widget.php:111
+msgid "Allow users to opt in/out of email"
+msgstr "Povolit uživatelům přihlášení/odhlášení z emailu"
+
+#: .././alo-easymail-widget.php:117
+msgid "ALO Easymail Widget"
+msgstr "ALO Easymail Widget"
+
+#: .././alo-easymail_subscr-page.php:18
+#: .././alo-easymail_options.php:986
+#: .././alo-easymail_options.php:1018
+#: .././alo-easymail_options.php:1037
+#: .././alo-easymail_options.php:1040
+#: .././alo-easymail_subscribers.php:18
+#: .././alo-easymail_subscribers.php:28
+#: .././alo-easymail_subscribers.php:98
+#: .././alo-easymail_subscribers.php:161
+#: .././alo-easymail_subscribers.php:208
+#: .././alo-easymail_subscribers.php:221
+#: .././alo-easymail_subscribers.php:234
+#: .././alo-easymail_subscribers.php:378
+#: .././alo-easymail_subscribers.php:395
+#: .././alo-easymail_subscribers.php:418
+#: .././alo-easymail_subscribers.php:452
+msgid "Error during operation."
+msgstr "Chyba v průběhu operace"
+
+#: .././alo-easymail_subscr-page.php:31
+msgid "Error during activation. Please check the activation link."
+msgstr "Chyba v průběhu aktivace. Prosím zkontrolujte aktivační odkaz."
+
+#: .././alo-easymail_subscr-page.php:33
+#: .././alo-easymail_functions.php:962
+msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
+msgstr "Vaše přihlášení k odběru bylo úspěšně aktivováno. Dostanete příští newsletter. Děkujeme Vám."
+
+#: .././alo-easymail_subscr-page.php:43
+msgid "To modify your subscription to mailing lists use this form"
+msgstr "Pro úpravu vašeho seznamu odběrů použijte tento formulář"
+
+#: .././alo-easymail_subscr-page.php:51
+msgid "Edit"
+msgstr "Upravit"
+
+#: .././alo-easymail_subscr-page.php:56
+msgid "To unsubscribe the newsletter for good click this button"
+msgstr "Pro odhlášení z newsletteru, klikněte na toto tlačítko"
+
+#: .././alo-easymail_subscr-page.php:61
+msgid "Unsubscribe me"
+msgstr "Odhlásit mě"
+
+#: .././alo-easymail_subscr-page.php:68
+msgid "Your subscription was successfully deleted. Bye bye."
+msgstr "Byl jstě úspěšně odlášen z odběru novinek."
+
+#: .././alo-easymail_subscr-page.php:71
+msgid "Error during unsubscription."
+msgstr "Chyba během odhlašování."
+
+#: .././alo-easymail_subscr-page.php:71
+msgid "Try again."
+msgstr "Zkuste to znovu."
+
+#: .././alo-easymail_subscr-page.php:72
+msgid "If it fails again you can contact the administrator"
+msgstr "Pokud oprace znovu selže, můžete kontaktovat administrátora"
+
+#: .././alo-easymail_subscr-page.php:89
+msgid "Your subscription to mailing lists successfully updated"
+msgstr "Vaš seznam odběrů byl úspěšně aktualzován"
+
+#: .././alo-easymail_report.php:5
+#: .././alo-easymail_report.php:19
+#: .././alo-easymail_report.php:21
+#: .././alo-easymail_options.php:3
+#: .././alo-easymail_subscribers.php:3
+#: .././alo-easymail_recipients-list.php:6
+#: .././alo-easymail_recipients-list.php:17
+#: .././alo-easymail_recipients-list.php:23
+#: .././alo-easymail_recipients-list.php:25
+msgid "Cheatin&#8217; uh?"
+msgstr "Podvádíš&#8217; hm?"
+
+#: .././alo-easymail_report.php:17
+#: .././alo-easymail_report.php:18
+#: .././alo-easymail_recipients-list.php:21
+#: .././alo-easymail_recipients-list.php:22
+msgid "The required newsletter does not exist"
+msgstr "Požadovaný newsletter neexistuje"
+
+#: .././alo-easymail_report.php:80
+msgid "open in a new window"
+msgstr "otevřít v novém okně"
+
+#: .././alo-easymail_report.php:119
+#: .././alo-easymail_options.php:644
+msgid "Main body"
+msgstr "Hlavní tělo"
+
+#: .././alo-easymail_report.php:119
+msgid "without formatting"
+msgstr "bez formátování"
+
+#: .././alo-easymail_report.php:137
+msgid "Sendings done"
+msgstr "Odesílání dokončeno"
+
+#: .././alo-easymail_report.php:138
+msgid "Sendings succesful"
+msgstr "Odesílání úspěšné"
+
+#: .././alo-easymail_report.php:139
+msgid "Sendings failed"
+msgstr "Odesílání selhalo"
+
+#: .././alo-easymail_report.php:141
+msgid "Unique views"
+msgstr "Unikátní zobrazení"
+
+#: .././alo-easymail_report.php:143
+msgid "The plugin tries to count how many recipients open the newsletter"
+msgstr "Doplněk se pokusí spočítat, kolik příjemců otevře newsletter"
+
+#: .././alo-easymail_report.php:144
+msgid "The number includes max a view per recipient"
+msgstr "Číslo zahrnuje maximum prohlédnutí na příjemce"
+
+#: .././alo-easymail_report.php:148
+#: .././alo-easymail_report.php:173
+msgid "Clicks"
+msgstr "Kliky"
+
+#: .././alo-easymail_report.php:150
+msgid "The number includes all clicks by all recipients"
+msgstr "Číslo zahrnuje všechny kliknutí všemi příjemci"
+
+#: .././alo-easymail_report.php:170
+#: .././alo-easymail_subscribers.php:277
+#: .././alo-easymail_subscribers.php:476
+#: .././alo-easymail_subscribers.php:780
+msgid "Language"
+msgstr "Jazyk"
+
+#: .././alo-easymail_report.php:172
+msgid "Viewed"
+msgstr "Prohlédnuto"
+
+#: .././alo-easymail_custom-hooks-sample.php:35
+msgid "Latest posts"
+msgstr "Poslední přispěvky"
+
+#: .././alo-easymail_custom-hooks-sample.php:37
+msgid "A list with the latest published posts"
+msgstr "Seznam s posledními publikovanými přispěvky"
+
+#: .././alo-easymail_custom-hooks-sample.php:55
+msgid "Select how many posts"
+msgstr "Zvolte počet příspěvků"
+
+#: .././alo-easymail_options.php:200
+#: .././alo-easymail_options.php:1016
+#: .././alo-easymail_options.php:1035
+#: .././alo-easymail_subscribers.php:446
+#: .././alo-easymail_subscribers.php:463
+msgid "Updated"
+msgstr "Aktualizovaný"
+
+#: .././alo-easymail_options.php:231
+#: .././alo-easymail_options.php:249
+msgid "General"
+msgstr "Obecný"
+
+#: .././alo-easymail_options.php:233
+#: .././alo-easymail_options.php:518
+#: .././alo-easymail_options.php:938
+msgid "Texts"
+msgstr "Texty"
+
+#: .././alo-easymail_options.php:234
+#: .././alo-easymail_options.php:762
+msgid "Batch sending"
+msgstr "Dávkové odesílání"
+
+#: .././alo-easymail_options.php:235
+#: .././alo-easymail_options.php:834
+msgid "Permissions"
+msgstr "Oprávění"
+
+#: .././alo-easymail_options.php:236
+#: .././alo-easymail_options.php:939
+#: .././alo-easymail_options.php:963
+#: .././alo-easymail_options.php:1125
+#: .././alo-easymail_subscribers.php:292
+#: .././alo-easymail_subscribers.php:779
+#: .././alo-easymail_functions.php:267
+msgid "Mailing Lists"
+msgstr "Seznamy emailů"
+
+#: .././alo-easymail_options.php:261
+msgid "Subscription page"
+msgstr "Stránka přihlášení"
+
+#: .././alo-easymail_options.php:280
+msgid "This should be the page that includes the [ALO-EASYMAIL-PAGE] shortcode. By default, this page is titled &#39;Newsletter&#39;"
+msgstr "Tohle by měla být stránka, která obsahuje zkrácený kód [ALO-EASYMAIL-PAGE]. Standardně se tato stránka jmenuje &#39;Newsletter&#39;"
+
+#: .././alo-easymail_options.php:293
+msgid "Show subscription page"
+msgstr "Zobrazit stránku přihlášení"
+
+#: .././alo-easymail_options.php:294
+msgid "If yes, the subscription page appears in menu or widget that list all blog pages"
+msgstr "Pokud je zaškrtnuto, prihlašovací stránka k odběru se zobrazí v menu nebo widgetu který se zobrazuje všechny stránky blogu"
+
+#: .././alo-easymail_options.php:305
+msgid "Embed CSS file"
+msgstr "Přiložit CSS soubor"
+
+#: .././alo-easymail_options.php:306
+msgid "If yes, the plugin loads the CSS styles from a file in its directory"
+msgstr "Pokud je zaškrtnuto, doplněk nahraje CSS styl ze souboru v jeho složce"
+
+#: .././alo-easymail_options.php:306
+msgid "Tip: copy &#39;alo-easymail.css&#39; to your theme directory and edit it there. Useful to prevent the loss of styles when you upgrade the plugin"
+msgstr "Tip: zkopírujte soubor &#39;alo-easymail.css&#39; do Vaší složky tématu a upravte jej.Předejdete ztrátě vzhledu při upgradu doplňku"
+
+#: .././alo-easymail_options.php:317
+msgid "Disable activation e-mail"
+msgstr "Vypnout aktivační email"
+
+#: .././alo-easymail_options.php:318
+msgid "If yes, a new subscriber is automatically activated without confirmation e-mail"
+msgstr "Pokud je zaškrtnuto, nový odběratel je automaticky aktivován bez potvrzujícího emailu"
+
+#: .././alo-easymail_options.php:330
+msgid "Show credit banners in back-end"
+msgstr "Zobrazit poděkování v pozadí"
+
+#: .././alo-easymail_options.php:331
+msgid "You are free to hide the credits, but in that case it's a common practice to make a small donatation via Paypal to the plugin author"
+msgstr "Je Vám dovoleno skrýt poděkování, ale v tomto případě je zvykem dát autorovi pluginu malý dar přez Paypal"
+
+#: .././alo-easymail_options.php:342
+#: .././alo-easymail_options.php:344
+#: .././alo-easymail_options.php:345
+msgid "Delete all plugin data on deactivation"
+msgstr "Smazat všechna data pluginu při deaktivaci"
+
+#: .././alo-easymail_options.php:343
+msgid "On plugin deactivation, all plugin options, preferences and database tables (including all newsletters and subscribers data) will be definitely deleted"
+msgstr "Při deaktivaci budou všechna nastavení a tabulky databáze (včetně newsletterů a odběratelů) nadobro smazány"
+
+#: .././alo-easymail_options.php:343
+msgid "If you need these data make sure you do a database backup before plugin deactivation"
+msgstr "Pokud tato data potřebujete, ujistěte se, že jste provedl/a zálohu před deaktivací pluginu"
+
+#: .././alo-easymail_options.php:345
+msgid "Yes, I understand"
+msgstr "Ano, rozumím"
+
+#: .././alo-easymail_options.php:355
+#: .././alo-easymail_options.php:502
+#: .././alo-easymail_options.php:535
+#: .././alo-easymail_options.php:746
+#: .././alo-easymail_options.php:811
+#: .././alo-easymail_options.php:950
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: .././alo-easymail_options.php:378
+msgid "Number of last posts to display"
+msgstr "Počet posledních příspěvků k zobrazení"
+
+#: .././alo-easymail_options.php:380
+msgid "Number of recent posts to show in the dropdown list of the newsletter sending form"
+msgstr "Počet posledních příspěvků k zobrazení v roletce seznamů ve formuláři pro odeslání newsletteru"
+
+#: .././alo-easymail_options.php:384
+msgid "Sender's email address"
+msgstr "Email odesílatele"
+
+#: .././alo-easymail_options.php:389
+msgid "Sender's name"
+msgstr "Jméno odesílatele"
+
+#: .././alo-easymail_options.php:410
+msgid "Filters to the newsletter text"
+msgstr "Filtry pro text newsletteru"
+
+#: .././alo-easymail_options.php:412
+msgid "Apply 'the_content' filters and shortcodes to newsletter content"
+msgstr "Použít 'the_content' filtry a zkráceniny kódu pro obsah newsletteru"
+
+#: .././alo-easymail_options.php:425
+msgid "Use themes"
+msgstr "Použít témata"
+
+#: .././alo-easymail_options.php:428
+#: .././alo-easymail_options.php:481
+msgid "no"
+msgstr "ne"
+
+#: .././alo-easymail_options.php:429
+#: .././alo-easymail_options.php:433
+msgid "yes"
+msgstr "ano"
+
+#: .././alo-easymail_options.php:429
+msgid " free choice for authors"
+msgstr "volná volba pro autory"
+
+#: .././alo-easymail_options.php:433
+msgid "but always use"
+msgstr "ale vždy použít"
+
+#: .././alo-easymail_options.php:436
+msgid "Tip: copy &#39;alo-easymail-themes&#39; folder to your theme directory and edit your themes there. Useful to prevent the loss of themes when you upgrade the plugin"
+msgstr "Tip: zkopírujte soubor &#39;alo-easymail.css&#39; do Vaší složky tématu a upravte jej.Předejdete ztrátě vzhledu při upgradu doplňku"
+
+#: .././alo-easymail_options.php:449
+msgid "Method of creation of the recipient list"
+msgstr "Metoda vytvoření seznamu příjemců"
+
+#: .././alo-easymail_options.php:453
+#: .././alo-easymail_options.php:454
+#: .././alo-easymail_options.php:455
+msgid "ajax"
+msgstr "ajax"
+
+#: .././alo-easymail_options.php:453
+#: .././alo-easymail_options.php:793
+msgid "Default"
+msgstr "Standardní"
+
+#: .././alo-easymail_options.php:454
+msgid "loading only javascript of the plugin"
+msgstr "nahrává pouze javascript pluginu"
+
+#: .././alo-easymail_options.php:456
+msgid "no ajax"
+msgstr "bez ajaxu"
+
+#: .././alo-easymail_options.php:456
+msgid "creation when newsletter is saved"
+msgstr "tvorba při uložení newsletteru"
+
+#: .././alo-easymail_options.php:462
+msgid "If the standard and cool method does not work for you, you can try another option"
+msgstr "Pokud Vám nefunguje standardní metoda, můžete zkusit jinou možnost"
+
+#: .././alo-easymail_options.php:463
+msgid "You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins"
+msgstr "Máte možnost nahrát použe javascript doplňku, užitečné při vzniku konfliktů s javascripty jiných doplňků"
+
+#: .././alo-easymail_options.php:464
+msgid "Otherwise, you can create the list directly when the newsletter is saved, without use of ajax"
+msgstr "Dále můžete vytvořit seznam přímo po uložení newsletteru bez použití ajaxu"
+
+#: .././alo-easymail_options.php:465
+msgid "this is the quickest and safest mode, but it could not work if case of several thousands of recipients"
+msgstr "toto je nejrychlejší a nejbezpečnější mód, který ale nemusí fungovat v případě nekolika tisíců příjemců"
+
+#: .././alo-easymail_options.php:478
+msgid "Debug newsletters"
+msgstr "Debug newsletterů"
+
+#: .././alo-easymail_options.php:482
+#: .././alo-easymail_options.php:489
+msgid "send all emails to the author"
+msgstr "zaslat všechny emaily autorovi"
+
+#: .././alo-easymail_options.php:482
+#: .././alo-easymail_options.php:490
+msgid "put all emails into a log file"
+msgstr "vložit všechny emaily do logu"
+
+#: .././alo-easymail_options.php:487
+msgid "If you choose a debug mode the newsletters won&#39;t be sent to the selected recipients"
+msgstr "Pokud zapnete debugovací mód, newslettery nebudou odeslány vybraným příjemcům"
+
+#: .././alo-easymail_options.php:491
+#, php-format
+msgid "called %s and saved in %s"
+msgstr "zavoláno v %s a uloženo v %s"
+
+#: .././alo-easymail_options.php:491
+msgid "the log file is accessible on your server and contains personal information so you have to delete it as soon as possible!"
+msgstr "logovací soubor je volně přístupný na vašem serveru a obsahuje citlivé informace, proto jej smažte co nejdříve!"
+
+#: .././alo-easymail_options.php:527
+msgid "No multilanguage plugin is enabled, so you will only see texts in the main language of the site"
+msgstr "Žádný doplňek pro jazykovou mutaci není zapnutý, proto uvidíte pouze texty v hlavním jazyce stránky"
+
+#: .././alo-easymail_options.php:528
+msgid "Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality"
+msgstr "Doporučené doplňk pro kompletní jazykovou mutaci plně kompatibilní s EasyMail Pro"
+
+#: .././alo-easymail_options.php:532
+msgid "If you like here you can list the languages available"
+msgstr "Pokud chcete, můžete zde vypsat dostupné jazyky"
+
+#: .././alo-easymail_options.php:536
+msgid "List of two-letter language codes separated by commas"
+msgstr "Seznam kódů jazyka oddělený čárkou"
+
+#: .././alo-easymail_options.php:536
+#: .././alo-easymail_subscribers.php:331
+msgid "iso 639-1 codes"
+msgstr "kódy ISO 639-1"
+
+#: .././alo-easymail_options.php:536
+msgid "Sample:"
+msgstr "Příklad:"
+
+#: .././alo-easymail_options.php:538
+msgid "The plugin looks for the subscriber&#39;s language in the browser setting and sends the e-mail accordingly"
+msgstr "Doplněk posílá emaily automaticky dle jazyka nastaveného v prohlížeči odběratele."
+
+#: .././alo-easymail_options.php:539
+msgid "If you are not using a multilanguage site ignore this piece of information"
+msgstr "Pokud nepoužíváte vícejazykovou mutaci stránky, ignorujte tuto informaci"
+
+#: .././alo-easymail_options.php:549
+msgid "Widget/Page Texts"
+msgstr "Texty Widgetu/Stránky"
+
+#: .././alo-easymail_options.php:563
+msgid "Optin message"
+msgstr "Zpráva po přihlášení"
+
+#: .././alo-easymail_options.php:564
+msgid "Optout message"
+msgstr "Zpráva po odhlášení"
+
+#: .././alo-easymail_options.php:565
+msgid "Invite to join mailing lists"
+msgstr "Přizvat do mailing seznamu"
+
+#: .././alo-easymail_options.php:566
+#, fuzzy
+msgid "Policy claim"
+msgstr "Policy claim"
+
+#: .././alo-easymail_options.php:567
+#, fuzzy
+msgid "Top claim"
+msgstr "Top claim"
+
+#: .././alo-easymail_options.php:571
+#: .././alo-easymail_options.php:628
+#: .././alo-easymail_options.php:667
+#: .././alo-easymail_options.php:706
+msgid "Leave blank to use default text"
+msgstr "Ponechte prázdné pro standardní text"
+
+#: .././alo-easymail_options.php:578
+#: .././alo-easymail_options.php:582
+msgid "empty"
+msgstr "prázdný"
+
+#: .././alo-easymail_options.php:579
+msgid "If filled in it will appear at the bottom of widget/page. Useful to show/link more info about privacy"
+msgstr "Pokud je toto políčko vyplněno, hodnota se zobrazí ve spodu widgetu/stránky. Užitečné pro odkázání na více informací"
+
+#: .././alo-easymail_options.php:583
+msgid "If filled in it will appear at the top of widget/page. Useful to invite to subscribe"
+msgstr "Pokud je toto políčko vyplněno, hodnota se zobrazí na vrchu widgetu/stránky. Užitečné pro pozvání k odběru"
+
+#: .././alo-easymail_options.php:622
+msgid "Communications"
+msgstr "Komunikace"
+
+#: .././alo-easymail_options.php:627
+msgid "Activation e-mail"
+msgstr "Aktivační email"
+
+#: .././alo-easymail_options.php:656
+#: .././alo-easymail_options.php:695
+#: .././alo-easymail_options.php:732
+msgid "You can use the following tags"
+msgstr "Můžete použít následující značky"
+
+#: .././alo-easymail_options.php:658
+#: .././alo-easymail_options.php:697
+msgid "the blog name"
+msgstr "jméno blogu"
+
+#: .././alo-easymail_options.php:659
+msgid "the subscriber name"
+msgstr "jméno odběratele"
+
+#: .././alo-easymail_options.php:660
+msgid "the url that the new subscriber must click/visit to confirm the subscription"
+msgstr "adresa, na kterou musí odběratel kliknout pro potvrzení odběru"
+
+#: .././alo-easymail_options.php:666
+msgid "Unsubscription disclaimer"
+msgstr "Podmínky odhlášení odběru"
+
+#: .././alo-easymail_options.php:669
+#: .././alo-easymail_functions.php:1727
+msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
+msgstr "Tato zpráva Vám přišla, protože jste se přihlásil/a k odběru našeho newsletteru. Pokud se chcete odhlásit: "
+
+#: .././alo-easymail_options.php:670
+msgid "visit this link"
+msgstr "navštívit odkaz"
+
+#: .././alo-easymail_options.php:698
+msgid "the url that the new subscriber must click/visit to unsubscribe the newsletter"
+msgstr "adresa, na kterou musí nový odběratel kliknout pro odhlášení odběru newsletteru"
+
+#: .././alo-easymail_options.php:705
+msgid "Read newsletter online"
+msgstr "Přečtěte si newsletter online"
+
+#: .././alo-easymail_options.php:708
+msgid "To read the newsletter online you can visit this link"
+msgstr "Pro přečtění newsletteru online můžete navšívit tento odkaz"
+
+#: .././alo-easymail_options.php:734
+msgid "the newsletter web url"
+msgstr "webová adresa newsletteru"
+
+#: .././alo-easymail_options.php:772
+#, php-format
+msgid "Some parameters are already setted up in %s, so the values below could be ignored"
+msgstr "Některé parametry jsou již nastavené v %s, takže hodnoty níže mohou být ignorovány"
+
+#: .././alo-easymail_options.php:779
+msgid "Maximum number of emails that can be sent in a 24-hr period"
+msgstr "Maximální počet emailů, který může být odeslán za 24 hodin"
+
+#: .././alo-easymail_options.php:785
+msgid "Maximum number of emails that can be sent per batch"
+msgstr "Maximální počet emailů, který může být odeslán v jednom balíku"
+
+#: .././alo-easymail_options.php:791
+msgid "Interval between emails in a single batch, in milliseconds"
+msgstr "Interval mezi emaily v jednom balíku (v milisekundách)"
+
+#: .././alo-easymail_options.php:793
+msgid "Usually you do not have to modify this value"
+msgstr "Normálně nemusíte tuto hodnotu upravovat"
+
+#: .././alo-easymail_options.php:793
+msgid "It is useful if your provider allows a maximum number of emails that can be sent per second or minute"
+msgstr "Užitečné, pokud Váš provider omezuje maximální počet emailů, které mohou být odeslány za sekundu či minutu"
+
+#: .././alo-easymail_options.php:793
+msgid "The higher this value, the lower the number of emails sent for each batch"
+msgstr "Čím vyšší je tato hodnota, tím nižší je počet odeslaných emailů v jednom balíku"
+
+#: .././alo-easymail_options.php:798
+msgid "Important advice to calculate the best limit"
+msgstr "Důležitá rada pro výpočet nejlepšího limitu"
+
+#: .././alo-easymail_options.php:800
+msgid "Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off."
+msgstr "Zeptejte se svého pokskytovatele, kolik emailů můžete poslat za jeden den. Násobit hodinový limit 24 není ta správna cesta k vypočtení nejlepší hodnoty, můžete se dostat k číslu mnohem většímu než je Váš dovolený počet."
+
+#: .././alo-easymail_options.php:801
+msgid "Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.)."
+msgstr "Odečtěte z tohoto pomezního čísla počet emailů, které chcete odeslat z Vašeho blogu (např. registrační emaily, akivační a odhlašující emaily z EasyMailu nebo zprávy z pluginů)"
+
+#: .././alo-easymail_options.php:802
+msgid "If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist..."
+msgstr "Pokud váháte, zvolte číslo nižší než přerušení - budete mít větší šanci svůj email doručit a menší šanci, že skončíte ve spamovém koši"
+
+#: .././alo-easymail_options.php:838
+msgid "The lowest role can send newsletters"
+msgstr "Nejnižší role, který může odesílat newslettery"
+
+#: .././alo-easymail_options.php:865
+#: .././alo-easymail_options.php:892
+#, php-format
+msgid "The authorised roles are the same with the %s capability"
+msgstr "Autorizované role jsou stejné s možnostmi %s"
+
+#: .././alo-easymail_options.php:866
+msgid "The user with this capability can manage own newsletters (view the report, delete)"
+msgstr "Uživatel s touto schopností bude moci spravovat vlastní newslettery (reporty, odstranění)"
+
+#: .././alo-easymail_options.php:872
+msgid "The lowest role can manage newsletters"
+msgstr "Nejnižší role, ktera může spravovat newslettery"
+
+#: .././alo-easymail_options.php:893
+msgid "The user with this capability can manage newsletters of all users (view the report, delete)"
+msgstr "Uživatel s touto schopností bude moci spravovat newslettery všech uživatelů (reporty, odstranění)"
+
+#: .././alo-easymail_options.php:900
+msgid "The lowest role can manage subscribers"
+msgstr "Nejnižší role, která může spravovat odběratele"
+
+#: .././alo-easymail_options.php:916
+msgid "The user with this capability can manage subscribers (add, delete, assign to mailing lists...)"
+msgstr "Uživatel s touto schopností bude moci spravovat odběratele (přidat, odstranit, zvolit seznam)"
+
+#: .././alo-easymail_options.php:922
+msgid "The lowest role can manage options"
+msgstr "Nejnižší role, která může spravovat možnosti"
+
+#: .././alo-easymail_options.php:937
+msgid "The user with this capability can set up these setting sections"
+msgstr "Uživatel s touto schopností bude moci spravovat tyto sekce"
+
+#: .././alo-easymail_options.php:940
+msgid "Other sections can be modified only by administrators"
+msgstr "Další sekce mohou být spravovány pouze administrátorem"
+
+#: .././alo-easymail_options.php:1021
+msgid "Inputs are incompled or wrong. Please check and try again."
+msgstr "Hodnoty jsou nekompletní nebo špatné. Prosím zkontrolujte je a zkuste to znovu."
+
+#: .././alo-easymail_options.php:1048
+msgid "You can setup mailing lists. For each you have to specify the name, the order (the lowest appear at top) and the availability"
+msgstr "Můžete nastavit emailové seznamy. Pro každý musíte nastavit jméno, pořadí (nejnižší se ukáže nahoře) a dostupnost"
+
+#: .././alo-easymail_options.php:1050
+#: .././alo-easymail_options.php:1102
+#: .././alo-easymail_options.php:1147
+msgid "hidden"
+msgstr "skrytý"
+
+#: .././alo-easymail_options.php:1050
+msgid "the list can be shown only here in settings and nowhere in the site"
+msgstr "seznam může být zobrazen pouze zde v nastavení a nikde jinde"
+
+#: .././alo-easymail_options.php:1051
+#: .././alo-easymail_options.php:1103
+#: .././alo-easymail_options.php:1150
+msgid "admin side only"
+msgstr "pouze administrace"
+
+#: .././alo-easymail_options.php:1051
+msgid "the list is available only for administratrion use (settings, sending page, subscribers), so subscribers cannot see it"
+msgstr "seznam je přístupný pouze pro administrátory (nastavení, stránka pro odesílání, odběratelé). Odběratelé jej nevidí"
+
+#: .././alo-easymail_options.php:1052
+#: .././alo-easymail_options.php:1104
+#: .././alo-easymail_options.php:1153
+msgid "entire site"
+msgstr "pro celou stránku"
+
+#: .././alo-easymail_options.php:1052
+msgid "the list is available in the whole site, so subscribers can see it"
+msgstr "seznam je přistupný na celé stránce, odběratelé jej můžou vidět"
+
+#: .././alo-easymail_options.php:1056
+#: .././alo-easymail_options.php:1164
+#: .././alo-easymail_options.php:1165
+msgid "Edit list"
+msgstr "Upravit seznam"
+
+#: .././alo-easymail_options.php:1056
+msgid "New list"
+msgstr "Nový seznam"
+
+#: .././alo-easymail_options.php:1061
+#: .././alo-easymail_options.php:1128
+msgid "List name"
+msgstr "Jméno seznamu"
+
+#: .././alo-easymail_options.php:1062
+#: .././alo-easymail_options.php:1129
+msgid "Availability"
+msgstr "Dostupnost"
+
+#: .././alo-easymail_options.php:1063
+#: .././alo-easymail_options.php:1130
+msgid "Order"
+msgstr "Pořadí"
+
+#: .././alo-easymail_options.php:1081
+msgid "no translation for this language, yet"
+msgstr "žádný překlad pro tento jazyk"
+
+#: .././alo-easymail_options.php:1115
+#: .././alo-easymail_functions.php:2896
+msgid "Save"
+msgstr "Uložit"
+
+#: .././alo-easymail_options.php:1117
+#: .././alo-easymail_subscribers.php:149
+#: .././alo-easymail_subscribers.php:196
+#: .././alo-easymail_subscribers.php:265
+#: .././alo-easymail_subscribers.php:372
+#: .././alo-easymail_functions.php:2893
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: .././alo-easymail_options.php:1132
+msgid "Action"
+msgstr "Akce"
+
+#: .././alo-easymail_options.php:1167
+#: .././alo-easymail_options.php:1169
+msgid "Delete list"
+msgstr "Smazat list"
+
+#: .././alo-easymail_options.php:1168
+msgid "Do you really want to DELETE this list?"
+msgstr "Opravdu chcete SMAZAT tento seznam?"
+
+#: .././alo-easymail_options.php:1176
+#: .././alo-easymail_subscribers.php:155
+msgid "There are no available lists"
+msgstr "Nejsou dostupné žádné seznamy"
+
+#: .././alo-easymail_subscribers.php:16
+msgid "Activation state updated"
+msgstr "Aktivační status aktualizován"
+
+#: .././alo-easymail_subscribers.php:18
+msgid "Not updated"
+msgstr "Neaktualizováno"
+
+#: .././alo-easymail_subscribers.php:25
+msgid "Subscriber deleted"
+msgstr "Odběratel smazán"
+
+#: .././alo-easymail_subscribers.php:28
+msgid "Not deleted"
+msgstr "Nesmazáno"
+
+#: .././alo-easymail_subscribers.php:99
+#: .././alo-easymail_subscribers.php:162
+#: .././alo-easymail_subscribers.php:209
+#: .././alo-easymail_subscribers.php:222
+#: .././alo-easymail_subscribers.php:235
+#: .././alo-easymail_subscribers.php:380
+#: .././alo-easymail_subscribers.php:419
+#: .././alo-easymail_subscribers.php:453
+#: .././alo-easymail_subscribers.php:703
+msgid "No subscriber selected"
+msgstr "Nebyl vybrán žádný odběratel"
+
+#: .././alo-easymail_subscribers.php:100
+#: .././alo-easymail_subscribers.php:420
+msgid "No list selected"
+msgstr "Nebyl zvolen žádný seznam"
+
+#: .././alo-easymail_subscribers.php:106
+#: .././alo-easymail_subscribers.php:745
+msgid "Edit subscription to mailing lists"
+msgstr "Upravte seznam odberu emailů"
+
+#: .././alo-easymail_subscribers.php:107
+#: .././alo-easymail_subscribers.php:170
+msgid "Selected subscribers"
+msgstr "Zvolení odběratelé"
+
+#: .././alo-easymail_subscribers.php:120
+msgid "Choose mailing lists"
+msgstr "Zvolte seznam emailů"
+
+#: .././alo-easymail_subscribers.php:131
+msgid "Choose an action"
+msgstr "Zvolte akci"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:343
+msgid "Add to selected lists"
+msgstr "Přidat do vybraných seznamů"
+
+#: .././alo-easymail_subscribers.php:133
+#: .././alo-easymail_subscribers.php:136
+msgid "ignore not selected lists"
+msgstr "ignorovat nevybrané seznamy"
+
+#: .././alo-easymail_subscribers.php:136
+msgid "Remove from selected lists"
+msgstr "Smazat z vybraných seznamů"
+
+#: .././alo-easymail_subscribers.php:140
+msgid "Add to selected lists and remove from not selected lists"
+msgstr "Přidat do vybraných seznamů a smazat z nevybraných seznamů"
+
+#: .././alo-easymail_subscribers.php:148
+#: .././alo-easymail_subscribers.php:195
+#: .././alo-easymail_subscribers.php:763
+msgid "Apply"
+msgstr "Použít"
+
+#: .././alo-easymail_subscribers.php:163
+#: .././alo-easymail_subscribers.php:454
+msgid "No language option selected"
+msgstr "Nebyla vybrána žádna možnost jazyka"
+
+#: .././alo-easymail_subscribers.php:169
+#: .././alo-easymail_subscribers.php:746
+msgid "Change language ascribed to subscribers"
+msgstr "Zvolte jazyk připsaný odběratelům"
+
+#: .././alo-easymail_subscribers.php:182
+#: .././alo-easymail_subscribers.php:622
+msgid "Choose a language"
+msgstr "Zvolte jazyk"
+
+#: .././alo-easymail_subscribers.php:183
+msgid "No language"
+msgstr "Žádný jazyk"
+
+#: .././alo-easymail_subscribers.php:202
+msgid "No language available"
+msgstr "Žádný jazyk není dostupný"
+
+#: .././alo-easymail_subscribers.php:216
+msgid "Subscribers deleted"
+msgstr "Odběratelé smazáni"
+
+#: .././alo-easymail_subscribers.php:229
+msgid "Subscribers activated"
+msgstr "Odběratelé aktivování"
+
+#: .././alo-easymail_subscribers.php:242
+msgid "Subscribers deactivated"
+msgstr "Odběratelé deaktivování"
+
+#: .././alo-easymail_subscribers.php:268
+msgid "Add a subscriber"
+msgstr "Přidat odběratele"
+
+#: .././alo-easymail_subscribers.php:271
+msgid "mandatory"
+msgstr "povinné"
+
+#: .././alo-easymail_subscribers.php:310
+msgid "Add"
+msgstr "Přidat"
+
+#: .././alo-easymail_subscribers.php:314
+msgid "Import from WP registered users"
+msgstr "Importovat z registrovaných úživatelů WP"
+
+#: .././alo-easymail_subscribers.php:315
+msgid "You can import new subscribers from WordPress registered users. Each member will be subscribed to the newsletter."
+msgstr "Můžete importovat nové odběratele z uživatelů WordPressu. Každý člen bude zapsán k odběru."
+
+#: .././alo-easymail_subscribers.php:316
+msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
+msgstr "Tato funkce je užitečná, pokud jste právě nainstaloval doplňek a chtěli byste automaticky přihlásit všechny existující uživatele k odběru."
+
+#: .././alo-easymail_subscribers.php:317
+msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
+msgstr "Budte opatrní s použítím této funkce: přihlásí k odběru všechny registrované uživatele, včetně těch, kteří se již odhlásili z odběru novinek newsletteru!"
+
+#: .././alo-easymail_subscribers.php:319
+msgid "Blog registered users"
+msgstr "Registrovaní uživatelé blogu"
+
+#: .././alo-easymail_subscribers.php:324
+msgid "Import from WP members"
+msgstr "Importovat z členů WP"
+
+#: .././alo-easymail_subscribers.php:328
+msgid "Import from uploaded CSV file"
+msgstr "Importovat z nahraného CSV souboru"
+
+#: .././alo-easymail_subscribers.php:329
+msgid "You can import new subscribers from a CSV file."
+msgstr "Můžete importovat nové odběratele ze souboru CSV."
+
+#: .././alo-easymail_subscribers.php:330
+msgid "For each line you have to specify: e-mail address (mandatory), name (optional), language code (optional). Use semicolon (;) to separate the fields."
+msgstr "Pro každého musíte vyplnit: emailovou adresu (nutná), jméno (volitelné) a kód jazyka (volitelný). Použijte středník (;) pro oddělení polí."
+
+#: .././alo-easymail_subscribers.php:331
+msgid "You can list only languages available in the blog"
+msgstr "Můžete zobrazit pouze seznam jazyků dostupných v blogu"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "you can set them up in Settings &gt; Newsletter"
+msgstr "můžete je nastavit v Nastavení &gt; Newsletter"
+
+#: .././alo-easymail_subscribers.php:331
+msgid "Language codes"
+msgstr "Jazykové kódy"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "Tips if you have problems: you can try changing the file extension from .csv to .txt; use double quotes to delimit each field (&quot;email_address1@domain.ltd&quot;;&quot;name1 surname1&quot;)"
+msgstr "Tipy pokud máte problémy: můžete zkusit změnit příponu souboru z .csv na .txt; použijte dvojité úvozovky (&quot;) pro vyznačení polí (\"email@seznam.cz\"\"Jméno Příjmení\")"
+
+#: .././alo-easymail_subscribers.php:337
+msgid "try using a different browser"
+msgstr "zkuste použít jiný prohlížeč"
+
+#: .././alo-easymail_subscribers.php:339
+msgid "Test mode (no importation, show records on screen)"
+msgstr "Testovací mód (žádné importy, zobrazí záznamy na obrazovce)"
+
+#: .././alo-easymail_subscribers.php:358
+msgid "Upload CSV file"
+msgstr "Nahrát CSV soubor"
+
+#: .././alo-easymail_subscribers.php:362
+msgid "Export subscribers"
+msgstr "Exportovat odběratele"
+
+#: .././alo-easymail_subscribers.php:363
+msgid "You can export newsletter subscribers: the plugin shows them on screen so you can copy and paste them into a text file or into any application"
+msgstr "Můžete exportovat příjemce newsletteru: doplňek je vypíše, proto je můžete zkopírovat a vložit do textového souboru či jakékoliv aplikace"
+
+#: .././alo-easymail_subscribers.php:368
+msgid "Export"
+msgstr "Exportovat"
+
+#: .././alo-easymail_subscribers.php:379
+#: .././alo-easymail_subscribers.php:589
+#: .././alo-easymail_subscribers.php:707
+msgid "No action selected"
+msgstr "Nebyla vybrána žádná akce"
+
+#: .././alo-easymail_subscribers.php:398
+#: .././alo-easymail_subscribers.php:474
+#: .././alo-easymail_subscribers.php:520
+#: .././alo-easymail_subscribers.php:574
+#: .././alo-easymail_subscribers.php:583
+msgid "Back"
+msgstr "Zpět"
+
+#: .././alo-easymail_subscribers.php:411
+msgid "New subscriber added"
+msgstr "Nový odběratel přidán"
+
+#: .././alo-easymail_subscribers.php:476
+msgid "Error"
+msgstr "Chyba"
+
+#: .././alo-easymail_subscribers.php:517
+#, php-format
+msgid "Found %d records"
+msgstr "Nalezeno %d záznamů"
+
+#: .././alo-easymail_subscribers.php:518
+msgid "Check the Error column to modify records that otherwise will not be imported"
+msgstr "Zkontrolujte kolonku s chybou pro úpravu záznamu, které jinak nemusí být importovány"
+
+#: .././alo-easymail_subscribers.php:523
+#, php-format
+msgid "Successfully import: %d records out of %d total"
+msgstr "Úspěšně importováno: %d záznamů z %d celkem"
+
+#: .././alo-easymail_subscribers.php:525
+msgid "Some records have not been imported"
+msgstr "Některé záznamy nebyly importovány."
+
+#: .././alo-easymail_subscribers.php:542
+msgid "Not valid CSV file uploaded"
+msgstr "Nenahrál/a jste validní CSV soubor"
+
+#: .././alo-easymail_subscribers.php:564
+#, php-format
+msgid "%d new subscribers successfully added from blog members"
+msgstr "%d nových odběratelů úspěšně přidáno z členů blogu"
+
+#: .././alo-easymail_subscribers.php:566
+msgid "No subscribers added from blog members"
+msgstr "Žádní noví odběratelé nebyli přidání z blogu"
+
+#: .././alo-easymail_subscribers.php:611
+msgid "Select a mailing list"
+msgstr "Zvolte emailové seznamy"
+
+#: .././alo-easymail_subscribers.php:631
+msgid "Search"
+msgstr "Hledat"
+
+#: .././alo-easymail_subscribers.php:644
+msgid "Import/export subscribers"
+msgstr "Importovat/Exportovat odběratele"
+
+#: .././alo-easymail_subscribers.php:647
+#, php-format
+msgid "Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button"
+msgstr "Možná si budete přát importovat odběratele z registrovaných členů vašeho blogu nebo z externího arhívu (CSV soubor). Klikněte na tlačítko &#39;%s&#39;"
+
+#: .././alo-easymail_subscribers.php:648
+msgid "Do not show it again"
+msgstr "Toto znovu nezobrazovat."
+
+#: .././alo-easymail_subscribers.php:711
+msgid "Do you really want to DELETE these subscribers?"
+msgstr "Opravdu chcete SMAZAT tyto odběratele?"
+
+#: .././alo-easymail_subscribers.php:721
+msgid "Per page"
+msgstr "Na stránku"
+
+#: .././alo-easymail_subscribers.php:744
+msgid "Bulk Actions"
+msgstr "Hromadné akce"
+
+#: .././alo-easymail_subscribers.php:747
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: .././alo-easymail_subscribers.php:748
+msgid "Deactivate"
+msgstr "Deaktivovat"
+
+#: .././alo-easymail_subscribers.php:749
+msgid "Delete"
+msgstr "Smazat"
+
+#: .././alo-easymail_subscribers.php:774
+msgid "Order by e-mail"
+msgstr "Řadit dle e-mailu"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: .././alo-easymail_subscribers.php:776
+msgid "The username of registered users. It is blank for public subscribers."
+msgstr "Uživatelské jméno registrovaných uživatelů. Je prázdná pro veřejné odběratele."
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Order by join date"
+msgstr "Seřadit dle data přhlášení k odběru"
+
+#: .././alo-easymail_subscribers.php:777
+msgid "Join date"
+msgstr "Datum připojení"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Order by activation state"
+msgstr "Seřadit dle stavu aktivace"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "Activated"
+msgstr "Aktivován"
+
+#: .././alo-easymail_subscribers.php:778
+msgid "For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail."
+msgstr "Pro registrované uživatele je defaultní stav aktivován. Pro veřejné odběřatele je defaultní stav deaktivován: stav bude změněn na aktivován po kliknutí na aktivační odkaz v emailu."
+
+#: .././alo-easymail_subscribers.php:778
+msgid "A subscriber will be deleted if not activated in 5 days."
+msgstr "Odběratel bude smazát, pokud si neaktivuje odběr do 5 dnů"
+
+#: .././alo-easymail_subscribers.php:780
+msgid "Order by language"
+msgstr "Seřadit dle jazyka"
+
+#: .././alo-easymail_subscribers.php:781
+msgid "Actions"
+msgstr "Akce"
+
+#: .././alo-easymail_recipients-list.php:5
+#: .././alo-easymail_recipients-list.php:196
+msgid "close"
+msgstr "zavřít"
+
+#: .././alo-easymail_recipients-list.php:68
+msgid "The required newsletter seems to already have a list"
+msgstr "Požadovaný newsletter je již zřejmě v seznamu"
+
+#: .././alo-easymail_recipients-list.php:96
+#: .././alo-easymail_recipients-list.php:121
+#: .././alo-easymail_recipients-list.php:148
+msgid "Recipients successfully added"
+msgstr "Příjemci úspěšně přidáni"
+
+#: .././alo-easymail_recipients-list.php:97
+#: .././alo-easymail_recipients-list.php:122
+#: .././alo-easymail_recipients-list.php:149
+msgid "Newsletter successfully sent to recipients"
+msgstr "Newsletter byl úspěšně odeslán příjemcům"
+
+#: .././alo-easymail_recipients-list.php:176
+msgid "You have to prepare the list of recipients to send the newsletter to"
+msgstr "Musíte připravit seznam příjemců, kterým chcete newsletter odeslat"
+
+#: .././alo-easymail_recipients-list.php:177
+msgid "You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)"
+msgstr "Můžete přidat příjemce do fronty k odeslání (nejlepší volba) nebo jim newsletter poslat ihned (doporučeno jen pro pár příjemců)"
+
+#: .././alo-easymail_recipients-list.php:178
+msgid "Warning: do not close or reload the browser window during process"
+msgstr "Pozor: nezavírejte ani neobnovujte okno prohlížeče v průběhu akce"
+
+#: .././alo-easymail_recipients-list.php:180
+msgid "You can send the newsletter as test to"
+msgstr "Můžete odeslat newsletter jako test na"
+
+#: .././alo-easymail_recipients-list.php:182
+msgid "Send"
+msgstr "Odeslat"
+
+#: .././alo-easymail_recipients-list.php:190
+msgid "Add to sending queue"
+msgstr "Přidat do fronty odesílání"
+
+#: .././alo-easymail_recipients-list.php:192
+msgid "Send now"
+msgstr "Odeslat teď"
+
+#: .././alo-easymail_functions.php:111
+msgid "Please visit the plugin site for more info and feedback"
+msgstr "Navštivte stránku doplňku pro více informací a feedbacku"
+
+#: .././alo-easymail_functions.php:113
+msgid "For more links you can use the Help button"
+msgstr "Pro více odkazů můžete kliknout na tlačítko Nápověda"
+
+#: .././alo-easymail_functions.php:118
+msgid "If you use this plugin consider the idea of donating and supporting its development"
+msgstr "Pokud používáte tento doplněk zamyslete se nad možností přispění autorovi a pomozte tak jeho vývoji. Český překlad vytvořilo Twomates Webdesign - <a href=\"www.twomates.cz\" target =\"_blank\">www.twomates.cz</a>"
+
+#: .././alo-easymail_functions.php:270
+msgid "Languages"
+msgstr "Jazyky"
+
+#: .././alo-easymail_functions.php:853
+msgid "Post tags"
+msgstr "Značky příspěvků"
+
+#: .././alo-easymail_functions.php:855
+msgid "The link to the title of the selected post."
+msgstr "Odkaz na titulek vybraného příspěvku."
+
+#: .././alo-easymail_functions.php:855
+msgid "This tag works also in the <strong>subject</strong>"
+msgstr "Tato značka funguje také v <strong>předmětu</strong>"
+
+#: .././alo-easymail_functions.php:856
+msgid "The excerpt (if any) of the post."
+msgstr "Výpis (pokud existuje) z příspěvku."
+
+#: .././alo-easymail_functions.php:857
+msgid "The main content of the post."
+msgstr "Hlavní obsah příspěvku."
+
+#: .././alo-easymail_functions.php:861
+msgid "Subscriber tags"
+msgstr "Značky odběratelů"
+
+#: .././alo-easymail_functions.php:863
+msgid "Name and surname of registered user."
+msgstr "Jméno a příjmení registrovaného uživatele."
+
+#: .././alo-easymail_functions.php:863
+#: .././alo-easymail_functions.php:864
+msgid "For subscribers: the name used for registration"
+msgstr "Pro odběratele: jméno použito pro registraci"
+
+#: .././alo-easymail_functions.php:864
+msgid "First name of registered user."
+msgstr "Jméno registrovaného uživatele."
+
+#: .././alo-easymail_functions.php:929
+msgid "Successfully updated"
+msgstr "Úspěšně aktualizováno"
+
+#: .././alo-easymail_functions.php:956
+msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
+msgstr "Pozor: tento email již byl zapsán pro odběr, ale nebyl aktivován. Posíláme Vám znovu aktivační email."
+
+#: .././alo-easymail_functions.php:957
+msgid "Warning: this email address has already been subscribed"
+msgstr "Pozor: tento email již byl zapsán pro odběr"
+
+#: .././alo-easymail_functions.php:958
+msgid "Error during sending: please try again"
+msgstr "Chyba při odesílání: prosím, zkuste to znovu"
+
+#: .././alo-easymail_functions.php:960
+msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
+msgstr "Zápis k odběru byl úspěšný. Příjde Vám email s aktivačním odkazem. Navštivte tento odkaz pro aktivování odběru."
+
+#: .././alo-easymail_functions.php:1668
+msgid "Text and URL to unsubscribe."
+msgstr "Text a URL pro odhlášení odběru."
+
+#: .././alo-easymail_functions.php:1668
+#: .././alo-easymail_functions.php:1672
+msgid "You can customise this text in settings"
+msgstr "Máte možnost upravit tento text v nastavení"
+
+#: .././alo-easymail_functions.php:1669
+msgid "URL to unsubscribe."
+msgstr "URL pro odhlášení"
+
+#: .././alo-easymail_functions.php:1671
+msgid "Newsletter tags"
+msgstr "Značky newsletteru"
+
+#: .././alo-easymail_functions.php:1672
+msgid "Text and URL to the online version."
+msgstr "Text a adresa na online verzi."
+
+#: .././alo-easymail_functions.php:1673
+msgid "URL to the online version."
+msgstr "URL na online verzi"
+
+#: .././alo-easymail_functions.php:1674
+msgid "Title of the newsletter."
+msgstr "Titulek newsletteru"
+
+#: .././alo-easymail_functions.php:1675
+msgid "Date of the newsletter."
+msgstr "Datum newsletteru"
+
+#: .././alo-easymail_functions.php:1676
+msgid "Post Thumbnail of newsletter"
+msgstr "Náhled příspěvku newsletteru"
+
+#: .././alo-easymail_functions.php:1677
+msgid "Image gallery of newsletter"
+msgstr "Galerie obrázků newsletteru"
+
+#: .././alo-easymail_functions.php:1679
+msgid "Site tags"
+msgstr "Značky stránky"
+
+#: .././alo-easymail_functions.php:1680
+msgid "The link to the site"
+msgstr "Odkaz na stránku"
+
+#: .././alo-easymail_functions.php:1681
+msgid "URL to the site."
+msgstr "URL na stránku."
+
+#: .././alo-easymail_functions.php:1682
+msgid "Site Title"
+msgstr "Název stránky"
+
+#: .././alo-easymail_functions.php:1683
+msgid "Tagline"
+msgstr "Tagline"
+
+#: .././alo-easymail_functions.php:1685
+msgid "Post Thumbnail"
+msgstr "Náhled přispěvku"
+
+#: .././alo-easymail_functions.php:1686
+msgid "The image gallery of the post"
+msgstr "Galerie obrázku příspěvku"
+
+#: .././alo-easymail_functions.php:1712
+msgid "To read the newsletter online you can visit this link:"
+msgstr "Pro přečtení newsletteru online můžete navštivit tento odkaz:"
+
+#: .././alo-easymail_functions.php:1838
+msgid "j / n / Y"
+msgstr "j / n / Y"
+
+#: .././alo-easymail_functions.php:1882
+#: .././alo-easymail_functions.php:1899
+msgid "Select the image size"
+msgstr "Zvolte velikost obrázku"
+
+#: .././alo-easymail_functions.php:2050
+msgid "Subscriber"
+msgstr "Odběratel"
+
+#: .././alo-easymail_functions.php:2836
+msgid "View user profile"
+msgstr "Zobrazit profil uživatele"
+
+#: .././alo-easymail_functions.php:2842
+msgid "d/m/Y \\h.H:i"
+msgstr "d/m/Y \\h.H:i"
+
+#: .././alo-easymail_functions.php:2900
+#: .././alo-easymail_functions.php:2901
+msgid "Quick edit"
+msgstr "Rychlá úprava"
+
+#: .././alo-easymail_functions.php:2903
+#: .././alo-easymail_functions.php:2904
+msgid "Delete subscriber"
+msgstr "Smazat odběratele"
+
