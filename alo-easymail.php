@@ -3,7 +3,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.2.1
+Version: 2.3
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 */
@@ -59,7 +59,7 @@ if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) inclu
 
 
 // Update when DB tables change
-define( "ALO_EM_DB_VERSION", 2015 );
+define( "ALO_EM_DB_VERSION", 2016 );
 
 
 /**
@@ -96,6 +96,7 @@ function alo_em_install() {
 	if (!get_option('alo_em_filter_the_content')) add_option('alo_em_filter_the_content', 'yes');
 	if (!get_option('alo_em_js_rec_list')) add_option('alo_em_js_rec_list', 'ajax_normal');
 	if (!get_option('alo_em_use_themes')) add_option('alo_em_use_themes', 'yes');
+	if (!get_option('alo_em_publish_newsletters')) add_option('alo_em_publish_newsletters', 'yes');
 	
 	alo_em_setup_predomain_texts( false );
 		    	    
@@ -121,9 +122,8 @@ function alo_em_install() {
 				    unikey varchar(24) NOT NULL,
 				    lists varchar(255) DEFAULT '|',
 				    lang varchar(5) DEFAULT NULL,					    
-				    PRIMARY KEY  (ID),
-				    UNIQUE KEY  email (email)
-				    ) DEFAULT CHARSET=".$collate.";
+				    PRIMARY KEY  (ID)
+				) DEFAULT CHARSET=".$collate.";
 
 				CREATE TABLE {$wpdb->prefix}easymail_recipients (
 					ID int(11) unsigned NOT NULL auto_increment,
@@ -132,7 +132,7 @@ function alo_em_install() {
 					result varchar(3) NOT NULL DEFAULT '0',	
 					user_id int(11) unsigned DEFAULT NULL,
 					PRIMARY KEY  (ID)
-					) DEFAULT CHARSET=".$collate.";
+				) DEFAULT CHARSET=".$collate.";
 
 				CREATE TABLE {$wpdb->prefix}easymail_stats (
 					ID int(11) unsigned NOT NULL auto_increment,
@@ -141,7 +141,7 @@ function alo_em_install() {
 					added_on datetime NOT NULL,
 					request varchar(225) DEFAULT NULL,
 					PRIMARY KEY  (ID)
-					) DEFAULT CHARSET=".$collate.";
+				) DEFAULT CHARSET=".$collate.";
 									
 			    ";  
 				
@@ -152,8 +152,16 @@ function alo_em_install() {
 		if ( $installed_db < 2012 ) {
 			$wpdb->query( "UPDATE ". $wpdb->prefix."easymail_subscribers SET lists = REPLACE( lists, '_', '|');" );
 			$wpdb->query( "UPDATE {$wpdb->options} SET option_name = REPLACE( option_name, 'ALO_em_', 'alo_em_');" );
-		}	    
-		
+		}	
+		// Add table indexes    
+		if ( $installed_db < 2016 ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_recipients ADD INDEX ( `newsletter` ), ADD INDEX ( `email` )");
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats ADD INDEX ( `newsletter` ), ADD INDEX ( `recipient` )");
+		}		
+		// Add 'email' index only if not exists (it exists in plugin versions older than 2.3)
+		if ( !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Non_unique = 0 AND Column_name = 'email';" ) ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD UNIQUE ( `email` )");
+		}			
 	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
     }
 	
@@ -289,16 +297,17 @@ function alo_em_uninstall() {
 		}
 		// and the option with page id
 		delete_option ('alo_em_subsc_page');
+		
+		// reset cap
+		$roles = $wp_roles->get_names(); // get a list of values, containing pairs of: $role_name => $display_name
+		foreach ( $roles as $rolename => $key) {
+			$wp_roles->remove_cap( $rolename, 'manage_easymail_options');
+			$wp_roles->remove_cap( $rolename, 'manage_easymail_subscribers');		
+			//$wp_roles->remove_cap( $rolename, 'manage_easymail_newsletters');
+			//$wp_roles->remove_cap( $rolename, 'send_easymail_newsletters');
+		}		
 	}
 	
-	// reset cap
-	$roles = $wp_roles->get_names(); // get a list of values, containing pairs of: $role_name => $display_name
-	foreach ( $roles as $rolename => $key) {
-		$wp_roles->remove_cap( $rolename, 'manage_easymail_options');
-		$wp_roles->remove_cap( $rolename, 'manage_easymail_subscribers');		
-		//$wp_roles->remove_cap( $rolename, 'manage_easymail_newsletters');
-		//$wp_roles->remove_cap( $rolename, 'send_easymail_newsletters');
-	}
 }
 
 
@@ -467,6 +476,15 @@ function alo_em_register_newsletter_type () {
 		'can_export' => true,
 		'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
 	); 
+	// If it doesn't allow newsletter publication online
+	if ( get_option('alo_em_publish_newsletters') == "no" ) {
+		$args['public'] = false;
+		$args['publicly_queryable'] = false;
+		$args['show_ui'] = true;
+		$args['show_in_menu'] = true;
+		$args['query_var'] = false;
+		$args['exclude_from_search'] = true; // TODO read here: http://jandcgroup.com/2011/09/14/exclude-custom-post-types-from-wordpress-search-do-not-use-exclude_from_search/
+	}
 	$args = apply_filters ( 'alo_easymail_register_newsletter_args', $args ); 
 	register_post_type( 'newsletter', $args );
 }
@@ -561,7 +579,11 @@ function alo_em_table_column_value ( $columns ) {
   			//echo "<pre>". print_r ( $recipients, true ) . "</pre>";
   			echo "<a href='#' class='easymail-toggle-short-summary' rel='{$post->ID}'>".  __( 'Total recipients', "alo-easymail") .": ";
   			if ( alo_em_get_newsletter_status( $post->ID ) ) { // if already created list of recipients, count form db, otherwise from meta
-  				echo alo_em_count_newsletter_recipients( $post->ID );
+  				if( $archive = alo_em_is_newsletter_recipients_archived( $post->ID ) ) { // if archived recipients
+  					echo $archive[0]['tot'];
+  				} else {
+  					echo alo_em_count_newsletter_recipients( $post->ID );
+  				}
   			} else { 
   			 	echo alo_em_count_recipients_from_meta ( $post->ID );
   			}	 
@@ -703,7 +725,8 @@ function alo_em_update_column_status ( $newsletter ) {
 		$status = alo_em_get_newsletter_status( $newsletter );
 		$report_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?', 'alo-easymail_report');		
 		$goto_report = "<a href=\"#\" onclick=\"jQuery(this).easymailReportPopup ( '$report_url', $newsletter, '". alo_em_get_language () ."' );\" title=\"". __( 'Report', "alo-easymail") ."\">";
-		$goto_report .= "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-report.png\" alt=\"\" />". __( 'Report', "alo-easymail") ."</a>";  	
+		$goto_report .= "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-report.png\" alt=\"\" /> ". __( 'Report', "alo-easymail") ."</a>"; 
+		if ( alo_em_is_newsletter_recipients_archived ( $newsletter ) ) $goto_report .= " <em>(". __( 'archived', "alo-easymail") . ")</em>"; 
 						
 		switch ( $status ) {
 		
@@ -711,7 +734,7 @@ function alo_em_update_column_status ( $newsletter ) {
 				echo "<span class='status-completed'>". __("Completed", "alo-easymail"). ": 100%</span><br />";
 				$end = get_post_meta ( $newsletter, "_easymail_completed", current_time( 'mysql', 0 ) );
 				if ( $end ) echo date_i18n( __( 'j M Y @ G:i', "alo-easymail" ), strtotime( $end ) ). "<br />";
-				if ( alo_em_user_can_edit_newsletter( $newsletter ) ) echo $goto_report;  				
+				if ( alo_em_user_can_edit_newsletter( $newsletter ) ) echo $goto_report; 
 				break;
 				
 			case "sendable":
@@ -1042,10 +1065,10 @@ function alo_em_meta_recipients ( $post ) {
 	echo "<p " . ( ( alo_em_count_recipients_from_meta( $post->ID ) == 0 ) ? "class=\"easymail-txtwarning\"" : "" ) ." >";
 	echo "<strong>" .__("Selected recipients", "alo-easymail") .": ". alo_em_count_recipients_from_meta( $post->ID ) ."</strong></p>";
 	
-	if ( alo_em_get_newsletter_status ( $post->ID ) == "sent" ) {
+	if ( alo_em_get_newsletter_status ( $post->ID ) == "sent" || alo_em_is_newsletter_recipients_archived ( $post->ID ) ) {
 		echo "<div class=\"easymail-alert\"><p>". __("This newsletter was already sent", "alo-easymail") .".</p>";
 		echo "</div>";	
-		return;
+		return; // exit
 	}
 	
 	if ( alo_em_count_newsletter_recipients ( $post->ID ) > 0 ) {
@@ -1231,7 +1254,7 @@ function alo_em_save_newsletter_meta ( $post_id ) {
 	do_action ( 'alo_easymail_save_newsletter_meta_extra', $post_id );
 	
 	// If a previous list exists already: if requested reset, otherwise don't save
-	if ( alo_em_count_newsletter_recipients( $post_id ) > 0 ) {
+	if ( alo_em_count_newsletter_recipients( $post_id ) > 0 || alo_em_is_newsletter_recipients_archived ( $post_id ) ) {
 		if ( isset( $_POST['easymail-reset-all-recipients'] ) ) {
 			alo_em_delete_newsletter_recipients ( $post_id );
 			alo_em_delete_newsletter_status ( $post_id );
@@ -1547,8 +1570,8 @@ function alo_em_admin_notice() {
 	}
 	if ( alo_em_db_tables_need_update() ) {
 		echo '<div class="error">';
-		echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>'. __("ALO Easymail Newsletter needs attention", "alo-easymail") ."!</strong><br />";
-		echo __("The plugin database tables have not properly installed", "alo-easymail") .": " . __("you can try to deactivate and activate the plugin", "alo-easymail").".";
+		echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong><em>'. __("ALO Easymail Newsletter needs attention", "alo-easymail") ."!</em></strong><br />";
+		echo __("The plugin database tables have not properly installed", "alo-easymail") .": <strong>" . __("you can try to deactivate and activate the plugin", "alo-easymail")."</strong>.";
 		echo "<br /><a href=\"http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/\" target=\"_blank\">". __("For more info, visit the FAQ of the site.", "alo-easymail")."</a>";
 		echo ".</p>";
 		echo '</div>';
@@ -1652,5 +1675,15 @@ function alo_em_create_wpml_subscrpage_translations( $settings ) {
 	}
 }
 add_action('icl_save_settings', 'alo_em_create_wpml_subscrpage_translations' );
+
+
+/**
+ * If Duplicate Post is used: Do not duplicate EasyMail internal post meta
+ */
+function alo_em_when_duplicate_post( $new_post_id, $old_post_object ) {
+	$exclude_meta = array( "_easymail_archived_recipients", "_easymail_completed", "_easymail_status", "_easymail_recipients" );
+	foreach( $exclude_meta as $meta ) delete_post_meta ( $new_post_id, $meta );
+}
+add_action( "dp_duplicate_post", "alo_em_when_duplicate_post", 100, 2 );
 
 ?>

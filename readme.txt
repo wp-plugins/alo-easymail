@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.2.1
+Stable tag: 2.3
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -26,7 +26,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * **collect subscribers**: on registration form and with an ajax widget/page
 * **import/export subscribers**: import from existing registered users or from a CSV file
 * **create and manage mailing lists**: only admin can assign subscribers to them, or subscribers can freely choose them
-* **newsletter themes**: using html files in plugin or theme folder
+* **newsletter themes**: using html/php files in plugin or theme folder
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter
@@ -48,7 +48,7 @@ Available languages:
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Czech v.2.2.1 - cs_CZ (by [Martin Ondra](http://www.twomates.cz))
 * Dutch v.2.2.1 - nl_NL (by Frank Devocht, Marius Gunu Siroen, Arnoud Huberts)
-* English v.2.2.1 (by eventualo, Francesca Bovone)
+* English v.2.3 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
 * Finnish v.2.1.3 - fi (by Teemu Muikku)
@@ -56,7 +56,7 @@ Available languages:
 * German v.2.0.1 - de_DE (by Norman Schlorke, Thomas Kokusnuss)
 * Greek v.2.0.3 - el (by [George Stavropoulos HDnet](http://www.hdnet.gr))    
 * Hungarian v.2.1.2 - hu_HU (by [László Viktor](http://www.hunstart.hu))
-* Italian v.2.2.1 - it_IT (by eventualo)
+* Italian v.2.3 - it_IT (by eventualo)
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
@@ -98,6 +98,18 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 
 == Changelog ==
 
+= 2.3 =
+* Added: support for newsletter themes in .php (thanks to eqhes!)
+* Added: recipients of previous newsletters can be archived, for best query performances
+* Added: KEY indexes in plugin database tables, for best query performances
+* Added: [USER-NAME] and [USER-FIRST-NAME] work in newsletter title
+* Added: pagination of recipients in report screen
+* Added: an option to publish or not newsletters online
+* Added: auto-deletion of post meta when Duplicate Post plugin copies newsletters
+* Updated: glob() function for list theme files
+* Updated: not using GLOB_BRACE param in glob(), for compatibilty
+* Fixed: permission settings properly maintained when plugin de/re-activated
+* Fixed: add a default text when auto-generated alternative plain text is empty
 
 = 2.2.1 =
 * Fixed: now query that gets recipients in queue should be very faster
@@ -361,3 +373,6 @@ Added compatubility with WPML (WordPress Multilingual Plugin)
 
 = 2.2.1 =
 Query that gets recipients in queue was optimized: so the batch sending should be faster
+
+= 2.3 =
+Better performances in database queries. Newsletter themes also in php.

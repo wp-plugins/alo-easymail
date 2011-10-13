@@ -16,9 +16,10 @@ if ( isset( $_REQUEST['newsletter'] ) ) {
 	$newsletter = (int)$_REQUEST['newsletter'];
 	if ( get_post_type( $newsletter ) != "newsletter" ) wp_die( __('The required newsletter does not exist', "alo-easymail") ); 
 	if ( !get_post( $newsletter ) ) wp_die( __('The required newsletter does not exist', "alo-easymail") );
-	if ( !alo_em_user_can_edit_newsletter( $newsletter ) ) wp_die( __('Cheatin&#8217; uh?') ); 
+	if ( !alo_em_user_can_edit_newsletter( $newsletter ) ) wp_die( __('Cheatin&#8217; uh?') );
+	$offset =  isset( $_REQUEST['offset'] ) ? $_REQUEST['offset'] : 0;
 } else {
-	wp_die(__('Cheatin&#8217; uh?') );    
+	wp_die(__('Cheatin&#8217; uh?') );
 }
 
 
@@ -31,8 +32,6 @@ if ( $newsletter ) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php  _e('Newsletter report', "alo-easymail") ?></title>
 <?php
-
-	// TODO 
 	
     // ID of newsletter (to make the report)
     $id = $newsletter; // $_REQUEST['newsletter'];
@@ -42,46 +41,28 @@ if ( $newsletter ) {
 
 	$newsletter_post = alo_em_get_newsletter( $newsletter );
 	
+	$per_page = 250;
+	
 	if ( !$newsletter ) {
 		die("The requested page doesn't exists.");
 	} else { 
 		?>
+		<link rel="stylesheet" href="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.ui.tabs.css" type="text/css" media="print, projection, screen" />
+		<link rel="stylesheet" href="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend.css" type="text/css" media="print, projection, screen" />
 		
-		<style type="text/css">
-			#tabs-1 {padding:1px 12px;border-bottom:1px dotted #aaa}
-			dl {font-size:80%}
-			dd {margin-bottm:5px}
-			dt {font-style: italic;}
-	
-			#tabs-2 {padding:10px 12px;}
-			.tot, .success, .error, .done, .views {font-size:300%;}
-			.tot {color:#666;font-weight:bold;}
-			.done {color:#999;font-weight:bold;}
-			.success {color:#0c6;font-weight:bold;}
-			.error {color:#f00;font-weight:bold;}
-			.views {color:#fa0;font-weight:bold;}
-			table {font-size:75%;width:550px;margin:0 auto;}
-			td {padding:4px}
-			td.center {text-align:center}
-			table.summary { width:100%;margin-top:10px;background-color:#eef;padding: 1em 0.5em; }
-			#mailbody { font-weight:normal; font-size:90%;height: 50px; overflow: auto; border-left:1px dotted #aaa; padding-left: 1em;}
-			#mailbody img { height: 5em; width: auto; display: block; }
-			#mailbody p { margin:0 }
-			
-			.new-win-link { font-size:75%; float:right; }
-		</style>
 		</head>
 		
 		<body>
 		
-		<div id="slider" class="wrap">
+		<div class="wrap">
+			
 			<?php if ( isset($_GET['_wpnonce']) && !isset($_GET['isnewwin']) ) : ?>
 				<a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&newsletter='.$newsletter.'&lang='.$lang.'&isnewwin=1'; ?>" target="_blank" class="new-win-link">
 				<?php _e("open in a new window", "alo-easymail") ?></a>
 			<?php endif; ?>				
 			
 			<!-- Newsletter's general details -->
-			<div id="tabs-1">
+			<div id="par-1">
 				<dl>
 					<dt><?php _e("Subject", "alo-easymail");  ?>:</dt>
 					<dd><strong><?php 
@@ -123,14 +104,44 @@ if ( $newsletter ) {
 					</dd>
 				</dl>	
 			</div>
-		
+			
 			<!-- Newsletter's recipients list -->
-			<div id="tabs-2">
+			<div id="par-2">
+			
 				<?php
-				// List of recipients
-				$recipients = alo_em_get_newsletter_recipients( $newsletter ); 
-				?>	
+				// If archived
+				if ( $archived_raw = alo_em_is_newsletter_recipients_archived ( $newsletter ) ) {
+					$archived_meta = $archived_raw[0];
+					$tot_recipients 	= $archived_meta['tot'];
+					$already_sent 		= $archived_meta['sent'];
+					$sent_with_success 	= $archived_meta['success'];
+					$sent_with_error 	= $archived_meta['error'];
+					$unique_views 		= $archived_meta['uniqview'];			
+
+				// If regular, not archived
+				} else {
+					// List of recipients, paged
+					$recipients = alo_em_get_newsletter_recipients( $newsletter, false, $offset, $per_page ); 
 				
+					// Total number of recipients
+					$tot_recipients = alo_em_count_newsletter_recipients ( $newsletter );
+				
+					// Other info
+					$already_sent = alo_em_count_newsletter_recipients_already_sent ( $newsletter );
+					$sent_with_success = alo_em_count_newsletter_recipients_already_sent_with_success( $newsletter );
+					$sent_with_error = alo_em_count_newsletter_recipients_already_sent_with_error( $newsletter );
+					$unique_views = count( alo_em_all_newsletter_trackings ( $newsletter, '' ) );
+				}
+				?>		
+			
+				<?php // Archive (delete) detailed info of recipients
+				if ( isset($_GET['archive']) && alo_em_get_newsletter_status( $newsletter ) == "sent" ) :
+					$archived_recipients = array( 'tot' => $tot_recipients, 'sent' => $already_sent, 'success' => $sent_with_success, 'error' => $sent_with_error, 'uniqview' => $unique_views );
+					add_post_meta ( $newsletter, "_easymail_archived_recipients", $archived_recipients );
+					alo_em_delete_newsletter_recipients ( $newsletter );
+					echo "<div class=\"easymail-alert\">". __("Detailed report was archived", "alo-easymail") ."</div>\n";
+				endif; ?>	
+			
 				<table class="summary">
 					<thead><tr>
 						<th scope="col"><?php _e("Total recipients", "alo-easymail") ?></th>
@@ -152,16 +163,44 @@ if ( $newsletter ) {
 						?></th>-->
 					</tr></thead>
 				<tbody><tr>
-					<td class="tot center" style="width:20%"><?php echo alo_em_count_newsletter_recipients ( $newsletter ) ?>
-					<td class="done center" style="width:20%"><?php echo alo_em_count_newsletter_recipients_already_sent ( $newsletter ) ?>
-					<td class="success center" style="width:15%"><?php echo alo_em_count_newsletter_recipients_already_sent_with_success( $newsletter )  ?>
-					<td class="error center" style="width:15%"><?php echo alo_em_count_newsletter_recipients_already_sent_with_error( $newsletter )  ?>	
-					<td class="views center" style="width:15%"><?php echo count( alo_em_all_newsletter_trackings ( $newsletter, '' ) );  ?>					
+					<td class="tot center" style="width:20%"><?php echo $tot_recipients; ?>
+					<td class="done center" style="width:20%"><?php echo $already_sent ?>
+					<td class="success center" style="width:15%"><?php echo $sent_with_success ?>
+					<td class="error center" style="width:15%"><?php echo $sent_with_error  ?>	
+					<td class="views center" style="width:15%"><?php echo $unique_views  ?>					
 					<!--<td class="success center" style="width:15%"><?php //TODO  ?>-->
 					</tr></tbody>
 				</table>
-											
-				<table style="margin-top:25px;width:100%">
+			
+			<?php // Archive button
+			if ( !isset($_GET['isnewwin']) ) { 
+				if ( alo_em_is_newsletter_recipients_archived ( $newsletter ) ) {
+					if ( !isset($_GET['archive']) ) echo "<div class=\"easymail-alert\">". __("Detailed report was archived", "alo-easymail") ."</div>\n";
+				} else if ( alo_em_get_newsletter_status( $newsletter ) == "sent" ) { ?>
+				<div id="par-3">
+					<a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&newsletter='.$newsletter.'&lang='.$lang.'&archive=1'; ?>" class="easymail-navbutton" onclick='javascript:if( confirm("<?php echo esc_js( __("Are you sure?", "alo-easymail")." " . __("This action cannot be undone", "alo-easymail") ) ?>") == false ) return false;'>
+					<?php _e("Archive the detailed report of recipients", "alo-easymail") ?></a> 
+					<?php echo alo_em_help_tooltip( __("This action deletes the detailed info about recipients (see below) and keeps only the summary (see above)", "alo-easymail"). ". " .__("It reduces the data in database tables and make the plugin queries and actions faster", "alo-easymail"). ". " ); ?>
+				</div>
+			<?php } // if ( get_post_meta 
+			} // if ( !isset($_GET['isnewwin']) )  ?>		
+
+<?php if ( !alo_em_is_newsletter_recipients_archived ( $newsletter ) ) : 	?>			
+				<?php 
+				$tot_pages = @ceil( $tot_recipients / $per_page ); 
+				if ( $tot_pages > 1 ) : ?>
+				<!-- Pagination -->	
+				<ul id="easymail_report_tabs" class="ui-tabs-nav">
+					<?php for( $i=0; $i < $tot_pages; $i++ ) : 
+						$to_offset = ( $i * $per_page ); 
+						$active = ( $offset == $to_offset ) ? "ui-tabs-selected ui-state-active" : "";
+						$atitle = __("Recipients", "alo-easymail").": ". ($to_offset+1) ." - ". ( ( $i < $tot_pages-1 ) ? $to_offset + $per_page : $tot_recipients ); ?>		
+						<li class="ui-state-default ui-corner-top <?php echo $active ?>"><a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&newsletter='.$newsletter.'&lang='.$lang.'&offset='. $to_offset; ?>" title="<?php echo $atitle ?>"><?php echo $to_offset+1 ?></a></li>			
+					<?php endfor; ?>
+				</ul>
+				<?php endif; // if ( $tot_pages > 1 ) ?>
+				
+				<table style="margin-top:15px;width:100%">
 					<thead>
 					<tr>
 						<th scope="col"></th>
@@ -177,7 +216,7 @@ if ( $newsletter ) {
 				<tbody>
 				<?php
 				$class = "";
-				$n = 0;
+				$n = $offset;
 				foreach ($recipients as $recipient) {
 					$class = ('' == $class) ? "style='background-color:#eee;'" : "";
 					$n ++;
@@ -196,6 +235,9 @@ if ( $newsletter ) {
 				}
 				?>
 			</tbody></table>
+
+<?php endif; // if ( !alo_em_is_newsletter_recipients_archived ( $newsletter ) ) : ?>	
+			
 			</div>
 			
 		</div> <!-- end slider -->

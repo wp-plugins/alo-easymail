@@ -103,6 +103,11 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_delete_on_uninstall', "no") ;
 			}
+			if ( isset($_POST['publish_newsletters']) ) {
+				update_option('alo_em_publish_newsletters', "yes");
+			} else {
+				update_option('alo_em_publish_newsletters', "no") ;
+			}			
 			
 		} // end Tab GENERAL
 
@@ -316,6 +321,19 @@ if ( get_option('alo_em_no_activation_mail') == "yes" ) {
 <tr valign="top">
 <th scope="row"><?php _e("Disable activation e-mail", "alo-easymail") ?>:</th>
 <td><input type="checkbox" name="no_activation_mail" id="no_activation_mail" value="yes" <?php echo $checked_embed_css ?> /> <span class="description"><?php _e("If yes, a new subscriber is automatically activated without confirmation e-mail", "alo-easymail") ?>.</span></td>
+</tr>
+
+
+<?php 
+if ( get_option('alo_em_publish_newsletters') == "yes" ) {
+	$checked_publish_newsletters = 'checked="checked"';
+} else {
+	$checked_publish_newsletters = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Publish newsletters online", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="publish_newsletters" id="publish_newsletters" value="yes" <?php echo $checked_publish_newsletters ?> /> <span class="description"><?php _e("If yes, newsletters automatically are published into your blog so they can be read online", "alo-easymail") ?>. <?php _e("If no, newsletters are not available online", "alo-easymail") ?>.</span></td>
 </tr>
 
 
@@ -707,7 +725,7 @@ echo "&lt;/em&gt;&lt;/p&gt;";
 <th scope="row"><?php _e("Read newsletter online", "alo-easymail") ?>:</th>
 <td><span class="description"><?php _e("Leave blank to use default text", "alo-easymail") ?>:</span><br />
 <?php
-echo "&lt;p&gt;&lt;em&gt;". __("To read the newsletter online you can visit this link", "alo-easymail") .": %NEWSLETTERLINK% &lt;/em&gt;&lt;/p&gt;";
+echo "&lt;p&gt;&lt;em&gt;". __("To read the newsletter online you can visit this link:", "alo-easymail") ." %NEWSLETTERLINK% &lt;/em&gt;&lt;/p&gt;";
 ?>
 <div id="viewonline_msg_container">
 	<?php 
