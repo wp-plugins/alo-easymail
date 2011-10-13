@@ -56,6 +56,7 @@ td.column-easymail_status .status-completed {
 
 td.column-easymail_status .status-onsending {
 	font-style: italic;
+ 	font-weight: bold;
 }
 
 td.column-easymail_status .status-paused {
@@ -151,3 +152,32 @@ a.easymail-navbutton:hover {
 	background-image: url("../images/pbar.jpg");
 }
 
+
+/*
+ * Report
+ */
+
+#par-1 { padding:1px 12px;border-bottom:1px dotted #aaa}
+#par-1 dl {font-size:80%}
+#par-1 dd {margin-bottm:5px}
+#par-1 dt {font-style: italic;}
+
+#par-2 {padding:10px 12px;}
+#par-3 { padding: 14px 12px; border-bottom:1px dotted #aaa; width: 100%; text-align: center}
+#par-2 .tot, #par-2  .success, #par-2 .error, #par-2 .done, #par-2 .views {font-size:300%;}
+#par-2 .tot {color:#666;font-weight:bold;}
+#par-2 .done {color:#999;font-weight:bold;}
+#par-2 .success {color:#0c6;font-weight:bold;}
+#par-2 .error {color:#f00;font-weight:bold;}
+#par-2 .views {color:#fa0;font-weight:bold;}
+#par-2 table {font-size:75%;width:550px;margin:0 auto;}
+#par-2 td {padding:4px}
+#par-2 td.center {text-align:center}
+#par-2 table.summary { width:100%;margin-top:10px;background-color:#eef;padding: 1em 0.5em; }
+#par-1 #mailbody { font-weight:normal; font-size:90%;height: 50px; overflow: auto; border-left:1px dotted #aaa; padding-left: 1em;}
+#par-1 #mailbody img { height: 5em; width: auto; display: block; }
+#par-1 #mailbody p { margin:0 }
+
+.new-win-link { font-size:75%; float:right; }
+
+#easymail_report_tabs { margin-top: 15px; font-weight: bold }

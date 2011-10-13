@@ -197,6 +197,15 @@ function alo_em_delete_newsletter_status ( $newsletter ) {
 }
 
 
+/**
+ * Check if Newsletter Report of Recipients was archived
+ */
+function alo_em_is_newsletter_recipients_archived ( $newsletter ) {
+	if( alo_em_get_newsletter_status ( $newsletter ) != "sent" ) return false;
+	return ( $archive = get_post_meta ( $newsletter, "_easymail_archived_recipients" ) ) ? $archive : false;
+}
+
+
 
 /*************************************************************************
  * RECIPIENTS FUNCTIONS
@@ -285,11 +294,14 @@ function alo_em_recipients_short_summary ( $recipients ) {
 				}
 				$list_str = trim ( $list_str, ", " );
 			}
-			$output .= "<li title=\"". esc_attr( $list_str ) ."\" >" . count( $recipients['list'] ) ." ". __( 'Mailing Lists', "alo-easymail") . "</li>";
+			$output .= "<li title=\"". esc_attr( $list_str ) ."\" >" . count( $recipients['list'] ) ." ". __( 'Mailing Lists', "alo-easymail") . alo_em_help_tooltip( $list_str ) . "</li>";
 		}
 	}
 	if ( isset( $recipients['subscribers'] ) || isset( $recipients['list'] ) ) {
-		if ( isset( $recipients['lang'] ) ) $output .= "<li title=\"". esc_attr( str_replace( "UNKNOWN", __("Not specified / others", "alo-easymail"), implode( ", ", $recipients['lang'] ) ) )."\">" . count( $recipients['lang'] ) ." ". __( 'Languages', "alo-easymail") . "</li>";
+		if ( isset( $recipients['lang'] ) ) {
+			$langs_str = str_replace( "UNKNOWN", __("Not specified / others", "alo-easymail"), implode( ", ", $recipients['lang'] ) );
+			$output .= "<li title=\"". esc_attr( $langs_str )."\">" . count( $recipients['lang'] ) ." ". __( 'Languages', "alo-easymail") . alo_em_help_tooltip( $langs_str ) . "</li>";
+		}
 	}
 	$output .= "</ul>";
 	return $output;
@@ -502,8 +514,7 @@ function alo_em_get_recipient_by_email_and_newsletter ( $email, $newsletter ) {
     										LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email 
     										WHERE r.email=%s AND r.newsletter=%d", $email, $newsletter ) );	
     if ( $rec ) {
-    	if ( $user_id = email_exists( $email ) ) {
-    		$rec->user_id = $user_id;
+    	if ( $user_id = $rec->user_id ) {
     		if ( get_user_meta( $user_id, 'first_name', true ) != "" ) $rec->firstname = ucfirst( get_user_meta( $user_id, 'first_name', true ) );
 	 	} else {
 	 		$rec->firstname = $rec->name;
@@ -523,8 +534,7 @@ function alo_em_get_recipient_by_id ( $recipient ) {
     										LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email 
     										WHERE r.ID=%d", $recipient ) );
     if ( $rec && isset( $rec->email ) ) {
-    	if ( $user_id = email_exists( $rec->email ) ) {
-    		$rec->user_id = $user_id;
+    	if ( $user_id = $rec->user_id ) {
 			if ( get_user_meta( $user_id, 'first_name', true ) != "" ) $rec->firstname = ucfirst( get_user_meta( $user_id, 'first_name', true ) );
 	 	} else {
 	 		$rec->firstname = $rec->name;
@@ -575,10 +585,11 @@ function alo_em_delete_newsletter_recipients ( $newsletter ) {
  * Get Newsletter Recipients from db
  * @param	bol 	if only recipients that have NOT yet received the newsletter
  */
-function alo_em_get_newsletter_recipients ( $newsletter, $only_to_send=false ) {
+function alo_em_get_newsletter_recipients ( $newsletter, $only_to_send=false, $offset=0, $limit=0 ) {
 	global $wpdb;
 	$where_to_send = ( $only_to_send ) ? "AND r.result = 0" : "";
-	return $wpdb->get_results( $wpdb->prepare( "SELECT r.*, s.lang, s.unikey, s.name FROM {$wpdb->prefix}easymail_recipients AS r LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email WHERE newsletter=%d ". $where_to_send ." ORDER BY r.email ASC", $newsletter ) );
+	$limit = ( $offset || $limit ) ? " LIMIT $offset, $limit " : "";
+	return $wpdb->get_results( $wpdb->prepare( "SELECT r.*, s.lang, s.unikey, s.name FROM {$wpdb->prefix}easymail_recipients AS r LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email WHERE newsletter=%d ". $where_to_send ." ORDER BY r.email ASC". $limit, $newsletter ) );
 }
 
 
@@ -587,7 +598,7 @@ function alo_em_get_newsletter_recipients ( $newsletter, $only_to_send=false ) {
  * @return	int	 
  */
 function alo_em_count_newsletter_recipients ( $newsletter, $only_to_send=false ) {
-	return count( alo_em_get_newsletter_recipients ( $newsletter, $only_to_send ) );
+	return count( alo_em_get_newsletter_recipients ( $newsletter, $only_to_send, false, false ) );
 }
 
 
@@ -878,7 +889,7 @@ function alo_em_tags_table ( $post_id ) {
 		"easymail_post" => array (
 			"title" 		=> __( "Post tags", "alo-easymail" ),
 			"tags" 			=> array (
-				"[POST-TITLE]" 		=> __("The link to the title of the selected post.", "alo-easymail") .". ". __("This tag works also in the <strong>subject</strong>", "alo-easymail"),
+				"[POST-TITLE]" 		=> __("The link to the title of the selected post.", "alo-easymail") ." ". __("This tag works also in the <strong>subject</strong>", "alo-easymail"),
 				"[POST-EXCERPT]" 	=> __("The excerpt (if any) of the post.", "alo-easymail"),
 				"[POST-CONTENT]"	=> __("The main content of the post.", "alo-easymail")						
 			)
@@ -886,8 +897,8 @@ function alo_em_tags_table ( $post_id ) {
 		"easymail_subscriber" => array (
 			"title" 		=> __( "Subscriber tags", "alo-easymail" ),
 			"tags" 			=> array (
-				"[USER-NAME]"		=> __("Name and surname of registered user.", "alo-easymail") ." (". __("For subscribers: the name used for registration", "alo-easymail") .")",
-				"[USER-FIRST-NAME]"	=> __("First name of registered user.", "alo-easymail") ." (". __("For subscribers: the name used for registration", "alo-easymail") .")"
+				"[USER-NAME]"		=> __("Name and surname of registered user.", "alo-easymail") . " (". __("For subscribers: the name used for registration", "alo-easymail") ."). ". __("This tag works also in the <strong>subject</strong>", "alo-easymail").".",
+				"[USER-FIRST-NAME]"	=> __("First name of registered user.", "alo-easymail") . " (". __("For subscribers: the name used for registration", "alo-easymail") ."). ". __("This tag works also in the <strong>subject</strong>", "alo-easymail")."."
 			)
 		)		
 	);
@@ -1338,6 +1349,12 @@ function alo_em_alt_mail_body( $phpmailer ) {
 	//if( $phpmailer->ContentType == 'text/html' && $phpmailer->AltBody == '') {
 	if( $phpmailer->ContentType == 'text/html') { // added by sanderbontje
 		$plain_text = alo_em_html2plain ( $phpmailer->Body );
+		// To avoid empty alt text that does not make newsletter leave out!
+		if ( $plain_text == "" ) {
+			$plain_text .= __( 'This newsletter is available only in html', 'alo-easymail' ).".\n";
+			$plain_text .= __( 'The link to the site', 'alo-easymail' ).": ";			
+			$plain_text .= get_option ('siteurl');
+		}		
 		$phpmailer->AltBody = $plain_text;
 	}
 }
@@ -1420,7 +1437,6 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	// easymail standard and custom filters
 	$content = apply_filters( 'alo_easymail_newsletter_content', $content, $newsletter, $recipient, false ); 
 	
-		
 	/* // maybe useless in v.2...
 	if ( get_option('alo_em_filter_br') != "no" ) {
 		$content = wpautop( $content, 1 );
@@ -1429,52 +1445,6 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 		$content = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $content);
 	}
 	*/
-	
-	/*
-$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
-   	if ( $viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true ) ) {
-		$content .= $viewonline_msg;
-	} else {
-		$content .= "\r\n<p><em>". __("To read the newsletter online you can visit this link", "alo-easymail");
-		$content .=	": %NEWSLETTERLINK%</em></p>\r\n";
-	}
-	$content = str_replace ( "%NEWSLETTERLINK%", " <a href='".$viewonline_url."'>". $viewonline_url ."</a>", $content );
-
-*/
-	// Unsubscribe link and tracking, only if subscriber
-	//if ( $recipient->unikey && $recipient->ID ) {
-	
-		/*         
-		$div_email = explode( "@", $recipient->email ); // for link
-	   	$arr_params = array ('ac' => 'unsubscribe', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $recipient->unikey );
-		$uns_link = add_query_arg( $arr_params, get_page_link (get_option('alo_em_subsc_page')) );
-		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
-		*/
-		
-/*
-		$uns_vars = $recipient->subscriber . "|" . $recipient->unikey;
-		$uns_vars = urlencode( base64_encode( $uns_vars ) );
-		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
-		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
-		
-	   	if ( $unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true ) ) {
-			$content .= $unsubfooter;
-		} else {
-			$content .= "\r\n<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
-			$content .=	__("visit this link", "alo-easymail") ."<br />\r\n%UNSUBSCRIBELINK%";
-			$content .= "</em></p>\r\n";
-		}
-		$content = str_replace ( "%UNSUBSCRIBELINK%", " <a href='".$uns_link."'>". $uns_link ."</a>", $content );
-		
-		$track_vars = $recipient->ID . "|" . $recipient->unikey;
-        $track_vars = urlencode( base64_encode( $track_vars ) );
-        
-		$content .= "\r\n<img src='". ALO_EM_PLUGIN_URL ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
-		//$content .= "<pre>". print_r ( $recipient, true ) . "</pre>";
-	}
-*/
-		
-
 	
 	$mail_sender = ( get_option('alo_em_sender_email') ) ? get_option('alo_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
 	$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('alo_em_sender_name') ) );
@@ -1515,118 +1485,6 @@ $viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter )
 	}
 	return ( $mail_engine ) ? true : false;
 }
-
- /*
-function alo_em_send_newsletter_to ( $recip, $force_send=false ) {
-	global $wpdb;
-	$defaults = array(
-		'email' => false,
-		'newsletter' => false, 
-		'ID' => false,	// if false, it's a test sending
-		'lang' => alo_em_get_language (),
-		'name' => false,
-		'firstname' => false,
-		'subscriber' => false,
-		'unikey' => false
-	);
-	$args = wp_parse_args( (array)$recip, $defaults );
-	$recipient = (object)$args;
-	
-	if ( !is_email( $recipient->email ) ) return; 
-		
-	// Get newsletter details
-	$newsletter = alo_em_get_newsletter( $recipient->newsletter );
-	
-	$subject = stripslashes ( alo_em_translate_text ( $recipient->lang, $newsletter->post_title ) );
-	$subject = apply_filters( 'alo_easymail_newsletter_title', $subject, $newsletter, $recipient ); 
-	   
-	$content = alo_em_translate_text( $recipient->lang, $newsletter->post_content ); 
-	
-	// easymail standard and custom filters
-	$content = apply_filters( 'alo_easymail_newsletter_content', $content, $newsletter, $recipient, false ); 
-	
-	// general filters and shortcodes applied to 'the_content'?
-	if ( get_option('alo_em_filter_the_content') != "no" ) {
-		add_filter ( 'the_content', 'do_shortcode', 11 );
-		$content = apply_filters( "the_content", $content );
-	}
-	
-	$viewonline_url = alo_em_translate_url ( get_permalink( $recipient->newsletter ), $recipient->lang );
-   	if ( $viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true ) ) {
-		$content .= $viewonline_msg;
-	} else {
-		$content .= "\r\n<p><em>". __("To read the newsletter online you can visit this link", "alo-easymail");
-		$content .=	": %NEWSLETTERLINK%</em></p>\r\n";
-	}
-	$content = str_replace ( "%NEWSLETTERLINK%", " <a href='".$viewonline_url."'>". $viewonline_url ."</a>", $content );
-
-	// Unsubscribe link and tracking, only if subscriber
-	if ( $recipient->unikey && $recipient->ID ) {
-			
-		$uns_vars = $recipient->subscriber . "|" . $recipient->unikey;
-		$uns_vars = urlencode( base64_encode( $uns_vars ) );
-		$uns_link = add_query_arg( 'emunsub', $uns_vars, trailingslashit( get_home_url() ) );
-		$uns_link = alo_em_translate_url ( $uns_link, $recipient->lang );
-		
-	   	if ( $unsubfooter = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_unsub_footer', true ) ) {
-			$content .= $unsubfooter;
-		} else {
-			$content .= "\r\n<p><em>". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
-			$content .=	__("visit this link", "alo-easymail") ."<br />\r\n%UNSUBSCRIBELINK%";
-			$content .= "</em></p>\r\n";
-		}
-		$content = str_replace ( "%UNSUBSCRIBELINK%", " <a href='".$uns_link."'>". $uns_link ."</a>", $content );
-		
-		$track_vars = $recipient->ID . "|" . $recipient->unikey;
-        $track_vars = urlencode( base64_encode( $track_vars ) );
-        
-        $nossl_plugin_url = str_replace( "https", "http", ALO_EM_PLUGIN_URL );
-		$content .= "\r\n<img src='". $nossl_plugin_url ."/tr.php?v=". $track_vars ."' width='1' height='1' border='0' >";
-		//$content .= "<pre>". print_r ( $recipient, true ) . "</pre>";
-	}
-		
-
-	
-	$mail_sender = ( get_option('alo_em_sender_email') ) ? get_option('alo_em_sender_email') : "noreply@". str_replace("www.","", $_SERVER['HTTP_HOST']);
-	$from_name = html_entity_decode ( wp_kses_decode_entities ( get_option('alo_em_sender_name') ) );
-
-	$headers = "From: ". $from_name ." <".$mail_sender.">\n";
-	$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";		
-
-    // ---- Send MAIL (or DEBUG) ----
-    $send_mode = ( $force_send ) ? "" : get_option('alo_em_debug_newsletters');
-    switch ( $send_mode ) {
-    	case "to_author":
-	    		$author = get_userdata( $newsletter->post_author );
-    			$debug_subject = "( DEBUG - TO: ". $recipient->email ." ) " . $subject;
-    			$mail_engine = wp_mail( $author->user_email, $debug_subject, $content, $headers );
-				break;
-    	case "to_file":
-    			$log = fopen( WP_CONTENT_DIR . "/user_{$newsletter->post_author}_newsletter_{$newsletter->ID}.log", 'a+' );
-    			$log_message = 	"\n------------------------------ ". date_i18n( __( 'j M Y @ G:i', "alo-easymail" ) ) ." ------------------------------\n\n";
-    			$log_message .=	"HEADERS:\n". $headers ."\n";
-    			$log_message .=	"TO:\t\t\t". $recipient->email ."\n";
-    			$log_message .=	"SUBJECT:\t". $subject ."\n\n";
-    			$log_message .=	"CONTENT:\n". $content ."\n\n";
-				$mail_engine = ( fwrite ( $log, $log_message ) ) ? true : false;
-				fclose ( $log );
-				break;
-    	default:  // no debug: send it!
-				$mail_engine = wp_mail( $recipient->email, $subject, $content, $headers );       					        					
-    }
-      
-    $sent = ( $mail_engine ) ? "1" : "-1";
-	
-	// If recipient is in db (eg. ID exists) update db
-	if ( $recipient->ID ) {
-		$wpdb->update(    "{$wpdb->prefix}easymail_recipients",
-		    array ( 'result' => $sent ),
-		    array ( 'ID' => $recipient->ID )
-		);
-	}
-	return ( $mail_engine ) ? true : false;
-}
-*/
 
 
 /**
@@ -1689,13 +1547,14 @@ function alo_em_batch_sending () {
  * alo newsletter custom email hooks
  */
 function alo_em_zirkuss_custom_easymail_placeholders( $placeholders ) {
+	$warning_readonline = ( get_option('alo_em_publish_newsletters') == "no" ) ? " <strong>".__( 'This tag now does not work because the online publication of newsletters is disabled', 'alo-easymail' ).": ". __( 'you can set it up in settings', 'alo-easymail' )."</strong>" : "";
 	
 	$placeholders['easymail_subscriber']['tags']['[USER-UNSUBSCRIBE]'] = __ ( 'Text and URL to unsubscribe.', 'alo-easymail' ) . " (". __( 'You can customise this text in settings', 'alo-easymail' ) .".)";
 	$placeholders['easymail_subscriber']['tags']['[USER-UNSUBSCRIBE-URL]'] = __ ( 'URL to unsubscribe.', 'alo-easymail' );
 	
 	$placeholders['easymail_newsletter']['title'] = __( "Newsletter tags", "alo-easymail" );
-	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE]'] = __ ( 'Text and URL to the online version.', 'alo-easymail' ) . " (". __( 'You can customise this text in settings', 'alo-easymail' ) .".)";
-	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE-URL]'] = __ ( 'URL to the online version.', 'alo-easymail' );
+	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE]'] = __ ( 'Text and URL to the online version.', 'alo-easymail' ) . " (". __( 'You can customise this text in settings', 'alo-easymail' ) .".) ".$warning_readonline;
+	$placeholders['easymail_newsletter']['tags']['[READ-ONLINE-URL]'] = __ ( 'URL to the online version.', 'alo-easymail' ). " ". $warning_readonline;
 	$placeholders['easymail_newsletter']['tags']['[TITLE]'] = __ ( 'Title of the newsletter.', 'alo-easymail' );
 	$placeholders['easymail_newsletter']['tags']['[DATE]'] = __ ( 'Date of the newsletter.', 'alo-easymail' );
 	if ( current_theme_supports( 'post-thumbnails' ) ) $placeholders['easymail_newsletter']['tags']['[THUMB]'] = __ ( 'Post Thumbnail of newsletter', 'alo-easymail' );
@@ -1728,17 +1587,21 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 	// wordpress theme to display the newsletter.
 	if ( isset( $recipient->ID ) ) 
 	{	
-		// Create the message to read the newsletter online
-		$viewonline_url = alo_em_translate_url ( $recipient->newsletter /*get_permalink( $recipient->newsletter )*/, $recipient->lang );
-		$viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true );
+		// If newsletter publication online available, create the message to read the newsletter online
+		if ( get_option('alo_em_publish_newsletters') == "no" ) {
+			$viewonline_url = $viewonline_msg = "";
+		} else {
+			$viewonline_url = alo_em_translate_url ( $recipient->newsletter /*get_permalink( $recipient->newsletter )*/, $recipient->lang );
+			$viewonline_msg = alo_em_translate_option ( $recipient->lang, 'alo_em_custom_viewonline_msg', true );
 		
-	   	if( empty( $viewonline_msg ) )
-	   	{
-			$viewonline_msg = __('To read the newsletter online you can visit this link:', 'alo-easymail') . ' %NEWSLETTERLINK%';
+		   	if( empty( $viewonline_msg ) )
+		   	{
+				$viewonline_msg = __('To read the newsletter online you can visit this link:', 'alo-easymail') . ' %NEWSLETTERLINK%';
+			}
+		
+			$viewonline_msg = str_replace( '%NEWSLETTERLINK%', ' <a href="'.$viewonline_url.'">'. $viewonline_url .'</a>', $viewonline_msg );
+			$viewonline_msg = str_replace( '%NEWSLETTERURL%', $viewonline_url, $viewonline_msg );
 		}
-		
-		$viewonline_msg = str_replace( '%NEWSLETTERLINK%', ' <a href="'.$viewonline_url.'">'. $viewonline_url .'</a>', $viewonline_msg );
-		$viewonline_msg = str_replace( '%NEWSLETTERURL%', $viewonline_url, $viewonline_msg );
 		
 		$unsubfooter = $uns_link = $tracking_view = ""; // default empty
 		
@@ -1779,14 +1642,18 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				$themes = alo_easymail_get_all_themes();
 				$theme_path = ( isset( $themes[$theme] ) && file_exists( $themes[$theme] ) ) ? $themes[$theme] : false;
 				if ( $theme_path ) {
-					$html = file_get_contents( $theme_path );
+					//$html = file_get_contents( $theme_path ); // replaced by eqhes, for php themes
+					ob_start();
+					require( $theme_path );
+					$html = ob_get_clean();
+					
 					$html = alo_em_translate_text ( $recipient->lang, $html ); // translate the text ih html theme
 					$html = str_replace('[CONTENT]', $content, $html);
 					$info = pathinfo( $theme );
 					$theme_dir =  basename( $theme, '.' . $info['extension'] );
 					//$html = str_replace( $theme_dir, alo_easymail_get_themes_url().$theme_dir, $html );
 					$html = preg_replace( '/ src\=[\'|"]'. $theme_dir.'(.+?)[\'|"]/', ' src="'. alo_easymail_get_themes_url().$theme_dir. '$1"', $html ); // <img src="..." >
-					$html = preg_replace( '/url(.+?)[\s|\'|"]'. $theme_dir.'(.+?)[\s|\'|"]/', 'url("'. alo_easymail_get_themes_url() .$theme_dir. '$2"', $html ); // in style: url("...")
+					$html = preg_replace( '/url(.+?)[\s|\'|"]'. $theme_dir.'(.+?)[\s|\'|"]/', "url('". alo_easymail_get_themes_url() .$theme_dir. "$2'", $html ); // in style: url("...")
 					$html = preg_replace( '/ background\=[\'|"]'. $theme_dir.'(.+?)[\'|"]/', ' background="'. alo_easymail_get_themes_url().$theme_dir. '$1"', $html ); // <table background="..." >
 				}
 			} 
@@ -1969,6 +1836,18 @@ function alo_em_filter_title( $subject, $newsletter, $recipient ) {
 	} else {
 	    $subject = str_replace('[POST-TITLE]', "", $subject);
 	}
+    if ( isset( $recipient ) && is_object( $recipient ) ) {
+		if ( isset( $recipient->name ) ) {
+		    $subject = str_replace("[USER-NAME]", stripslashes ( $recipient->name ), $subject );
+		} else {
+		    $subject = str_replace("[USER-NAME]", "", $subject );
+		}
+		if ( isset( $recipient->firstname ) ) {
+		    $subject = str_replace("[USER-FIRST-NAME]", stripslashes ( $recipient->firstname ), $subject );
+		} else {
+		    $subject = str_replace("[USER-FIRST-NAME]", "", $subject );
+		}
+    }	
 	return $subject;
 }
 add_filter ( 'alo_easymail_newsletter_title',  'alo_em_filter_title', 10, 3 );
@@ -2892,11 +2771,17 @@ function alo_easymail_get_all_themes () {
 	} else {
 		$dir = ALO_EM_PLUGIN_ABS."/alo-easymail-themes/";
 	}
-	$themes = glob( $dir. "*.{htm,html}", GLOB_BRACE );
+	// $themes = glob( $dir. "*.{htm,html}", GLOB_BRACE ); // GLOB_BRACE not supported by some servers
+	$_htm 	= ( is_array( glob( $dir. "*.htm") ) ) ? glob( $dir. "*.htm") : array();
+	$_html 	= ( is_array( glob( $dir. "*.html") ) ) ? glob( $dir. "*.html") : array();
+	$_php 	= ( is_array( glob( $dir. "*.php") ) ) ? glob( $dir. "*.php") : array();			
+	$themes = array_merge( $_htm, $_html, $_php );	
+	$return = array();
 	if( $themes && count( $themes ) > 0 ) {
-		$return = array();
+		sort( $themes );
 		foreach( $themes as $theme ) {
 			$namefile = basename( $theme );
+			if ( $namefile == "index.php" ) continue;
 			$return[ $namefile ] = $theme;
 		}
 	}
