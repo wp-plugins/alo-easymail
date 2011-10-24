@@ -200,6 +200,4 @@ function custom_easymail_subscriber_is_deleted ( $email, $user_id=false ) {
 }
 add_action('alo_easymail_subscriber_deleted',  'custom_easymail_subscriber_is_deleted', 10, 2 );
 
-
-
 ?>
