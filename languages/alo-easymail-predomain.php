@@ -71,7 +71,7 @@ for at bekræfte dit abonnement af %BLOGNAME% nyhedsbrev skal du klikke på føl
 %ACTIVATIONLINK%
 
 
-Hvis du ikke har bedt om dette abonnement så ignorer denne besked.
+Hvis du ikke har anmodet om abonnement på vores nyhedsbrev så ignorer denne meddelelse.
 Tak
 %BLOGNAME%";
 
