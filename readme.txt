@@ -48,7 +48,7 @@ Available languages:
 * Brazilian v.1.8.7 - pt_BR (by Rodolfo Buaiz)
 * Czech v.2.2.1 - cs_CZ (by [Martin Ondra](http://www.twomates.cz))
 * Danish v.2.3 - da_DK (by Dennis Holbech Vendeltorp)
-* Dutch v.2.2.1 - nl_NL (by Frank Devocht, Marius Gunu Siroen, Arnoud Huberts)
+* Dutch v.2.3 - nl_NL (by Marius Gunu Siroen, Frank Devocht)
 * English v.2.3 (by eventualo, Francesca Bovone)
 * Estonian v.2.1.2 - et (by Argo Ilves)
 * Farsi v.1.8.4 - fa_IR (by Ka1 Bashiri)
