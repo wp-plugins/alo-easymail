@@ -31,6 +31,7 @@ $alo_em_textpre['alo_em_txtpre_activationmail_subj']['pl'] = "Prosimy o potwierd
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['pt'] = "Confirme a sua assinatura na newsletter de %BLOGNAME%";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['ro'] = "Confirmă abonamentul la newsletter %BLOGNAME%";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['sv'] = "Verifiera din prenumeration av %BLOGNAME% nyhetsbrev";
+$alo_em_textpre['alo_em_txtpre_activationmail_subj']['tr'] = "%BLOGNAME%  Bülten aboneliğinizi onaylayın";
 
 
 /*
@@ -201,6 +202,15 @@ Om du inte har beställt denna prenumeration kan du ignorera detta meddelande.
 Tack
 %BLOGNAME%";
 
+$alo_em_textpre['alo_em_txtpre_activationmail_mail']['tr'] = "Merhaba %NAME%
+%BLOGNAME%  bülteni aboneliğinizi tamamlamak için aşağıdaki linki tıklayın (ya da tarayıcınızın adres çubuğuna yapıştırın):
+
+%ACTIVATIONLINK%
+
+Bu aboneliği istemiyorsanız, maili görmezden gelebilirsiniz.
+Teşekkür ederiz
+%BLOGNAME%";
+
 
 /*
  * Unsubscription notice
@@ -224,6 +234,7 @@ $alo_em_textpre['alo_em_custom_unsub_footer']['pl'] = "<p><em>Otrzymujesz tą wi
 $alo_em_textpre['alo_em_custom_unsub_footer']['pt'] = "<p><em>Recebeu esta mensagem porque assinou a nossa newsletter. Se quiser remover a assinatura clique nesta ligação<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['ro'] = "<p><em>Ai primit acest mesaj pentru că eşti abonat la newsletter-ul nostru. Dacă doreşti să te dezabonezi vizitați acest link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['sv'] = "<p><em>Du har fått detta meddelande då du har anmält dig till vårt nyhetsbrev. Om du vill avsluta prenumerationen besök denna länk<br /> %UNSUBSCRIBELINK%</em></p>";
+$alo_em_textpre['alo_em_custom_unsub_footer']['tr'] = "<p><em>Bültenimize üye olduğunuz için bu maili aldınız. Eğer aboneliği iptal etmek istiyorsanız: Linke tıklayın<br /> %UNSUBSCRIBELINK%</em></p>";
 
 
 /*
@@ -248,5 +259,4 @@ $alo_em_textpre['alo_em_custom_viewonline_msg']['pl'] = "<p><em>Aby przeczytać 
 $alo_em_textpre['alo_em_custom_viewonline_msg']['pt'] = "<p><em>Para ler o boletim informativo on-line, pode visitar este link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['ro'] = "<p><em>Pentru a citi online, newsletter-ul puteţi vizita acest link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['sv'] = "<p><em>För att läsa nyhetsbrevet på webben kan du besöka: %NEWSLETTERLINK%</em></p>";
-
-?>
+$alo_em_textpre['alo_em_custom_viewonline_msg']['tr'] = "<p><em>Eğer bu maili düzgün görüntüleyemiyorsanız: %NEWSLETTERLINK%</em></p>";
