@@ -4,6 +4,13 @@
  * So you can use WP functions ecc.
  */
 if ( !defined('ABSPATH') ) include_once('../../../../wp-load.php'); 
+
+// Then, you can use 2 available objects: $newsletter, $recipient
+// Uncomment next 2 line to view available properties:
+//echo "<br />\n<pre>Newsletter=".print_r( $newsletter,true )."</pre>";
+//echo "<br />\n<pre>Recipient=".print_r( $recipient,true )."</pre>";
+
+// E.g. the newsletter (post) ID is: $newsletter->ID
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
