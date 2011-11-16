@@ -61,6 +61,7 @@ Available languages:
 * Polish v.1.7 - pl_PL (by [Danny D](http://www.ddfoto.pl))
 * Portuguese v.1.8.7 - pt_PT (by Alexandre de Menezes)
 * Romanian v.1.8.4 - ro_RO (by Richard Vencu)
+* Slovak v.2.3 - sk_SK (by Ludovit Gallik)
 * Spanish v.1.8.7 - es_ES (by Mauro Macchiaroli)
 * Swedish v.2.1.2 - sv_SE (by Richard Desiatnik)
 * Turkish v.2.3 - tr_TR (by [ilker Akdogan Kelkirpi](http://www.kelkirpi.net))
