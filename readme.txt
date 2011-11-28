@@ -66,7 +66,7 @@ Available languages:
 * Swedish v.2.1.2 - sv_SE (by Richard Desiatnik)
 * Turkish v.2.3 - tr_TR (by [ilker Akdogan Kelkirpi](http://www.kelkirpi.net))
 
-You can add or update the translation in your language. You can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to me so that I can bundle it into the plugin. You can download [the latest POT file from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/alo-easymail.pot) and existing language files [from here](http://svn.wp-plugins.org/alo-easymail/trunk/languages/).
+You can add or update the [translation](http://codex.wordpress.org/Translating_WordPress) in your language. You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files. 
 
 == Installation ==
 
