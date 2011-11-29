@@ -66,7 +66,7 @@ Available languages:
 * Swedish v.2.1.2 - sv_SE (by Richard Desiatnik)
 * Turkish v.2.3 - tr_TR (by [ilker Akdogan Kelkirpi](http://www.kelkirpi.net))
 
-You can add or update the [translation](http://codex.wordpress.org/Translating_WordPress) in your language. You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files. 
+You can add or update the [translation](http://codex.wordpress.org/Translating_WordPress) in your language. You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files and to join the translation group. 
 
 == Installation ==
 
