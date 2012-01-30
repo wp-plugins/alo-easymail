@@ -43,7 +43,7 @@ if ( $action == "easymail_do_ajaxloop" ) :
 	} else {
 		// Now add a part of recipients into the db table 
 		$sendnow = ( isset( $_REQUEST['sendnow'] ) && $_REQUEST['sendnow'] == "yes" ) ? true : false;
-		alo_em_add_recipients_from_cache_to_db( $newsletter, 20, $sendnow );
+		alo_em_add_recipients_from_cache_to_db( $newsletter, 10, $sendnow );
 	}
 	
 	$response['n_done'] = alo_em_count_newsletter_recipients( $newsletter );
@@ -82,7 +82,7 @@ if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail"
 if ( get_option('alo_em_js_rec_list') == "ajax_minimal" ) : ?>
 
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/jquery.js"></script>
-<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater.js?ver=3.1.00"></script>
+<script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/smartupdater.js?ver=3.2.00"></script>
 <script type='text/javascript' src="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend-recipients-list.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
@@ -131,7 +131,7 @@ else : // 3) otherwise load default js: smartupdater.js
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'thickbox' );
-	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater.js', array('jquery'), '3.1.00' );
+	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater.js', array('jquery'), '3.2.00' );
 	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
 
 	$rec_url = wp_create_nonce( 'alo-easymail_recipients-list');

@@ -1,8 +1,8 @@
 /**
 * smartupdater - jQuery Plugin
 *  
-* Version - 3.1.00.beta
-* Copyright (c) 2011 Vadim Kiryukhin
+* Version - 3.2.00
+* Copyright (c) 2010 - 2011 Vadim Kiryukhin
 * vkiryukhin @ gmail.com
 * 
 * http://www.eslinstructor.net/smartupdater3/
@@ -46,10 +46,12 @@
 				data				: '',   	// see jQuery.ajax for details
 				dataType			: 'text', 	// see jQuery.ajax for details
 						
-				minTimeout			: 60000, 	// 1 minute by default
+				minTimeout			: 60000, 	// 1 minute
 				maxFailedRequests 	: 10, 		// max. number of consecutive ajax failures by default
-				httpCache 			: false,	// no http cache by default
-				rCallback			: false,	// no remote callback functions by default
+				maxFailedRequestsCb	: false, 	// falure callback function by default
+				httpCache 			: false,	// http cache 
+				rCallback			: false,	// remote callback functions
+				selfStart			: true,		// start automatically after initializing
 				smartStop			: { active:			false, 	//disabled by default
 										monitorTimeout:	2500, 	// 2.5 seconds
 										minHeight:		1,	  	// 1px
@@ -69,6 +71,7 @@
 			es.callback 		= callback;
 			es.origReq = {url:es.url,data:es.data,callback:callback};
 			es.stopFlag = false;
+		
 			
 			function start() {
 			
@@ -160,6 +163,9 @@
 						/* stop smartupdater */
 							clearTimeout(es.h);
 							elem.smartupdaterStatus.state = 'OFF';
+							if( typeof(es.maxFailedRequestsCb)==='function') {
+								es.maxFailedRequestsCb(xhr, textStatus, errorThrown);
+							}
 						}
 					},
 					
@@ -181,7 +187,10 @@
 			} 
 				
 			es.fnStart = start;
-			start();
+			
+			if(es.selfStart) {
+				start();
+			}
 			
 			if(es.smartStop.active) {
 			
