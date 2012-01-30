@@ -116,7 +116,8 @@ if ( $newsletter ) {
 					$already_sent 		= $archived_meta['sent'];
 					$sent_with_success 	= $archived_meta['success'];
 					$sent_with_error 	= $archived_meta['error'];
-					$unique_views 		= $archived_meta['uniqview'];			
+					$unique_views 		= $archived_meta['uniqview'];
+					$unique_clicks 		= $archived_meta['uniqclick'];
 
 				// If regular, not archived
 				} else {
@@ -131,12 +132,13 @@ if ( $newsletter ) {
 					$sent_with_success = alo_em_count_newsletter_recipients_already_sent_with_success( $newsletter );
 					$sent_with_error = alo_em_count_newsletter_recipients_already_sent_with_error( $newsletter );
 					$unique_views = count( alo_em_all_newsletter_trackings ( $newsletter, '' ) );
+					$unique_clicks = count ( alo_em_all_newsletter_trackings_except_views ( $newsletter ) );
 				}
 				?>		
 			
 				<?php // Archive (delete) detailed info of recipients
 				if ( isset($_GET['archive']) && alo_em_get_newsletter_status( $newsletter ) == "sent" ) :
-					$archived_recipients = array( 'tot' => $tot_recipients, 'sent' => $already_sent, 'success' => $sent_with_success, 'error' => $sent_with_error, 'uniqview' => $unique_views );
+					$archived_recipients = array( 'tot' => $tot_recipients, 'sent' => $already_sent, 'success' => $sent_with_success, 'error' => $sent_with_error, 'uniqview' => $unique_views, 'uniqclick' => $unique_clicks );
 					add_post_meta ( $newsletter, "_easymail_archived_recipients", $archived_recipients );
 					alo_em_delete_newsletter_recipients ( $newsletter );
 					echo "<div class=\"easymail-alert\">". __("Detailed report was archived", "alo-easymail") ."</div>\n";
@@ -155,21 +157,31 @@ if ( $newsletter ) {
 								. __("The number includes max a view per recipient", "alo-easymail"). ". "
 							);
 						?></th>						
-						<!--<th scope="col"><?php 
+						<th scope="col"><?php 
 							echo __("Clicks", "alo-easymail") . " "; 
 							echo alo_em_help_tooltip( 
-								__("The number includes all clicks by all recipients", "alo-easymail"). ". "
+								__("The number includes max a view per recipient", "alo-easymail"). ". "
 							);						
-						?></th>-->
+						?></th>
 					</tr></thead>
-				<tbody><tr>
-					<td class="tot center" style="width:20%"><?php echo $tot_recipients; ?>
-					<td class="done center" style="width:20%"><?php echo $already_sent ?>
-					<td class="success center" style="width:15%"><?php echo $sent_with_success ?>
-					<td class="error center" style="width:15%"><?php echo $sent_with_error  ?>	
-					<td class="views center" style="width:15%"><?php echo $unique_views  ?>					
-					<!--<td class="success center" style="width:15%"><?php //TODO  ?>-->
-					</tr></tbody>
+				<tbody>
+					<tr>
+						<td class="tot center" style="width:20%"><?php echo $tot_recipients; ?></td>
+						<td class="done center" style="width:20%"><?php echo $already_sent ?></td>
+						<td class="success center" style="width:15%"><?php echo $sent_with_success ?></td>
+						<td class="error center" style="width:15%"><?php echo $sent_with_error  ?>	</td>
+						<td class="views center" style="width:15%"><?php echo $unique_views  ?></td>		
+						<td class="success center" style="width:15%"><?php echo $unique_clicks ?></td>
+					</tr>
+					<tr style="font-size: 60%">
+						<td class="tot center">100%</td>
+						<td class="done center"><?php echo alo_em_rate_on_total($already_sent, $tot_recipients); ?>%</td>
+						<td class="success center"><?php echo alo_em_rate_on_total($sent_with_success, $tot_recipients); ?>%</td>
+						<td class="error center"><?php echo alo_em_rate_on_total($sent_with_error, $tot_recipients);  ?>%</td>
+						<td class="views center"><?php echo alo_em_rate_on_total($unique_views, $tot_recipients);  ?>%</td>		
+						<td class="success center"><?php echo alo_em_rate_on_total($unique_clicks, $tot_recipients); ?>%</td>
+					</tr>
+				</tbody>
 				</table>
 			
 			<?php // Archive button
@@ -209,7 +221,7 @@ if ( $newsletter ) {
 						<th scope="col"><?php _e("Language", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Sent", "alo-easymail") ?></th>
 						<th scope="col"><?php _e("Viewed", "alo-easymail") ?></th>						
-						<!--<th scope="col"><?php _e("Clicks", "alo-easymail") ?></th>--><?php // TODO! ?>
+						<th scope="col"><?php _e("Clicks", "alo-easymail") ?></th>
 					</tr>
 				</thead>
 
@@ -229,7 +241,12 @@ if ( $newsletter ) {
 					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_recipient_is_tracked ( $recipient->ID, '' ) )? "yes.png":"no.png" ) ."' />";
 					if ( count( alo_em_get_recipient_trackings( $recipient->ID, '' ) ) > 1 ) echo " ". count( alo_em_get_recipient_trackings( $recipient->ID, '' ) );
 					echo "</td>";
-					// echo "<td></td>"; // TODO! clicks
+
+					echo "<td class='center'>";
+					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_get_recipient_trackings_except_views ( $recipient->ID) )? "yes.png":"no.png" ) ."' />";
+					if ( count( alo_em_get_recipient_trackings_except_views( $recipient->ID ) ) > 1 ) echo " ". count( alo_em_get_recipient_trackings_except_views( $recipient->ID ) );
+					echo "</td>";
+					 
 					echo "</tr>";
 					//echo "<pre>"; print_r($recipient);echo "</pre>";
 				}

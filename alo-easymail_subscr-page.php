@@ -39,10 +39,29 @@ if ($action == 'unsubscribe') {
 	$mailinglists = alo_em_get_mailinglists( 'public' );
 	if ($mailinglists) { // only if there are public lists
 		echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_manage_subscriptions">';
-		echo "<p>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . "</p>";
+		echo "<p>".__("To modify your subscription to mailing lists use this form", "alo-easymail") . ":</p>";
 		echo '<div class="alo_easymail_lists_table">';
 		echo alo_em_html_mailinglists_table_to_edit ( $email, "" );
 		echo '</div>';
+
+		//edit : added all the next if
+		$alo_em_cf = alo_easymail_get_custom_fields();
+		if( $alo_em_cf ):
+			echo "<p>".__("You can modify your subscription details", "alo-easymail") . ":</p>";
+			echo "<table>";
+			foreach( $alo_em_cf as $key => $value ){
+				echo "  <tr>\n";
+				$field_id = "alo_em_".$key; // edit-by-alo
+				echo "    <td><label for='".$field_id."'>". __( $value['humans_name'], "alo-easymail") ."</label></td>\n";
+				echo "    <td>\n";
+				echo alo_easymail_custom_field_html ( $key, $value, $field_id, "", true ) ."\n";
+				echo "    </td>\n";
+				echo "  </tr>\n";
+			}
+			echo "</table>";
+		endif;
+
+		
 	   	echo '<input type="hidden" name="ac" value="do_editlists" />';
 		echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
 		echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
@@ -75,8 +94,8 @@ if ($action == 'do_unsubscribe' && isset($_POST['submit']) ) {
 // Modify lists subscription and save it! (step #2b)
 if ($action == 'do_editlists' && isset($_POST['submit']) ) {
 	$mailinglists = alo_em_get_mailinglists( 'public' );
+	$subscriber_id = alo_em_is_subscriber( $email );
 	if ($mailinglists) {
-		$subscriber_id = alo_em_is_subscriber( $email );
 		foreach ( $mailinglists as $mailinglist => $val) {					
 			if ( isset ($_POST['alo_em_profile_lists']) && is_array ($_POST['alo_em_profile_lists']) && in_array ( $mailinglist, $_POST['alo_em_profile_lists'] ) ) {
 				alo_em_add_subscriber_to_list ( $subscriber_id, $mailinglist );	  // add to list
@@ -85,6 +104,24 @@ if ($action == 'do_editlists' && isset($_POST['submit']) ) {
 			}
 		}
 	}
+
+	//edit : added all this foreach
+	$alo_em_cf = alo_easymail_get_custom_fields();
+	if ($alo_em_cf) {
+		$fields = array();
+		foreach( $alo_em_cf as $key => $value ){
+			//check if custom fields have been changed
+			if ( isset( $_POST[ "alo_em_". $key] ) ) {
+				$fields[$key] = stripslashes( trim( $_POST[ "alo_em_". $key] ) );
+			}
+		}		
+		alo_em_update_subscriber_by_email ( $email, $fields, 1, alo_em_get_language(true) ); 
+	}
+	$subscriber = alo_em_get_subscriber ( $email );
+    do_action ( 'alo_easymail_subscriber_updated', $subscriber, $email );
+
+    alo_em_update_subscriber_last_act($email);
+    
 	echo "<p>" . __("Your subscription to mailing lists successfully updated", "alo-easymail") . ".</p>";				
 }
 

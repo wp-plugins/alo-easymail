@@ -1,30 +1,27 @@
 <?php
 /*
+
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.3
+Version: 2.4
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
+
 */
-
 /*  Copyright 2011  Alessandro Massasso  (email : alo@eventualo.net)
-
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
 
 /*
  * Cron interval in minutes (default: 10)
@@ -40,6 +37,7 @@ if ( !defined( 'ALO_EM_INTERVAL_MIN' ) ) define( "ALO_EM_INTERVAL_MIN", 10 );
 define( "ALO_EM_PLUGIN_DIR", basename( dirname(__FILE__) ) );
 define( "ALO_EM_PLUGIN_URL", WP_PLUGIN_URL ."/" . ALO_EM_PLUGIN_DIR );
 define( "ALO_EM_PLUGIN_ABS", WP_PLUGIN_DIR . "/". ALO_EM_PLUGIN_DIR );
+
 
 if ( !defined( 'WPML_LOAD_API_SUPPORT' ) ) define ( 'WPML_LOAD_API_SUPPORT', true );	// be sure to load WPML API
 
@@ -59,7 +57,7 @@ if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) inclu
 
 
 // Update when DB tables change
-define( "ALO_EM_DB_VERSION", 2016 );
+define( "ALO_EM_DB_VERSION", 2018 );
 
 
 /**
@@ -114,34 +112,34 @@ function alo_em_install() {
 		
 	    // Create the table structure
 	    $sql = "CREATE TABLE {$wpdb->prefix}easymail_subscribers (
-				    ID int(11) unsigned NOT NULL auto_increment,
-				    email varchar(100) NOT NULL,
-				    name varchar(100) NOT NULL,
-				    join_date datetime NOT NULL,
-				    active INT( 1 ) NOT NULL DEFAULT '0',
-				    unikey varchar(24) NOT NULL,
-				    lists varchar(255) DEFAULT '|',
-				    lang varchar(5) DEFAULT NULL,					    
+				    ID int(11) unsigned NOT NULL auto_increment ,
+				    email varchar(100) NOT NULL ,
+				    name varchar(100) NOT NULL ,
+				    join_date datetime NOT NULL ,				    
+				    active INT( 1 ) NOT NULL DEFAULT '0' ,
+				    unikey varchar(24) NOT NULL ,
+				    lists varchar(255) DEFAULT '|' ,
+				    lang varchar(5) DEFAULT NULL ,				    last_act datetime NULL ,	
 				    PRIMARY KEY  (ID)
 				) DEFAULT CHARSET=".$collate.";
 
 				CREATE TABLE {$wpdb->prefix}easymail_recipients (
-					ID int(11) unsigned NOT NULL auto_increment,
-					newsletter int(11) unsigned NOT NULL,
-					email varchar(100) NOT NULL, 
-					result varchar(3) NOT NULL DEFAULT '0',	
-					user_id int(11) unsigned DEFAULT NULL,
+					ID int(11) unsigned NOT NULL auto_increment ,
+					newsletter int(11) unsigned NOT NULL ,
+					email varchar(100) NOT NULL , 
+					result varchar(3) NOT NULL DEFAULT '0' ,	
+					user_id int(11) unsigned DEFAULT NULL ,
 					PRIMARY KEY  (ID)
 				) DEFAULT CHARSET=".$collate.";
 
 				CREATE TABLE {$wpdb->prefix}easymail_stats (
-					ID int(11) unsigned NOT NULL auto_increment,
-					recipient int(11) unsigned NOT NULL,
-					newsletter int(11) unsigned NOT NULL,
-					added_on datetime NOT NULL,
-					request varchar(225) DEFAULT NULL,
+					ID int(11) unsigned NOT NULL auto_increment ,
+					recipient int(11) unsigned NOT NULL ,
+					newsletter int(11) unsigned NOT NULL ,
+					added_on datetime NOT NULL ,
+					request text ,
 					PRIMARY KEY  (ID)
-				) DEFAULT CHARSET=".$collate.";
+				) DEFAULT CHARSET=".$collate.";									CREATE TABLE {$wpdb->prefix}easymail_unsubscribed (					email varchar(100) NOT NULL ,  					added_on datetime NOT NULL ,					PRIMARY KEY  (email)				) DEFAULT CHARSET=".$collate.";				
 									
 			    ";  
 				
@@ -153,7 +151,7 @@ function alo_em_install() {
 			$wpdb->query( "UPDATE ". $wpdb->prefix."easymail_subscribers SET lists = REPLACE( lists, '_', '|');" );
 			$wpdb->query( "UPDATE {$wpdb->options} SET option_name = REPLACE( option_name, 'ALO_em_', 'alo_em_');" );
 		}	
-		// Add table indexes    
+		// v.2016: Add table indexes    
 		if ( $installed_db < 2016 ) {
 			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_recipients ADD INDEX ( `newsletter` ), ADD INDEX ( `email` )");
 			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats ADD INDEX ( `newsletter` ), ADD INDEX ( `recipient` )");
@@ -161,7 +159,12 @@ function alo_em_install() {
 		// Add 'email' index only if not exists (it exists in plugin versions older than 2.3)
 		if ( !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Non_unique = 0 AND Column_name = 'email';" ) ) {
 			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD UNIQUE ( `email` )");
-		}			
+		}
+		// v.2017: Modify Request column, an index in new 'unsubscribed' table
+		if ( $installed_db < 2017 ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats CHANGE `request` `request` text");
+		}		
+		
 	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
     }
 	
@@ -207,7 +210,7 @@ function alo_em_db_tables_need_update() {
 	$installed_db = get_option('alo_em_db_version');
 	
 	$missing_table = false; // Check if tables not yet installed
-	$tables = array ( $wpdb->prefix."easymail_subscribers", $wpdb->prefix."easymail_recipients", $wpdb->prefix."easymail_stats" );
+	$tables = array ( $wpdb->prefix."easymail_subscribers", $wpdb->prefix."easymail_recipients", $wpdb->prefix."easymail_stats", $wpdb->prefix."easymail_unsubscribed" );
 	foreach ( $tables as $table_name ) {
 		if ( $wpdb->get_var("show tables like '$table_name'") != $table_name ) $missing_table = true;
 	}
@@ -356,58 +359,131 @@ add_action( 'wpmu_new_blog', 'alo_em_new_blog' );
  * Add menu pages 
  */
 function alo_em_add_admin_menu() {
-  	if ( current_user_can('manage_easymail_subscribers') ) 
+  	if ( current_user_can('manage_easymail_subscribers') )  {
   		add_submenu_page( 'edit.php?post_type=newsletter', __("Subscribers", "alo-easymail"), __("Subscribers", "alo-easymail"), 'manage_easymail_subscribers', 'alo-easymail/alo-easymail_subscribers.php' );
-    if ( current_user_can('manage_easymail_options') ) 
-    	add_submenu_page( 'edit.php?post_type=newsletter', __("Settings"), __("Settings"), 'manage_easymail_options', 'alo-easymail/alo-easymail_options.php' );
+  		add_action( 'load-alo-easymail/alo-easymail_subscribers.php', 'alo_em_contextual_help_tabs' );
+  	}
+    if ( current_user_can('manage_easymail_options') ) {
+		add_submenu_page( 'edit.php?post_type=newsletter', __("Settings"), __("Settings"), 'manage_easymail_options', 'alo-easymail/alo-easymail_options.php' );
+		add_action( 'load-alo-easymail/alo-easymail_options.php', 'alo_em_contextual_help_tabs' );
+	}
+	add_action( 'load-edit.php', 'alo_em_contextual_help_tabs' );
+	add_action( 'load-post-new.php', 'alo_em_contextual_help_tabs' );
 }
 
 add_action('admin_menu', 'alo_em_add_admin_menu');
 
 
+function alo_em_contextual_help_tabs() {
+	if ( !class_exists('WP_Screen') ) return;
+    $screen = get_current_screen();
+	if ( !is_object($screen) ) return;
+	if ( $screen->post_type != 'newsletter' ) return;
+	
+	// Main tab per page
+	$tab = false;
+	switch ( $screen->id ) {
+		
+		case 'alo-easymail/alo-easymail_subscribers':
+			/* TODO!
+			$tab = array(
+				'id'      => 'alo-easymail_subscribers',
+				'title'   => __("Subscribers", "alo-easymail"),
+				'content' => '<p>This is the content for the tab.</p>' // TODO
+				// Use 'callback' instead of 'content' for a function callback that renders the tab content.
+			);
+			*/
+			break;
+			
+		case 'alo-easymail/alo-easymail_options':
+			/* TODO!
+			$tab = array(
+				'id'      => 'alo-easymail_options',
+				'title'   => __("Settings", "alo-easymail"),
+				'content' => '<p>This is the content for the tab.</p>' // TODO
+			);
+			*/
+			break;
+
+		case 'edit-newsletter':
+		case 'newsletter':
+			$tab = array(
+				'id'      => 'alo-easymail_newsletter',
+				'title'   => __("Newsletter", "alo-easymail"),
+				'content' => '<iframe width="720" height="450" src="http://www.youtube.com/embed/juglGC28T2g?rel=0" frameborder="0" allowfullscreen></iframe>'
+			);
+			break;
+    }
+		
+    if ( is_array($tab) ) $screen->add_help_tab( $tab );
+
+    // Common tab
+    $screen->add_help_tab( array(
+        'id'      => 'alo-easymail_links', // This should be unique for the screen.
+        'title'   => __("Links"),
+        'content' => '<p>'.__("Resources about EasyMail Newsletter", "alo-easymail") . ': '.
+			'<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter/" target="_blank">homepage</a> |
+			<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">guide</a> |
+			<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">faq</a> |
+			<a href="http://www.eventualo.net/blog/easymail-newsletter-for-developers/" target="_blank">for developers</a> |
+			<a href="http://www.eventualo.net/forum/" target="_blank">forum</a> |
+			<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">news</a>'. '</p>'
+    ) );
+
+    // Common sidebar
+	$screen->set_help_sidebar(
+		"<p style='text-align:center'>". __("If you use this plugin consider the idea of donating and supporting its development", "alo-easymail") ."</p><p>".
+		"<form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline;margin-left: 35px'>
+		<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
+		<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image' style='vertical-align: middle'>
+		<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'></form>" ."</p>"
+	);
+
+	/*
+	if ( $screen->id == 'alo-easymail/alo-easymail_subscribers' ) {
+		$screen->add_option( 
+			'per_page', 
+			array(
+				'label' => __("Subscribers per page", "alo-easymail"), 
+				'default' => 20, 
+				'option' => 'alo_em_subscribers_per_page'
+			) 
+		);
+	}
+	*/
+}
+
+
 /**
  * Contextual help
  */
-function alo_em_contextual_help() {
-	global $hook_suffix;
-	if (function_exists('add_contextual_help')) {
-		$html = __("Resources about EasyMail Newsletter", "alo-easymail") . ': <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter/" target="_blank">homepage</a> |
-				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">guide</a> |
-				<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">faq</a> |
-				<a href="http://www.eventualo.net/blog/easymail-newsletter-for-developers/" target="_blank">for developers</a> |
-				<a href="http://www.eventualo.net/forum/" target="_blank">forum</a> |
-				<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">news</a>';
-		$html .= " | <form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
-			<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
-			<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image' style='vertical-align: middle'>
-			<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br></form>";
-		/*
-		$html .= "\n<h3>". __("To enable the plugin work better you should increase the wp_cron and php timeouts", "alo-easymail") ."</h3>\n";
-		$html .= "<div style='padding: 0 8px;border:1px dotted #ccc;background-color:#fafafa'>\n";
-		$html .= "<p>". __("Here is a summary of some solutions that might help you", "alo-easymail") .":</p>\n";
-		$html .= "<p>&raquo; ". sprintf( __("increase the cron timeout in %s to 20 seconds or more", "alo-easymail"), "<em>".includes_url()."<strong>cron.php</strong></em>" ) .":</p>";	
-		$html .= '<pre>'.__("FROM", "alo-easymail").":\t".'<code>wp_remote_post( $cron_url, array(\'timeout\' => </code><strong>0.01</strong><code>, \'blocking\' => false, \'sslverify\' => apply_filters(\'https_local_ssl_verify\', true)) );</code></pre>';
-		$html .= '<pre>'.__("TO", "alo-easymail").":\t".'<code>wp_remote_post( $cron_url, array(\'timeout\' => </code><strong>20</strong><code>, \'blocking\' => false, \'sslverify\' => apply_filters(\'https_local_ssl_verify\', true)) );</code></pre>';		
-		$html .= "<p>&raquo; ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>wp-config.php</strong></em>" ) .":</p>";	
-		$html .= "<pre><code>define('WP_MEMORY_LIMIT', '96M');\n@ini_set( 'upload_max_size', '100M' );\n@ini_set( 'post_max_size', '105M');\n@ini_set( 'max_execution_time', '600' );</code></pre>\n";
-		$html .= "<p>&raquo; ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>.htaccess</strong></em>" ) ." (". __("if this file does not exist, create it", "alo-easymail") . "):</p>";	
-		$html .= "<pre><code>php_value memory_limit 96M\nphp_value upload_max_filesize 100M\nphp_value post_max_size 105M\nphp_value max_execution_time 600\nphp_value max_input_time 600</code></pre>\n";		
-		$html .= "<p>". __("If you have problems in sending you can try alterative cron", "alo-easymail") .": ". sprintf( __("add this code in %s", "alo-easymail"), "<em>".get_option('siteurl')."/<strong>wp-config.php</strong></em>" ) .":</p>\n";
-		$html .= "<pre><code>define('ALTERNATE_WP_CRON', true);</code></pre>\n";
-		$html .= "<p>". __("For more info, visit the FAQ of the site.", "alo-easymail") . ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">&raquo;</a>' ."</p>\n";
-		$html .= "</div>";
-		*/		
-		if ( $hook_suffix == 'alo-easymail/alo-easymail_options.php' ) {
-			// extra help
+ if ( version_compare ( $wp_version , '3.3', '<' ) )
+{
+	function alo_em_contextual_help() {
+		global $hook_suffix;
+		if (function_exists('add_contextual_help')) {
+			$html = __("Resources about EasyMail Newsletter", "alo-easymail") . ': <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter/" target="_blank">homepage</a> |
+					<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/" target="_blank">guide</a> |
+					<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/" target="_blank">faq</a> |
+					<a href="http://www.eventualo.net/blog/easymail-newsletter-for-developers/" target="_blank">for developers</a> |
+					<a href="http://www.eventualo.net/forum/" target="_blank">forum</a> |
+					<a href="http://www.eventualo.net/blog/category/alo-easymail-newsletter/" target="_blank">news</a>';
+			$html .= " | <form action='https://www.paypal.com/cgi-bin/webscr' method='post' style='display:inline'>
+				<input name='cmd' value='_s-xclick' type='hidden'><input name='lc' value='EN' type='hidden'><input name='hosted_button_id' value='9E6BPXEZVQYHA' type='hidden'>
+				<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image' style='vertical-align: middle'>
+				<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br></form>";
+			if ( $hook_suffix == 'alo-easymail/alo-easymail_options.php' ) {
+				// extra help
+			}
+			if ( $hook_suffix == 'alo-easymail/alo-easymail_subscribers.php' ) {
+				// extra help
+			}		
+			add_contextual_help( $hook_suffix, $html );
 		}
-		if ( $hook_suffix == 'alo-easymail/alo-easymail_subscribers.php' ) {
-			// extra help
-		}		
-		add_contextual_help( $hook_suffix, $html );
 	}
+	add_action( 'admin_head-alo-easymail/alo-easymail_options.php', 'alo_em_contextual_help' );
+	add_action( 'admin_head-alo-easymail/alo-easymail_subscribers.php', 'alo_em_contextual_help' );
 }
-add_action( 'admin_head-alo-easymail/alo-easymail_options.php', 'alo_em_contextual_help' );
-add_action( 'admin_head-alo-easymail/alo-easymail_subscribers.php', 'alo_em_contextual_help' );
 
 
 /*
@@ -434,6 +510,47 @@ function alo_em_init_method() {
 	if ( get_option('alo_em_show_subscripage') == "no" ) add_filter('get_pages','alo_em_exclude_page');
 	// load localization files
 	load_plugin_textdomain ("alo-easymail", false, "alo-easymail/languages");
+	
+	// Let's install custom fields, if any
+	global $wpdb;
+
+	$alo_em_cf = alo_easymail_get_custom_fields();
+	if ( $alo_em_cf )
+	{
+		$fields = $wpdb->get_results( "SHOW COLUMNS FROM {$wpdb->prefix}easymail_subscribers" );
+		$existing = array();
+		foreach ( $fields as $field ) $existing[] = $field->Field;
+
+		foreach( $alo_em_cf as $key => $value )
+		{
+			// Create db column if missing
+			if ( !in_array( $key, $existing ) )
+			{			
+				$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD `".$key."` ". $value['sql_attr']);
+
+			}
+			// Create index if required
+			if ( $value['sql_key'] && !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Column_name = '".$key."';" ) ) {
+				$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD INDEX ( `".$key."` )");
+			}	
+
+		}
+
+		// Get fields again, after previpus installation
+		$fields = $wpdb->get_results( "SHOW COLUMNS FROM {$wpdb->prefix}easymail_subscribers" );
+		$existing = array();
+		foreach ( $fields as $field ) $existing[] = $field->Field;
+		
+		foreach( $alo_em_cf as $key => $value )
+		{
+			// Create index if required
+			if ( in_array( $key, $existing ) && $value['sql_key'] && !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Column_name = '".$key."';" ) )
+			{
+				$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD INDEX ( `".$key."` )");
+			}
+		}
+	}
+
 }
 add_action( 'init', 'alo_em_init_method' );
 
@@ -474,7 +591,7 @@ function alo_em_register_newsletter_type () {
 		'menu_position' => false,
 		'menu_icon' => ALO_EM_PLUGIN_URL.'/images/16-email-letter.png',
 		'can_export' => true,
-		'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
+		'supports' => array( 'title' , 'editor', 'custom-fields' ) //edit : orig : 'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
 	); 
 	// If it doesn't allow newsletter publication online
 	if ( get_option('alo_em_publish_newsletters') == "no" ) {
@@ -657,6 +774,38 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 				$new_lang = ( isset( $_POST['new_lang'] ) && in_array( $_POST['new_lang'], $languages) ) ? $_POST['new_lang'] : "";
 				$new_lists = ( isset( $_POST['new_lists'] ) ) ? trim( $_POST['new_lists'] ) : false;
 				
+
+				//edit : added the following foreach and its content
+
+				$alo_em_cf = alo_easymail_get_custom_fields();
+
+				if ($alo_em_cf) { print_r($_POST);
+					foreach( $alo_em_cf as $key => $value ){
+						$var_name = "new_".$key;
+						//$fields[$key] = ( isset( $_POST[$var_name] ) ) ? stripslashes( trim ( $_POST[$var_name] ) ): false;
+
+						
+						//$fields[$key] = false;
+						if ( isset( $_POST[$var_name] ) ) {
+							switch ( $value['input_type'] )	{
+								
+								// particular case: checkbox value not only exist, but value 1
+								case "checkbox":
+									if ( $_POST[$var_name] == '1' ) {
+										$fields[$key] = 1;
+									} else {
+										unset( $fields[$key] );
+									}
+									break;
+									
+								default:
+									$fields[$key] = stripslashes( trim ( $_POST[$var_name] ) );
+							}
+						} else {
+							$fields[$key] = false;
+						}
+					}
+				}
 				/* if ( !$new_name ) {
 					echo "-error-name-is-empty";
 					break;
@@ -670,7 +819,13 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 				
 				// Last check before save
 				} else if ( $new_email ) {			
-					alo_em_update_subscriber_by_email ( $subscriber_obj->email, $new_email, $new_name, $new_active, $new_lang );
+					//$fields['old_email'] = $subscriber_obj->email; //edit : added all this line
+
+					$fields['email'] = $new_email; //edit : added all this line
+
+					$fields['name'] = $new_name; //edit : added all this line
+
+					alo_em_update_subscriber_by_email ( $subscriber_obj->email, $fields, $new_active, $new_lang ); //edit : orig : alo_em_update_subscriber_by_email ( $subscriber_obj->email, $new_email, $new_name, $new_active, $new_lang );
 					
 					$new_lists = explode ( ",", rtrim ( $new_lists, "," ) );
 					if ( is_array( $mailinglists ) ) : foreach ( $mailinglists as $mailinglist => $val ) :
@@ -839,12 +994,12 @@ function alo_em_user_profile_optin ( $user ) {
     // get the current setting
     //if (ALO_easymail_get_optin($user->ID)=='yes'){    // deleted ALO
     if (alo_em_is_subscriber($user->user_email)){       // added ALO
-        $optin_selected = 'selected';            
+        $optin_selected = " selected='selected' ";            
         $optout_selected = '';            
     }
     else{
         $optin_selected = '';            
-        $optout_selected = 'selected';            
+        $optout_selected = " selected='selected' ";            
     }        
     
     $html = "<h3>". __("Newsletter", "alo-easymail") ."</h3>\n";
@@ -862,7 +1017,48 @@ function alo_em_user_profile_optin ( $user ) {
     $html .= "</table>\n";
  
 	// add mailing lists html table
-	$html .= alo_em_html_mailinglists_table_to_edit ( $user->user_email, "form-table" );
+	$html .= alo_em_html_mailinglists_table_to_edit ( $user->user_email, "form-table" );    
+    
+
+	//edit : added all the next if
+
+	$alo_em_cf = alo_easymail_get_custom_fields();
+
+	if(  $alo_em_cf ) :
+
+		$html .= "<h3>". __("Newsletter fields", "alo-easymail") ."</h3>\n";
+		$html .= "<table class='form-table'>\n";
+
+		$subscriber = alo_em_get_subscriber ( $user->user_email );
+
+		foreach( $alo_em_cf as $key => $value ){
+
+			$html .= "  <tr>\n";
+			$field_id = "alo_em_".$key; // edit-by-alo
+
+			$html .= "    <th><label for='".$field_id."'>". __( $value['humans_name'], "alo-easymail") ."</label></th>\n"; // edit-by-alo:
+			$html .= "    <td>\n";
+			// edit-by-alo: added next $input block
+
+			//$html .= sprintf( $value['edit_html'], $subscriber->ID, $subscriber->ID, format_to_edit( $subscriber->$key ) )."\n";
+			/*switch( $value['input_type'] )
+			{
+				case "text":	$tpl = "<input type=\"\">";
+			}
+			$input = str_replace( '[id]', 'id="'.$field_id.'"', $input);
+			$input = str_replace( '[name]', 'name="'.$field_id.'"', $input);
+			$input = str_replace( '[value]', $subscriber ? format_to_edit( $subscriber->$key ):'', $input);
+			$html .= $input ."\n";
+			*/
+			$prev = isset($subscriber->$key) ? format_to_edit( $subscriber->$key ) : '';
+			$html .= alo_easymail_custom_field_html ( $key, $value, $field_id, $prev, true );
+
+			$html .= "    </td>\n";
+			$html .= "  </tr>\n";
+
+		}
+		$html .= "</table>\n";
+	endif;
  	
     echo $html;
 }
@@ -880,18 +1076,15 @@ function alo_em_save_profile_optin($user_id) {
     
     if (isset($_POST['alo_easymail_option'])) {
         if ( $_POST['alo_easymail_option'] == "yes") {
-        	$todo_update = false; 
         	
         	// if changed name and lastname 
         	if ( isset( $_POST[ 'first_name' ] ) && $user_info->first_name != $_POST[ 'first_name' ] ) {
         		$user_first_name = stripslashes( trim( $_POST[ 'first_name' ] ) );
-        		$todo_update = true;
         	} else {
         		$user_first_name = $user_info->first_name;
         	}
         	if ( isset( $_POST[ 'last_name' ] ) && $user_info->last_name != $_POST[ 'last_name' ] ) {
         		$user_last_name = stripslashes( trim( $_POST[ 'last_name' ] ) );
-        		$todo_update = true;
         	} else {
         		$user_last_name = $user_info->last_name;
         	}
@@ -900,17 +1093,42 @@ function alo_em_save_profile_optin($user_id) {
         	// if changed email
         	if ( isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $user_email != $_POST[ 'email' ] ) {
         		$user_email = stripslashes( trim( $_POST[ 'email' ] ) );
-        		$todo_update = true;
-        	} 
-        	
+        	}
+
+			$fields = array();
+
+			//edit : added all this foreach
+
+			$alo_em_cf = alo_easymail_get_custom_fields();
+			if ($alo_em_cf) {
+				foreach( $alo_em_cf as $key => $value ){
+					//check if custom fields have been changed
+					if ( isset( $_POST[ "alo_em_". $key] ) ) {
+						$fields[$key] = stripslashes( trim( $_POST[ "alo_em_". $key] ) );
+					}
+				}
+			}
+			
+			// Is already subscriber? update or insert
+			$todo_update = alo_em_is_subscriber( $user_info->user_email ) > 0 ? true: false;
+			
         	if ( $todo_update ) {
         		//alo_em_update_subscriber_by_email ( $user_info->user_email, $user_email, $fullname, 1, alo_em_get_language(true) );
-        		if ( alo_em_update_subscriber_by_email ( $user_info->user_email, $user_email, $fullname, 1, alo_em_get_language(true) ) ) {
+
+				//$fields['old_email'] = $user_info->user_email; //edit : added all this line
+				$fields['email'] = $user_email; //edit : added all this line
+				$fields['name'] = $fullname; //edit : added all this line
+				
+        		if ( alo_em_update_subscriber_by_email ( $user_info->user_email, $fields, 1, alo_em_get_language(true) ) ) { //edit : orig : if ( alo_em_update_subscriber_by_email ( $user_info->user_email, $user_email, $fullname, 1, alo_em_get_language(true) ) ) {
         			$subscriber = alo_em_get_subscriber ( $user_email );
+        			alo_em_update_subscriber_last_act( $user_email );
         			do_action ( 'alo_easymail_subscriber_updated', $subscriber, $user_info->user_email );
         		}
         	} else {
-	            alo_em_add_subscriber( $user_email, $fullname, 1, alo_em_get_language(true) );
+				$fields['email'] = $user_email; //edit : added all this line
+				$fields['name'] = $fullname; //edit : added all this line
+	            alo_em_add_subscriber( $fields, 1, alo_em_get_language(true) );//edit : orig: alo_em_add_subscriber( $user_email, $fullname, 1, alo_em_get_language(true) );
+	            do_action ( 'alo_easymail_new_subscriber_added', alo_em_is_subscriber( $user_email ), $user_id );
 	      	}
             
             // if subscribing, save also lists
@@ -927,6 +1145,7 @@ function alo_em_save_profile_optin($user_id) {
 			}				
         } else {
             alo_em_delete_subscriber_by_id( alo_em_is_subscriber($user_email) );
+            alo_em_add_email_in_unsubscribed ( $user_email );
         }
     }
 }
@@ -956,6 +1175,29 @@ function alo_em_add_admin_script () {
 	}
 	if ( $pagenow == "post.php" || ( isset( $_GET['post_type'] ) && $_GET['post_type'] == "newsletter" ) ) {
 		wp_enqueue_script('thickbox');
+
+		//edit : added all this "$code" related lines
+		$alo_em_cf = alo_easymail_get_custom_fields();
+		
+		$code = '<script type="text/javascript">
+		<!-- <![CDATA[
+		//custom fields array
+		var alo_cf_array = new Array();
+		';
+
+		$i = 0;
+		if ( $alo_em_cf ) {
+			foreach( $alo_em_cf as $key => $value ){
+				$code .= "alo_cf_array[".$i."] = '" . $key . "';\n";
+				++$i;
+			}
+		}
+		$code .= '
+		// ]]> -->
+		</script>';
+
+		echo $code;
+		
 		wp_enqueue_script( 'alo-easymail-backend', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend.js' );
 		wp_localize_script( 'alo-easymail-backend', 'easymailJs', alo_em_localize_admin_script() );
 	}
@@ -1405,7 +1647,11 @@ function alo_em_save_registration_optin ( $user_id, $password="", $meta=array() 
 	}
 	if ( isset ($_POST['alo_em_opt']) && $_POST['alo_em_opt'] == "yes" ) {
 		$lang = ( isset($_POST['alo_em_lang']) && in_array ( $_POST['alo_em_lang'], alo_em_get_all_languages( false )) ) ? $_POST['alo_em_lang'] : "" ;
-		alo_em_add_subscriber( $user->user_email, $name , 1, $lang );
+		$fields['email'] = $user->user_email; //edit : added all this line
+
+		$fields['name'] = $name; //edit : added all this line
+
+		alo_em_add_subscriber( $fields, 1, $lang ); //edit : orig : alo_em_add_subscriber( $user->user_email, $name , 1, $lang );
 		
 		 // if subscribing, save also lists
     	$mailinglists = alo_em_get_mailinglists( 'public' );
@@ -1490,27 +1736,58 @@ add_filter('wp_mail', 'alo_em_handle_email');
 
 
 /**
- * Add Newsletter menu in Admin bar (from WP 3.1)
+ * Add Newsletter menu in Toolbar Admin bar (WP 3.1-3.2)
  */
-function alo_em_add_menu_admin_bar() {
-    global $wp_admin_bar;
- 	if ( !$wp_admin_bar ) return;
-    if ( !is_admin_bar_showing() ) return;
- 	
- 	if ( current_user_can('edit_posts') ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail', 'title' =>__( 'Newsletters', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter" ) );
-		$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail_main', 'parent' => 'alo_easymail', 'title' => __( 'Newsletters', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter" ) );
-			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Send newsletter', "alo-easymail" ), 'href' => admin_url('post-new.php')."?post_type=newsletter" ) );       
+if ( version_compare ( $wp_version , '3.1', '>=' ) && version_compare ( $wp_version , '3.3', '<' ) )
+{
+	function alo_em_add_menu_admin_bar() {
+		global $wp_admin_bar;
+		if ( !$wp_admin_bar ) return;
+		if ( !is_admin_bar_showing() ) return;
+		
+		if ( current_user_can('edit_posts') ) {
+			$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail', 'title' =>__( 'Newsletters', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter" ) );
+			$wp_admin_bar->add_menu( array( 'id' => 'alo_easymail_main', 'parent' => 'alo_easymail', 'title' => __( 'Newsletters', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter" ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Add New Newsletter', "alo-easymail" ), 'href' => admin_url('post-new.php')."?post_type=newsletter" ) );       
 			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail_main', 'title' => __( 'Show all', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter" ) );   
-  	}
-  	if ( current_user_can('manage_easymail_subscribers') ) {
-	    $wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Subscribers', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php" ) );
-    }
-    if ( current_user_can('manage_easymail_options') ) {
-    	$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Options', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_options.php" ) );    
-    }   
+		}
+		if ( current_user_can('manage_easymail_subscribers') ) {
+			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Subscribers', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php" ) );
+		}
+		if ( current_user_can('manage_easymail_options') ) {
+			$wp_admin_bar->add_menu( array( 'parent' => 'alo_easymail', 'title' => __( 'Options', "alo-easymail" ), 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_options.php" ) );    
+		}   
+	}
+	add_action( 'admin_bar_menu', 'alo_em_add_menu_admin_bar' ,  70);
 }
-add_action( 'admin_bar_menu', 'alo_em_add_menu_admin_bar' ,  70);
+else if ( version_compare ( $wp_version , '3.3', '>=' ) )
+{
+	function alo_em_add_menu_toolbar( $wp_admin_bar ) {
+		if ( current_user_can('edit_posts') ) {
+			$ico = '<span class="alo-easymail-toolbar-ico">&nbsp;</span>';
+			$args = array('id' => 'alo_easymail', 'title' => $ico. __( 'Newsletters', "alo-easymail" ), 'parent' => false, 'href' => admin_url('edit.php')."?post_type=newsletter" );
+			$wp_admin_bar->add_node($args);
+			
+			$args = array('id' => 'alo_easymail-all', 'title' => __( 'Newsletters', "alo-easymail" ), 'parent' => 'alo_easymail', 'href' => admin_url('edit.php')."?post_type=newsletter" );
+			$wp_admin_bar->add_node($args);
+
+			$args = array('id' => 'alo_easymail-new', 'title' => __( 'Add New', "alo-easymail" ), 'parent' => 'alo_easymail', 'href' => admin_url('post-new.php')."?post_type=newsletter" );
+			$wp_admin_bar->add_node($args);
+
+			if ( current_user_can('manage_easymail_subscribers') ) {
+				$args = array('id' => 'alo_easymail-subscribers', 'title' => __( 'Subscribers', "alo-easymail" ), 'parent' => 'alo_easymail', 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php" );
+				$wp_admin_bar->add_node($args);
+			}
+			if ( current_user_can('manage_easymail_options') ) {
+				$args = array('id' => 'alo_easymail-settings', 'title' => __( 'Options', "alo-easymail" ), 'parent' => 'alo_easymail', 'href' => admin_url('edit.php')."?post_type=newsletter&page=alo-easymail/alo-easymail_options.php" );
+				$wp_admin_bar->add_node($args);	
+			}
+						
+		}  
+	}
+	add_action( 'admin_bar_menu', 'alo_em_add_menu_toolbar', 45 );
+}
+
 
 
 /**
@@ -1584,6 +1861,7 @@ add_action('admin_notices', "alo_em_admin_notice");
  * Manage user request made via GET vars: eg. activation link, unsubscribe link, external request
  */
 function alo_em_check_get_vars () {
+	global $wpdb;
 	
 	// From unsubscribe link
 	if ( isset( $_GET['emunsub'] ) ) {
@@ -1619,12 +1897,31 @@ function alo_em_check_get_vars () {
 		exit;
 	}
 	
-	// Called form external request (eg. cron task)
+	// Called from external request (eg. cron task)
 	if ( isset( $_GET['alo_easymail_doing_cron'] ) ) {
 		//echo "OK let's do the batch!";
 		alo_em_batch_sending ();
 		exit;
-	}	
+	}
+
+	// Called from a tracked link
+	if ( isset( $_GET['emtrck'] ) ) {
+		$get_vars = base64_decode( $_GET['emtrck'] );
+		$get = explode( "|", $get_vars );
+
+		$recipient	= ( isset( $get[0] ) && is_numeric($get[0]) ) ? (int)$get[0]: false;
+		$unikey		= ( isset( $get[1] ) ) ? $wpdb->escape( $get[1] ) : false;
+		$request	= ( isset( $get[2] ) ) ? $wpdb->escape( $get[2] ) : false;
+
+		if ( $recipient && $unikey && $request) {
+			$rec_info = alo_em_get_recipient_by_id( $recipient );
+			if ( $rec_info && alo_em_check_subscriber_email_and_unikey ( $rec_info->email, $unikey ) ) {
+				alo_em_tracking_recipient ( $recipient, $rec_info->newsletter, $request );
+				wp_redirect( $request );
+			}
+		}
+		exit;
+	}		
 }
 add_action('init', 'alo_em_check_get_vars');
 
@@ -1686,4 +1983,35 @@ function alo_em_when_duplicate_post( $new_post_id, $old_post_object ) {
 }
 add_action( "dp_duplicate_post", "alo_em_when_duplicate_post", 100, 2 );
 
-?>
+
+/**
+ * When someone unsubcribes, it adds email in 'unsubscribed' table
+ * @param	str
+ * @param	int		user id optional: only if subscriber is also a registered user
+ */ 
+function alo_em_add_unsubscribed_email_in_db_table ( $email, $user_id=false ) {
+	global $wpdb;
+	if ( ! alo_em_check_email_in_unsubscribed($email) )
+	{
+		alo_em_add_email_in_unsubscribed($email);
+	}
+}
+add_action('alo_easymail_subscriber_deleted',  'alo_em_add_unsubscribed_email_in_db_table', 10, 2 );
+
+
+/**
+ * When someone subcribes, it delete email from 'unsubscribed' table
+ * @param	str
+ * @param	int		user id optional: only if subscriber is also a registered user
+ */ 
+function alo_em_delete_unsubscribed_email_from_db_table ( $subscriber, $user_id=false ) {
+	global $wpdb;
+	if ( alo_em_check_email_in_unsubscribed( $subscriber->email ) )
+	{
+		alo_em_delete_email_from_unsubscribed( $subscriber->email );
+	}
+}
+add_action ( 'alo_easymail_new_subscriber_added',  'alo_em_delete_unsubscribed_email_from_db_table', 10, 2 );
+
+
+?>
