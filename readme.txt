@@ -35,30 +35,10 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 **Internationalization**
 
-Available languages:
-
-* Brazilian
-* Czech
-* Danish
-* Dutch
-* English
-* Estonian
-* Farsi
-* Finnish
-* French
-* German
-* Greek  
-* Hungarian
-* Italian
-* Polish
-* Portuguese
-* Romanian
-* Spanish
-* Swedish
-* Turkish
+*Available in about 20 languages*
 
 You can add or update the translation in your language. To make the plugin package lighter you can find only the .MO files inside it.
-You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files, to get the .PO files and to join the translation group.
+You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files (.MO and .PO files) and to join the translation group.
 
 
 == Installation ==
