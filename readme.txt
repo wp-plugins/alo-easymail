@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4
+Stable tag: 2.4.1
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -35,7 +35,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 **Internationalization**
 
-*Available in about 20 languages*
+*Available in about 20 languages.*
 
 You can add or update the translation in your language. To make the plugin package lighter you can find only the .MO files inside it.
 You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files (.MO and .PO files) and to join the translation group.
@@ -73,6 +73,10 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.4.1 =
+* Fixed: a serious bug in db table installation/upgrade so errors on subscriptions
+* Added: a list of placeholders in newsletter content editor
 
 = 2.4 =
 * Added: a new db table to store unsubscribed emails
@@ -351,3 +355,6 @@ Better performances in database queries. Newsletter themes also in php.
 
 = 2.4 =
 Added custom fields for subscription form, newsletter click tracking, db table for unsubscribed emails.
+
+= 2.4.1 =
+Fixed a serious bug that could causes errors on subscriptions

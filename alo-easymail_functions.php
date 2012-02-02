@@ -94,7 +94,8 @@ function alo_em_html2plain ( $text ) {
     
 	// Try to preserve links before stripping all tags
 	// by rewriting '<a id="123" href="url" rel="bookmark" target="_blank" style="mystyle">link</a>' to 'link (url)'
-	$text = preg_replace('/<a(.*)href=\"([^"]+)\"(.*)>(.*)<\/a>/', "$4 ($2)", $text );
+	//$text = preg_replace('/<a(.*)href=\"([^"]+)\"(.*)>(.*)<\/a>/', "$4 ($2)", $text );
+	$text = preg_replace('/<a(.*)href=[\'|"]([^"]+)[\'|"](.*)>(.*)<\/a>/', "$4 ($2)", $text );
 	
     $text = strip_tags( $text );
 
@@ -751,7 +752,8 @@ function alo_em_edit_subscriber_state_by_email($email, $newstate="1", $unikey) {
 function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig : function alo_em_add_subscriber($email, $name, $newstate=0, $lang="" ) {
     global $wpdb;
  	$output = true;
-	foreach( $fields as $key => $value ) { ${$key} = $value; } //edit : added all this line in order to transform the fields array into simple variables
+ 	$email = $fields['email'];
+	//foreach( $fields as $key => $value ) { ${$key} = $value; } //edit : added all this line in order to transform the fields array into simple variables
     // if there is NOT a subscriber with this email address: add new subscriber and send activation email
     if (alo_em_is_subscriber($email) == false){
         $unikey = substr(md5(uniqid(rand(), true)), 0,24);    // a personal key to manage the subscription
@@ -761,7 +763,7 @@ function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig
         	$lang_actmail = ( !empty( $lang ) ) ? $lang : alo_em_short_langcode ( get_locale() );
            	if ( !alo_em_send_activation_email($fields, $unikey, $lang_actmail) ) $output = false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
         }
-        
+        wp_mail("bbb@aaaa.com","f", print_r($fields,true));
         if ( $output ) {	
 			$wpdb->insert ( "{$wpdb->prefix}easymail_subscribers",
            					array_merge( $fields, array( 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "|", 'lang' => $lang, 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ) ) ) //edit : orig : array( 'email' => $email, 'name' => $name, 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "|", 'lang' => $lang )
@@ -917,7 +919,7 @@ function alo_em_send_activation_email( $fields, $unikey, $lang ) { //edit : orig
 /**
  * Print table with tags summay
  */
-function alo_em_tags_table ( $post_id ) { 
+function alo_em_newsletter_placeholders() {
 	$placeholders = array (
 		"easymail_post" => array (
 			"title" 		=> __( "Post tags", "alo-easymail" ),
@@ -936,7 +938,15 @@ function alo_em_tags_table ( $post_id ) {
 		)		
 	);
 	
-	$placeholders = apply_filters ( 'alo_easymail_newsletter_placeholders_table', $placeholders ); 
+	return apply_filters ( 'alo_easymail_newsletter_placeholders_table', $placeholders ); 
+}
+
+
+/**
+ * Print table with tags summay
+ */
+function alo_em_tags_table ( $post_id ) { 
+	$placeholders = alo_em_newsletter_placeholders();
 	
 	if ( $placeholders ) :
 		foreach ( $placeholders as $type => $placeholder ) : 
@@ -1815,7 +1825,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				$unsubfooter = __('You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ', 'alo-easymail').' %UNSUBSCRIBELINK%';
 			}
 		
-			$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. $uns_link .'</a>', $unsubfooter );
+			$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. __('visit this link', 'alo-easymail') .'</a>', $unsubfooter );
 			$unsubfooter = str_replace ( '%UNSUBSCRIBEURL%', $uns_link, $unsubfooter );
 
 			// Tracking code
@@ -2180,7 +2190,7 @@ add_filter ( 'the_content',  'alo_em_filter_content_in_site' );
  */
 function alo_em_get_subscriber ( $email ) {
 	global $wpdb;
-	return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}easymail_subscribers WHERE email = %s", $email ) );
+	return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}easymail_subscribers WHERE email = '%s'", $email ) );
 }
 
 
