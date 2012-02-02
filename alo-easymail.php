@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4
+Version: 2.4.1
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -57,7 +57,7 @@ if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) inclu
 
 
 // Update when DB tables change
-define( "ALO_EM_DB_VERSION", 2018 );
+define( "ALO_EM_DB_VERSION", 2019 );
 
 
 /**
@@ -98,75 +98,7 @@ function alo_em_install() {
 	
 	alo_em_setup_predomain_texts( false );
 		    	    
-	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-	
-    //-------------------------------------------------------------------------
-	
-    if ( alo_em_db_tables_need_update()  ) {
-	    
-		if( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' ) {
-			$collate = constant( 'DB_COLLATE' );
-		} else {
-			$collate = constant( 'DB_CHARSET' );
-		}
-		
-	    // Create the table structure
-	    $sql = "CREATE TABLE {$wpdb->prefix}easymail_subscribers (
-				    ID int(11) unsigned NOT NULL auto_increment ,
-				    email varchar(100) NOT NULL ,
-				    name varchar(100) NOT NULL ,
-				    join_date datetime NOT NULL ,				    
-				    active INT( 1 ) NOT NULL DEFAULT '0' ,
-				    unikey varchar(24) NOT NULL ,
-				    lists varchar(255) DEFAULT '|' ,
-				    lang varchar(5) DEFAULT NULL ,				    last_act datetime NULL ,	
-				    PRIMARY KEY  (ID)
-				) DEFAULT CHARSET=".$collate.";
-
-				CREATE TABLE {$wpdb->prefix}easymail_recipients (
-					ID int(11) unsigned NOT NULL auto_increment ,
-					newsletter int(11) unsigned NOT NULL ,
-					email varchar(100) NOT NULL , 
-					result varchar(3) NOT NULL DEFAULT '0' ,	
-					user_id int(11) unsigned DEFAULT NULL ,
-					PRIMARY KEY  (ID)
-				) DEFAULT CHARSET=".$collate.";
-
-				CREATE TABLE {$wpdb->prefix}easymail_stats (
-					ID int(11) unsigned NOT NULL auto_increment ,
-					recipient int(11) unsigned NOT NULL ,
-					newsletter int(11) unsigned NOT NULL ,
-					added_on datetime NOT NULL ,
-					request text ,
-					PRIMARY KEY  (ID)
-				) DEFAULT CHARSET=".$collate.";									CREATE TABLE {$wpdb->prefix}easymail_unsubscribed (					email varchar(100) NOT NULL ,  					added_on datetime NOT NULL ,					PRIMARY KEY  (email)				) DEFAULT CHARSET=".$collate.";				
-									
-			    ";  
-				
-	    dbDelta($sql);
-	    
-		// Update the old "lists" field if upgrading from v. 1.x
-		$installed_db = get_option('alo_em_db_version');
-		if ( $installed_db < 2012 ) {
-			$wpdb->query( "UPDATE ". $wpdb->prefix."easymail_subscribers SET lists = REPLACE( lists, '_', '|');" );
-			$wpdb->query( "UPDATE {$wpdb->options} SET option_name = REPLACE( option_name, 'ALO_em_', 'alo_em_');" );
-		}	
-		// v.2016: Add table indexes    
-		if ( $installed_db < 2016 ) {
-			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_recipients ADD INDEX ( `newsletter` ), ADD INDEX ( `email` )");
-			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats ADD INDEX ( `newsletter` ), ADD INDEX ( `recipient` )");
-		}		
-		// Add 'email' index only if not exists (it exists in plugin versions older than 2.3)
-		if ( !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Non_unique = 0 AND Column_name = 'email';" ) ) {
-			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD UNIQUE ( `email` )");
-		}
-		// v.2017: Modify Request column, an index in new 'unsubscribed' table
-		if ( $installed_db < 2017 ) {
-			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats CHANGE `request` `request` text");
-		}		
-		
-	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
-    }
+	if ( alo_em_db_tables_need_update() ) alo_em_install_db_tables();
 	
 	//-------------------------------------------------------------------------
 	// Create/update the page with subscription
@@ -197,6 +129,101 @@ function alo_em_install() {
 	$wp_roles->add_cap( 'administrator', 'manage_easymail_subscribers');		
 	//$wp_roles->add_cap( 'administrator', 'manage_easymail_newsletters');
 	//$wp_roles->add_cap( 'administrator', 'send_easymail_newsletters');
+}
+
+
+/**
+ * Since 3.1 the register_activation_hook is not called when a plugin
+ * is updated, so to run the above code on automatic upgrade you need
+ * to check the plugin db version on another hook.
+ */
+function alo_em_check_db_when_loaded() {
+    if ( alo_em_db_tables_need_update() ) alo_em_db_tables_need_update();
+}
+add_action('plugins_loaded', 'alo_em_check_db_when_loaded');
+
+
+/**
+ * Install/update database tables
+ */
+function alo_em_install_db_tables() {
+	global $wpdb;
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	
+    //-------------------------------------------------------------------------
+	
+    if ( alo_em_db_tables_need_update()  ) {
+	    
+		if( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' ) {
+			$collate = constant( 'DB_COLLATE' );
+		} else {
+			$collate = constant( 'DB_CHARSET' );
+		}
+		
+	    // Create the table structure
+	    $sql = "CREATE TABLE {$wpdb->prefix}easymail_subscribers ( 
+				    ID int(11) unsigned NOT NULL auto_increment , 
+				    email varchar(100) NOT NULL , 
+				    name varchar(100) NOT NULL , 
+				    join_date datetime NOT NULL , 
+				    active INT( 1 ) NOT NULL DEFAULT '0' , 
+				    unikey varchar(24) NOT NULL , 
+				    lists varchar(255) DEFAULT '|' , 
+				    lang varchar(5) DEFAULT NULL , 
+				    last_act datetime NULL , 
+				    PRIMARY KEY  (ID) 
+				) DEFAULT CHARSET=".$collate.";
+
+				CREATE TABLE {$wpdb->prefix}easymail_recipients ( 
+					ID int(11) unsigned NOT NULL auto_increment , 
+					newsletter int(11) unsigned NOT NULL , 
+					email varchar(100) NOT NULL , 
+					result varchar(3) NOT NULL DEFAULT '0' , 
+					user_id int(11) unsigned DEFAULT NULL , 
+					PRIMARY KEY  (ID) 
+				) DEFAULT CHARSET=".$collate.";
+
+				CREATE TABLE {$wpdb->prefix}easymail_stats (
+					ID int(11) unsigned NOT NULL auto_increment ,
+					recipient int(11) unsigned NOT NULL ,
+					newsletter int(11) unsigned NOT NULL ,
+					added_on datetime NOT NULL ,
+					request text ,
+					PRIMARY KEY  (ID)
+				) DEFAULT CHARSET=".$collate.";
+					
+				CREATE TABLE {$wpdb->prefix}easymail_unsubscribed (
+					email varchar(100) NOT NULL ,  
+					added_on datetime NOT NULL ,
+					PRIMARY KEY  (email)
+				) DEFAULT CHARSET=".$collate.";				
+									
+			    ";  
+				
+	    dbDelta($sql);
+	    
+		// Update the old "lists" field if upgrading from v. 1.x
+		$installed_db = get_option('alo_em_db_version');
+		if ( $installed_db < 2012 ) {
+			$wpdb->query( "UPDATE ". $wpdb->prefix."easymail_subscribers SET lists = REPLACE( lists, '_', '|');" );
+			$wpdb->query( "UPDATE {$wpdb->options} SET option_name = REPLACE( option_name, 'ALO_em_', 'alo_em_');" );
+		}	
+		// v.2016: Add table indexes    
+		if ( $installed_db < 2016 ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_recipients ADD INDEX ( `newsletter` ), ADD INDEX ( `email` )");
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats ADD INDEX ( `newsletter` ), ADD INDEX ( `recipient` )");
+		}		
+		// Add 'email' index only if not exists (it exists in plugin versions older than 2.3)
+		if ( !$wpdb->get_row("SHOW INDEX FROM {$wpdb->prefix}easymail_subscribers WHERE Non_unique = 0 AND Column_name = 'email';" ) ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_subscribers ADD UNIQUE ( `email` )");
+		}
+		// v.2017: Modify Request column, an index in new 'unsubscribed' table
+		if ( $installed_db < 2017 ) {
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats CHANGE `request` `request` text");
+		}		
+		
+	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
+    }
 }
 
 
@@ -2013,5 +2040,75 @@ function alo_em_delete_unsubscribed_email_from_db_table ( $subscriber, $user_id=
 }
 add_action ( 'alo_easymail_new_subscriber_added',  'alo_em_delete_unsubscribed_email_from_db_table', 10, 2 );
 
+
+
+
+/**
+ * Create Our Initialization Function
+ */
+function alo_em_init_tinymce_buttons() {
+	global $typenow;
+	if ( empty($typenow) || 'newsletter' != $typenow ) return;
+	if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
+		return;
+	}
+	if ( get_user_option('rich_editing') == 'true' ) {
+		add_filter( 'mce_external_plugins', 'alo_em_add_tinymce_plugin' );
+		add_filter( 'mce_buttons', 'alo_em_register_tinymce_buttons' );
+	}
+}
+add_action('admin_enqueue_scripts', 'alo_em_init_tinymce_buttons');
+
+
+/**
+ * Register Button
+ */
+function alo_em_register_tinymce_buttons( $buttons ) {
+	array_push( $buttons, "|", "easymail" );
+	return $buttons;
+}
+
+
+/**
+ * Register TinyMCE Plugin
+ */
+function alo_em_add_tinymce_plugin( $plugin_array ) {
+	$plugin_array['easymail'] = ALO_EM_PLUGIN_URL. '/inc/tinymce/editor_plugin.js';   
+	return $plugin_array;
+}
+
+
+function alo_em_loc_tinymce_buttons() {
+	global $typenow;
+	if ( empty($typenow) || 'newsletter' != $typenow ) return;	
+	?>
+	<script type="text/javascript">
+	(function() {
+
+		alo_em_tinymce_labels = new Array();
+		alo_em_tinymce_tags = new Array();
+		
+		<?php
+		$placeholders = alo_em_newsletter_placeholders();
+		if ( $placeholders ) {
+			foreach( $placeholders as $key => $ph ) {
+				echo 'alo_em_tinymce_labels["'. $key .'"] = " - '. esc_js( $ph['title'] ) .' -";'. "\n";
+				echo 'alo_em_tinymce_tags["'. $key .'"] = new Array(';				
+				if ( isset($ph['tags']) && is_array($ph['tags']) ) {
+					$tag_list = '';
+					foreach ( $ph['tags'] as $tag => $desc ) {
+						$tag_list .= '"'. $tag .'", ';
+					}
+					echo rtrim( $tag_list, ', ' );
+				}
+				echo ');'."\n";
+			}
+		}
+		?>
+	})();
+	</script>
+	<?php
+}
+add_action( 'admin_print_footer_scripts', 'alo_em_loc_tinymce_buttons', 100 );
 
 ?>
