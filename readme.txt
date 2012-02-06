@@ -364,5 +364,5 @@ Added custom fields for subscription form, newsletter click tracking, db table f
 = 2.4.1 =
 Fixed a serious bug that could causes errors on subscriptions
 
-= 2.4.1 =
+= 2.4.2 =
 Fixed little bugs
