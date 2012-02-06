@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -73,6 +73,11 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.4.2 =
+* Fixed: when an admin edits a subscriber inline, the "last activity" is not updated
+* Fixed: if newsletters are not published on blog, there is not the "preview" link in edit screen messages
+* Fixed: on registration, if a new user does not subscribe, the email is now added to unsubscribed db table
 
 = 2.4.1 =
 * Fixed: a serious bug in db table installation/upgrade so errors on subscriptions
@@ -358,3 +363,6 @@ Added custom fields for subscription form, newsletter click tracking, db table f
 
 = 2.4.1 =
 Fixed a serious bug that could causes errors on subscriptions
+
+= 2.4.1 =
+Fixed little bugs

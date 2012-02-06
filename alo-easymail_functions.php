@@ -812,14 +812,14 @@ function alo_em_delete_subscriber_by_id($id) {
 /**
  * Update a subscriber (BY ADMIN/REGISTERED-USER)
  */
-function alo_em_update_subscriber_by_email ( $old_email, $fields, $newstate=0, $lang="" ) {
+function alo_em_update_subscriber_by_email ( $old_email, $fields, $newstate=0, $lang="", $update_lastact=true ) {
     global $wpdb;
 	//foreach( $fields as $key => $value ) { ${$key} = $value; } //edit : added all this line in order to transform the fields array into simple variables
 	//$old_email = $fields['old_email']; // edit-by-alo: added this line
 	//unset( $fields['old_email'] ); //edit : added all this line in order to prevent "update" to break
 	$fields['active'] = $newstate; //edit : added all this line
 	$fields['lang'] = $lang; //edit : added all this line
-	$fields['last_act'] = get_date_from_gmt( date("Y-m-d H:i:s") );
+	if ( $update_lastact ) $fields['last_act'] = get_date_from_gmt( date("Y-m-d H:i:s") );
 
 	// Filter custom fields
 	$alo_em_cf = alo_easymail_get_custom_fields();

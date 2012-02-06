@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.1
+Version: 2.4.2
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -640,21 +640,30 @@ add_action('init', 'alo_em_register_newsletter_type');
  */
 function alo_em_newsletter_updated_messages( $messages ) {
 	global $post, $post_ID;
+	
+	if ( get_option('alo_em_publish_newsletters') == "no" ) {
+		$view_url = "";
+		$preview_url = "";
+	} else {
+		$view_url = sprintf( __(' <a href="%s">View Newsletter</a>', "alo-easymail" ), esc_url( get_permalink($post_ID) ) );
+		$preview_url = sprintf( __(' <a target="_blank" href="%s">Preview Newsletter</a>', "alo-easymail"), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) );
+	}
+	
 	$messages['newsletter'] = array(
 		0 => '', // Unused. Messages start at index 1.
-		1 => sprintf( __('Newsletter updated. <a href="%s">View Newsletter</a>', "alo-easymail" ), esc_url( get_permalink($post_ID) ) ),
+		1 => __('Newsletter updated.', "alo-easymail" ). $view_url,
 		2 => __('Custom field updated.', "alo-easymail"),
 		3 => __('Custom field deleted.', "alo-easymail"),
 		4 => __('Newsletter updated.', "alo-easymail"),
 		/* translators: %s: date and time of the revision */
 		5 => isset($_GET['revision']) ? sprintf( __('Newsletter restored to revision from %s', "alo-easymail"), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-		6 => sprintf( __('Newsletter published. <a href="%s">View Newsletter</a>', "alo-easymail"), esc_url( get_permalink($post_ID) ) ),
+		6 => __('Newsletter published.', "alo-easymail") . $view_url,
 		7 => __('Newsletter saved.', "alo-easymail"),
 		8 => sprintf( __('Newsletter submitted. <a target="_blank" href="%s">Preview Newsletter</a>', "alo-easymail"), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
-		9 => sprintf( __('Newsletter scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Newsletter</a>', "alo-easymail"),
+		9 => sprintf( __('Newsletter scheduled for: <strong>%1$s</strong>.', "alo-easymail"),
 		// translators: Publish box date format, see http://php.net/date
-		date_i18n( __( 'j M Y @ G:i', "alo-easymail" ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
-		10 => sprintf( __('Newsletter draft updated. <a target="_blank" href="%s">Preview Newsletter</a>', "alo-easymail"), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+		date_i18n( __( 'j M Y @ G:i', "alo-easymail" ), strtotime( $post->post_date ) ) ). $preview_url,
+		10 => __('Newsletter draft updated.', "alo-easymail") . $preview_url ,
 	);
 	return $messages;
 }
@@ -852,7 +861,7 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 
 					$fields['name'] = $new_name; //edit : added all this line
 
-					alo_em_update_subscriber_by_email ( $subscriber_obj->email, $fields, $new_active, $new_lang ); //edit : orig : alo_em_update_subscriber_by_email ( $subscriber_obj->email, $new_email, $new_name, $new_active, $new_lang );
+					alo_em_update_subscriber_by_email ( $subscriber_obj->email, $fields, $new_active, $new_lang, false ); //edit : orig : alo_em_update_subscriber_by_email ( $subscriber_obj->email, $new_email, $new_name, $new_active, $new_lang );
 					
 					$new_lists = explode ( ",", rtrim ( $new_lists, "," ) );
 					if ( is_array( $mailinglists ) ) : foreach ( $mailinglists as $mailinglist => $val ) :
@@ -1690,6 +1699,8 @@ function alo_em_save_registration_optin ( $user_id, $password="", $meta=array() 
 				} 
 			}
 		}				
+	} else {
+		alo_em_add_email_in_unsubscribed ( $user->user_email );
 	}
 }
 add_action( 'user_register', 'alo_em_save_registration_optin' );

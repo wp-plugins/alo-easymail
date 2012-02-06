@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alo-easymail\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-30 21:15+0100\n"
-"PO-Revision-Date: 2012-01-30 21:16+0100\n"
+"POT-Creation-Date: 2012-02-06 20:22+0100\n"
+"PO-Revision-Date: 2012-02-06 20:22+0100\n"
 "Last-Translator: Alex <groucho75@email.it>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -19,492 +19,496 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././alo-easymail.php:363
-#: .././alo-easymail.php:1569
-#: .././alo-easymail.php:1755
-#: .././alo-easymail.php:1778
+#: .././alo-easymail.php:390
+#: .././alo-easymail.php:1605
+#: .././alo-easymail.php:1793
+#: .././alo-easymail.php:1816
 #: .././alo-easymail_options.php:4
 #: .././alo-easymail_subscribers.php:1
 msgid "Subscribers"
 msgstr ""
 
-#: .././alo-easymail.php:367
+#: .././alo-easymail.php:394
 msgid "Settings"
 msgstr ""
 
-#: .././alo-easymail.php:412
-#: .././alo-easymail.php:565
-#: .././alo-easymail.php:1005
+#: .././alo-easymail.php:439
+#: .././alo-easymail.php:592
+#: .././alo-easymail.php:1041
 #: .././alo-easymail_options.php:1
 msgid "Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:423
+#: .././alo-easymail.php:450
 msgid "Links"
 msgstr ""
 
-#: .././alo-easymail.php:424
-#: .././alo-easymail.php:465
+#: .././alo-easymail.php:451
+#: .././alo-easymail.php:492
 msgid "Resources about EasyMail Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:435
-#: .././alo-easymail_functions.php:130
+#: .././alo-easymail.php:462
+#: .././alo-easymail_functions.php:131
 msgid "If you use this plugin consider the idea of donating and supporting its development"
 msgstr ""
 
-#: .././alo-easymail.php:564
-#: .././alo-easymail.php:575
-#: .././alo-easymail.php:1749
-#: .././alo-easymail.php:1750
-#: .././alo-easymail.php:1768
-#: .././alo-easymail.php:1771
+#: .././alo-easymail.php:591
+#: .././alo-easymail.php:602
+#: .././alo-easymail.php:1787
+#: .././alo-easymail.php:1788
+#: .././alo-easymail.php:1806
+#: .././alo-easymail.php:1809
 msgid "Newsletters"
 msgstr ""
 
-#: .././alo-easymail.php:566
-#: .././alo-easymail.php:1774
+#: .././alo-easymail.php:593
+#: .././alo-easymail.php:1812
 msgid "Add New"
 msgstr ""
 
-#: .././alo-easymail.php:567
-#: .././alo-easymail.php:1751
+#: .././alo-easymail.php:594
+#: .././alo-easymail.php:1789
 msgid "Add New Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:568
+#: .././alo-easymail.php:595
 msgid "Edit Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:569
+#: .././alo-easymail.php:596
 msgid "New Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:570
+#: .././alo-easymail.php:597
 msgid "View Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:571
+#: .././alo-easymail.php:598
 msgid "Search Newsletters"
 msgstr ""
 
-#: .././alo-easymail.php:572
+#: .././alo-easymail.php:599
 msgid "No Newsletters found"
 msgstr ""
 
-#: .././alo-easymail.php:573
+#: .././alo-easymail.php:600
 msgid "No Newsletters found in Trash"
 msgstr ""
 
-#: .././alo-easymail.php:574
-#: .././alo-easymail.php:576
+#: .././alo-easymail.php:601
+#: .././alo-easymail.php:603
 msgid "Parent Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:618
+#: .././alo-easymail.php:648
 #, php-format
-msgid "Newsletter updated. <a href=\"%s\">View Newsletter</a>"
+msgid " <a href=\"%s\">View Newsletter</a>"
 msgstr ""
 
-#: .././alo-easymail.php:619
-msgid "Custom field updated."
+#: .././alo-easymail.php:649
+#, php-format
+msgid " <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
 msgstr ""
 
-#: .././alo-easymail.php:620
-msgid "Custom field deleted."
-msgstr ""
-
-#: .././alo-easymail.php:621
+#: .././alo-easymail.php:654
+#: .././alo-easymail.php:657
 msgid "Newsletter updated."
 msgstr ""
 
-#: .././alo-easymail.php:623
+#: .././alo-easymail.php:655
+msgid "Custom field updated."
+msgstr ""
+
+#: .././alo-easymail.php:656
+msgid "Custom field deleted."
+msgstr ""
+
+#: .././alo-easymail.php:659
 #, php-format
 msgid "Newsletter restored to revision from %s"
 msgstr ""
 
-#: .././alo-easymail.php:624
-#, php-format
-msgid "Newsletter published. <a href=\"%s\">View Newsletter</a>"
+#: .././alo-easymail.php:660
+msgid "Newsletter published."
 msgstr ""
 
-#: .././alo-easymail.php:625
+#: .././alo-easymail.php:661
 msgid "Newsletter saved."
 msgstr ""
 
-#: .././alo-easymail.php:626
+#: .././alo-easymail.php:662
 #, php-format
 msgid "Newsletter submitted. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
 msgstr ""
 
-#: .././alo-easymail.php:627
+#: .././alo-easymail.php:663
 #, php-format
-msgid "Newsletter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Newsletter</a>"
+msgid "Newsletter scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: .././alo-easymail.php:629
-#: .././alo-easymail.php:891
-#: .././alo-easymail.php:1563
+#: .././alo-easymail.php:665
+#: .././alo-easymail.php:927
+#: .././alo-easymail.php:1599
 #: .././alo-easymail_report.php:90
 #: .././alo-easymail_report.php:96
-#: .././alo-easymail_functions.php:1655
+#: .././alo-easymail_functions.php:1665
 msgid "j M Y @ G:i"
 msgstr ""
 
-#: .././alo-easymail.php:630
-#, php-format
-msgid "Newsletter draft updated. <a target=\"_blank\" href=\"%s\">Preview Newsletter</a>"
+#: .././alo-easymail.php:666
+msgid "Newsletter draft updated."
 msgstr ""
 
-#: .././alo-easymail.php:673
+#: .././alo-easymail.php:709
 msgid "Title"
 msgstr ""
 
-#: .././alo-easymail.php:673
+#: .././alo-easymail.php:709
 #: .././alo-easymail_report.php:67
 msgid "Subject"
 msgstr ""
 
-#: .././alo-easymail.php:674
-#: .././alo-easymail.php:1294
+#: .././alo-easymail.php:710
+#: .././alo-easymail.php:1330
 #: .././alo-easymail_report.php:209
 msgid "Recipients"
 msgstr ""
 
-#: .././alo-easymail.php:675
+#: .././alo-easymail.php:711
 msgid "Newsletter status"
 msgstr ""
 
-#: .././alo-easymail.php:676
+#: .././alo-easymail.php:712
 #: .././alo-easymail_report.php:89
 msgid "Start"
 msgstr ""
 
-#: .././alo-easymail.php:677
+#: .././alo-easymail.php:713
 msgid "Author"
 msgstr ""
 
-#: .././alo-easymail.php:693
+#: .././alo-easymail.php:729
 #: .././alo-easymail_recipients-list.php:72
 msgid "No recipients selected yet"
 msgstr ""
 
-#: .././alo-easymail.php:697
+#: .././alo-easymail.php:733
 #: .././alo-easymail_report.php:149
 msgid "Total recipients"
 msgstr ""
 
-#: .././alo-easymail.php:882
-#: .././alo-easymail.php:883
+#: .././alo-easymail.php:918
+#: .././alo-easymail.php:919
 msgid "Report"
 msgstr ""
 
-#: .././alo-easymail.php:884
+#: .././alo-easymail.php:920
 msgid "archived"
 msgstr ""
 
-#: .././alo-easymail.php:889
+#: .././alo-easymail.php:925
 #: .././alo-easymail_report.php:93
 msgid "Completed"
 msgstr ""
 
-#: .././alo-easymail.php:899
+#: .././alo-easymail.php:935
 msgid "On sending queue"
 msgstr ""
 
-#: .././alo-easymail.php:900
-#: .././alo-easymail.php:929
-#: .././alo-easymail.php:1562
+#: .././alo-easymail.php:936
+#: .././alo-easymail.php:965
+#: .././alo-easymail.php:1598
 msgid "Progress"
 msgstr ""
 
-#: .././alo-easymail.php:902
-#: .././alo-easymail.php:915
+#: .././alo-easymail.php:938
+#: .././alo-easymail.php:951
 msgid "refresh"
 msgstr ""
 
-#: .././alo-easymail.php:904
+#: .././alo-easymail.php:940
 #: .././alo-easymail_recipients-list.php:193
 msgid "pause"
 msgstr ""
 
-#: .././alo-easymail.php:904
+#: .././alo-easymail.php:940
 msgid "pause the sending"
 msgstr ""
 
-#: .././alo-easymail.php:910
+#: .././alo-easymail.php:946
 msgid "Pending Review"
 msgstr ""
 
-#: .././alo-easymail.php:913
+#: .././alo-easymail.php:949
 msgid "Scheduled"
 msgstr ""
 
-#: .././alo-easymail.php:919
+#: .././alo-easymail.php:955
 msgid "Draft"
 msgstr ""
 
-#: .././alo-easymail.php:922
+#: .././alo-easymail.php:958
 msgid "Pending"
 msgstr ""
 
-#: .././alo-easymail.php:928
+#: .././alo-easymail.php:964
 msgid "Paused"
 msgstr ""
 
-#: .././alo-easymail.php:933
+#: .././alo-easymail.php:969
 #: .././alo-easymail_recipients-list.php:194
 msgid "continue"
 msgstr ""
 
-#: .././alo-easymail.php:933
+#: .././alo-easymail.php:969
 msgid "continue the sending"
 msgstr ""
 
-#: .././alo-easymail.php:944
+#: .././alo-easymail.php:980
 msgid "Required"
 msgstr ""
 
-#: .././alo-easymail.php:944
+#: .././alo-easymail.php:980
 #: .././alo-easymail_recipients-list.php:171
 msgid "Create list of recipients"
 msgstr ""
 
-#: .././alo-easymail.php:959
+#: .././alo-easymail.php:995
 #: .././alo-easymail_report.php:222
 msgid "Sent"
 msgstr ""
 
-#: .././alo-easymail.php:1008
-#: .././alo-easymail.php:1620
+#: .././alo-easymail.php:1044
+#: .././alo-easymail.php:1656
 #: .././alo-easymail_subscr-page.php:19
 #: .././alo-easymail_options.php:1
 msgid "Yes, I would like to receive the Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:1012
+#: .././alo-easymail.php:1048
 #: .././alo-easymail_report.php:239
 #: .././alo-easymail_recipients-list.php:184
 msgid "Yes"
 msgstr ""
 
-#: .././alo-easymail.php:1013
-#: .././alo-easymail.php:1410
+#: .././alo-easymail.php:1049
+#: .././alo-easymail.php:1446
 #: .././alo-easymail_report.php:96
 #: .././alo-easymail_report.php:239
 #: .././alo-easymail_recipients-list.php:185
 msgid "No"
 msgstr ""
 
-#: .././alo-easymail.php:1029
+#: .././alo-easymail.php:1065
 msgid "Newsletter fields"
 msgstr ""
 
-#: .././alo-easymail.php:1217
+#: .././alo-easymail.php:1253
 #: .././alo-easymail_report.php:33
 msgid "Newsletter report"
 msgstr ""
 
-#: .././alo-easymail.php:1218
+#: .././alo-easymail.php:1254
 #: .././alo-easymail_recipients-list.php:79
 msgid "Newsletter subscribers creation"
 msgstr ""
 
-#: .././alo-easymail.php:1221
-#: .././alo-easymail_functions.php:1082
+#: .././alo-easymail.php:1257
+#: .././alo-easymail_functions.php:1092
 msgid "The e-email address is not correct"
 msgstr ""
 
-#: .././alo-easymail.php:1222
-#: .././alo-easymail_functions.php:1083
+#: .././alo-easymail.php:1258
+#: .././alo-easymail_functions.php:1093
 msgid "The name field is empty"
 msgstr ""
 
-#: .././alo-easymail.php:1223
+#: .././alo-easymail.php:1259
 msgid "There is already a subscriber with this e-email address"
 msgstr ""
 
-#: .././alo-easymail.php:1224
+#: .././alo-easymail.php:1260
 msgid "Do you really want to DELETE this subscriber?"
 msgstr ""
 
-#: .././alo-easymail.php:1295
+#: .././alo-easymail.php:1331
 msgid "Themes"
 msgstr ""
 
-#: .././alo-easymail.php:1296
+#: .././alo-easymail.php:1332
 msgid "Placeholders"
 msgstr ""
 
-#: .././alo-easymail.php:1308
+#: .././alo-easymail.php:1344
 msgid "Selected recipients"
 msgstr ""
 
-#: .././alo-easymail.php:1311
+#: .././alo-easymail.php:1347
 msgid "This newsletter was already sent"
 msgstr ""
 
-#: .././alo-easymail.php:1317
+#: .././alo-easymail.php:1353
 msgid "The creation of the recipients list has already started"
 msgstr ""
 
-#: .././alo-easymail.php:1319
+#: .././alo-easymail.php:1355
 msgid "Check this flag to delete the existing list and save new recipients now"
 msgstr ""
 
-#: .././alo-easymail.php:1327
+#: .././alo-easymail.php:1363
 msgid "Users"
 msgstr ""
 
-#: .././alo-easymail.php:1330
-#: .././alo-easymail_functions.php:294
+#: .././alo-easymail.php:1366
+#: .././alo-easymail_functions.php:295
 msgid "All registered users"
 msgstr ""
 
-#: .././alo-easymail.php:1338
+#: .././alo-easymail.php:1374
 #: .././alo-easymail_subscribers.php:13
 msgid "Newsletter subscribers"
 msgstr ""
 
-#: .././alo-easymail.php:1341
-#: .././alo-easymail_functions.php:296
+#: .././alo-easymail.php:1377
+#: .././alo-easymail_functions.php:297
 msgid "All subscribers"
 msgstr ""
 
-#: .././alo-easymail.php:1348
+#: .././alo-easymail.php:1384
 msgid "Filter subscribers according to lists"
 msgstr ""
 
-#: .././alo-easymail.php:1368
+#: .././alo-easymail.php:1404
 msgid "Filter subscribers according to languages"
 msgstr ""
 
-#: .././alo-easymail.php:1383
-#: .././alo-easymail_functions.php:312
+#: .././alo-easymail.php:1419
+#: .././alo-easymail_functions.php:313
 msgid "Not specified / others"
 msgstr ""
 
-#: .././alo-easymail.php:1416
+#: .././alo-easymail.php:1452
 msgid "View"
 msgstr ""
 
-#: .././alo-easymail.php:1455
+#: .././alo-easymail.php:1491
 msgid "Choose a post"
 msgstr ""
 
-#: .././alo-easymail.php:1459
+#: .././alo-easymail.php:1495
 msgid "j M Y"
 msgstr ""
 
-#: .././alo-easymail.php:1463
+#: .././alo-easymail.php:1499
 msgid "There are no posts"
 msgstr ""
 
-#: .././alo-easymail.php:1556
+#: .././alo-easymail.php:1592
 msgid "Newsletters scheduled for sending"
 msgstr ""
 
-#: .././alo-easymail.php:1560
+#: .././alo-easymail.php:1596
 msgid "now sending"
 msgstr ""
 
-#: .././alo-easymail.php:1563
+#: .././alo-easymail.php:1599
 msgid "Added on"
 msgstr ""
 
-#: .././alo-easymail.php:1564
+#: .././alo-easymail.php:1600
 #: .././alo-easymail_report.php:86
 msgid "Scheduled by"
 msgstr ""
 
-#: .././alo-easymail.php:1567
+#: .././alo-easymail.php:1603
 msgid "There are no newsletters in queue"
 msgstr ""
 
-#: .././alo-easymail.php:1572
+#: .././alo-easymail.php:1608
 #, php-format
 msgid "There are %d subscribers: %d activated, %d not activated"
 msgstr ""
 
-#: .././alo-easymail.php:1574
+#: .././alo-easymail.php:1610
 #: .././alo-easymail_subscribers.php:78
 msgid "No subscribers"
 msgstr ""
 
-#: .././alo-easymail.php:1578
+#: .././alo-easymail.php:1614
 msgid "Updates from plugin developer"
 msgstr ""
 
-#: .././alo-easymail.php:1595
+#: .././alo-easymail.php:1631
 msgid "j F Y"
 msgstr ""
 
-#: .././alo-easymail.php:1602
+#: .././alo-easymail.php:1638
 #, php-format
 msgid "<strong>RSS Error</strong>: %s"
 msgstr ""
 
-#: .././alo-easymail.php:1626
+#: .././alo-easymail.php:1662
 #: .././alo-easymail_options.php:1
-#: .././alo-easymail_functions.php:2370
+#: .././alo-easymail_functions.php:2380
 msgid "You can also sign up for specific lists"
 msgstr ""
 
-#: .././alo-easymail.php:1696
+#: .././alo-easymail.php:1734
 msgid "Confirm your subscription to %BLOGNAME% Newsletter"
 msgstr ""
 
-#: .././alo-easymail.php:1706
+#: .././alo-easymail.php:1744
 msgid ""
 "Hi %NAME%\n"
 "to complete your subscription to %BLOGNAME% newsletter you need to click on the following link (or paste it in the address bar of your browser):\n"
 msgstr ""
 
-#: .././alo-easymail.php:1708
+#: .././alo-easymail.php:1746
 msgid "If you did not ask for this subscription ignore this message."
 msgstr ""
 
-#: .././alo-easymail.php:1709
+#: .././alo-easymail.php:1747
 msgid "Thank you"
 msgstr ""
 
-#: .././alo-easymail.php:1752
+#: .././alo-easymail.php:1790
 #: .././alo-easymail_subscribers.php:70
 msgid "Show all"
 msgstr ""
 
-#: .././alo-easymail.php:1758
-#: .././alo-easymail.php:1782
+#: .././alo-easymail.php:1796
+#: .././alo-easymail.php:1820
 msgid "Options"
 msgstr ""
 
-#: .././alo-easymail.php:1841
+#: .././alo-easymail.php:1879
 msgid "Debug mode is activated"
 msgstr ""
 
-#: .././alo-easymail.php:1842
+#: .././alo-easymail.php:1880
 #: .././alo-easymail_options.php:1
 msgid "all messages will be sent to the newsletter author"
 msgstr ""
 
-#: .././alo-easymail.php:1843
+#: .././alo-easymail.php:1881
 #: .././alo-easymail_options.php:1
 msgid "all messages will be recorded into a log file"
 msgstr ""
 
-#: .././alo-easymail.php:1850
+#: .././alo-easymail.php:1888
 msgid "ALO Easymail Newsletter needs attention"
 msgstr ""
 
-#: .././alo-easymail.php:1851
+#: .././alo-easymail.php:1889
 msgid "The plugin database tables have not properly installed"
 msgstr ""
 
-#: .././alo-easymail.php:1851
+#: .././alo-easymail.php:1889
 msgid "you can try to deactivate and activate the plugin"
 msgstr ""
 
-#: .././alo-easymail.php:1852
+#: .././alo-easymail.php:1890
 #: .././alo-easymail_options.php:4
 msgid "For more info, visit the FAQ of the site."
 msgstr ""
@@ -519,7 +523,7 @@ msgid "Error during activation. Please check the activation link."
 msgstr ""
 
 #: .././alo-easymail_subscr-page.php:32
-#: .././alo-easymail_functions.php:1099
+#: .././alo-easymail_functions.php:1109
 msgid "Your subscription was successfully activated. You will receive the next newsletter. Thank you."
 msgstr ""
 
@@ -678,11 +682,11 @@ msgid "A list with the latest published posts"
 msgstr ""
 
 #: .././alo-easymail_custom-hooks-sample.php:37
-#: .././alo-easymail_functions.php:925
-#: .././alo-easymail_functions.php:1746
-#: .././alo-easymail_functions.php:1747
-#: .././alo-easymail_functions.php:1754
-#: .././alo-easymail_functions.php:1755
+#: .././alo-easymail_functions.php:927
+#: .././alo-easymail_functions.php:1756
+#: .././alo-easymail_functions.php:1757
+#: .././alo-easymail_functions.php:1764
+#: .././alo-easymail_functions.php:1765
 msgid "The visit to this url will be tracked."
 msgstr ""
 
@@ -712,7 +716,7 @@ msgstr ""
 #: .././alo-easymail_options.php:4
 #: .././alo-easymail_subscribers.php:13
 #: .././alo-easymail_subscribers.php:78
-#: .././alo-easymail_functions.php:307
+#: .././alo-easymail_functions.php:308
 msgid "Mailing Lists"
 msgstr ""
 
@@ -992,11 +996,12 @@ msgid "Unsubscription disclaimer"
 msgstr ""
 
 #: .././alo-easymail_options.php:1
-#: .././alo-easymail_functions.php:1815
+#: .././alo-easymail_functions.php:1825
 msgid "You have received this message because you subscribed to our newsletter. If you want to unsubscribe: "
 msgstr ""
 
 #: .././alo-easymail_options.php:1
+#: .././alo-easymail_functions.php:1828
 msgid "visit this link"
 msgstr ""
 
@@ -1009,7 +1014,7 @@ msgid "Read newsletter online"
 msgstr ""
 
 #: .././alo-easymail_options.php:1
-#: .././alo-easymail_functions.php:1796
+#: .././alo-easymail_functions.php:1806
 msgid "To read the newsletter online you can visit this link:"
 msgstr ""
 
@@ -1157,14 +1162,14 @@ msgid "Order"
 msgstr ""
 
 #: .././alo-easymail_options.php:4
-#: .././alo-easymail_functions.php:3254
+#: .././alo-easymail_functions.php:3264
 msgid "Save"
 msgstr ""
 
 #: .././alo-easymail_options.php:4
 #: .././alo-easymail_subscribers.php:1
 #: .././alo-easymail_subscribers.php:19
-#: .././alo-easymail_functions.php:3251
+#: .././alo-easymail_functions.php:3261
 msgid "Cancel"
 msgstr ""
 
@@ -1264,6 +1269,10 @@ msgid "Subscribers deactivated"
 msgstr ""
 
 #: .././alo-easymail_subscribers.php:1
+msgid "Note: the email addresses of who unsubscribed the newsletter are archivied in a database table, so you cannot add or import those addresses using the tools in this page"
+msgstr ""
+
+#: .././alo-easymail_subscribers.php:1
 msgid "Add a subscriber"
 msgstr ""
 
@@ -1285,10 +1294,6 @@ msgstr ""
 
 #: .././alo-easymail_subscribers.php:13
 msgid "This feature is useful if you have just installed the plugin and you would like to automatically subscribe existing users."
-msgstr ""
-
-#: .././alo-easymail_subscribers.php:13
-msgid "But be careful to use it later on: it subscribes all registered users, including the members that already unsubscribed from the newsletter!"
 msgstr ""
 
 #: .././alo-easymail_subscribers.php:13
@@ -1522,218 +1527,218 @@ msgstr ""
 msgid "Send now"
 msgstr ""
 
-#: .././alo-easymail_functions.php:123
+#: .././alo-easymail_functions.php:124
 msgid "Please visit the plugin site for more info and feedback"
 msgstr ""
 
-#: .././alo-easymail_functions.php:125
+#: .././alo-easymail_functions.php:126
 msgid "For more links you can use the Help button"
 msgstr ""
 
-#: .././alo-easymail_functions.php:313
+#: .././alo-easymail_functions.php:314
 msgid "Languages"
 msgstr ""
 
-#: .././alo-easymail_functions.php:923
+#: .././alo-easymail_functions.php:925
 msgid "Post tags"
 msgstr ""
 
-#: .././alo-easymail_functions.php:925
+#: .././alo-easymail_functions.php:927
 msgid "The link to the title of the selected post."
 msgstr ""
 
-#: .././alo-easymail_functions.php:925
-#: .././alo-easymail_functions.php:933
-#: .././alo-easymail_functions.php:934
+#: .././alo-easymail_functions.php:927
+#: .././alo-easymail_functions.php:935
+#: .././alo-easymail_functions.php:936
 msgid "This tag works also in the <strong>subject</strong>"
 msgstr ""
 
-#: .././alo-easymail_functions.php:926
+#: .././alo-easymail_functions.php:928
 msgid "The excerpt (if any) of the post."
 msgstr ""
 
-#: .././alo-easymail_functions.php:927
+#: .././alo-easymail_functions.php:929
 msgid "The main content of the post."
 msgstr ""
 
-#: .././alo-easymail_functions.php:931
+#: .././alo-easymail_functions.php:933
 msgid "Subscriber tags"
 msgstr ""
 
-#: .././alo-easymail_functions.php:933
+#: .././alo-easymail_functions.php:935
 msgid "Name and surname of registered user."
 msgstr ""
 
-#: .././alo-easymail_functions.php:933
-#: .././alo-easymail_functions.php:934
+#: .././alo-easymail_functions.php:935
+#: .././alo-easymail_functions.php:936
 msgid "For subscribers: the name used for registration"
 msgstr ""
 
-#: .././alo-easymail_functions.php:934
+#: .././alo-easymail_functions.php:936
 msgid "First name of registered user."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1016
+#: .././alo-easymail_functions.php:1026
 msgid "Successfully updated"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1017
+#: .././alo-easymail_functions.php:1027
 msgid "Before editing other fields you have to click the subscription choice"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1023
-#: .././alo-easymail_functions.php:1088
+#: .././alo-easymail_functions.php:1033
+#: .././alo-easymail_functions.php:1098
 #, php-format
 msgid "The %s field is empty"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1025
-#: .././alo-easymail_functions.php:1090
+#: .././alo-easymail_functions.php:1035
+#: .././alo-easymail_functions.php:1100
 #, php-format
 msgid "The %s field is not correct"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1093
+#: .././alo-easymail_functions.php:1103
 msgid "Warning: this email address has already been subscribed, but not activated. We are now sending another activation email"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1094
+#: .././alo-easymail_functions.php:1104
 msgid "Warning: this email address has already been subscribed"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1095
+#: .././alo-easymail_functions.php:1105
 msgid "Error during sending: please try again"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1097
+#: .././alo-easymail_functions.php:1107
 msgid "Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1101
+#: .././alo-easymail_functions.php:1111
 msgid "Subscribe"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1102
+#: .././alo-easymail_functions.php:1112
 msgid "sending..."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1544
+#: .././alo-easymail_functions.php:1554
 msgid "This newsletter is available only in html"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1545
-#: .././alo-easymail_functions.php:1754
+#: .././alo-easymail_functions.php:1555
+#: .././alo-easymail_functions.php:1764
 msgid "The link to the site"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1740
+#: .././alo-easymail_functions.php:1750
 msgid "This tag now does not work because the online publication of newsletters is disabled"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1740
+#: .././alo-easymail_functions.php:1750
 msgid "you can set it up in settings"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1742
+#: .././alo-easymail_functions.php:1752
 msgid "Text and URL to unsubscribe."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1742
-#: .././alo-easymail_functions.php:1746
+#: .././alo-easymail_functions.php:1752
+#: .././alo-easymail_functions.php:1756
 msgid "You can customise this text in settings"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1743
+#: .././alo-easymail_functions.php:1753
 msgid "URL to unsubscribe."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1745
+#: .././alo-easymail_functions.php:1755
 msgid "Newsletter tags"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1746
+#: .././alo-easymail_functions.php:1756
 msgid "Text and URL to the online version."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1747
+#: .././alo-easymail_functions.php:1757
 msgid "URL to the online version."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1748
+#: .././alo-easymail_functions.php:1758
 msgid "Title of the newsletter."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1749
+#: .././alo-easymail_functions.php:1759
 msgid "Date of the newsletter."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1750
+#: .././alo-easymail_functions.php:1760
 msgid "Post Thumbnail of newsletter"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1751
+#: .././alo-easymail_functions.php:1761
 msgid "Image gallery of newsletter"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1753
+#: .././alo-easymail_functions.php:1763
 msgid "Site tags"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1755
+#: .././alo-easymail_functions.php:1765
 msgid "URL to the site."
 msgstr ""
 
-#: .././alo-easymail_functions.php:1756
+#: .././alo-easymail_functions.php:1766
 msgid "Site Title"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1757
+#: .././alo-easymail_functions.php:1767
 msgid "Tagline"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1759
+#: .././alo-easymail_functions.php:1769
 msgid "Post Thumbnail"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1760
+#: .././alo-easymail_functions.php:1770
 msgid "The image gallery of the post"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1933
+#: .././alo-easymail_functions.php:1943
 msgid "j / n / Y"
 msgstr ""
 
-#: .././alo-easymail_functions.php:1977
-#: .././alo-easymail_functions.php:1994
+#: .././alo-easymail_functions.php:1987
+#: .././alo-easymail_functions.php:2004
 msgid "Select the image size"
 msgstr ""
 
-#: .././alo-easymail_functions.php:2164
+#: .././alo-easymail_functions.php:2174
 msgid "Subscriber"
 msgstr ""
 
-#: .././alo-easymail_functions.php:3185
+#: .././alo-easymail_functions.php:3195
 msgid "View user profile"
 msgstr ""
 
-#: .././alo-easymail_functions.php:3190
-#: .././alo-easymail_functions.php:3198
+#: .././alo-easymail_functions.php:3200
+#: .././alo-easymail_functions.php:3208
 msgid "d/m/Y \\h.H:i"
 msgstr ""
 
-#: .././alo-easymail_functions.php:3192
-#: .././alo-easymail_functions.php:3199
+#: .././alo-easymail_functions.php:3202
+#: .././alo-easymail_functions.php:3209
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: .././alo-easymail_functions.php:3258
-#: .././alo-easymail_functions.php:3259
+#: .././alo-easymail_functions.php:3268
+#: .././alo-easymail_functions.php:3269
 msgid "Quick edit"
 msgstr ""
 
-#: .././alo-easymail_functions.php:3261
-#: .././alo-easymail_functions.php:3262
+#: .././alo-easymail_functions.php:3271
+#: .././alo-easymail_functions.php:3272
 msgid "Delete subscriber"
 msgstr ""
 
