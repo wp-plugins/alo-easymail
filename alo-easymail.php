@@ -220,7 +220,12 @@ function alo_em_install_db_tables() {
 		// v.2017: Modify Request column, an index in new 'unsubscribed' table
 		if ( $installed_db < 2017 ) {
 			$wpdb->query("ALTER TABLE {$wpdb->prefix}easymail_stats CHANGE `request` `request` text");
-		}		
+		}
+		// v.2019: the new 'last_act' column if empty has the same value of the 'join_date'
+		if ( $installed_db < 2019 ) {
+			$wpdb->query("UPDATE ". $wpdb->prefix."easymail_subscribers SET last_act = join_date WHERE last_act IS NULL;");
+		}
+		
 		
 	    update_option( "alo_em_db_version", ALO_EM_DB_VERSION );
     }
