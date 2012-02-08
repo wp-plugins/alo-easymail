@@ -1692,7 +1692,10 @@ function alo_em_save_registration_optin ( $user_id, $password="", $meta=array() 
 
 		$fields['name'] = $name; //edit : added all this line
 
-		alo_em_add_subscriber( $fields, 1, $lang ); //edit : orig : alo_em_add_subscriber( $user->user_email, $name , 1, $lang );
+		//alo_em_add_subscriber( $fields, 1, $lang ); //edit : orig : alo_em_add_subscriber( $user->user_email, $name , 1, $lang );
+		if ( alo_em_add_subscriber( $fields, 1, $lang ) == "OK" ) {
+			do_action ( 'alo_easymail_new_subscriber_added', alo_em_get_subscriber( $user->user_email ), $user_id );
+		}
 		
 		 // if subscribing, save also lists
     	$mailinglists = alo_em_get_mailinglists( 'public' );
