@@ -768,7 +768,7 @@ function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig
         	$lang_actmail = ( !empty( $lang ) ) ? $lang : alo_em_short_langcode ( get_locale() );
            	if ( !alo_em_send_activation_email($fields, $unikey, $lang_actmail) ) $output = false; // DEBUG ON LOCALHOST: comment this line to avoid error on sending mail
         }
-        wp_mail("bbb@aaaa.com","f", print_r($fields,true));
+        
         if ( $output ) {	
 			$wpdb->insert ( "{$wpdb->prefix}easymail_subscribers",
            					array_merge( $fields, array( 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "|", 'lang' => $lang, 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ) ) ) //edit : orig : array( 'email' => $email, 'name' => $name, 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'active' => $newstate, 'unikey' => $unikey, 'lists' => "|", 'lang' => $lang )
