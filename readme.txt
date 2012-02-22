@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -73,6 +73,11 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.4.3 =
+* Fixed: files now formatted with \n as the line ending (Unix line endings)
+* Fixed: on plugin uninstallation now the unsubscribed table is deleted
+* Updated: the [DATE] placeholder now is based on get_option('date_format')
 
 = 2.4.2 =
 * Fixed: when an admin edits a subscriber inline, the "last activity" is not updated
@@ -366,3 +371,6 @@ Fixed a serious bug that could causes errors on subscriptions
 
 = 2.4.2 =
 Fixed little bugs
+
+= 2.4.3 =
+Files now formatted with \n as the line ending (Unix line endings)
