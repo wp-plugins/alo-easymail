@@ -1945,7 +1945,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 	$blogdescription = esc_html( get_option('blogdescription') );
 	
 	// newsletter
-	$date = date_i18n( __( 'j / n / Y', "alo-easymail" ), strtotime( $newsletter->post_date ) );
+	$date = date_i18n( get_option('date_format')/*__( 'j / n / Y', "alo-easymail" )*/, strtotime( $newsletter->post_date ) );
 	
 	// content	   
 	//$body = $content; 

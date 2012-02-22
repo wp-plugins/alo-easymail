@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.2
+Version: 2.4.3
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -316,7 +316,7 @@ function alo_em_uninstall() {
     
     // if required delete all plugin data (options, db tables, page)
    	if ( get_option('alo_em_delete_on_uninstall') == "yes" ) {
-   		$tables = array ( "easymail_recipients", "easymail_subscribers", "easymail_stats", "easymail_sendings", "easymail_trackings" );
+   		$tables = array ( "easymail_recipients", "easymail_subscribers", "easymail_stats", "easymail_sendings", "easymail_trackings", "easymail_unsubscribed" );
    		foreach ( $tables as $tab ) {
    			$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}$tab");
    		}
@@ -623,7 +623,7 @@ function alo_em_register_newsletter_type () {
 		'menu_position' => false,
 		'menu_icon' => ALO_EM_PLUGIN_URL.'/images/16-email-letter.png',
 		'can_export' => true,
-		'supports' => array( 'title' , 'editor', 'custom-fields' ) //edit : orig : 'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
+		'supports' => array( 'title' , 'editor', 'custom-fields', 'thumbnail' ) //edit : orig : 'supports' => array( 'title' , 'editor', 'thumbnail', 'excerpt', 'custom-fields' )
 	); 
 	// If it doesn't allow newsletter publication online
 	if ( get_option('alo_em_publish_newsletters') == "no" ) {
@@ -1882,6 +1882,16 @@ function alo_em_admin_notice() {
 			echo '</div>';
 		}
 		*/
+		
+		// Try to trigger Cron
+		/*
+		$response = wp_remote_get( site_url( 'wp-crhon.php' ) );
+
+		if ( ! is_wp_error( $response ) && $response['response']['code'] != '200' ) {
+			echo '<div id="hmbkp-warning" class="updated fade"><p><strong>' . __( 'BackUpWordPress has detected a problem.', 'hmbkp' ) . '</strong> ' . sprintf( __( '%s is returning a %s response which could mean cron jobs aren\'t getting fired properly. BackUpWordPress relies on wp-cron to run scheduled back ups. See the %s for more details.', 'hmbkp' ), '<code>wp-cron.php</code>', '<code>' . $response['response']['code'] . '</code>', '<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3">FAQ</a>' ) . '</p></div>';
+		}
+		*/
+				
 		if ( get_option('ALO_em_debug_newsletters') != "" ) { 
 			echo '<div class="updated fade">';
 			echo '<p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>'. __("Debug mode is activated", "alo-easymail") ."</strong>: ";
@@ -2130,4 +2140,4 @@ function alo_em_loc_tinymce_buttons() {
 }
 add_action( 'admin_print_footer_scripts', 'alo_em_loc_tinymce_buttons', 100 );
 
-?>
+?>
