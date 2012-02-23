@@ -78,6 +78,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * Fixed: files now formatted with \n as the line ending (Unix line endings)
 * Fixed: on plugin uninstallation now the unsubscribed table is deleted
 * Updated: the [DATE] placeholder now is based on get_option('date_format')
+* Updated: mb_detect_encoding no more used so mbstring module is not required
 
 = 2.4.2 =
 * Fixed: when an admin edits a subscriber inline, the "last activity" is not updated

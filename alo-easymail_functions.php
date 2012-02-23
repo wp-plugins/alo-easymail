@@ -59,7 +59,7 @@ function alo_em_msort  ($array, $key, $order = "ASC") {
  */
 function alo_em_html2plain ( $text ) {
 	// transform in utf-8 if not yet
-	if ( mb_detect_encoding($text, "UTF-8") != "UTF-8" ) $text = utf8_encode($text);
+	$text = utf8_encode($text);
     $text = preg_replace(
         array(
           // Remove invisible content
