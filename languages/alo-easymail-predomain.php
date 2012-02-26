@@ -243,7 +243,7 @@ $alo_em_textpre['alo_em_custom_unsub_footer']['nl'] = "<p><em>U ontvangt dit ber
 $alo_em_textpre['alo_em_custom_unsub_footer']['pl'] = "<p><em>Otrzymujesz tą wiadomość ponieważ twój adres e-mail został zapisany w naszej bazie osób zainteresowanych naszym newsletterem. Jeżeli chcesz wypisać się odwiedź ten link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['pt'] = "<p><em>Recebeu esta mensagem porque assinou a nossa newsletter. Se quiser remover a assinatura clique nesta ligação<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['ro'] = "<p><em>Ai primit acest mesaj pentru că eşti abonat la newsletter-ul nostru. Dacă doreşti să te dezabonezi vizitați acest link<br /> %UNSUBSCRIBELINK%</em></p>";
-$alo_em_textpre['alo_em_custom_unsub_footer']['sk'] = "<p><em>Táto správa Vám prišla, pretože ste se prihlásili k zasielaniu noviniek. Ak chcete zasielanie ukončiť kliknite na <br /> %UNSUBSCRIBELINK%</em></p>"
+$alo_em_textpre['alo_em_custom_unsub_footer']['sk'] = "<p><em>Táto správa Vám prišla, pretože ste se prihlásili k zasielaniu noviniek. Ak chcete zasielanie ukončiť kliknite na <br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['sv'] = "<p><em>Du har fått detta meddelande då du har anmält dig till vårt nyhetsbrev. Om du vill avsluta prenumerationen besök denna länk<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['tr'] = "<p><em>Bültenimize üye olduğunuz için bu maili aldınız. Eğer aboneliği iptal etmek istiyorsanız: Linke tıklayın<br /> %UNSUBSCRIBELINK%</em></p>";
 
