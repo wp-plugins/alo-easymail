@@ -186,6 +186,9 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 	</p>
 </div>
 
+<!--[if lte IE 7]>
+<div style="float: left;">
+<![endif]-->
 <div id="easymail-recipients-navbar">
 	<a href="#" class="easymail-navbutton easymail-navbutton-primary easymail-recipients-start-loop"><?php _e("Add to sending queue", "alo-easymail") ?></a> 
 	
@@ -195,6 +198,9 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 
 	<a href="#" class="easymail-navbutton easymail-recipients-close-popup" rel="<?php echo $newsletter ?>"><?php _e("close", "alo-easymail") ?></a>  
 </div>
+<!--[if lte IE 7]>
+</div>
+<![endif]-->
 
 <?php if ( get_option('alo_em_js_rec_list') != "ajax_minimal" ) do_action('admin_print_footer_scripts'); ?>
 </body>
