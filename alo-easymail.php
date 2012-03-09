@@ -138,7 +138,7 @@ function alo_em_install() {
  * to check the plugin db version on another hook.
  */
 function alo_em_check_db_when_loaded() {
-    if ( alo_em_db_tables_need_update() ) alo_em_db_tables_need_update();
+    if ( alo_em_db_tables_need_update() ) alo_em_install_db_tables();
 }
 add_action('plugins_loaded', 'alo_em_check_db_when_loaded');
 
