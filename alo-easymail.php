@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.3
+Version: 2.4.4
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -1945,7 +1945,8 @@ function alo_em_check_get_vars () {
 		$act_link = "";
 		if ( $subscriber ) {
 			$div_email = explode( "@", $subscriber->email );
-			$arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
+			//$arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
+			$arr_params = array ('ac' => 'activate', 'em1' => urlencode($div_email[0]), 'em2' => urlencode($div_email[1]), 'uk' => $get[1] );
 			$act_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page') /*alo_em_get_subscrpage_id( $get[2] )*/, $get[2] ) );
 			//$act_link = alo_em_translate_url ( $act_link, $get[2] /* $subscriber->lang */ );
 		}		
@@ -1977,7 +1978,16 @@ function alo_em_check_get_vars () {
 			}
 		}
 		exit;
-	}		
+	}
+
+	// Block XSS attempt: escape/unset subscription form inputs when not in ajax (eg. if javascript disabled)
+	if ( !defined('DOING_AJAX') || ! DOING_AJAX )
+	{
+		if ( isset($_POST['alo_em_opt_name']) ) unset($_POST['alo_em_opt_name']);
+		if ( isset($_POST['alo_em_opt_email']) ) unset($_POST['alo_em_opt_email']);
+		// we do not unset 'submit' because its common name, so it could be maybe used by other plugins: only a safe escape
+		if ( isset($_POST['submit']) ) esc_sql($_POST['submit']); 
+	}
 }
 add_action('init', 'alo_em_check_get_vars');
 

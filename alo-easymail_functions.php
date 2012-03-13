@@ -1191,26 +1191,12 @@ function alo_em_user_form_callback() {
    	if ( $user_ID && isset($_POST['alo_easymail_option'])) {
    		switch ( $_POST['alo_easymail_option'] ) {
    			case "yes":
-   				$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( $_POST['alo_easymail_lang_code'], alo_em_get_all_languages( false )) ) ? $_POST['alo_easymail_lang_code'] : "" ;
+   				$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( esc_sql($_POST['alo_easymail_lang_code']), alo_em_get_all_languages( false )) ) ? esc_sql($_POST['alo_easymail_lang_code']) : "" ;
    				if ( get_user_meta($user_ID, 'first_name', true) != "" || get_user_meta($user_ID, 'last_name', true) != "" ) {
 	    	 	   	$reg_name = ucfirst(get_user_meta($user_ID, 'first_name',true))." " .ucfirst(get_user_meta($user_ID,'last_name',true));
 	    	 	} else {
 	    	 		$reg_name = get_user_meta($user_ID, 'nickname', true);
-	    	 	}	  
-
-				  /*
-				  //edit : added all this foreach
-				  $alo_em_cf = alo_easymail_get_custom_fields();
-				  if( $alo_em_cf ) {
-						foreach( $alo_em_cf as $key => $value ){
-							$fields[$key] 	= stripslashes(trim($_POST['alo_em_'.$key]));
-							if ( empty( $fields[$key] ) ) {
-								$error_on_adding .= stripslashes(trim($_POST['alo_em_error_'.$key.'_empty'])) . ".<br />";
-							}
-						}
-				  }
-				  */
-				  
+	    	 	}	  				  
 	    	 	//alo_em_add_subscriber($user_email, $reg_name, 1, $lang );
 				$fields['email'] = $user_email; //edit : added all this line
 				$fields['name'] = $reg_name; //edit : added all this line
@@ -1226,7 +1212,7 @@ function alo_em_user_form_callback() {
         	case "lists":
 				$subscriber_id = alo_em_is_subscriber ( $user_email );
 				$mailinglists = alo_em_get_mailinglists( 'public' );
-				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) ) : array();
+				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", esc_sql ( $_POST['alo_em_form_lists'] , "," ) ) : array();
 				if ($mailinglists && $subscriber_id) {
 					foreach ( $mailinglists as $mailinglist => $val) {					
 						if ( in_array ( $mailinglist, $lists ) ) {
@@ -1236,7 +1222,7 @@ function alo_em_user_form_callback() {
 						}
 					}
 				} else if ($mailinglists) {
-					$error_on_adding .= stripslashes(trim($_POST['alo_easymail_txt_need_sub'])) . ".<br />";
+					$error_on_adding .= esc_js($_POST['alo_easymail_txt_need_sub']) . ".<br />";
 				}
 				break;
 				
@@ -1245,18 +1231,18 @@ function alo_em_user_form_callback() {
 				$subscriber_id = alo_em_is_subscriber ( $user_email );
 				if ( $subscriber_id )
 				{
-					$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( $_POST['alo_easymail_lang_code'], alo_em_get_all_languages( false )) ) ? $_POST['alo_easymail_lang_code'] : "" ;
+					$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( esc_sql($_POST['alo_easymail_lang_code']), alo_em_get_all_languages( false )) ) ? esc_sql( $_POST['alo_easymail_lang_code'] ) : "" ;
 					//edit : added all this foreach
 					$alo_em_cf = alo_easymail_get_custom_fields();
 					if( $alo_em_cf ) {
 						$fields = array();
 						foreach( $alo_em_cf as $key => $value ){
 							if ( isset($_POST['alo_em_'.$key]) ) {
-								$fields[$key] 	= stripslashes(trim($_POST['alo_em_'.$key]));
+								$fields[$key] 	= esc_sql($_POST['alo_em_'.$key]);
 								if ( empty( $fields[$key] ) && $value['input_mandatory'] ) {
-									$error_on_adding .= stripslashes(trim($_POST['alo_em_error_'.$key.'_empty'])) . ".<br />";
+									$error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_empty']) . ".<br />";
 								} else if ( !empty($value['input_validation']) && function_exists($value['input_validation']) && call_user_func($value['input_validation'], $fields[$key])==false ) {
-									$error_on_adding .= stripslashes(trim($_POST['alo_em_error_'.$key.'_incorrect'])) . ".<br />";
+									$error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_incorrect']) . ".<br />";
 								}
 							}
 						}
@@ -1264,13 +1250,13 @@ function alo_em_user_form_callback() {
 						//die( $wpdb->last_query. print_r($_POST,true) );
 					}
 				} else {
-					$error_on_adding .= stripslashes(trim($_POST['alo_easymail_txt_need_sub'])) . ".<br />";
+					$error_on_adding .= esc_js($_POST['alo_easymail_txt_need_sub']) . ".<br />";
 				}
 				break;				
 		}
 		// Compose JavaScript for return
 		if ( $error_on_adding == false ) {
-			$output = $_POST['alo_easymail_txt_success'];
+			$output = esc_js($_POST['alo_easymail_txt_success']);
 			$classfeedback = "alo_easymail_widget_ok";
 		} else {
 			$output = $error_on_adding;
@@ -1281,7 +1267,7 @@ function alo_em_user_form_callback() {
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		// if unsubscribe deselect all lists
-		if ( isset($_POST['alo_easymail_option']) && $_POST['alo_easymail_option']=="no" ) {
+		if ( isset($_POST['alo_easymail_option']) && esc_js($_POST['alo_easymail_option'])=="no" ) {
 			$feedback .= "var cbs = document.getElementById('alo_easymail_widget_form').getElementsByTagName('input');";
 			$feedback .= "var length = cbs.length;";
 			$feedback .= "for (var i=0; i < length; i++) {";
@@ -1302,13 +1288,13 @@ function alo_em_pubblic_form_callback() {
     if (isset($_POST['alo_em_opt_name']) && isset($_POST['alo_em_opt_email'])){
         $error_on_adding = "";
         $just_added = false;
-		$name 	= stripslashes(trim($_POST['alo_em_opt_name']));
-		$email	= stripslashes(trim($_POST['alo_em_opt_email']));
+		$name 	= esc_sql($_POST['alo_em_opt_name']);
+		$email	= esc_sql($_POST['alo_em_opt_email']);
         if ( !is_email($email) ) {
-            $error_on_adding .= stripslashes(trim($_POST['alo_em_error_email_incorrect'])). "<br />";
+            $error_on_adding .= esc_js($_POST['alo_em_error_email_incorrect']). "<br />";
         }
         if ( $name == "") {
-            $error_on_adding .= stripslashes(trim($_POST['alo_em_error_name_empty'])) . ".<br />";
+            $error_on_adding .= esc_js($_POST['alo_em_error_name_empty']) . ".<br />";
         }
 				
 		//edit : added all this foreach
@@ -1317,9 +1303,9 @@ function alo_em_pubblic_form_callback() {
 			foreach( $alo_em_cf as $key => $value ){
 			  $fields[$key] 	= stripslashes(trim($_POST['alo_em_'.$key]));
 			  if ( empty( $fields[$key] ) && $value['input_mandatory'] ) {
-				  $error_on_adding .= stripslashes(trim($_POST['alo_em_error_'.$key.'_empty'])) . ".<br />";
+				  $error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_empty']) . ".<br />";
 			  } else if ( !empty($value['input_validation']) && function_exists($value['input_validation']) && call_user_func($value['input_validation'], $fields[$key])==false ) {
-				  $error_on_adding .= stripslashes(trim($_POST['alo_em_error_'.$key.'_incorrect'])) . ".<br />";
+				  $error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_incorrect']) . ".<br />";
 			  }
 			}
 		}
@@ -1328,7 +1314,7 @@ function alo_em_pubblic_form_callback() {
             $activated = ( get_option('alo_em_no_activation_mail') != "yes" ) ? 0 : 1;
 			$fields['email'] = $email; //edit : added all this line
 			$fields['name'] = $name; //edit : added all this line
-            $try_to_add = alo_em_add_subscriber( $fields, $activated, stripslashes(trim($_POST['alo_em_lang_code'])) ); //edit : orig : $try_to_add = alo_em_add_subscriber( $email, $name, $activated, stripslashes(trim($_POST['alo_em_lang_code'])) ); 
+            $try_to_add = alo_em_add_subscriber( $fields, $activated, esc_sql($_POST['alo_em_lang_code']) ); //edit : orig : $try_to_add = alo_em_add_subscriber( $email, $name, $activated, stripslashes(trim($_POST['alo_em_lang_code'])) ); 
             switch ($try_to_add) {
             	case "OK":
             		$just_added = true;
@@ -1336,13 +1322,13 @@ function alo_em_pubblic_form_callback() {
             		do_action ( 'alo_easymail_new_subscriber_added', $subscriber, false );
             		break;
             	case "NO-ALREADYADDED":
-            		$error_on_adding = stripslashes(trim($_POST['alo_em_error_email_added'])). ".<br />";
+            		$error_on_adding = esc_js($_POST['alo_em_error_email_added']). ".<br />";
 	            	break;
                	case "NO-ALREADYACTIVATED":
-               		$error_on_adding = stripslashes(trim($_POST['alo_em_error_email_activated'])). ".<br />";
+               		$error_on_adding = esc_js($_POST['alo_em_error_email_activated']). ".<br />";
 	            	break;
 	            default: // false
-	            	$error_on_adding = stripslashes(trim($_POST['alo_em_error_on_sending'])) . ".<br />";
+	            	$error_on_adding = esc_js($_POST['alo_em_error_on_sending']) . ".<br />";
             }
             
             // if requested, add to lists
@@ -1355,7 +1341,7 @@ function alo_em_pubblic_form_callback() {
 	      	}
         } 
         if ($just_added == true) {
-			$output = $_POST['alo_em_txt_ok'];   
+			$output = esc_js($_POST['alo_em_txt_ok']);   
        		$classfeedback = "alo_easymail_widget_ok";
         } else {
 			$output = $error_on_adding;

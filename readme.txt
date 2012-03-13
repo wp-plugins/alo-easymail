@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -73,6 +73,10 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The widget on administration dashboard 
 
 == Changelog ==
+
+= 2.4.4 =
+* Fixed: a XSS vulnerability on submitted data
+* Fixed: submitted email addresses with "+" char is properly encoded
 
 = 2.4.3 =
 * Fixed: files now formatted with \n as the line ending (Unix line endings)
@@ -375,3 +379,6 @@ Fixed little bugs
 
 = 2.4.3 =
 Files now formatted with \n as the line ending (Unix line endings)
+
+= 2.4.4 =
+Fixed a XSS vulnerability on submitted data
