@@ -4,7 +4,9 @@ global $wpdb;
 // example:
 // http://{blog_url}/?page_id=4&ac=unsubscribe&em1=email_account&em2=domain.ltd&uk={uniquekey}
 
-$concat_email = ( isset($_REQUEST['em1']) && isset($_REQUEST['em2']) ) ? $_REQUEST['em1'] . "@" . $_REQUEST['em2'] : false; 
+$em1 = ( isset($_REQUEST['em1']) ) ? stripslashes($wpdb->escape($_REQUEST['em1'])) : '';
+$em2 = ( isset($_REQUEST['em2']) ) ? stripslashes($wpdb->escape($_REQUEST['em2'])) : '';
+$concat_email = ( isset($_REQUEST['em1']) && isset($_REQUEST['em2']) ) ? $em1 . "@" . $em2 : false; 
 
 $email  = ( $concat_email ) ? stripslashes($wpdb->escape($concat_email)) : false; 
 $unikey = ( isset($_REQUEST['uk']) ) ? stripslashes($wpdb->escape($_REQUEST['uk'])) : false;
@@ -63,8 +65,8 @@ if ($action == 'unsubscribe') {
 
 		
 	   	echo '<input type="hidden" name="ac" value="do_editlists" />';
-		echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
-		echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
+		echo '<input type="hidden" name="em1" value="'. $em1. '" />';
+		echo '<input type="hidden" name="em2" value="'. $em2 .'" />';
 		echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
 		echo '<input type="submit" name="submit" value="'. __('Edit'). '" />';
 		echo '</form>'; 
@@ -73,8 +75,8 @@ if ($action == 'unsubscribe') {
     echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_unsubscribe_form">';
     echo "<p>".__("To unsubscribe the newsletter for good click this button", "alo-easymail") . "</p>";
  	echo '<input type="hidden" name="ac" value="do_unsubscribe" />';
-    echo '<input type="hidden" name="em1" value="'. $_REQUEST['em1']. '" />';
-    echo '<input type="hidden" name="em2" value="'. $_REQUEST['em2'] .'" />';
+    echo '<input type="hidden" name="em1" value="'. $em1 . '" />';
+    echo '<input type="hidden" name="em2" value="'. $em2 .'" />';
     echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
     echo '<input type="submit" name="submit" value="'. __('Unsubscribe me', 'alo-easymail'). '" />';
     echo '</form>'; 
@@ -112,7 +114,7 @@ if ($action == 'do_editlists' && isset($_POST['submit']) ) {
 		foreach( $alo_em_cf as $key => $value ){
 			//check if custom fields have been changed
 			if ( isset( $_POST[ "alo_em_". $key] ) ) {
-				$fields[$key] = stripslashes( trim( $_POST[ "alo_em_". $key] ) );
+				$fields[$key] = esc_sql( $_POST[ "alo_em_". $key] );
 			}
 		}		
 		alo_em_update_subscriber_by_email ( $email, $fields, 1, alo_em_get_language(true) ); 

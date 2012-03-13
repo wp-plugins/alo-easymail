@@ -101,8 +101,8 @@ function alo_em_show_widget_form ( ) {
         
     } else {
         // For NOT-REGISTERED, PUBBLIC SUBSCRIBER
-        $alo_em_opt_name	= ( isset($_POST['alo_em_opt_name']) ) ? stripslashes($_POST['alo_em_opt_name']) : "";
-        $alo_em_opt_email	= ( isset($_POST['alo_em_opt_email']) ) ? stripslashes($_POST['alo_em_opt_email']) : "";
+        $alo_em_opt_name	= ( isset($_POST['alo_em_opt_name']) ) ? format_to_edit($_POST['alo_em_opt_name']) : "";
+        $alo_em_opt_email	= ( isset($_POST['alo_em_opt_email']) ) ? format_to_edit($_POST['alo_em_opt_email']) : "";
         $html = "<div id='alo_em_widget_loading' class='alo_em_widget_loading' style='display:none;'><img src='".ALO_EM_PLUGIN_URL."/images/wpspin_light.gif' alt='' style='vertical-align:middle' /> ". __("sending...", "alo-easymail") ."</div>\n";
         $html .= "<div id='alo_easymail_widget_feedback'></div>\n";
         $html .= "<form name='alo_easymail_widget_form' id='alo_easymail_widget_form' class='alo_easymail_widget_form alo_easymail_widget_form_public' method='post' action='' onsubmit='alo_em_pubblic_form();return false;'>\n";
