@@ -10,7 +10,7 @@ To send newsletters. Features: collect subcribers on registration or with an aja
 
 == Description ==
 
-**NOTICE: At the moment the plugin is not downloadable, because I'm working to fix some XSS vulnerabilities.**
+**NOTICE: At the moment the plugin is not downloadable, because I'm working to fix some XSS vulnerabilities. If you have the plugin installed on your blog, I suggest that you temporarily deactivate it.**
 
 ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send newsletters, and to gather and manage the subscribers. It supports internationalization and multilanguage.
 
