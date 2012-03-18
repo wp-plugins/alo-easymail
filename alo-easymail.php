@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.4
+Version: 2.4.5
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -820,7 +820,7 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 
 				$alo_em_cf = alo_easymail_get_custom_fields();
 
-				if ($alo_em_cf) { print_r($_POST);
+				if ($alo_em_cf) {
 					foreach( $alo_em_cf as $key => $value ){
 						$var_name = "new_".$key;
 						//$fields[$key] = ( isset( $_POST[$var_name] ) ) ? stripslashes( trim ( $_POST[$var_name] ) ): false;
@@ -1928,9 +1928,8 @@ function alo_em_check_get_vars () {
 		$uns_link = "";
 		if ( $subscriber ) {
 			$div_email = explode( "@", $subscriber->email );
-		   	$arr_params = array ('ac' => 'unsubscribe', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
-			$uns_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page') /*alo_em_get_subscrpage_id( $subscriber->lang )*/, $subscriber->lang ) );
-			//$uns_link = alo_em_translate_url ( $uns_link, $subscriber->lang );
+		   	$arr_params = array ('ac' => 'unsubscribe', 'em1' => urlencode($div_email[0]), 'em2' => urlencode($div_email[1]), 'uk' => preg_replace( '/[^a-zA-Z0-9]/i', '', $get[1]) );
+			$uns_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page'), $subscriber->lang ) );
 		}
 		wp_redirect( $uns_link );
 		exit;
@@ -1946,9 +1945,8 @@ function alo_em_check_get_vars () {
 		if ( $subscriber ) {
 			$div_email = explode( "@", $subscriber->email );
 			//$arr_params = array ('ac' => 'activate', 'em1' => $div_email[0], 'em2' => $div_email[1], 'uk' => $get[1] );
-			$arr_params = array ('ac' => 'activate', 'em1' => urlencode($div_email[0]), 'em2' => urlencode($div_email[1]), 'uk' => $get[1] );
-			$act_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page') /*alo_em_get_subscrpage_id( $get[2] )*/, $get[2] ) );
-			//$act_link = alo_em_translate_url ( $act_link, $get[2] /* $subscriber->lang */ );
+			$arr_params = array ('ac' => 'activate', 'em1' => urlencode($div_email[0]), 'em2' => urlencode($div_email[1]), 'uk' => preg_replace( '/[^a-zA-Z0-9]/i', '', $get[1]) );
+			$act_link = add_query_arg( $arr_params, alo_em_translate_url ( get_option('alo_em_subsc_page'), $get[2] ) );
 		}		
 		wp_redirect( $act_link );
 		exit;
@@ -1967,8 +1965,8 @@ function alo_em_check_get_vars () {
 		$get = explode( "|", $get_vars );
 
 		$recipient	= ( isset( $get[0] ) && is_numeric($get[0]) ) ? (int)$get[0]: false;
-		$unikey		= ( isset( $get[1] ) ) ? $wpdb->escape( $get[1] ) : false;
-		$request	= ( isset( $get[2] ) ) ? $wpdb->escape( $get[2] ) : false;
+		$unikey		= ( isset( $get[1] ) ) ? preg_replace( '/[^a-zA-Z0-9]/i', '', $get[1]) : false;
+		$request	= ( isset( $get[2] ) ) ? esc_url_raw( $get[2] ) : false;
 
 		if ( $recipient && $unikey && $request) {
 			$rec_info = alo_em_get_recipient_by_id( $recipient );
@@ -1983,10 +1981,10 @@ function alo_em_check_get_vars () {
 	// Block XSS attempt: escape/unset subscription form inputs when not in ajax (eg. if javascript disabled)
 	if ( !defined('DOING_AJAX') || ! DOING_AJAX )
 	{
-		if ( isset($_POST['alo_em_opt_name']) ) unset($_POST['alo_em_opt_name']);
-		if ( isset($_POST['alo_em_opt_email']) ) unset($_POST['alo_em_opt_email']);
+		if ( isset($_REQUEST['alo_em_opt_name']) ) unset($_REQUEST['alo_em_opt_name']);
+		if ( isset($_REQUEST['alo_em_opt_email']) ) unset($_REQUEST['alo_em_opt_email']);
 		// we do not unset 'submit' because its common name, so it could be maybe used by other plugins: only a safe escape
-		if ( isset($_POST['submit']) ) esc_sql($_POST['submit']); 
+		if ( isset($_REQUEST['submit']) ) esc_sql($_REQUEST['submit']); 
 	}
 }
 add_action('init', 'alo_em_check_get_vars');

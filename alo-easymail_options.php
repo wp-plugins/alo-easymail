@@ -1156,11 +1156,12 @@ if ( isset( $_REQUEST['task'] ) ) {
 <h3><?php _e("Mailing Lists", "alo-easymail") ?></h3>    
 <table class="widefat">
 <thead><tr valign="top">
-<th scope="col" style="width:40%"><?php _e('List name', 'alo-easymail') ?></th>
-<th scope="col"><?php _e('Availability', 'alo-easymail') ?></th>
-<th scope="col"><?php _e('Order', 'alo-easymail') ?></th>
-<th scope="col"><?php _e('Subscribers', 'alo-easymail') ?></th>
-<th scope="col"><?php _e('Action', 'alo-easymail') ?></th>
+	<th scope="col"><?php _e('ID') ?></th>
+	<th scope="col" style="width:40%"><?php _e('List name', 'alo-easymail') ?></th>
+	<th scope="col"><?php _e('Availability', 'alo-easymail') ?></th>
+	<th scope="col"><?php _e('Order', 'alo-easymail') ?></th>
+	<th scope="col"><?php _e('Subscribers', 'alo-easymail') ?></th>
+	<th scope="col"><?php _e('Action', 'alo-easymail') ?></th>
 </tr></thead>
 <tbody>
 <?php
@@ -1171,6 +1172,7 @@ if ($tab_mailinglists) {
 		if ($val['available'] == "deleted") continue; 
 		?>
 		<tr>
+			<td><strong><?php echo $list ?></strong></td>
 			<td><strong><?php echo alo_em_translate_multilangs_array ( alo_em_get_language(), $val['name'], true ) ?></strong></td>
 			<td><?php
 				switch ($val['available']) {
@@ -1204,7 +1206,7 @@ if ($tab_mailinglists) {
 	<?php 
 	}
 } else { ?>
-	<tr><td colspan="4"><?php _e('There are no available lists', 'alo-easymail') ?></td></tr>
+	<tr><td colspan="6"><?php _e('There are no available lists', 'alo-easymail') ?></td></tr>
 <?php
 }
 ?>

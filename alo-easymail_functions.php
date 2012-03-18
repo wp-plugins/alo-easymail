@@ -546,6 +546,7 @@ function alo_em_get_recipient_by_email_and_newsletter ( $email, $newsletter ) {
  */
 function alo_em_get_recipient_by_id ( $recipient ) {
     global $wpdb;
+    settype($recipient, 'integer'); 
     $rec = $wpdb->get_row( $wpdb->prepare( "SELECT r.*, s.lang, s.unikey, s.name, s.ID AS subscriber FROM {$wpdb->prefix}easymail_recipients AS r 
     										LEFT JOIN {$wpdb->prefix}easymail_subscribers AS s ON r.email = s.email 
     										WHERE r.ID=%d", $recipient ) );
@@ -1027,17 +1028,18 @@ function alo_em_user_form ( opt )
   alo_em_sack.method = 'POST';
   alo_em_sack.setVar( "action", "alo_em_user_form_check" );
   alo_em_sack.setVar( "alo_easymail_option", opt );
-  <?php 
-  $txt_ok 		= esc_attr( alo_em___(__("Successfully updated", "alo-easymail")) );
-  $txt_need_sub = esc_attr( alo_em___(__("Before editing other fields you have to click the subscription choice", "alo-easymail")) );
+  <?php
+  $txt_generic_error = esc_js( alo_em___(__("Error during operation.", "alo-easymail")) );
+  $txt_ok 		= esc_js( alo_em___(__("Successfully updated", "alo-easymail")) );
+  $txt_need_sub = esc_js( alo_em___(__("Before editing other fields you have to click the subscription choice", "alo-easymail")) );
   $lang_code 	= alo_em_get_language( true );
   //edit : added all this foreach
   if( $alo_em_cf ) {
 	  foreach( $alo_em_cf as $key => $value ){
 		  $var_name 	= "error_".$key."_empty";
-		  $$var_name 	= esc_attr( alo_em___( sprintf(__("The %s field is empty", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
+		  $$var_name 	= esc_js( alo_em___( sprintf(__("The %s field is empty", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
 		  $var_incorrect 	= "error_".$key."_incorrect";
-		  $$var_incorrect 	= esc_attr( alo_em___( sprintf(__("The %s field is not correct", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
+		  $$var_incorrect 	= esc_js( alo_em___( sprintf(__("The %s field is not correct", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
 	  }
   }  
   ?>
@@ -1049,6 +1051,7 @@ function alo_em_user_form ( opt )
 	  }
   }
   ?>  
+  alo_em_sack.setVar( "alo_easymail_txt_generic_error", '<?php echo $txt_generic_error ?>' );
   alo_em_sack.setVar( "alo_easymail_txt_success", '<?php echo $txt_ok ?>' );
   alo_em_sack.setVar( "alo_easymail_txt_need_sub", '<?php echo $txt_need_sub ?>' );
   alo_em_sack.setVar( "alo_easymail_lang_code", '<?php echo $lang_code ?>' );
@@ -1072,7 +1075,8 @@ function alo_em_user_form ( opt )
   	}
   }
   alo_em_sack.setVar( "alo_em_form_lists", lists );
-  alo_em_sack.onError = function() { alert('Ajax error' )};
+  alo_em_sack.setVar( "alo_em_nonce", '<?php echo wp_create_nonce('alo_em_form') ?>' );
+  //alo_em_sack.onError = function() { alert('Ajax error' )};
   alo_em_sack.runAJAX();
 
   return true;
@@ -1094,27 +1098,28 @@ function alo_em_pubblic_form ()
   }
   ?>
   <?php
-  $error_email_incorrect 	= esc_attr( alo_em___(__("The e-email address is not correct", "alo-easymail")) );
-  $error_name_empty 		= esc_attr( alo_em___(__("The name field is empty", "alo-easymail")) );
+  $error_txt_generic 		= esc_js( alo_em___(__("Error during operation.", "alo-easymail")) );  
+  $error_email_incorrect 	= esc_js( alo_em___(__("The e-email address is not correct", "alo-easymail")) );
+  $error_name_empty 		= esc_js( alo_em___(__("The name field is empty", "alo-easymail")) );
   //edit : added all this foreach
   if( $alo_em_cf ) {
 	  foreach( $alo_em_cf as $key => $value ){
 		  $var_name 	= "error_".$key."_empty";
-		  $$var_name 	= esc_attr( alo_em___( sprintf(__("The %s field is empty", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
+		  $$var_name 	= esc_js( alo_em___( sprintf(__("The %s field is empty", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
 		  $var_incorrect 	= "error_".$key."_incorrect";
-		  $$var_incorrect 	= esc_attr( alo_em___( sprintf(__("The %s field is not correct", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
+		  $$var_incorrect 	= esc_js( alo_em___( sprintf(__("The %s field is not correct", "alo-easymail"), __($value['humans_name'],"alo-easymail")) ) );
 	  }
   }
-  $error_email_added		= esc_attr( alo_em___(__("Warning: this email address has already been subscribed, but not activated. We are now sending another activation email", "alo-easymail")) );
-  $error_email_activated	= esc_attr( alo_em___(__("Warning: this email address has already been subscribed", "alo-easymail")) );  
-  $error_on_sending			= esc_attr( alo_em___(__("Error during sending: please try again", "alo-easymail")) );
+  $error_email_added		= esc_js( alo_em___(__("Warning: this email address has already been subscribed, but not activated. We are now sending another activation email", "alo-easymail")) );
+  $error_email_activated	= esc_js( alo_em___(__("Warning: this email address has already been subscribed", "alo-easymail")) );  
+  $error_on_sending			= esc_js( alo_em___(__("Error during sending: please try again", "alo-easymail")) );
   if ( get_option('alo_em_no_activation_mail') != "yes" ) {
-			$txt_ok			= esc_attr( alo_em___(__("Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.", "alo-easymail")) );  
+			$txt_ok			= esc_js( alo_em___(__("Subscription successful. You will receive an e-mail with a link. You have to click on the link to activate your subscription.", "alo-easymail")) );  
   } else {
-			$txt_ok			= esc_attr( alo_em___(__("Your subscription was successfully activated. You will receive the next newsletter. Thank you.", "alo-easymail")) );    
+			$txt_ok			= esc_js( alo_em___(__("Your subscription was successfully activated. You will receive the next newsletter. Thank you.", "alo-easymail")) );    
   }
-  $txt_subscribe			= esc_attr( alo_em___(__("Subscribe", "alo-easymail")) );
-  $txt_sending				= esc_attr( alo_em___(__("sending...", "alo-easymail")) );
+  $txt_subscribe			= esc_js( alo_em___(__("Subscribe", "alo-easymail")) );
+  $txt_sending				= esc_js( alo_em___(__("sending...", "alo-easymail")) );
   $lang_code				= alo_em_get_language( true );
   ?>
   document.alo_easymail_widget_form.submit.value="<?php echo $txt_sending ?>";
@@ -1137,7 +1142,7 @@ function alo_em_pubblic_form ()
 	  }
   }
 	?>
-  
+  alo_em_sack.setVar( "alo_easymail_txt_generic_error", '<?php echo $error_txt_generic ?>' );  
   alo_em_sack.setVar( "alo_em_error_email_incorrect", "<?php echo $error_email_incorrect ?>");
   alo_em_sack.setVar( "alo_em_error_name_empty", "<?php echo $error_name_empty ?>");
   <?php
@@ -1167,7 +1172,8 @@ function alo_em_pubblic_form ()
   	}
   }
   alo_em_sack.setVar( "alo_em_form_lists", lists );
-  alo_em_sack.onError = function() { alert('Ajax error' )};
+  alo_em_sack.setVar( "alo_em_nonce", '<?php echo wp_create_nonce('alo_em_form') ?>' );  
+  //alo_em_sack.onError = function() { alert('Ajax error' )};
   alo_em_sack.runAJAX();
 
   return true;
@@ -1186,12 +1192,21 @@ add_action('wp_ajax_nopriv_alo_em_pubblic_form_check', 'alo_em_pubblic_form_call
 function alo_em_user_form_callback() {
 	global $wpdb, $user_ID, $user_email, $current_user;
 	get_currentuserinfo();
-	//die ("alert(\"".$_POST['alo_easymail_option']."\")");
+	// Nonce error make exit now
+	if ( ! wp_verify_nonce($_POST['alo_em_nonce'], 'alo_em_form') ) {
+		$output = esc_js($_POST['alo_easymail_txt_generic_error']) . ".<br />";
+		$classfeedback = "alo_easymail_widget_error";
+		$feedback = "";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
+		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
+		die($feedback);
+	}
 	$error_on_adding = false;
-   	if ( $user_ID && isset($_POST['alo_easymail_option'])) {
+   	if ($user_ID && isset($_POST['alo_easymail_option'])) {
    		switch ( $_POST['alo_easymail_option'] ) {
    			case "yes":
-   				$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( esc_sql($_POST['alo_easymail_lang_code']), alo_em_get_all_languages( false )) ) ? esc_sql($_POST['alo_easymail_lang_code']) : "" ;
+   				$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( $_POST['alo_easymail_lang_code'], alo_em_get_all_languages( false )) ) ? $_POST['alo_easymail_lang_code'] : "" ;
    				if ( get_user_meta($user_ID, 'first_name', true) != "" || get_user_meta($user_ID, 'last_name', true) != "" ) {
 	    	 	   	$reg_name = ucfirst(get_user_meta($user_ID, 'first_name',true))." " .ucfirst(get_user_meta($user_ID,'last_name',true));
 	    	 	} else {
@@ -1212,7 +1227,7 @@ function alo_em_user_form_callback() {
         	case "lists":
 				$subscriber_id = alo_em_is_subscriber ( $user_email );
 				$mailinglists = alo_em_get_mailinglists( 'public' );
-				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", esc_sql ( $_POST['alo_em_form_lists'] , "," ) ) : array();
+				$lists = ( isset($_POST['alo_em_form_lists'])) ? explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) ) : array();
 				if ($mailinglists && $subscriber_id) {
 					foreach ( $mailinglists as $mailinglist => $val) {					
 						if ( in_array ( $mailinglist, $lists ) ) {
@@ -1231,14 +1246,14 @@ function alo_em_user_form_callback() {
 				$subscriber_id = alo_em_is_subscriber ( $user_email );
 				if ( $subscriber_id )
 				{
-					$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( esc_sql($_POST['alo_easymail_lang_code']), alo_em_get_all_languages( false )) ) ? esc_sql( $_POST['alo_easymail_lang_code'] ) : "" ;
+					$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( $_POST['alo_easymail_lang_code'], alo_em_get_all_languages( false )) ) ?  $_POST['alo_easymail_lang_code'] : "" ;
 					//edit : added all this foreach
 					$alo_em_cf = alo_easymail_get_custom_fields();
 					if( $alo_em_cf ) {
 						$fields = array();
 						foreach( $alo_em_cf as $key => $value ){
 							if ( isset($_POST['alo_em_'.$key]) ) {
-								$fields[$key] 	= esc_sql($_POST['alo_em_'.$key]);
+								$fields[$key] 	= $_POST['alo_em_'.$key];
 								if ( empty( $fields[$key] ) && $value['input_mandatory'] ) {
 									$error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_empty']) . ".<br />";
 								} else if ( !empty($value['input_validation']) && function_exists($value['input_validation']) && call_user_func($value['input_validation'], $fields[$key])==false ) {
@@ -1267,7 +1282,7 @@ function alo_em_user_form_callback() {
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		// if unsubscribe deselect all lists
-		if ( isset($_POST['alo_easymail_option']) && esc_js($_POST['alo_easymail_option'])=="no" ) {
+		if ( isset($_POST['alo_easymail_option']) && $_POST['alo_easymail_option']=="no" ) {
 			$feedback .= "var cbs = document.getElementById('alo_easymail_widget_form').getElementsByTagName('input');";
 			$feedback .= "var length = cbs.length;";
 			$feedback .= "for (var i=0; i < length; i++) {";
@@ -1285,11 +1300,22 @@ function alo_em_user_form_callback() {
 // For NOT-logged-in pubblic visitors
 function alo_em_pubblic_form_callback() {
 	global $wpdb, $user_ID;
+	// Nonce error make exit now
+	if ( ! wp_verify_nonce($_POST['alo_em_nonce'], 'alo_em_form') ) {
+		$output = esc_js($_POST['alo_easymail_txt_generic_error']) . ".<br />";
+		$classfeedback = "alo_easymail_widget_error";
+		$feedback = "";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
+		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
+		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
+		die($feedback);
+	}	
     if (isset($_POST['alo_em_opt_name']) && isset($_POST['alo_em_opt_email'])){
         $error_on_adding = "";
         $just_added = false;
-		$name 	= esc_sql($_POST['alo_em_opt_name']);
-		$email	= esc_sql($_POST['alo_em_opt_email']);
+		$name 	= trim( $_POST['alo_em_opt_name'] );
+		$email	= trim( $_POST['alo_em_opt_email'] );
+		$lang = ( isset($_POST['alo_em_lang_code']) && in_array ( $_POST['alo_em_lang_code'], alo_em_get_all_languages( false )) ) ? $_POST['alo_em_lang_code'] : "" ;
         if ( !is_email($email) ) {
             $error_on_adding .= esc_js($_POST['alo_em_error_email_incorrect']). "<br />";
         }
@@ -1314,7 +1340,7 @@ function alo_em_pubblic_form_callback() {
             $activated = ( get_option('alo_em_no_activation_mail') != "yes" ) ? 0 : 1;
 			$fields['email'] = $email; //edit : added all this line
 			$fields['name'] = $name; //edit : added all this line
-            $try_to_add = alo_em_add_subscriber( $fields, $activated, esc_sql($_POST['alo_em_lang_code']) ); //edit : orig : $try_to_add = alo_em_add_subscriber( $email, $name, $activated, stripslashes(trim($_POST['alo_em_lang_code'])) ); 
+            $try_to_add = alo_em_add_subscriber( $fields, $activated, $lang ); //edit : orig : $try_to_add = alo_em_add_subscriber( $email, $name, $activated, $lang ); 
             switch ($try_to_add) {
             	case "OK":
             		$just_added = true;
@@ -1332,11 +1358,15 @@ function alo_em_pubblic_form_callback() {
             }
             
             // if requested, add to lists
-            if ( isset($_POST['alo_em_form_lists']) && count($_POST['alo_em_form_lists']) ) {
-	            $lists = explode ( ",", trim ( $_POST['alo_em_form_lists'] , "," ) );
+            if ( !empty($_POST['alo_em_form_lists']) ) {
+				$lists = false;
+				$lists = explode ( ",", trim ( $_POST['alo_em_form_lists'], "," ) );
 	            $subscriber = alo_em_is_subscriber ( $email );
-	            foreach ( $lists as $list ) {
-					alo_em_add_subscriber_to_list ( $subscriber, $list );
+	            $mailinglists = alo_em_get_mailinglists( 'public' );
+				if ( is_array($lists) ) {
+					foreach ( $lists as $k => $list ) {
+						if ( array_key_exists( $list, $mailinglists ) )	alo_em_add_subscriber_to_list ( $subscriber, $list );
+					}
 				}
 	      	}
         } 
@@ -2190,6 +2220,7 @@ function alo_em_get_subscriber ( $email ) {
  */
 function alo_em_get_subscriber_by_id ( $ID ) {
 	global $wpdb;
+	settype($ID, 'integer'); 
 	return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}easymail_subscribers WHERE ID = %d", $ID ) );
 }
 
@@ -2305,6 +2336,7 @@ function alo_em_save_mailinglists ( $lists ) {
  */
 function alo_em_add_subscriber_to_list ( $subscriber, $list ) {
 	global $wpdb;
+	settype($list, 'integer'); 
 	$user_lists = alo_em_get_user_mailinglists ( $subscriber );
 	if ( $user_lists && in_array($list, $user_lists) ) return; // if already, exit
 	$user_lists[] = $list; // add the list
@@ -2322,6 +2354,7 @@ function alo_em_add_subscriber_to_list ( $subscriber, $list ) {
  */
 function alo_em_delete_subscriber_from_list ( $subscriber, $list ) {
 	global $wpdb;
+	settype($list, 'integer'); 
 	return $wpdb->query( "UPDATE {$wpdb->prefix}easymail_subscribers SET lists = REPLACE(lists, '|".$list."|', '|') WHERE ID=" . $subscriber );
 }
 
@@ -2578,7 +2611,9 @@ function alo_em___ ( $text ) {
 	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage') ) {
 		return qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage ( $text );
 	}
-	// TODO other choices...
+	
+	// Choice by custom filters
+	$text = apply_filters ( 'alo_easymail_multilang_alo_em___', $text ); // Hook	
 
 	// last case: return without translating
 	return $text ;
@@ -3171,7 +3206,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 						$html .= "";
 					}
 				}
-				$html .= "</td>\n";
+				$html .= "&nbsp;</td>\n";
 			}
 		}
 				
@@ -3185,7 +3220,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 			}
 			$html .= "<a href=\"". $profile_link . "\" title=\"". esc_attr( __("View user profile", "alo-easymail") ) ."\">{$user_info->user_login}</a>";
 		}
-		$html .= "</td>\n";
+		$html .= "&nbsp;</td>\n";
 			
 		$html .= "<td class=\"subscriber-joindate\">\n";
 		$join_date_datetime = date_i18n( __( "d/m/Y \h.H:i", "alo-easymail" ), strtotime( $subscriber->join_date ) );
@@ -3228,7 +3263,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 	    		$html .= "</ul>\n";
     		}
 		}
-		$html .= "</td>\n";
+		$html .= "&nbsp;</td>\n";
 
 		$html .= "<td class=\"subscriber-lang\">\n";
 		if ( $edit && is_array( $all_langs ) && !empty( $all_langs[0] ) ) {
@@ -3243,7 +3278,7 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		} else {
 			$html .= ( $subscriber->lang ) ? alo_em_get_lang_flag( $subscriber->lang, 'name') : "";
 		}		
-		$html .= "</td>\n";
+		$html .= "&nbsp;</td>\n";
 		        
 				
 		$html .= "<td class=\"subscriber-actions\">\n"; // Actions   	
@@ -3366,7 +3401,7 @@ function alo_easymail_custom_field_html ( $key, $field, $input_name="", $value="
 			case 'textarea':
 				if ( $edit )
 				{
-					$input .= "<textarea id=\"$field_id\" name=\"$field_id\" class=\"input-textarea\" {$field['input_attr']} onblur=\"$js_onblur\">$value</textarea>\n";
+					$input .= "<textarea id=\"$field_id\" name=\"$field_id\" class=\"input-textarea\" {$field['input_attr']} onblur=\"$js_onblur\">".format_to_edit($value)."</textarea>\n";
 				}
 				else
 				{
@@ -3378,7 +3413,7 @@ function alo_easymail_custom_field_html ( $key, $field, $input_name="", $value="
 			case 'text':
 				if ( $edit )
 				{
-					$input .= "<input type=\"text\" id=\"$field_id\" name=\"$field_id\" class=\"input-text\" value=\"$value\" {$field['input_attr']} onblur=\"$js_onblur\" onkeydown=\"if(window.event) {keynum = event.keyCode;} else if(event.which) {keynum = event.which;}; if (keynum==13) { $js_onblur; return false;}\" />\n";
+					$input .= "<input type=\"text\" id=\"$field_id\" name=\"$field_id\" class=\"input-text\" value=\"".esc_attr($value)."\" {$field['input_attr']} onblur=\"$js_onblur\" onkeydown=\"if(window.event) {keynum = event.keyCode;} else if(event.which) {keynum = event.which;}; if (keynum==13) { $js_onblur; return false;}\" />\n";
 				}
 				else
 				{

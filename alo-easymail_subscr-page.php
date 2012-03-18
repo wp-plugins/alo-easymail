@@ -4,17 +4,20 @@ global $wpdb;
 // example:
 // http://{blog_url}/?page_id=4&ac=unsubscribe&em1=email_account&em2=domain.ltd&uk={uniquekey}
 
-$em1 = ( isset($_REQUEST['em1']) ) ? stripslashes($wpdb->escape($_REQUEST['em1'])) : '';
-$em2 = ( isset($_REQUEST['em2']) ) ? stripslashes($wpdb->escape($_REQUEST['em2'])) : '';
-$concat_email = ( isset($_REQUEST['em1']) && isset($_REQUEST['em2']) ) ? $em1 . "@" . $em2 : false; 
+$allowed_actions = array('activate', 'unsubscribe', 'do_unsubscribe', 'do_editlists');
 
-$email  = ( $concat_email ) ? stripslashes($wpdb->escape($concat_email)) : false; 
-$unikey = ( isset($_REQUEST['uk']) ) ? stripslashes($wpdb->escape($_REQUEST['uk'])) : false;
-$action = ( isset($_REQUEST['ac']) ) ? stripslashes($wpdb->escape($_REQUEST['ac'])) : false;
+// Email
+$em1 = ( isset($_REQUEST['em1']) ) ? $_REQUEST['em1'] : '';
+$em2 = ( isset($_REQUEST['em2']) ) ? $_REQUEST['em2'] : '';
+$concat_email = $em1 . "@" . $em2; 
+$email  = ( is_email($concat_email) ) ? $concat_email : false;
+
+$unikey = ( isset($_REQUEST['uk']) ) ? preg_replace( '/[^a-zA-Z0-9]/i', '', $_REQUEST['uk'])  : false;
+$action = ( isset($_REQUEST['ac']) && in_array( $_REQUEST['ac'], $allowed_actions) ) ? $_REQUEST['ac'] : false;
 
 
 // If there is not an activation/unsubscribe request
-if (alo_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
+if ( !$action || !$email || alo_em_can_access_subscrpage ($email, $unikey) == false ) : // if cannot
 	// if there is action show error msg
 	if(isset($_REQUEST['ac'])) echo "<p>".__("Error during operation.", "alo-easymail") ."</p>";
 	
@@ -27,7 +30,7 @@ else: // if can go on
  
 
 // Activate
-if ($action == 'activate') {
+if ($email && $action == 'activate') {
     if (alo_em_edit_subscriber_state_by_email($email, "1", $unikey) === FALSE) {
         echo "<p>".__("Error during activation. Please check the activation link.", "alo-easymail")."</p>";
     } else {
@@ -37,7 +40,7 @@ if ($action == 'activate') {
 }
     
 // Request unsubscribe/modify subsription (step #1)
-if ($action == 'unsubscribe') {
+if ($email && $action == 'unsubscribe') {
 	$mailinglists = alo_em_get_mailinglists( 'public' );
 	if ($mailinglists) { // only if there are public lists
 		echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_manage_subscriptions">';
@@ -63,27 +66,28 @@ if ($action == 'unsubscribe') {
 			echo "</table>";
 		endif;
 
-		
+		wp_nonce_field('alo_em_subscpage','alo_em_nonce');
 	   	echo '<input type="hidden" name="ac" value="do_editlists" />';
-		echo '<input type="hidden" name="em1" value="'. $em1. '" />';
-		echo '<input type="hidden" name="em2" value="'. $em2 .'" />';
+		echo '<input type="hidden" name="em1" value="'. esc_attr($em1). '" />';
+		echo '<input type="hidden" name="em2" value="'. esc_attr($em2) .'" />';
 		echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
-		echo '<input type="submit" name="submit" value="'. __('Edit'). '" />';
+		echo '<input type="submit" name="submit" value="'. esc_attr( __('Edit') ). '" />';
 		echo '</form>'; 
     }
     
     echo '<form method="post" action="'. get_permalink() .'" class="alo_easymail_unsubscribe_form">';
     echo "<p>".__("To unsubscribe the newsletter for good click this button", "alo-easymail") . "</p>";
+    wp_nonce_field('alo_em_subscpage','alo_em_nonce');
  	echo '<input type="hidden" name="ac" value="do_unsubscribe" />';
-    echo '<input type="hidden" name="em1" value="'. $em1 . '" />';
-    echo '<input type="hidden" name="em2" value="'. $em2 .'" />';
+    echo '<input type="hidden" name="em1" value="'. esc_attr($em1) . '" />';
+    echo '<input type="hidden" name="em2" value="'. esc_attr($em2) .'" />';
     echo '<input type="hidden" name="uk" value="'. $unikey .'" />';
-    echo '<input type="submit" name="submit" value="'. __('Unsubscribe me', 'alo-easymail'). '" />';
+    echo '<input type="submit" name="submit" value="'. esc_attr( __('Unsubscribe me', 'alo-easymail') ). '" />';
     echo '</form>'; 
 }
 
 // Confirm unsubscribe and do it! (step #2a)
-if ($action == 'do_unsubscribe' && isset($_POST['submit']) ) {
+if ($email && $action == 'do_unsubscribe' && isset($_POST['submit']) && wp_verify_nonce($_POST['alo_em_nonce'],'alo_em_subscpage') ) {
     if (alo_em_delete_subscriber_by_email($email, $unikey)) {
         echo "<p>".__("Your subscription was successfully deleted. Bye bye.", "alo-easymail")."</p>";
         do_action ( 'alo_easymail_subscriber_deleted', $email, false );
@@ -94,7 +98,7 @@ if ($action == 'do_unsubscribe' && isset($_POST['submit']) ) {
 }
 
 // Modify lists subscription and save it! (step #2b)
-if ($action == 'do_editlists' && isset($_POST['submit']) ) {
+if ($email && $action == 'do_editlists' && isset($_POST['submit']) && wp_verify_nonce($_POST['alo_em_nonce'],'alo_em_subscpage') ) {
 	$mailinglists = alo_em_get_mailinglists( 'public' );
 	$subscriber_id = alo_em_is_subscriber( $email );
 	if ($mailinglists) {
@@ -114,7 +118,7 @@ if ($action == 'do_editlists' && isset($_POST['submit']) ) {
 		foreach( $alo_em_cf as $key => $value ){
 			//check if custom fields have been changed
 			if ( isset( $_POST[ "alo_em_". $key] ) ) {
-				$fields[$key] = esc_sql( $_POST[ "alo_em_". $key] );
+				$fields[$key] = $_POST[ "alo_em_". $key];
 			}
 		}		
 		alo_em_update_subscriber_by_email ( $email, $fields, 1, alo_em_get_language(true) ); 
