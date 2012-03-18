@@ -19,8 +19,8 @@ if ( isset( $_REQUEST['v'] ) ) {
 	$get_vars = base64_decode( $_REQUEST['v'] );
 	$get = explode( "|", $get_vars );
 
-	$recipient	= ( isset( $get[0] ) && (int)$get[0] ) ? $wpdb->escape( $get[0] ) : false;
-	$unikey		= ( isset( $get[1] ) ) ? $wpdb->escape( $get[1] ) : false;
+	$recipient	= ( isset( $get[0] ) && is_numeric($get[0]) ) ? (int)$get[0] : false;
+	$unikey		= ( isset( $get[1] ) ) ? preg_replace( '/[^a-zA-Z0-9]/i', '', $get[1]) : false;
 
 	if ( $recipient && $unikey ) {
 		$rec_info = alo_em_get_recipient_by_id( $recipient );
