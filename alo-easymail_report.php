@@ -190,9 +190,9 @@ if ( $newsletter ) {
 					if ( !isset($_GET['archive']) ) echo "<div class=\"easymail-alert\">". __("Detailed report was archived", "alo-easymail") ."</div>\n";
 				} else if ( alo_em_get_newsletter_status( $newsletter ) == "sent" ) { ?>
 				<div id="par-3">
-					<a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&newsletter='.$newsletter.'&lang='.$lang.'&archive=1'; ?>" class="easymail-navbutton" onclick='javascript:if( confirm("<?php echo esc_js( __("Are you sure?", "alo-easymail")." " . __("This action cannot be undone", "alo-easymail") ) ?>") == false ) return false;'>
+					<a href="<?php echo ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?_wpnonce='.$_GET['_wpnonce'].'&newsletter='.$newsletter.'&lang='.$lang.'&archive=1'; ?>" class="easymail-navbutton" onclick='javascript:if( confirm("<?php echo esc_js( __("Are you sure?", "alo-easymail")." " .__("You are about to DELETE the detailed info about recipients", "alo-easymail").". " . __("This action cannot be undone", "alo-easymail") ) ?>") == false ) return false;' title="<?php esc_attr_e(__("You are about to DELETE the detailed info about recipients", "alo-easymail")) ?>">
 					<?php _e("Archive the detailed report of recipients", "alo-easymail") ?></a> 
-					<?php echo alo_em_help_tooltip( __("This action deletes the detailed info about recipients (see below) and keeps only the summary (see above)", "alo-easymail"). ". " .__("It reduces the data in database tables and make the plugin queries and actions faster", "alo-easymail"). ". " ); ?>
+					<?php echo alo_em_help_tooltip( __("You are about to DELETE the detailed info about recipients", "alo-easymail").". " .__("This action deletes the detailed info about recipients (see below) and keeps only the summary (see above)", "alo-easymail"). ". " .__("It reduces the data in database tables and make the plugin queries and actions faster", "alo-easymail"). ". " ); ?>
 				</div>
 			<?php } // if ( get_post_meta 
 			} // if ( !isset($_GET['isnewwin']) )  ?>		

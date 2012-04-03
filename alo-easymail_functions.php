@@ -1639,7 +1639,13 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	$args = wp_parse_args( (array)$recip, $defaults );
 	$recipient = (object)$args;
 	
-	if ( !is_email( $recipient->email ) ) return; 
+	if ( !is_email( $recipient->email ) ) {
+		$wpdb->update( "{$wpdb->prefix}easymail_recipients",
+			array ( 'result' => -2 ),
+			array ( 'ID' => $recipient->ID )
+		);
+		return;
+	}
 		
 	// Get newsletter details
 	$newsletter = alo_em_get_newsletter( $recipient->newsletter );
