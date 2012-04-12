@@ -4,7 +4,7 @@ Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -20,7 +20,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 
 * **write and send html/text newsletters, simple like writing posts**: newsletter is a custom post type, using the standard WordPress GUI and API
 * **select the recipients to send to**: registered users, subscribers, mailing lists
-* **batch sending using WP cron system**: it sends a number of emails every 10 minutes, until all recipients have been included
+* **batch sending using WP cron system**: it sends a number of emails every 5 minutes, until all recipients have been included
 * **collect subscribers**: on registration form and with an ajax widget/page
 * **import/export subscribers**: import from existing registered users or from a CSV file
 * **create and manage mailing lists**: only admin can assign subscribers to them, or subscribers can freely choose them
@@ -70,9 +70,16 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 2. The widget for registered (left side) and not-registered (right side) users
 3. You can add recipients to sending queue or you can send newsletter immediately
 4. The ajax engine to generate list of recipients
-5. The widget on administration dashboard 
+5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.7 =
+* Updated: now the batch interval is 5 minutes and the maximum number of emails per batch is 30
+* Fixed: activation link is properly encoded when email address has "+" char
+* Fixed: [USER-UNSUBSCRIBE] now is properly replaced in English
+* Added: some more help info in cron batch tab in settings page
+* Added: category filter in [LATEST-POSTS] in custom hooks file
 
 = 2.4.6 =
 * Fixed: a bug that causes an infinite loop of the mail engine on the same recipient if the email is not correct (thanks to david of dot4all.it)
@@ -392,3 +399,6 @@ Security update! Fixed XSS vulnerabilities
 
 = 2.4.6 =
 Fixed a bug that causes an infinite loop of the mail engine on the same recipient if the email is not correct
+
+= 2.4.7 =
+Now batch every 5 minutes. Fixed little bugs.

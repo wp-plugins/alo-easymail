@@ -34,7 +34,7 @@ function custom_easymail_placeholders ( $placeholders ) {
 	$placeholders["custom_latest"] = array (
 		"title" 		=> __("Latest posts", "alo-easymail"),
 		"tags" 			=> array (
-			"[LATEST-POSTS]"		=> __("A list with the latest published posts", "alo-easymail")." ".__("The visit to this url will be tracked.", "alo-easymail")
+			"[LATEST-POSTS]"		=> __("A list with the latest published posts", "alo-easymail").". ".__("The visit to this url will be tracked.", "alo-easymail")
 		)
 	);
 	return $placeholders;
@@ -43,7 +43,7 @@ add_filter ( 'alo_easymail_newsletter_placeholders_table', 'custom_easymail_plac
 
 
 /**
- * Add select in placeholders table
+ * Add selects in placeholders table
  * 
  * Note that the hook name is based upon the name of placeholder given in previous function as index:
  * alo_easymail_newsletter_placeholders_title_{your_placeholder}
@@ -58,7 +58,17 @@ function custom_easymail_placeholders_title_custom_latest ( $post_id ) {
 	    $select_custom_latest = ( get_post_meta ( $post_id, '_placeholder_custom_latest', true) == $i ) ? 'selected="selected"': '';
 	    echo '<option value="'.$i.'" '. $select_custom_latest .'>'. $i. '</option>';
 	}
-	echo '</select>'; 
+	echo '</select><br />';
+
+	$cat_args = array(
+		'show_option_all' 	=> 	esc_html( '(no, all categories)' ),
+		'name' 				=>	'placeholder_custom_latest_cat'
+	);
+	if ( $select_custom_latest_cat = get_post_meta ( $post_id, '_placeholder_custom_latest_cat', true ) ) {
+		$cat_args['selected'] =  (int)$select_custom_latest_cat;
+	} 
+	echo __("Filter by category", "alo-easymail"). ": ";	
+	wp_dropdown_categories( $cat_args );	
 }
 add_action('alo_easymail_newsletter_placeholders_title_custom_latest', 'custom_easymail_placeholders_title_custom_latest' );
 
@@ -70,6 +80,9 @@ function custom_save_placeholder_custom_latest ( $post_id ) {
 	if ( isset( $_POST['placeholder_custom_latest'] ) && is_numeric( $_POST['placeholder_custom_latest'] ) ) {
 		update_post_meta ( $post_id, '_placeholder_custom_latest', $_POST['placeholder_custom_latest'] );
 	}
+	if ( isset( $_POST['placeholder_custom_latest_cat'] ) && is_numeric( $_POST['placeholder_custom_latest_cat'] ) ) {
+		update_post_meta ( $post_id, '_placeholder_custom_latest_cat', $_POST['placeholder_custom_latest_cat'] );
+	}	
 } 
 add_action('alo_easymail_save_newsletter_meta_extra', 'custom_save_placeholder_custom_latest' );
 
@@ -85,9 +98,11 @@ function custom_easymail_placeholders_get_latest ( $content, $newsletter, $recip
 	if ( !is_object( $recipient ) ) $recipient = new stdClass();
 	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
 	$limit = get_post_meta ( $newsletter->ID, '_placeholder_custom_latest', true );
+	$categ = get_post_meta ( $newsletter->ID, '_placeholder_custom_latest_cat', true );
 	$latest = "";
 	if ( $limit ) {
 		$args = array( 'numberposts' => $limit, 'order' => 'DESC', 'orderby' => 'date' );
+		if ( (int)$categ > 0 ) $args['category'] = $categ;
 		$myposts = get_posts( $args );
 		if ( $myposts ) :
 			$latest .= "<ul>\r\n";

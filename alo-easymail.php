@@ -4,12 +4,12 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.6
+Version: 2.4.7
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
 */
-/*  Copyright 2011  Alessandro Massasso  (email : alo@eventualo.net)
+/*  Copyright 2012  Alessandro Massasso  (email : alo@eventualo.net)
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -24,12 +24,12 @@ Author URI: http://www.eventualo.net
 */
 
 /*
- * Cron interval in minutes (default: 10)
+ * Cron interval in minutes (default: 5)
  * If you like to modify the interval, add following line in your wp-config.php:	
  * define( "ALO_EM_INTERVAL_MIN", 8 );
  * NOTE: to apply the change you need to reactivate the plugin!
  */
-if ( !defined( 'ALO_EM_INTERVAL_MIN' ) ) define( "ALO_EM_INTERVAL_MIN", 10 );
+if ( !defined( 'ALO_EM_INTERVAL_MIN' ) ) define( "ALO_EM_INTERVAL_MIN", 5 );
 
 /**
  * Other stuff
@@ -72,7 +72,7 @@ function alo_em_install() {
 	if (!get_option('alo_em_list')) add_option('alo_em_list', '');
     if (!get_option('alo_em_lastposts')) add_option('alo_em_lastposts', 10);
     if (!get_option('alo_em_dayrate')) add_option('alo_em_dayrate', 2000);
-    if (!get_option('alo_em_batchrate')) add_option('alo_em_batchrate', 60);
+    if (!get_option('alo_em_batchrate')) add_option('alo_em_batchrate', 30);
     if (!get_option('alo_em_sleepvalue')) add_option('alo_em_sleepvalue', 0);
 	if (!get_option('alo_em_sender_email')) {
 		$admin_email = get_option('admin_email');
@@ -1729,8 +1729,21 @@ function alo_em_handle_email ( $args ) {
 		
 		// Get the parameters stored as a query in $args['message'] 
 		$defaults = array( 'lang' => '', 'email' => '',	'name' => '', 'unikey' => '' );
-		//$defaults = array( 'email' => '' );
+		/* // replaced 'wp_parse_args' because use urlencode and stripslashes, so affect emails with '+' chars
 		$customs = wp_parse_args( $args['message'], $defaults );
+		extract( $customs, EXTR_SKIP );
+		*/
+		$pars = array();
+		$raw = explode('&', $args['message']);
+		foreach ($raw as $section)
+		{
+			if (strpos($section, '=') !== false)
+			{
+				list($name, $value) = explode('=', $section);
+				$pars[$name] = $value;
+			}
+		}		
+		$customs = array_merge( $defaults, $pars );
 		extract( $customs, EXTR_SKIP );
 		
 		//$subscriber = alo_em_get_subscriber( $email );
