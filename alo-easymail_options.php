@@ -826,13 +826,35 @@ if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'A
 
 </tbody> </table>
 
-<div style="background-color:#ddd;margin-top:15px;padding:10px 20px 15px 20px"><h4><?php _e("Important advice to calculate the best limit", "alo-easymail") ?></h4>
-<ol style="font-size:80%;">
-	<li><?php _e("Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off.", "alo-easymail") ?></li>
-	<li><?php _e("Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.).", "alo-easymail") ?></li>
-	<li><?php _e("If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist...", "alo-easymail") ?></li>
-	<li><?php _e("For more info, visit the FAQ of the site.", "alo-easymail") ?> <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-8" target="_blank" title="<?php _e("For more info, visit the FAQ of the site.", "alo-easymail") ?>">&raquo;</a></li>      	  
-</ol>
+<div style="width: 700px;background-color:#ddd;margin-top:15px;padding:10px 20px 15px 20px">
+
+	<h4 style="text-align: center"><?php _e("What about the batch sending based on WP cron system?", "alo-easymail") ?></h4>
+	<p style="font-size:80%;">
+		<?php echo '<strong>'. esc_html( __("Let’s speak clearly: the WP cron system is a pseudo-cron and it's not accurate by definition", "alo-easymail") ). '</strong>' ?>.
+	</p>		
+	<p style="font-size:80%;">
+		<?php esc_html_e( sprintf(__("After a newsletter is scheduled for sending, the plugin *will try* to send it to a small number of recipients every %s minutes, until all recipients have been included", "alo-easymail"), ALO_EM_INTERVAL_MIN )) ?>.
+	</p>
+	<p style="font-size:80%;">
+		<?php esc_html_e( sprintf(__("The WP cron makes a sending when someone hits your blog after at least %s minutes from the previous sending. If you receive one visit every %s minutes you will have one sending every %s minutes", "alo-easymail"), ALO_EM_INTERVAL_MIN, ALO_EM_INTERVAL_MIN*6, ALO_EM_INTERVAL_MIN*6 ) ) ?>.
+		<?php esc_html_e( __("The number of recipients for each sending is calculated on the cut-off of emails you can send per day and on the time interval from the previous sending", "alo-easymail") ) ?>.				
+	</p>
+	<p style="font-size:80%;">
+		<?php echo '<strong>'. esc_html( __("If your blog gets a few visitors a day or you like to have an accurate batch sending, you have to set up an external cron job", "alo-easymail") ). '</strong>' ?>.
+	</p>
+	<p style="font-size:80%;">
+		<?php esc_html_e( __("You can ask your provider to setup a GET cron job that periodically hits the WP cron on your blog, e.g.", "alo-easymail")) ?>:<br />
+		<code><?php echo '*/'.ALO_EM_INTERVAL_MIN.' * * * * GET ' . site_url( 'wp-cron.php?doing_wp_cron' ) .' > /dev/null' ?></code>
+	</p>		
+	
+	<h4 style="text-align: center;margin-top:20px"><?php _e("Important advice to calculate the best limit", "alo-easymail") ?></h4>
+	<ol style="font-size:80%;">
+		<li><?php esc_html_e( __("Ask your provider the cut-off of emails you can send per day. Multiplying the hourly limit by 24 is not the right way to calculate it: very often the resulting number is much higher than the actual cut-off.", "alo-easymail")) ?></li>
+		<li><?php esc_html_e( __("Subtract from this cut-off the number of emails you want to send from your blog (e.g. registration procedures, activation and unsubscribing of EasyMail, notices from other plugins etc.).", "alo-easymail")) ?></li>
+		<li><?php esc_html_e( __("If in doubt, just choose a number definitely lower than the cut-off: you'll have more chances to have your mail delivered, and less chances to end up in a blacklist...", "alo-easymail")) ?></li>
+	</ol>
+	
+	<p style="font-size:80%;"><em><?php _e("For more links you can use the Help button", "alo-easymail") ?></em></p>			
 </div>
 
 <p class="submit">

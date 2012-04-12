@@ -1852,7 +1852,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				$unsubfooter = __('You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ', 'alo-easymail').' %UNSUBSCRIBELINK%';
 			}
 		
-			$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. __('visit this link', 'alo-easymail') .'</a>', $unsubfooter );
+			$unsubfooter = str_replace ( '%UNSUBSCRIBELINK%', ' <a href="'.$uns_link.'">'. $uns_link/*__('visit this link', 'alo-easymail')*/ .'</a>', $unsubfooter );
 			$unsubfooter = str_replace ( '%UNSUBSCRIBEURL%', $uns_link, $unsubfooter );
 
 			// Tracking code
