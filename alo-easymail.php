@@ -1739,8 +1739,8 @@ function alo_em_handle_email ( $args ) {
 		{
 			if (strpos($section, '=') !== false)
 			{
-				list($name, $value) = explode('=', $section);
-				$pars[$name] = $value;
+				list($key, $value) = explode('=', $section);
+				$pars[$key] = $value;
 			}
 		}		
 		$customs = array_merge( $defaults, $pars );
