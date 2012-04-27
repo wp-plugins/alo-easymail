@@ -1,10 +1,10 @@
 === ALO EasyMail Newsletter ===
 Contributors: eventualo
-Donate link: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.4.7
+Stable tag: 2.4.8
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -73,6 +73,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.8 =
+* Fixed: XSS vulnerabilities
+* Fixed: name "unikey" in activation email
+* Fixed: some php warnings
+* Added: some help pointers in admin (WP 3.3)
 
 = 2.4.7 =
 * Updated: now the batch interval is 5 minutes and the maximum number of emails per batch is 30
@@ -402,3 +408,6 @@ Fixed a bug that causes an infinite loop of the mail engine on the same recipien
 
 = 2.4.7 =
 Now batch every 5 minutes. Fixed little bugs.
+
+= 2.4.8 =
+Security update! Fixed XSS vulnerabilities

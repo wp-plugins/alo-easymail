@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.7
+Version: 2.4.8
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -731,7 +731,7 @@ function alo_em_table_column_value ( $columns ) {
 	if ( $columns == "easymail_recipients" ) {
 		if ( $count_recipients == 0 ) {
   			if ( alo_em_user_can_edit_newsletter( $post->ID ) ) echo '<a href="'. get_edit_post_link( $post->ID ) . '">';
-  			echo '<img src="'. ALO_EM_PLUGIN_URL. '/images/12-exclamation.png" alt="" /> <strong>' . __( 'No recipients selected yet', "alo-easymail").'</strong>';
+  			echo '<img src="'. ALO_EM_PLUGIN_URL. '/images/12-exclamation.png" alt="" /> <strong class="easymail-column-no-yet-recipients">' . __( 'No recipients selected yet', "alo-easymail").'</strong>';
   			if ( alo_em_user_can_edit_newsletter( $post->ID ) ) echo '</a>';
   		} else {
   			//echo "<pre>". print_r ( $recipients, true ) . "</pre>";
@@ -808,8 +808,10 @@ function alo_em_ajax_alo_easymail_subscriber_edit_inline () {
 			case 'save':
 				// save data and return html row, red-only mode
 				$subscriber_obj =  alo_em_get_subscriber_by_id( $subscriber );
+				$_POST = array_map( 'strip_tags', $_POST );
+				$_POST = array_map( 'stripslashes_deep', $_POST );
 				
-				$new_name = ( isset( $_POST['new_name'] ) ) ? stripslashes( trim ( $_POST['new_name'] ) ): false ;
+				$new_name = ( isset( $_POST['new_name'] ) ) ? trim ( $_POST['new_name'] ) : false ;
 				$new_email = ( isset( $_POST['new_email'] ) && is_email( trim ( $_POST['new_email'] ) ) ) ? trim ( $_POST['new_email'] ) : false;				
 				$new_active = ( isset( $_POST['new_active'] ) && is_numeric( $_POST['new_active'] ) ) ? $_POST['new_active'] : 0;
 				$new_lang = ( isset( $_POST['new_lang'] ) && in_array( $_POST['new_lang'], $languages) ) ? $_POST['new_lang'] : "";
@@ -982,7 +984,7 @@ function alo_em_update_column_status ( $newsletter ) {
 				if ( get_option('alo_em_js_rec_list') != "no_ajax_onsavepost" ) { // if required, no link to ajax
 					$rec_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_recipients-list.php?', 'alo-easymail_recipients-list');
 					if ( alo_em_user_can_edit_newsletter( $newsletter ) ) echo "<a href=\"#\" onclick=\"jQuery(this).easymailRecipientsGenPopup ( '$rec_url', $newsletter, '". alo_em_get_language () ."' );\">";
-					echo "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-arrow-right.png\" alt=\"\" /> <strong>" . __( 'Required', "alo-easymail") .":</strong> " . __( 'Create list of recipients', "alo-easymail");
+					echo "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-arrow-right.png\" alt=\"\" /> <strong class=\"easymail-column-status-required-list\">" . __( 'Required', "alo-easymail") .":</strong> " . __( 'Create list of recipients', "alo-easymail");
 					if ( alo_em_user_can_edit_newsletter( $newsletter ) ) echo "</a>";
 				}
 		}
@@ -2161,4 +2163,103 @@ function alo_em_loc_tinymce_buttons() {
 }
 add_action( 'admin_print_footer_scripts', 'alo_em_loc_tinymce_buttons', 100 );
 
+
+
+/**
+ * Load scripts for pointers (3.3+)
+ */
+function axelms_tooltip_head_scripts() {
+	global $pagenow, $wp_version, $typenow;
+	if ( version_compare ( $wp_version, '3.3', '<' ) ) return; // old WP, exit
+	
+	if ( 'newsletter' == $typenow ) {
+		// Available pointers
+		$add_users = get_user_setting( 'alo_em_pointer_add_users', 0 );
+		$no_yet_recipients = get_user_setting( 'alo_em_pointer_no_yet_recipients', 0 );
+		$required_list = get_user_setting( 'alo_em_pointer_required_list', 0 );
+		
+		if ( ! $add_users || ! $no_yet_recipients || ! $required_list ) {
+			wp_enqueue_style( 'wp-pointer' );
+			wp_enqueue_script( 'wp-pointer' );
+			wp_enqueue_script( 'utils' ); // needed for setUserSetting in js
+			add_action( 'admin_print_footer_scripts', 'alo_em_print_pointer_footer_scripts' );	
+		}
+	}
+}
+add_action( 'admin_enqueue_scripts', 'axelms_tooltip_head_scripts'); 
+
+/**
+ * Print tooltip pointers (3.3+)
+ */
+function alo_em_print_pointer_footer_scripts() {
+	global $pagenow, $typenow;
+	$page = isset( $_GET['page'] ) ? $_GET['page'] : false;
+
+	// In subscribers screen
+	if ( $pagenow == "edit.php" && 'alo-easymail/alo-easymail_subscribers.php' == $page && ! get_user_setting( 'alo_em_pointer_add_users', 0 ) ) :
+		$impexp_butt = __("Import/export subscribers", "alo-easymail");
+		$pointer_content = '<h3>Easymail | '. esc_js( $impexp_butt ) .'</h3>';
+		$pointer_content .= '<p>'. esc_js( sprintf( __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button', 'alo-easymail'), $impexp_butt) ) .'</p>';
+?>
+   <script type="text/javascript">
+   //<![CDATA[
+   jQuery(document).ready( function($) {
+		$('#easymail-subscribers-add-button').pointer({
+			content: '<?php echo $pointer_content; ?>',
+			position: 'top',
+			close: function() { // Once the close button is hit
+				setUserSetting( 'alo_em_pointer_add_users', '1' );
+			}
+		  }).pointer('open');
+   });
+   //]]>
+   </script>
+<?php
+	endif; // In subscribers screen
+
+	// In newsletter list screen
+	if ( $pagenow == "edit.php" && 'newsletter' == $typenow && ! get_user_setting( 'alo_em_pointer_no_yet_recipients', 0 )) :
+		$pointer_content = '<h3>Easymail | '. esc_js( __( 'No recipients selected yet', "alo-easymail") ) .'</h3>';
+		$pointer_content .= '<p>'. esc_js( __('Before sending the newsletter you have to select recipients.', 'alo-easymail')." " .__('Click the link to do it now.', 'alo-easymail') ) .'</p>';
+?>
+   <script type="text/javascript">
+   //<![CDATA[
+   jQuery(document).ready( function($) {
+		$('.easymail-column-no-yet-recipients:first').pointer({
+			content: '<?php echo $pointer_content; ?>',
+			position: 'top',
+			//close: function() { // Once the close button is hit
+			open: function() { // Auto-dismiss, show only once
+				setUserSetting( 'alo_em_pointer_no_yet_recipients', '1' );
+			}
+		  }).pointer('open');
+   });
+   //]]>
+   </script>
+<?php
+	endif; // In newsletter list screen
+
+	// In newsletter list screen
+	if ( $pagenow == "edit.php" && 'newsletter' == $typenow && ! get_user_setting( 'alo_em_pointer_required_list', 0 ) ) :
+		$pointer_content = '<h3>Easymail | '. esc_js( __( 'Create list of recipients', "alo-easymail") ) .'</h3>';
+		$pointer_content .= '<p>'. esc_js( __('You have to prepare the list of recipients to send the newsletter to', 'alo-easymail').". " .__('Click the link to do it now.', 'alo-easymail') ) .'</p>';
+?>
+   <script type="text/javascript">
+   //<![CDATA[
+   jQuery(document).ready( function($) {
+		$('.easymail-column-status-required-list:first').pointer({
+			content: '<?php echo $pointer_content; ?>',
+			position: 'top',
+			//close: function() { // Once the close button is hit
+			open: function() { // Auto-dismiss, show only once
+				setUserSetting( 'alo_em_pointer_required_list', '1' );
+			}
+		  }).pointer('open');
+   });
+   //]]>
+   </script>
+<?php
+	endif; // In newsletter list screen	
+	
+}
 ?>
