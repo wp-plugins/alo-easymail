@@ -532,10 +532,11 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 					while ( ($data = fgetcsv($handle, 1000, ";")) !== FALSE ) {
 						$row++;
 						// check data
-						$email	= stripslashes ( $wpdb->escape ( trim( $data[0] ) ) );
+						$data = array_map( 'strip_tags', $data );
+						$email	= trim( $data[0] ); //stripslashes ( $wpdb->escape ( trim( $data[0] ) ) );
 						$email 	= ( is_email( $email )) ? $email : false;
-						$name 	= ( isset($data[1]) ) ? stripslashes ( $wpdb->escape ( trim($data[1]) ) ) : "";
-						$lang 	= ( isset($data[2]) ) ? stripslashes ( $wpdb->escape ( trim($data[2]) ) ) : "";
+						$name 	= ( isset($data[1]) ) ? trim($data[1]) /*stripslashes ( $wpdb->escape ( trim($data[1]) ) )*/ : "";
+						$lang 	= ( isset($data[2]) ) ? trim($data[2]) /*stripslashes ( $wpdb->escape ( trim($data[2]) ) )*/ : "";
 						if ( !empty( $lang ) ) {
 							$lang = alo_em_short_langcode ( $lang );
 							if ( !in_array ( $lang, alo_em_get_all_languages( false )) ) $lang = "";
@@ -546,7 +547,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						$i = 3;
 						if( $alo_em_cf ) {
 							foreach( $alo_em_cf as $key => $value ){
-								  $fields[$key] 	= ( isset($data[$i]) ) ? stripslashes ( $wpdb->escape ( trim($data[$i]) ) ) : "";
+								  $fields[$key] 	= ( isset($data[$i]) ) ? trim($data[$i]) /*stripslashes ( $wpdb->escape ( trim($data[$i]) ) )*/ : "";
 								  ++$i;
 							}
 						}
@@ -560,13 +561,15 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 						}
 						if ( isset($_REQUEST['test_only']) && $_REQUEST['test_only'] == "yes") { // test, print records
 							//if ( $row > 10 ) continue; // print only the 1st 10
-							$span_email = ( isset($not_imported[$data[0]])) ? "<span style='color:#f00'>".$data[0]."</span>" : $data[0] ;							
+							$span_email = ( isset($not_imported[$data[0]])) ? "<span style='color:#f00'>".esc_html(trim( $data[0] ))."</span>" : esc_html(trim( $data[0] )) ;							
 							$html .= "<tr><td>$row: </td>";
-							$html .= "<td>". $span_email ."</td><td>".$name."</td><td>".alo_em_get_lang_flag($lang, 'name')."</td>";
+							$html .= "<td>". $span_email ."</td><td>".esc_html($name)."</td><td>".alo_em_get_lang_flag($lang, 'name')."</td>";
 				
 							//edit : added all this foreach
-							foreach( $fields as $key => $value ){
-								$html .= "<td>". $value ."</td>";
+							if ( isset($fields) && is_array($fields) ) {
+								foreach( $fields as $key => $value ){
+									$html .= "<td>". esc_html($value) ."</td>";
+								}
 							}
 							$html .= "<td><span style='color:#f00'>". ( ( isset($not_imported[$data[0]]) ) ? $not_imported[$data[0]] : "") ."</span></tr>";
 						} else { // insert records into db							
@@ -661,11 +664,11 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 					echo '<p><a href="javascript:history.back()">'. __("Back", "alo-easymail"). '</a></p>';
 					echo "<pre style='font-family:Courier,Monospace;width:50%;height:300px;border:1px dotted grey;background-color:white;padding:5px 25px;list-style-type:none;overflow:auto;'>\r\n";
 					foreach ( $all_subs as $sub ) {
-						echo $sub->email . ";" . $sub->name . ";" . $sub->lang; //edit : splitted in two parts : orig : echo $sub->email . ";" . $sub->name . ";" . $sub->lang. "\r\n";
+						echo esc_html( $sub->email . ";" . $sub->name . ";" . $sub->lang ); //edit : splitted in two parts : orig : echo $sub->email . ";" . $sub->name . ";" . $sub->lang. "\r\n";
 						//edit : added all this foreach
 						if( $alo_em_cf ) {
 							foreach( $alo_em_cf as $key => $value ){
-								  echo ";".$sub->{$key};
+								  echo ";". esc_html($sub->{$key});
 							}
 						}
 						echo "\r\n"; //edit : splitted in two parts : orig : echo $sub->email . ";" . $sub->name . ";" . $sub->lang. "\r\n";
@@ -734,23 +737,25 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 $link_string = $link_base . "&amp;paged=".$page."&amp;num=".$items_per_page. (($s)? "&amp;s=".$s : "") . (($filter_list)? "&amp;filter_list=".$filter_list : "") . (($filter_lang)? "&amp;filter_lang=".$filter_lang : "");
 ?>
 
-<?php // Import alert 
+<?php
 $impexp_butt = __("Import/export subscribers", "alo-easymail");
-if ( get_option('alo_em_import_alert') == "show" ) { 
-	echo '<div class="updated fade" style="background-color:#99FF66">';
-	echo '<p>'. sprintf( __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button', 'alo-easymail'), $impexp_butt) .'.</p>';
-	echo "<p>(<a href='". $link_base ."&amp;import_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
-	echo '</div>';
+
+// Import alert (WP<3.3)
+global $wp_version;
+if ( version_compare ( $wp_version, '3.3', '<' ) ) {
+	if ( get_option('alo_em_import_alert') == "show" ) { 
+		echo '<div class="updated fade" style="background-color:#99FF66">';
+		echo '<p>'. sprintf( __('Maybe you would like to import subscribers from your blog registered members or an external archive (using CSV). Click the &#39;%s&#39; button', 'alo-easymail'), $impexp_butt) .'.</p>';
+		echo "<p>(<a href='". $link_base ."&amp;import_alert=stop' />". __('Do not show it again', 'alo-easymail') ."</a>)</p>";
+		echo '</div>';
+	}
 }
 ?>
 <div style="margin-top:15px">
 	<img src="<?php echo ALO_EM_PLUGIN_URL ?>/images/24-users.png" style="vertical-align:middle" />
 	<?php $import_link = wp_nonce_url( admin_url() . $link_base . "&amp;doaction_step1=true&amp;action=import", 'alo-easymail_subscribers'); ?>
-	<a href="<?php echo $import_link ?>" title=""><?php echo $impexp_butt; ?></a>
+	<a href="<?php echo $import_link ?>" title="" id="easymail-subscribers-add-button"><?php echo $impexp_butt; ?></a>
 </div>
-<?php  
-
-?>
 
 <?php 
 //SELECT NUM PER PAGE (items per page) 

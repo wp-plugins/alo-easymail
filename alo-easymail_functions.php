@@ -758,6 +758,7 @@ function alo_em_edit_subscriber_state_by_email($email, $newstate="1", $unikey) {
 function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig : function alo_em_add_subscriber($email, $name, $newstate=0, $lang="" ) {
     global $wpdb;
  	$output = true;
+ 	$fields = array_map( 'strip_tags', $fields );
  	$email = $fields['email'];
 	//foreach( $fields as $key => $value ) { ${$key} = $value; } //edit : added all this line in order to transform the fields array into simple variables
     // if there is NOT a subscriber with this email address: add new subscriber and send activation email
@@ -1202,6 +1203,7 @@ function alo_em_user_form_callback() {
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		die($feedback);
 	}
+	$alo_em_cf = alo_easymail_get_custom_fields();
 	$error_on_adding = false;
    	if ($user_ID && isset($_POST['alo_easymail_option'])) {
    		switch ( $_POST['alo_easymail_option'] ) {
@@ -1248,12 +1250,11 @@ function alo_em_user_form_callback() {
 				{
 					$lang = ( isset($_POST['alo_easymail_lang_code']) && in_array ( $_POST['alo_easymail_lang_code'], alo_em_get_all_languages( false )) ) ?  $_POST['alo_easymail_lang_code'] : "" ;
 					//edit : added all this foreach
-					$alo_em_cf = alo_easymail_get_custom_fields();
 					if( $alo_em_cf ) {
 						$fields = array();
 						foreach( $alo_em_cf as $key => $value ){
 							if ( isset($_POST['alo_em_'.$key]) ) {
-								$fields[$key] 	= $_POST['alo_em_'.$key];
+								$fields[$key] 	= stripslashes( trim( $_POST['alo_em_'.$key] ));
 								if ( empty( $fields[$key] ) && $value['input_mandatory'] ) {
 									$error_on_adding .= esc_js($_POST['alo_em_error_'.$key.'_empty']) . ".<br />";
 								} else if ( !empty($value['input_validation']) && function_exists($value['input_validation']) && call_user_func($value['input_validation'], $fields[$key])==false ) {
@@ -1281,6 +1282,13 @@ function alo_em_user_form_callback() {
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
+		// sanitize inputs before print
+		if ( $alo_em_cf ) {
+			foreach( $alo_em_cf as $key => $value ){
+				$feedback .= "document.alo_easymail_widget_form.alo_em_".$key.".value ='".esc_js(sanitize_text_field($_POST['alo_em_'.$key]))."';";
+			}
+		}
+		
 		// if unsubscribe deselect all lists
 		if ( isset($_POST['alo_easymail_option']) && $_POST['alo_easymail_option']=="no" ) {
 			$feedback .= "var cbs = document.getElementById('alo_easymail_widget_form').getElementsByTagName('input');";
@@ -1309,10 +1317,12 @@ function alo_em_pubblic_form_callback() {
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
 		$feedback .= "document.getElementById('alo_em_widget_loading').style.display = 'none';";
 		die($feedback);
-	}	
+	}
+	$alo_em_cf = alo_easymail_get_custom_fields();
     if (isset($_POST['alo_em_opt_name']) && isset($_POST['alo_em_opt_email'])){
         $error_on_adding = "";
         $just_added = false;
+        $_POST = array_map( 'strip_tags', $_POST );
 		$name 	= trim( $_POST['alo_em_opt_name'] );
 		$email	= trim( $_POST['alo_em_opt_email'] );
 		$lang = ( isset($_POST['alo_em_lang_code']) && in_array ( $_POST['alo_em_lang_code'], alo_em_get_all_languages( false )) ) ? $_POST['alo_em_lang_code'] : "" ;
@@ -1324,7 +1334,6 @@ function alo_em_pubblic_form_callback() {
         }
 				
 		//edit : added all this foreach
-		$alo_em_cf = alo_easymail_get_custom_fields();
 		if ( $alo_em_cf ) {
 			foreach( $alo_em_cf as $key => $value ){
 			  $fields[$key] 	= stripslashes(trim($_POST['alo_em_'.$key]));
@@ -1338,8 +1347,8 @@ function alo_em_pubblic_form_callback() {
         if ($error_on_adding == "") { // if no error
             // try to add new subscriber (and send mail if necessary) and return TRUE if success
             $activated = ( get_option('alo_em_no_activation_mail') != "yes" ) ? 0 : 1;
-			$fields['email'] = $email; //edit : added all this line
-			$fields['name'] = $name; //edit : added all this line
+			$fields['email'] = stripslashes($email); //edit : added all this line
+			$fields['name'] = stripslashes($name); //edit : added all this line
             $try_to_add = alo_em_add_subscriber( $fields, $activated, $lang ); //edit : orig : $try_to_add = alo_em_add_subscriber( $email, $name, $activated, $lang ); 
             switch ($try_to_add) {
             	case "OK":
@@ -1380,6 +1389,16 @@ function alo_em_pubblic_form_callback() {
 
 		// Compose JavaScript for return
 		$feedback = "";
+
+		// sanitize inputs before print
+		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_name.value ='".esc_js(sanitize_text_field($_POST['alo_em_opt_name']))."';";
+		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_email.value ='".esc_js(sanitize_text_field($_POST['alo_em_opt_email']))."';";
+		if ( $alo_em_cf ) {
+			foreach( $alo_em_cf as $key => $value ){
+				$feedback .= "document.alo_easymail_widget_form.alo_em_".$key.".value ='".esc_js(sanitize_text_field($_POST['alo_em_'.$key]))."';";
+			}
+		}
+				
 		$feedback .= "document.alo_easymail_widget_form.submit.disabled = false;";
 		$feedback .= "document.alo_easymail_widget_form.submit.value = '". esc_js($_POST['alo_em_txt_subscribe']). "';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '$output';";
@@ -3163,23 +3182,23 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		$html .= "<input type=\"checkbox\" name=\"subscribers[]\" id=\"subscribers_". $subscriber_id . "\" value=\"". $subscriber_id. "\" />\n";
 	    $html .= "</td>\n";
 	
-		$html .= "<td>" . get_avatar($subscriber->email, 30). "</td>";
+		$html .= "<td>" . get_avatar($subscriber->email, 30). "&nbsp;</td>";
 	
 		$html .= "<td class=\"subscriber-email\">";
 		if ( $edit ) {
 			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-email-new\" name=\"subscriber-". $subscriber_id ."-email-new\" class=\"subscriber-email-new\" value=\"". format_to_edit( $subscriber->email ) . "\" />\n";
 		} else {
-			$html .= $subscriber->email;
+			$html .= esc_html($subscriber->email);
 		}
-		$html .= "</td>\n";
+		$html .= "&nbsp;</td>\n";
 
 		$html .= "<td class=\"subscriber-name\">";
 		if ( $edit ) {
 			$html .= "<input type=\"text\" id=\"subscriber-". $subscriber_id ."-name-new\" name=\"subscriber-". $subscriber_id ."-name-new\" class=\"subscriber-name-new\" value=\"". format_to_edit( $subscriber->name ). "\" />\n";
 		} else {
-			$html .= $subscriber->name;
+			$html .= esc_html($subscriber->name);
 		}
-		$html .= "</td>\n";
+		$html .= "&nbsp;</td>\n";
 		
 		//edit : added the following foreach and its content
 		$alo_em_cf = alo_easymail_get_custom_fields();
@@ -3378,14 +3397,14 @@ function alo_easymail_custom_field_html ( $key, $field, $input_name="", $value="
 						foreach ( $field['input_options'] as $k => $v )
 						{
 							$selected = $value == $k ? "selected=\"selected\"" : "";
-							$input .= "<option value=\"$k\" $selected>".__($v, "alo-easymail")."</option>\n";
+							$input .= "<option value=\"$k\" $selected>".esc_html(__($v, "alo-easymail"))."</option>\n";
 						}
 					}
 					$input .= "</select>\n";
 				}
 				else
 				{
-					$input .= isset($field['input_options'][$value]) ? $field['input_options'][$value] : $value;
+					$input .= isset($field['input_options'][$value]) ? esc_html($field['input_options'][$value]) : esc_html($value);
 				}
 				break;
 
@@ -3411,7 +3430,7 @@ function alo_easymail_custom_field_html ( $key, $field, $input_name="", $value="
 				}
 				else
 				{
-					$input .= $value;
+					$input .= esc_html($value);
 				}
 				break;
 				
@@ -3423,7 +3442,7 @@ function alo_easymail_custom_field_html ( $key, $field, $input_name="", $value="
 				}
 				else
 				{
-					$input .= $value;
+					$input .= esc_html($value);
 				}
 				break;
 

@@ -815,7 +815,7 @@ if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'A
 	<?php echo " (". sprintf( __('every %s minutes', "alo-easymail"), ALO_EM_INTERVAL_MIN ) ."):"; ?>
 	</label></th>
 <td><input type="text" name="batchrate" value="<?php echo get_option('alo_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
-<span class="description">(10 - 300)</span></td>
+<span class="description">(10 - 300) <?php _e("Recommended", "alo-easymail") ?>: &le; 30.</span></td>
 </tr>
 
 <tr valign="top">
@@ -830,7 +830,7 @@ if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'A
 
 	<h4 style="text-align: center"><?php _e("What about the batch sending based on WP cron system?", "alo-easymail") ?></h4>
 	<p style="font-size:80%;">
-		<?php echo '<strong>'. esc_html( __("Let’s speak clearly: the WP cron system is a pseudo-cron and it's not accurate by definition", "alo-easymail") ). '</strong>' ?>.
+		<?php echo '<strong>'. esc_html( __("Let&#39;s speak clearly: the WP cron system is a pseudo-cron and it's not accurate by definition", "alo-easymail") ). '</strong>' ?>.
 	</p>		
 	<p style="font-size:80%;">
 		<?php esc_html_e( sprintf(__("After a newsletter is scheduled for sending, the plugin *will try* to send it to a small number of recipients every %s minutes, until all recipients have been included", "alo-easymail"), ALO_EM_INTERVAL_MIN )) ?>.
