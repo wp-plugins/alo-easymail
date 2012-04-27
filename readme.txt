@@ -3,7 +3,7 @@ Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 Stable tag: 2.4.8
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
