@@ -1,6 +1,7 @@
 <?php // No direct access, only through WP
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('You can\'t call this page directly.'); 
 if ( !current_user_can('manage_easymail_subscribers') ) 	wp_die(__('Cheatin&#8217; uh?'));
+global $user_ID;
 ?>
 
 
@@ -51,7 +52,7 @@ $alo_em_cf = alo_easymail_get_custom_fields();
 <div class="wrap">
     <div id="icon-users" class="icon32"><br /></div>
     <h2>Alo EasyMail Newsletter: <?php _e("Subscribers", "alo-easymail") ?></h2>
-    <div id="dashboard-widgets-wrap">
+    <div id="dashboard-widgets-wrap" style="margin: 0 0.4em">
     
 <?php 
 /**
@@ -69,7 +70,8 @@ wp_print_scripts();
 // pagination info
 $offset = 0;
 $page = 1;
-$items_per_page = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 20;
+$items_per_page = get_user_meta( $user_ID, 'edit_per_page', true);
+if ( (int)$items_per_page == 0 ) $items_per_page = 20;
 
 if(isset($_REQUEST['paged']) and $_REQUEST['paged']) {
 	$page = intval($_REQUEST['paged']);
@@ -814,23 +816,13 @@ function checkBulkForm (form, field) {
 //-->
 </script>
 
-<div style="margin-top:15px">
-<?php
-$array_num = array( 10, 20, 50, 100, 200 );
-echo __("Per page", "alo-easymail").": <select name='select_num' id='select_num' onchange=\"MM_jumpMenu('parent',this,0)\" style='vertical-align:middle'>";
-foreach($array_num as $n) {
-    //$selected_test = ($id_test == $test->ID ? ' selected="selected" ': '');
-    echo "<option value='$n' ".($items_per_page == $n ? "selected='selected'": "").">$n</option>";
-}
-echo "</select>";
-?>
-</div>
 
 <style type="text/css">
 	.widefat tr th {vertical-align: middle;}
 	.widefat tr td {vertical-align: middle;}
 	ul.userlists li {line-height:0.8em}
 	ul.userlists {padding-top:0.3em}
+	td .ip-address { font-size: 75%; }
 </style>
 
 <?php 
@@ -861,9 +853,67 @@ echo "</select>";
 		 
 		<input type="submit" class="button-secondary action" id="doaction_step1" name="doaction_step1" value="<?php _e('Apply') ?>" onclick="return checkBulkForm('posts-filter', 'subscribers')">
 	</div>
+	
+
+<?php
+
+// BUILD THE QUERY
+$query =    "SELECT * FROM {$wpdb->prefix}easymail_subscribers";
+
+$where_search = "";
+if( !empty( $s ) ) {
+	$search = '%' . trim( $s ) . '%';
+	$where_search = " WHERE (email LIKE '$search' OR name LIKE '$search'";
+	if ( $alo_em_cf ) {
+		foreach ( $alo_em_cf as $key => $value ) $where_search .= " OR $key LIKE '$search'";
+	}
+	$where_search .= ") ";
+}
+if( !empty( $filter_list ) ) {
+	$filter_list = '%|' . trim( $filter_list ) . '|%';
+	$where_search .= ( $where_search == "" ) ? " WHERE " : " AND " ;
+	$where_search .= " lists LIKE '$filter_list' ";
+}
+if( !empty( $filter_lang ) ) {
+	$where_search .= ( $where_search == "" ) ? " WHERE " : " AND " ;
+	$where_search .= " lang = '$filter_lang' ";
+}
+$query .= $where_search;
+
+// order
+if ( isset($_GET['sortby']) ) {
+	if( $_GET['sortby'] == 'email' ) {
+		$query .= ' ORDER BY email ';
+	} else if( $_GET['sortby'] == 'join_date' ) {
+		$query .= ' ORDER BY join_date ';
+	} else if( $_GET['sortby'] == 'active' ) {
+		$query .= ' ORDER BY active ';
+	} else if( $_GET['sortby'] == 'lang' ) {
+		$query .= ' ORDER BY lang ';
+	} else if( $_GET['sortby'] == 'last_act' ) {
+		$query .= ' ORDER BY last_act ';		
+	} else if( $alo_em_cf && array_key_exists( $_GET['sortby'], $alo_em_cf )) {
+		$query .= ' ORDER BY '. $_GET['sortby']. ' ';
+	} 
+}
+
+$query .= ( isset($_GET['order']) && $_GET['order'] == 'ASC' ) ? 'ASC' : 'DESC';
+
+$query .= " LIMIT $offset, $items_per_page ";
+
+//echo $query; //DEBUG
+
+
+// TOTAL NUMBER OF SUBSCRIBERS
+$total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}easymail_subscribers" . (!empty( $s ) || !empty($filter_list) || !empty($filter_lang) ? $where_search : ""));
+?>
+<div class="tablenav-pages ">
+	<span class="alignright displaying-num"><?php echo $total_items .' '. __("items") ?></span>
+</div>
+
 </div><!-- tablenav -->
 
-		
+
 <table class="widefat" style='margin-top:10px'>
 	<thead>
 	<tr>
@@ -899,54 +949,8 @@ echo "</select>";
 	</thead>
 
 	<tbody id="the-list">
+		
 <?php
-
-// BUILD THE QUERY
-$query =    "SELECT * FROM {$wpdb->prefix}easymail_subscribers";
-
-$where_search = "";
-if( !empty( $s ) ) {
-	$search = '%' . trim( $s ) . '%';
-	$where_search = " WHERE (email LIKE '$search' OR name LIKE '$search'";
-	if ( $alo_em_cf ) {
-		foreach ( $alo_em_cf as $key => $value ) $where_search .= " OR $key LIKE '$search'";
-	}
-	$where_search .= ") ";
-}
-if( !empty( $filter_list ) ) {
-	$filter_list = '%_' . trim( $filter_list ) . '_%';
-	$where_search .= ( $where_search == "" ) ? " WHERE " : " AND " ;
-	$where_search .= " lists LIKE '$filter_list' ";
-}
-if( !empty( $filter_lang ) ) {
-	$where_search .= ( $where_search == "" ) ? " WHERE " : " AND " ;
-	$where_search .= " lang = '$filter_lang' ";
-}
-$query .= $where_search;
-
-// order
-if ( isset($_GET['sortby']) ) {
-	if( $_GET['sortby'] == 'email' ) {
-		$query .= ' ORDER BY email ';
-	} else if( $_GET['sortby'] == 'join_date' ) {
-		$query .= ' ORDER BY join_date ';
-	} else if( $_GET['sortby'] == 'active' ) {
-		$query .= ' ORDER BY active ';
-	} else if( $_GET['sortby'] == 'lang' ) {
-		$query .= ' ORDER BY lang ';
-	} else if( $_GET['sortby'] == 'last_act' ) {
-		$query .= ' ORDER BY last_act ';		
-	} else if( $alo_em_cf && array_key_exists( $_GET['sortby'], $alo_em_cf )) {
-		$query .= ' ORDER BY '. $_GET['sortby']. ' ';
-	} 
-}
-
-$query .= ( isset($_GET['order']) && $_GET['order'] == 'ASC' ) ? 'ASC' : 'DESC';
-
-$query .= " LIMIT $offset, $items_per_page ";
-
-//echo $query; //DEBUG
-
 // The QUERY on subscribers
 $all_subscribers = $wpdb->get_results($query);
 
