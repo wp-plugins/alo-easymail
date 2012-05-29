@@ -142,7 +142,7 @@ add_filter ( 'alo_easymail_newsletter_content',  'custom_easymail_placeholders_g
 function custom_easymail_newsletter_is_delivered ( $newsletter ) {	
 	$title = apply_filters( 'alo_easymail_newsletter_title', $newsletter->post_title, $newsletter, false );
 	$content = "The newsletter **" . stripslashes ( $title ) . "**  was delivered to all recipients.";
-	$content .= "\r\nTo disable this notification you have to edit: ". ALO_EM_PLUGIN_URL . "/alo-easymail_custom-hooks.php";
+	$content .= "\r\nTo disable this notification you have to edit: alo-easymail_custom-hooks.php";
 	
   	$author = get_userdata( $newsletter->post_author );
   	wp_mail( $author->user_email, "Newsletter delivered!", $content );
@@ -178,7 +178,7 @@ function custom_easymail_new_subscriber_is_added ( $subscriber, $user_id=false )
 	}
 	$content .= "\n\nemail: " . $subscriber->email ."\nname: ". $subscriber->name . "\nactivation: ". $subscriber->active . "\nlanguage: ". $subscriber->lang . "\n";
 	if ( $user_id ) $content .= "user id: " . $user_id;
-	$content .= "\r\nTo disable this notification you have to edit: ". ALO_EM_PLUGIN_URL . "/alo-easymail_custom-hooks.php";
+	$content .= "\r\nTo disable this notification you have to edit: alo-easymail_custom-hooks.php";
 	wp_mail( get_option('admin_email'), "New subscriber", $content );
 }
 add_action('alo_easymail_new_subscriber_added',  'custom_easymail_new_subscriber_is_added', 10, 2 );
@@ -218,6 +218,26 @@ function custom_easymail_subscriber_is_deleted ( $email, $user_id=false ) {
 	// do something...
 }
 add_action('alo_easymail_subscriber_deleted',  'custom_easymail_subscriber_is_deleted', 10, 2 );
+
+
+/**
+ * Do something when a subscriber activates the subscription
+ * (e.g. after click on activation link in email)
+ * @since 	2.4.9
+ * @param	str 
+ */
+
+function custom_easymail_subscriber_activated ( $email ) {
+	// uncomment next lines to send a welcome message to just-activated subscribers
+	/*
+	$subscriber = alo_em_get_subscriber( $email );
+	$subject = "Welcome on our newsletter!";
+	$content = "Hi ". stripslashes( $subscriber->name ) .",\r\nwe are happy that you have activated the subscription to our newsletter.\r\n";
+	$content .= "You'll receive news very soon.\r\n\r\nRegards\r\n". wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+	wp_mail( $email, $subject, $content );
+	*/
+}
+add_action ( 'alo_easymail_subscriber_activated',  'custom_easymail_subscriber_activated' );
 
 
 

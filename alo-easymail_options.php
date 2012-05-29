@@ -120,7 +120,9 @@ if ( isset($_REQUEST['submit']) ) {
 			if(isset($_POST['sender_name'])) update_option('alo_em_sender_name', stripslashes( trim($_POST['sender_name'])) );
 			if(isset($_POST['lastposts']) && (int)$_POST['lastposts'] > 0) update_option('alo_em_lastposts', trim($_POST['lastposts']));	
 		
-			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) ) update_option('alo_em_debug_newsletters', $_POST['debug_newsletters']);
+			if(isset($_POST['debug_newsletters']) && in_array( $_POST['debug_newsletters'], array("","to_author","to_file") ) )
+				update_option('alo_em_debug_newsletters', $_POST['debug_newsletters']);
+				
 			if ( isset($_POST['filter_the_content']) ) {
 				update_option('alo_em_filter_the_content', "yes");
 			} else {
@@ -131,10 +133,15 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_js_rec_list', "no") ;
 			}			
-			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","ajax_periodicalupdater","no_ajax_onsavepost") ) ) update_option('alo_em_js_rec_list', $_POST['js_rec_list']);		
+			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","ajax_periodicalupdater","no_ajax_onsavepost") ) )
+				update_option('alo_em_js_rec_list', $_POST['js_rec_list']);
+
+			if(isset($_POST['campaign_vars']) && in_array( $_POST['campaign_vars'], array("no","google") ) )
+				update_option('alo_em_campaign_vars', $_POST['campaign_vars']);
 			
 			$theme_options = array_merge ( array('yes'=>'1','no'=>'1'), alo_easymail_get_all_themes() );
-			if ( isset($_POST['use_themes']) && array_key_exists( $_POST['use_themes'], $theme_options ) ) update_option('alo_em_use_themes', $_POST['use_themes']);
+			if ( isset($_POST['use_themes']) && array_key_exists( $_POST['use_themes'], $theme_options ) )
+				update_option('alo_em_use_themes', $_POST['use_themes']);
 			
 		} // end Tab NEWSLETTER
 		
@@ -434,6 +441,30 @@ if ( get_option('alo_em_filter_the_content') != "no" ) {
 </tr>
 
 
+<?php
+if ( get_option('alo_em_campaign_vars') ) {
+	$selected_campaign_vars = get_option('alo_em_campaign_vars');
+} else {
+	$selected_campaign_vars = "no";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Appends campaign variables to links", "alo-easymail") ?>:</th>
+<td>
+<?php $campaign_vars_list = array (
+	"no"		=>	__("no", "alo-easymail"),
+	"google" 	=> 	__("Google Analytics", "alo-easymail") . ' (<small style="font-style: italic"><a href="http://www.google.com/analytics/" target="_blank">'. __("you need an account", "alo-easymail") .'</a></small>)'
+);
+foreach( $campaign_vars_list as $key => $label ) :
+	echo '<input type="radio" name="campaign_vars" value="'.$key.'" id="campaign_vars_'.$key.'" '. ( ( $key == $selected_campaign_vars )? 'checked="checked"': "") .' />';
+	echo ' <label for="campaign_vars_'.$key.'">'. $label .'</label><br />';
+endforeach; ?>
+<span class="description"><?php _e("The plugin appends campagin variables to links", "alo-easymail") ?>.
+<?php echo __("E.g.", "alo-easymail").' '. __("Google Analytics", "alo-easymail") .': </span><br /><code><small>'. '...&utm_source=AloEasyMail&utm_medium=email&utm_campaign={newsletter-id-and-title}&utm_content={requested-url}</small></code>'; ?>
+</td>
+</tr>
+
+
 <?php  
 if ( get_option('alo_em_use_themes') ) {
 	$selected_use_themes = get_option('alo_em_use_themes');
@@ -691,7 +722,7 @@ foreach ( $text_fields as $text_field ) : ?>
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e("Unsubscription disclaimer", "alo-easymail") ?>:</th>
+<th scope="row"><?php _e("Unsubscription disclaimer", "alo-easymail") ?>:<br />[USER-UNSUBSCRIBE]</th>
 <td><span class="description"><?php _e("Leave blank to use default text", "alo-easymail") ?>:</span><br />
 <?php
 echo "&lt;p&gt;&lt;em&gt;". __("You have received this message because you subscribed to our newsletter. If you want to unsubscribe: ", "alo-easymail")." ";
@@ -723,14 +754,17 @@ echo "&lt;/em&gt;&lt;/p&gt;";
 <p><?php _e("You can use the following tags", "alo-easymail");?>:</p>
 <ul style="margin-left:20px">
 	<li><code>%BLOGNAME%</code>: <?php _e("the blog name", "alo-easymail");?></li>
-	<li><code>%UNSUBSCRIBELINK%</code>: <?php _e("the url that the new subscriber must click/visit to unsubscribe the newsletter", "alo-easymail");?></li>
+	<li><code>%UNSUBSCRIBELINK%</code>: <?php _e("the html link that the new subscriber must click/visit to unsubscribe the newsletter", "alo-easymail");?></li>
+	<li><code>%UNSUBSCRIBEURL%</code>: <?php _e("the plain url that the new subscriber must click/visit to unsubscribe the newsletter", "alo-easymail");?>.
+	<?php echo __("It's a plain url, you have to compose the link", "alo-easymail").': ';
+	echo '<code>'. esc_html( "<a href=\"%UNSUBSCRIBEURL%\">...</a>" ) .'</code>';?></li>
 </ul>	
 </td>
 </tr>
 
 
 <tr valign="top">
-<th scope="row"><?php _e("Read newsletter online", "alo-easymail") ?>:</th>
+<th scope="row"><?php _e("Read newsletter online", "alo-easymail") ?>:<br />[READ-ONLINE]</th>
 <td><span class="description"><?php _e("Leave blank to use default text", "alo-easymail") ?>:</span><br />
 <?php
 echo "&lt;p&gt;&lt;em&gt;". __("To read the newsletter online you can visit this link:", "alo-easymail") ." %NEWSLETTERLINK% &lt;/em&gt;&lt;/p&gt;";
@@ -759,7 +793,10 @@ echo "&lt;p&gt;&lt;em&gt;". __("To read the newsletter online you can visit this
 
 <p><?php _e("You can use the following tags", "alo-easymail");?>:</p>
 <ul style="margin-left:20px">
-	<li><code>%NEWSLETTERLINK%</code>: <?php _e("the newsletter web url", "alo-easymail");?></li>
+	<li><code>%NEWSLETTERLINK%</code>: <?php _e("html link to the newsletter web url", "alo-easymail");?></li>
+	<li><code>%NEWSLETTERURL%</code>: <?php _e("plain url to the newsletter web url", "alo-easymail");?>.
+	<?php echo __("It's a plain url, you have to compose the link", "alo-easymail").': ';
+	echo '<code>'. esc_html( "<a href=\"%NEWSLETTERURL%\">...</a>") .'</code>';?></li>
 </ul>	
 </td>
 </tr>
@@ -1213,7 +1250,10 @@ if ($tab_mailinglists) {
 			</td>
 			<td><strong><?php echo $val['order'] ?></strong></td>
 			
-			<td><?php echo count ( alo_em_get_recipients_subscribers( $list ) ) ?></td>
+			<td><?php // echo count ( alo_em_get_recipients_subscribers( $list ) )
+			$link_subscr = "edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php&filter_list=".$list;
+			echo '<a href="'. admin_url( $link_subscr ). '">'. __('View') .'</a>';
+			?></td>
 			
 			<td><?php
 				echo "<a href='edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_options.php&amp;task=edit_list&amp;list_id=". $list . "&amp;rand=".rand(1,99999)."#mailinglists' title='".__("Edit list", "alo-easymail")."' >";

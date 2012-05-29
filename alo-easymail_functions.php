@@ -59,7 +59,8 @@ function alo_em_msort  ($array, $key, $order = "ASC") {
  */
 function alo_em_html2plain ( $text ) {
 	// transform in utf-8 if not yet
-	$text = utf8_encode($text);
+	//$text = utf8_encode($text);
+	if ( function_exists( 'mb_detect_encoding' ) && mb_detect_encoding($text, "UTF-8") != "UTF-8" ) $text = utf8_encode($text);
     $text = preg_replace(
         array(
           // Remove invisible content
@@ -287,7 +288,13 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
  * @return	int	 
  */
 function alo_em_count_recipients_from_meta ( $newsletter ) {
-	return count( alo_em_get_all_recipients_from_meta ( $newsletter ) );
+	$recipients = alo_em_get_recipients_from_meta ( $newsletter );
+	// If exists, use cached value, otherwise count
+	if ( isset( $recipients['total'] ) ) {
+		return $recipients['total'];
+	} else {
+		return count( alo_em_get_all_recipients_from_meta ( $newsletter ) );
+	}
 }
 
 
@@ -344,7 +351,10 @@ function alo_em_create_cache_recipients ( $newsletter ) {
 		}
 	}
 	if ( isset( $recipients['lang'] ) ) $cache['lang'] = $recipients['lang'];
-	
+
+	// Prepare total of recipients, if 1st time
+	$cache['total'] = 0;
+			
 	delete_post_meta ( $newsletter, "_easymail_cache_recipients" );
 	add_post_meta ( $newsletter, "_easymail_cache_recipients", $cache );
 }
@@ -463,7 +473,10 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 				$new_id = alo_em_add_recipient( $args, true );
 				if ( $new_id ) {
 					$added ++;
-					 
+
+					// Add it to total
+					$cache['total'] ++;
+				
 					if ( $sendnow ) { // send only one mail (and wait the the request sleep) and exit
 						/*
 						$recipient = alo_em_get_subscriber( $email );
@@ -511,6 +524,13 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			} else {
 				alo_em_edit_newsletter_status ( $newsletter, 'sendable' );
 			}
+
+			// Store total number in meta from cache
+			$meta_recipients = alo_em_get_recipients_from_meta ( $newsletter );
+			$meta_recipients['total'] = $cache['total'];
+			delete_post_meta ( $newsletter, "_easymail_recipients" );
+			add_post_meta ( $newsletter, "_easymail_recipients", $meta_recipients );
+	
 			alo_em_delete_cache_recipients( $newsletter );
 		} else {
 			alo_em_save_cache_recipients ( $newsletter, $cache );
@@ -760,6 +780,7 @@ function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig
  	$output = true;
  	$fields = array_map( 'strip_tags', $fields );
  	$email = $fields['email'];
+ 	if ( !is_admin() ) $fields['ip_address'] = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	//foreach( $fields as $key => $value ) { ${$key} = $value; } //edit : added all this line in order to transform the fields array into simple variables
     // if there is NOT a subscriber with this email address: add new subscriber and send activation email
     if (alo_em_is_subscriber($email) == false){
@@ -786,8 +807,9 @@ function alo_em_add_subscriber( $fields, $newstate=0, $lang="" ) { //edit : orig
             
             if ( alo_em_send_activation_email($fields, $exist_unikey, $lang) ) {
                 // update join date to today
+                $ip_address = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
                 $output = $wpdb->update(    "{$wpdb->prefix}easymail_subscribers",
-                                            array ( 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'lang' => $lang, 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ) ),
+                                            array ( 'join_date' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'lang' => $lang, 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'ip_address' => $ip_address ),
                                             array ( 'ID' => alo_em_is_subscriber($email) )
                                         );
              	// tell that there is already added but not active: so it has sent another activation mail.......
@@ -826,6 +848,7 @@ function alo_em_update_subscriber_by_email ( $old_email, $fields, $newstate=0, $
 	//unset( $fields['old_email'] ); //edit : added all this line in order to prevent "update" to break
 	$fields['active'] = $newstate; //edit : added all this line
 	$fields['lang'] = $lang; //edit : added all this line
+	$fields['ip_address'] = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	if ( $update_lastact ) $fields['last_act'] = get_date_from_gmt( date("Y-m-d H:i:s") );
 
 	// Filter custom fields
@@ -927,12 +950,13 @@ function alo_em_send_activation_email( $fields, $unikey, $lang ) { //edit : orig
  * Print table with tags summay
  */
 function alo_em_newsletter_placeholders() {
+	global $wp_version;
 	$placeholders = array (
 		"easymail_post" => array (
 			"title" 		=> __( "Post tags", "alo-easymail" ),
 			"tags" 			=> array (
 				"[POST-TITLE]" 		=> __("The link to the title of the selected post.", "alo-easymail") ." ". __("This tag works also in the <strong>subject</strong>", "alo-easymail") . ". ". __("The visit to this url will be tracked.", "alo-easymail"),
-				"[POST-EXCERPT]" 	=> __("The excerpt (if any) of the post.", "alo-easymail"),
+				"[POST-EXCERPT]" 	=> __("The excerpt (if any) of the post.", "alo-easymail"). ( version_compare ( $wp_version , '3.3', '>=' ) ? " ". __("If it is empty, the beginning of post content will be used.", "alo-easymail") : "" ),
 				"[POST-CONTENT]"	=> __("The main content of the post.", "alo-easymail")						
 			)
 		),
@@ -986,8 +1010,9 @@ function alo_em_tags_table ( $post_id ) {
  */
 function alo_em_update_subscriber_last_act($email) {
     global $wpdb;
+    $ip_address = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	$out = $wpdb->update( 	"{$wpdb->prefix}easymail_subscribers",
-								array ( 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ) ),
+								array ( 'last_act' => get_date_from_gmt( date("Y-m-d H:i:s") ), 'ip_address' => $ip_address ),
 								array ( 'ID' => alo_em_is_subscriber($email) )
 							);
 	return $out;		
@@ -1390,12 +1415,17 @@ function alo_em_pubblic_form_callback() {
 		// Compose JavaScript for return
 		$feedback = "";
 
-		// sanitize inputs before print
-		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_name.value ='".esc_js(sanitize_text_field($_POST['alo_em_opt_name']))."';";
-		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_email.value ='".esc_js(sanitize_text_field($_POST['alo_em_opt_email']))."';";
+		// clean inputs before print
+		// if just added, clean inputs, otherwise only sanitize them
+		$alo_em_opt_name = ( $just_added ) ? '' : esc_js(sanitize_text_field($_POST['alo_em_opt_name']));
+		$alo_em_opt_email = ( $just_added ) ? '' : esc_js(sanitize_text_field($_POST['alo_em_opt_email']));
+		
+		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_name.value ='".$alo_em_opt_name."';";
+		$feedback .= "document.alo_easymail_widget_form.alo_em_opt_email.value ='".$alo_em_opt_email."';";
 		if ( $alo_em_cf ) {
 			foreach( $alo_em_cf as $key => $value ){
-				$feedback .= "document.alo_easymail_widget_form.alo_em_".$key.".value ='".esc_js(sanitize_text_field($_POST['alo_em_'.$key]))."';";
+				${'alo_em_'.$key} = ( $just_added ) ? '' : esc_js(sanitize_text_field($_POST['alo_em_'.$key]));
+				$feedback .= "document.alo_easymail_widget_form.alo_em_".$key.".value ='". ${'alo_em_'.$key} ."';";
 			}
 		}
 				
@@ -2148,7 +2178,8 @@ add_filter ( 'the_title',  'alo_em_filter_title_in_site' );
 /**
  * Filter Newsletter Content when sending
  */
-function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recursive_the_content=false ) {  
+function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recursive_the_content=false ) {
+	global $wp_version;
 	if ( !is_object( $recipient ) ) $recipient = new stdClass();
 	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
 	$post_id = get_post_meta ( $newsletter->ID, '_placeholder_easymail_post', true );
@@ -2167,27 +2198,32 @@ function alo_em_filter_content ( $content, $newsletter, $recipient, $stop_recurs
 	
 	if ( $obj_post ) {
 		$postcontent =  stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_content, $post_id, 'post_content' ) );
-		/*
-		if ( get_option('alo_em_filter_br') != "no" ) {
-			$postcontent = str_replace("\n", "<br />", $postcontent);
-			// trim <br> added when rendering html tables (thanks to gunu)
-			$postcontent = str_replace( array("<br /><t", "<br/><t", "<br><t"), "<t", $postcontent);
-			$postcontent = str_replace( array("<br /></t", "<br/></t", "<br></t"), "</t", $postcontent);
-		}
-		*/
 		if ( get_option('alo_em_filter_the_content') != "no" && !$stop_recursive_the_content ) $postcontent = apply_filters('the_content', $postcontent);
 	    $content = str_replace("[POST-CONTENT]", $postcontent, $content);
+
+		// Get post excerpt: if not, uses trimmed post content (WP 3.3+)
+	    if ( !empty($obj_post->post_excerpt)) {
+			$post_excerpt = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_excerpt, $post_id, 'post_excerpt' ) );
+			$content = str_replace("[POST-EXCERPT]", $post_excerpt, $content);
+		} else {
+			if ( version_compare ( $wp_version, '3.3', '>=' ) ) {
+				$content = str_replace("[POST-EXCERPT]", wp_trim_words( $postcontent, 50, ' [...]' ), $content);
+			} else {
+				$content = str_replace("[POST-EXCERPT]", "", $content);
+			}
+		}
 	} else {
 	    $content = str_replace("[POST-CONTENT]", "", $content);
+	    $content = str_replace("[POST-EXCERPT]", "", $content);
 	}
-	
+	/*
 	if ( $obj_post && !empty($obj_post->post_excerpt)) {
 		$post_excerpt = stripslashes ( alo_em_translate_text ( $recipient->lang, $obj_post->post_excerpt, $post_id, 'post_excerpt' ) );
 	    $content = str_replace("[POST-EXCERPT]", $post_excerpt, $content);       
 	} else {
 	    $content = str_replace("[POST-EXCERPT]", "", $content);
 	}
-	
+	*/
     if ( $recipient ) {	
 		if ( isset( $recipient->name ) ) {
 		    $content = str_replace("[USER-NAME]", stripslashes ( $recipient->name ), $content);     
@@ -2223,6 +2259,37 @@ function alo_em_filter_content_in_site ( $content ) {
 	return $content;	
 }
 add_filter ( 'the_content',  'alo_em_filter_content_in_site' );
+
+
+/**
+ * Filter Newsletter Content when sending: search for links and replace with trackable links
+ *
+ * Priority 3: before than the placeholder replace
+ */
+function alo_em_make_links_trackable_in_content ( $content, $newsletter, $recipient, $stop_recursive_the_content=false ) {
+	global $wp_version;
+	if ( !is_object( $recipient ) ) $recipient = new stdClass();
+	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
+
+
+	if ( preg_match_all('/<a(.*)href=[\'|"]([^"]+)[\'|"] (.*)>(.*)<\/a>/i', $content, $matches, PREG_SET_ORDER)) {
+		if ( is_array($matches) ) : foreach($matches as $match) :
+			//print_r($match);
+			$found = $match[0];
+			$pre_href = trim($match[1]);
+			$href = $match[2];
+			$post_href = trim($match[3]);
+			$text_link = $match[4];
+			
+			$new_url = alo_em_make_url_trackable ( $recipient, $href );
+			$content = str_replace( $found, "<a $pre_href href=\"$new_url\" $post_href>$text_link</a>", $content );
+		endforeach; endif;
+	}
+    
+	return $content;	
+}
+add_filter ( 'alo_easymail_newsletter_content',  'alo_em_make_links_trackable_in_content', 3, 4 );
+
 
 
 
@@ -3251,14 +3318,21 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		$join_date_datetime = date_i18n( __( "d/m/Y \h.H:i", "alo-easymail" ), strtotime( $subscriber->join_date ) );
 		
 		$join_time_diff  = sprintf( __( "%s ago", "alo-easymail" ), human_time_diff( strtotime( $subscriber->join_date ), current_time('timestamp') ) );
-		$html .= $join_time_diff ." <img src=\"".ALO_EM_PLUGIN_URL."/images/12-clock.png\" class=\"clock\" title=\"". $join_date_datetime ."\" alt=\"". $join_date_datetime ."\" />\n";
+		//$html .= $join_time_diff ." <img src=\"".ALO_EM_PLUGIN_URL."/images/12-clock.png\" class=\"clock\" title=\"". esc_attr($join_date_datetime) ."\" alt=\"". $join_date_datetime ."\" />\n";
+		$html .= "<abbr title=\"". esc_attr($join_date_datetime) ."\" />". $join_time_diff ."</abbr>\n";
 		$html .= "</td>\n";
 
 		$html .= "<td class=\"subscriber-lastact\">\n";
 		$last_act = !empty($subscriber->last_act) ? $subscriber->last_act : $subscriber->join_date;
 		$last_act_datetime = date_i18n( __( "d/m/Y \h.H:i", "alo-easymail" ), strtotime( $last_act ) );
 		$last_act_diff = sprintf( __( "%s ago", "alo-easymail" ), human_time_diff( strtotime( $last_act ), current_time('timestamp') ) );
-		$html .= $last_act_diff ." <img src=\"".ALO_EM_PLUGIN_URL."/images/12-clock.png\" class=\"clock\" title=\"". $last_act_datetime ."\" alt=\"(". $last_act_datetime .")\" />\n";
+		//$last_ip_addr = ' @ IP: '. ( !empty($subscriber->ip_address) ? $subscriber->ip_address : '?' );
+		//$html .= $last_act_diff ." <img src=\"".ALO_EM_PLUGIN_URL."/images/12-clock.png\" class=\"clock\" title=\"". esc_attr($last_act_datetime . $last_ip_addr) ."\" alt=\"(". $last_act_datetime .")\" />\n";
+		$html .= "<abbr title=\"". esc_attr($last_act_datetime) ."\" />". $last_act_diff ."</abbr>\n";
+		if ( !empty($subscriber->ip_address) ) {
+			$last_ip_addr = preg_replace( '/[^0-9a-fA-F:., ]/', '', $subscriber->ip_address );
+			$html .= "<br /><a href=\"http://www.whatismyipaddress.com/ip/$last_ip_addr\" title=\"". esc_attr( $last_ip_addr .' @ whatismyipaddress.com') ."\" target=\"_blank\" class=\"ip-address\"/>IP ". $last_ip_addr ."</abbr>\n";
+		}
 		$html .= "</td>\n";
 				
 		$html .= "<td class=\"subscriber-active\">\n";

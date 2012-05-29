@@ -3,8 +3,8 @@ Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
-Tested up to: 3.3.2
-Stable tag: 2.4.8
+Tested up to: 3.4
+Stable tag: 2.4.9
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -31,11 +31,9 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 * **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [WPML](http://wpml.org/), [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
 * **debug tool**: rather than the recipients, you can send all emails of a newsletter to the author or you can have them recorded into a log file
 
-*Before upgrading from v.1 to v.2, [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-upgrade-2)*
-
 **Internationalization**
 
-*Available in about 20 languages.*
+*Available in more than 20 languages.*
 
 You can add or update the translation in your language. To make the plugin package lighter you can find only the .MO files inside it.
 You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files (.MO and .PO files) and to join the translation group.
@@ -46,8 +44,8 @@ You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/
 = INSTALLATION =
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the `Plugins` menu in WordPress
-1. (If you are **upgrading** an EasyMail previous version, be sure to **upload all files** and to **activate the plugin again**)
-1. (If you are upgrading from **1.x to 2.x**, make a backup of plugin db tables)
+1. If you are **upgrading** an EasyMail previous version, be sure to **upload all files** and to **activate the plugin again**
+1. If you are upgrading from plugin version **1.x to 2.x**, make a backup of plugin db tables and [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-upgrade-2)
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
@@ -73,6 +71,21 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.9 =
+* Added: option to append campaign vars to newsletter links (e.g. Google Analytics)
+* Added: all links in newsletters now are made trackable
+* Added: the IP address of subscribers now is stored on subscription
+* Added: when a new subscriber submits the widget form with success, the form fields will be cleaned
+* Added: in case of empty excerpt, the [POST-EXCERPT] placeholder uses the beginning of post content (only WP 3.3+)
+* Added: new action hook on subscriber activation ('alo_easymail_subscriber_activated')
+* Added: in report now the list of clicked links is shown
+* Updated: all the .MO language files from [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/)
+* Fixed: in subscriber list screen now the pagination is set up using WP screen options (top right menu)
+* Fixed: the issue with a big number of subscribers, in newsletter screen the countings are cached (faster loading of page)
+* Fixed: plugin url and path now use the correct functions, useful for ssl enabled sites (thanks to Hansjörg Schwarz)
+* Fixed: a bug in mailing list dropdown in subscriber list screen
+* Fixed: now the plugin css file in child theme is properly loaded (thanks to obiweb)
 
 = 2.4.8 =
 * Fixed: XSS vulnerabilities
@@ -411,3 +424,6 @@ Now batch every 5 minutes. Fixed little bugs.
 
 = 2.4.8 =
 Security update! Fixed XSS vulnerabilities
+
+= 2.4.9 =
+Some little improvements
