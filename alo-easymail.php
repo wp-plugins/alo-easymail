@@ -89,7 +89,7 @@ function alo_em_install() {
 	if (!get_option('alo_em_show_subscripage')) add_option('alo_em_show_subscripage', 'no');
 	if (!get_option('alo_em_embed_css')) add_option('alo_em_embed_css', 'no');
 	if (!get_option('alo_em_no_activation_mail')) add_option('alo_em_no_activation_mail', 'no');
-	if (!get_option('alo_em_show_credit_banners')) add_option('alo_em_show_credit_banners', 'yes');
+	if (!get_option('alo_em_show_credit_banners')) add_option('alo_em_show_credit_banners', 'no');
 	if (!get_option('alo_em_filter_br')) add_option('alo_em_filter_br', 'no');
 	if (!get_option('alo_em_filter_the_content')) add_option('alo_em_filter_the_content', 'yes');
 	if (!get_option('alo_em_js_rec_list')) add_option('alo_em_js_rec_list', 'ajax_normal');
