@@ -7,7 +7,7 @@ Tested up to: 3.4
 Stable tag: 2.4.10
 License: GPLv2 or later
 
-To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
+To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
 == Description ==
 
