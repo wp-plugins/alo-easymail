@@ -25,6 +25,7 @@ $alo_em_textpre['alo_em_txtpre_activationmail_subj']['et'] = "Kinnita oma liitum
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['fa'] = "اشتراک خود را به %EMANGOLB% خبرنامه تایید کنید";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['fi'] = "Vahvista %BLOGNAME% uutiskirjeen tilaus";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['fr'] = "Veuillez confirmer votre abonnement au bulletin %BLOGNAME%";
+$alo_em_textpre['alo_em_txtpre_activationmail_subj']['he'] = "אשר את הרשמתך לעלון של %BLOGNAME% ";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['hu'] = "Megerősítés a %BLOGNAME% hírlevélre való feliratkozásra";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['it'] = "Conferma la sua iscrizione alla Newsletter su %BLOGNAME%";
 $alo_em_textpre['alo_em_txtpre_activationmail_subj']['nl'] = "Bevestig uw aanmelding voor de %BLOGNAME% Nieuwsbrief";
@@ -150,6 +151,15 @@ Si vous n'avez pas demandé d'abonnement à notre bulletin, veuillez simplement 
 Merci
 %BLOGNAME%";
 
+$alo_em_textpre['alo_em_txtpre_activationmail_mail']['he'] = "%NAME% שלום
+כדי להשלים את הרשמתך לעלון של  %BLOGNAME% עליך ללחוץ על הקישור הבא (או שהעתק והדבק אותו לדפדפן שלך):
+
+%ACTIVATIONLINK%
+
+אם לא ביקשת להירשם אלינו כמנוי התעלם מהודעה זו.
+תודה רבה
+%BLOGNAME%";
+
 $alo_em_textpre['alo_em_txtpre_activationmail_mail']['hu'] = "Kedves %NAME%,
 A feliratkozás befejezéséhez a %BLOGNAME% hírlevélre kattintson a következő linkre (vagy másolja azt a böngészője címsorába):
 
@@ -248,6 +258,7 @@ $alo_em_textpre['alo_em_custom_unsub_footer']['et'] = "<p><em>Selle kirja saite 
 $alo_em_textpre['alo_em_custom_unsub_footer']['fa'] = "<p><em>You have received this message because you subscribed to our newsletter. If you want to unsubscribe: visit this link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['fi'] = "<p><em>Sait tämän sähköpostin koska olet tilannut uutiskirjeemme. Jos haluat päättää uutiskirjeen tilauksen, klikkaa tätä linkkiä<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['fr'] = "<p><em>Vous avez reçu ce message parce que vous vous êtes abonné à notre bulletin.  Si vous désirez annuler votre abonnement Visiter ce lien<br /> %UNSUBSCRIBELINK%</em></p>";
+$alo_em_textpre['alo_em_custom_unsub_footer']['he'] = "<p><em>קיבלת הודעה זו כי את\\ה מנוי\\ה על העלון שלנו. אם ברצונך להסיר עצמך: %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['hu'] = "<p><em>Azért kapta ezt a levelet, mert regisztrált a hírlevelünkre. Ha le szeretne iratkozni kattintson a következő linkre<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['it'] = "<p><em>Hai ricevuto questo messaggio perché sei iscritto alla nostra newsletter. Se non vuoi ricevere altri messaggi visita questo link<br /> %UNSUBSCRIBELINK%</em></p>";
 $alo_em_textpre['alo_em_custom_unsub_footer']['nl'] = "<p><em>U ontvangt dit bericht omdat u zich hebt aangemeld voor onze nieuwsbrief. Als u zich wilt afmelden bezoek deze link<br /> %UNSUBSCRIBELINK%</em></p>";
@@ -275,6 +286,7 @@ $alo_em_textpre['alo_em_custom_viewonline_msg']['et'] = "<p><em>Selle lingi abil
 $alo_em_textpre['alo_em_custom_viewonline_msg']['fa'] = "<p><em>To read the newsletter online you can visit this link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['fi'] = "<p><em>Voit lukea uutiskirjeen myös sivuillamme: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['fr'] = "<p><em>Pour lire le bulletin en ligne, vous pouvez visiter ce lien: %NEWSLETTERLINK%</em></p>";
+$alo_em_textpre['alo_em_custom_viewonline_msg']['he'] = "<p><em>%NEWSLETTERLINK%:כדי לקרוא את העלון באתר את\\ יכול\\ה לבקר בכתובת זו</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['hu'] = "<p><em>Ha szeretné online elolvasni a hírlevelet, akkor látogasson el erre a linkre: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['it'] = "<p><em>Per leggere la newsletter online vai a questo link: %NEWSLETTERLINK%</em></p>";
 $alo_em_textpre['alo_em_custom_viewonline_msg']['nl'] = "<p><em>Het lezen van de nieuwsbrief online kunt u terecht op deze link: %NEWSLETTERLINK%</em></p>";

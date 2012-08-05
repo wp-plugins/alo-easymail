@@ -838,6 +838,42 @@ if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'A
 		echo '</div>';
 	echo '</td></tr>';
 }
+
+// Try to trigger WP cron
+$response = wp_remote_get( site_url( 'wp-cron.php' ) );
+if ( ! is_wp_error( $response ) && $response['response']['code'] != '200' ) {
+	echo '<tr valign="top">';
+	echo '<td colspan="2">';
+		echo '<div class="text-alert"><p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>' . __('WP-Cron is not working properly', 'alo-easymail') .':</strong> ';
+		echo sprintf( __( '%s is returning a %s response which could mean cron jobs aren\'t getting fired properly', 'alo-easymail' ), '<code>wp-cron.php</code>', '<code>' . $response['response']['code'] .': ' . $response['response']['message'] . '</code>' ). '.<br />';
+		echo __('The file seems to be not accessible: is your blog behind some kind of authentication, maintenance plugin, .htpasswd protection?', 'alo-easymail');
+		echo ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3" target="_blank">'. __('For more info, visit the FAQ of the site.', 'alo-easymail').'</a> ';
+		echo '<br /><em>('. __('If you are using an external cron job ignore this piece of information', 'alo-easymail').').</em>';
+		echo '</p></div>';
+	echo '</td></tr>';	
+}
+
+
+// Next batch sending scheduled in WP cron
+$next_cron = wp_next_scheduled( 'alo_em_batch' );
+if( !$next_cron ) {
+	// we try to scheduled it now
+	wp_schedule_event( time() +60, 'alo_em_interval', 'alo_em_batch' ); 
+	$next_cron = wp_next_scheduled( 'alo_em_batch' );
+}
+echo '<tr valign="top">';
+echo '<td colspan="2">';
+	if ( $next_cron ) {
+		echo '<div class="easymail-alert" style="background-color:#99FF66"><img src="'.ALO_EM_PLUGIN_URL.'/images/yes.png" style="vertical-align: text-bottom;" /> <em>' . sprintf( __('The cron is scheduled to launch a batch every %s minutes', 'alo-easymail'), ALO_EM_INTERVAL_MIN ).'. '. __('Next possible sending', 'alo-easymail') .': '. date_i18n( __( 'j M Y @ G:i', 'alo-easymail' ), $next_cron + 3600 * get_option('gmt_offset', 0 ) ) . '</em></div>';
+	} else {
+		echo '<div class="text-alert"><p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> <strong>' . __('There is not any next scheduled sending in WP-Cron', 'alo-easymail') .':</strong> ';
+		echo __('you can try to deactivate and activate the plugin', 'alo-easymail'). '. ';
+		echo ' <a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3" target="_blank">'. __('For more info, visit the FAQ of the site.', 'alo-easymail').'</a> ';
+		echo '<br /><em>('. __('If you are using an external cron job ignore this piece of information', 'alo-easymail').').</em>';
+		echo '</p></div>';
+	}
+echo '</td></tr>';
+		
 ?>
 
 <tr valign="top">
@@ -858,7 +894,7 @@ if ( defined( 'ALO_EM_DAYRATE' ) || defined( 'ALO_EM_BATCHRATE' ) || defined( 'A
 <tr valign="top">
 <th scope="row"><label for="sleepvalue"><?php _e("Interval between emails in a single batch, in milliseconds", "alo-easymail") ?>:</label></th>
 <td><input type="text" name="sleepvalue" value="<?php echo (int)get_option('alo_em_sleepvalue') ?>" id="sleepvalue" size="5" maxlength="4" />
-<span class="description">(0 - 5000) <?php _e("Default", "alo-easymail") ?>: 0.<br /><?php _e("Usually you do not have to modify this value", "alo-easymail") ?>. <?php _e("It is useful if your provider allows a maximum number of emails that can be sent per second or minute", "alo-easymail") ?>. <?php _e("The higher this value, the lower the number of emails sent for each batch", "alo-easymail") ?>. </span></td>
+<span class="description">(0 - 5000) <?php _e("Default", "alo-easymail") ?>: 0.<br /><?php _e("Usually you do not have to modify this value", "alo-easymail") ?>.<br /><?php _e("It is useful if your provider allows a maximum number of emails that can be sent per second or minute", "alo-easymail") ?>.<br /><?php _e("The higher this value, the lower the number of emails sent for each batch", "alo-easymail") ?>. </span></td>
 </tr>
 
 </tbody> </table>
@@ -990,7 +1026,7 @@ if ( $get_editor->has_cap ('manage_easymail_newsletters') ) {
 <th scope="row"><?php _e("The lowest role can manage subscribers", "alo-easymail") ?>:</th>
 <td>
 <?php 
-if ( $get_editor->has_cap ('manage_easymail_subscribers') ) {
+if ( is_object ($get_editor) && $get_editor->has_cap ('manage_easymail_subscribers') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
 } else { // admin
@@ -1012,7 +1048,7 @@ if ( $get_editor->has_cap ('manage_easymail_subscribers') ) {
 <th scope="row"><?php _e("The lowest role can manage options", "alo-easymail") ?>:</th>
 <td>
 <?php 
-if ( $get_editor->has_cap ('manage_easymail_options') ) {
+if ( is_object ($get_editor) && $get_editor->has_cap ('manage_easymail_options') ) {
 	$selected_editor	= "selected='selected'";
 	$selected_admin		= "";
 } else { // admin
