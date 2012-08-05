@@ -33,8 +33,9 @@ HOW TO CREATE A THEME:
 TIP:
 ===
 
-- Copy "alo-easymail-themes" folder to your theme directory and edit your themes
-  there. Useful to prevent the loss of themes when you upgrade the plugin.
+- Copy "alo-easymail-themes" folder into 'wp-content' or into your theme
+  directory and edit your themes there. Useful to prevent the loss of
+  themes when you upgrade the plugin.
 
 - In Newsletters-> Settings->tab Newsletter you can disable/enable themes, or 
-  force a specific theme as default
+  force a specific theme as default.

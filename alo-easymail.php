@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.9
+Version: 2.4.10
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -48,7 +48,7 @@ global $wp_version;
 if ( version_compare ( $wp_version , '3.1', '<' ) ) require_once( ABSPATH . WPINC .'/registration.php' );
 require_once( 'alo-easymail_functions.php' );
 require_once( 'alo-easymail-widget.php' );
-
+if ( ! class_exists('simple_html_dom_node') ) require_once( 'inc/simple_html_dom.php' );
 
 /**
  * File including custom hooks. See plugin homepage or inside that file for more info.
@@ -58,6 +58,33 @@ if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) inclu
 
 // Update when DB tables change
 define( "ALO_EM_DB_VERSION", 2020 );
+
+
+/**
+ * For batch sending (every tot mins)
+ */
+function alo_em_more_reccurences( $schedules ) {
+	$schedules['alo_em_interval'] =	array(
+		'interval' => 59*(ALO_EM_INTERVAL_MIN),
+		'display' => 'EasyMail every ' .ALO_EM_INTERVAL_MIN. ' minutes'
+	);
+	return $schedules;
+}
+add_filter('cron_schedules', 'alo_em_more_reccurences');
+
+
+/**
+ * To fix missing cron schedules
+ */
+function alo_em_check_cron_scheduled() {
+    if( !wp_next_scheduled( 'alo_em_batch' ) ) {
+		wp_schedule_event( time() +60, 'alo_em_interval', 'alo_em_batch' );
+	}
+    if( !wp_next_scheduled( 'alo_em_schedule' ) ) {
+		wp_schedule_event(time(), 'twicedaily', 'alo_em_schedule');
+	}
+}
+add_action('wp', 'alo_em_check_cron_scheduled');
 
 
 /**
@@ -72,7 +99,7 @@ function alo_em_install() {
 	if (!get_option('alo_em_list')) add_option('alo_em_list', '');
     if (!get_option('alo_em_lastposts')) add_option('alo_em_lastposts', 10);
     if (!get_option('alo_em_dayrate')) add_option('alo_em_dayrate', 2000);
-    if (!get_option('alo_em_batchrate')) add_option('alo_em_batchrate', 30);
+    if (!get_option('alo_em_batchrate')) add_option('alo_em_batchrate', 25);
     if (!get_option('alo_em_sleepvalue')) add_option('alo_em_sleepvalue', 0);
 	if (!get_option('alo_em_sender_email')) {
 		$admin_email = get_option('admin_email');
@@ -120,9 +147,9 @@ function alo_em_install() {
     }
     
     // add scheduled cleaner
-    wp_schedule_event(time(), 'twicedaily', 'alo_em_schedule');
+    if( !wp_next_scheduled( 'alo_em_schedule' ) ) wp_schedule_event(time(), 'twicedaily', 'alo_em_schedule');
     // add scheduled cron batch
-    wp_schedule_event( time() +60, 'alo_em_interval', 'alo_em_batch' );
+    if( !wp_next_scheduled( 'alo_em_batch' ) ) wp_schedule_event( time() +60, 'alo_em_interval', 'alo_em_batch' );
     
     // default permission
 	$wp_roles->add_cap( 'administrator', 'manage_easymail_options');
@@ -274,17 +301,6 @@ function alo_em_activate() {
 	alo_em_install();
 }
 register_activation_hook(__FILE__,'alo_em_activate');
-
-
-/**
- * For batch sending (every tot mins)
- */
-function alo_em_more_reccurences() {
-	return array(
-		'alo_em_interval' => array('interval' => 59*(ALO_EM_INTERVAL_MIN), 'display' => 'EasyMail every ' .ALO_EM_INTERVAL_MIN. ' minutes' )
-	);
-}
-add_filter('cron_schedules', 'alo_em_more_reccurences');
 
 
 /**
@@ -1379,7 +1395,28 @@ function alo_em_meta_recipients ( $post ) {
 				<?php $checked = ( isset( $recipients['registered']) ) ? ' checked="checked" ' : ''; ?>
 				<label for="easymail-recipients-all-regusers" class="easymail-metabox-update-count"><?php echo __("All registered users", "alo-easymail") /*. " (". count ( alo_em_get_recipients_registered () ) .")" */; ?></label>
 				<input type="checkbox" name="easymail-recipients-all-regusers" id="easymail-recipients-all-regusers" value="checked" <?php echo $checked ?> class="easymail-metabox-update-count" />
-			</li>						
+			</li>
+
+			<?php // Roles
+			global $wp_roles;
+			$roles = $wp_roles->get_names(); // get a list of values, containing pairs of: $role_name => $display_name
+			if ( $roles ) : ?>
+			<li><a href="#" class="easymail-filter-regusers-by-roles"><?php _e("Filter users according to roles", "alo-easymail"); ?>...</a></li>
+			<li>
+				<ul id="easymail-filter-ul-roles" class="level-2st">
+					<?php
+					foreach ( $roles as $key => $label ) { 
+						$checked = ( isset( $recipients['role'] ) && in_array( $key, $recipients['role'] ) ) ? ' checked="checked" ' : ''; 
+						?>
+						<li>
+							<label for="role_<?php echo $key ?>" class="easymail-metabox-update-count"><?php echo translate_user_role( $label ); ?></label>
+							<input type="checkbox" name="check_role[]" class="check_role easymail-metabox-update-count" id="role_<?php echo $key ?>" value="<?php echo $key ?>" <?php echo $checked ?>  />
+						</li>
+					<?php } ?>
+				</ul>	
+			</li>
+			<?php endif; // roles ?>
+			
 		</ul>
 	</div><!-- /easymail-edit-recipients-registered -->
 	
@@ -1561,7 +1598,14 @@ function alo_em_save_newsletter_meta ( $post_id ) {
 	$recipients = array ();
 	if ( isset( $_POST['easymail-recipients-all-regusers'] ) ) {
 		$recipients['registered'] = "1";
+	} else {
+		if ( isset($_POST['check_role']) && is_array ($_POST['check_role']) ) {
+			foreach ( $_POST['check_role'] as $role ) {
+				$recipients['role'][] = $role;
+			}
+		}
 	}
+	
 	if ( isset( $_POST['easymail-recipients-all-subscribers'] ) ) {
 		$recipients['subscribers'] = "1";
 	} else {
@@ -1905,15 +1949,6 @@ function alo_em_admin_notice() {
 			echo '</div>';
 		}
 		*/
-		
-		// Try to trigger Cron
-		/*
-		$response = wp_remote_get( site_url( 'wp-crhon.php' ) );
-
-		if ( ! is_wp_error( $response ) && $response['response']['code'] != '200' ) {
-			echo '<div id="hmbkp-warning" class="updated fade"><p><strong>' . __( 'BackUpWordPress has detected a problem.', 'hmbkp' ) . '</strong> ' . sprintf( __( '%s is returning a %s response which could mean cron jobs aren\'t getting fired properly. BackUpWordPress relies on wp-cron to run scheduled back ups. See the %s for more details.', 'hmbkp' ), '<code>wp-cron.php</code>', '<code>' . $response['response']['code'] . '</code>', '<a href="http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-3">FAQ</a>' ) . '</p></div>';
-		}
-		*/
 				
 		if ( get_option('ALO_em_debug_newsletters') != "" ) { 
 			echo '<div class="updated fade">';
@@ -2195,7 +2230,7 @@ add_action( 'admin_print_footer_scripts', 'alo_em_loc_tinymce_buttons', 100 );
 /**
  * Load scripts for pointers (3.3+)
  */
-function axelms_tooltip_head_scripts() {
+function alo_em_tooltip_head_scripts() {
 	global $pagenow, $wp_version, $typenow;
 	if ( version_compare ( $wp_version, '3.3', '<' ) ) return; // old WP, exit
 	
@@ -2213,7 +2248,7 @@ function axelms_tooltip_head_scripts() {
 		}
 	}
 }
-add_action( 'admin_enqueue_scripts', 'axelms_tooltip_head_scripts'); 
+add_action( 'admin_enqueue_scripts', 'alo_em_tooltip_head_scripts'); 
 
 /**
  * Print tooltip pointers (3.3+)

@@ -9,6 +9,7 @@ jQuery(document).ready( function($) {
 	
 	 	jQuery( "#easymail-filter-ul-languages" ).hide();
 	 	jQuery( "#easymail-filter-ul-lists" ).hide(); 	
+	 	jQuery( "#easymail-filter-ul-roles" ).hide();
 	 	
 		jQuery('.easymail-filter-subscribers-by-languages').live( "click", function() {
 			jQuery( "#easymail-filter-ul-languages" ).toggle(); 
@@ -17,12 +18,21 @@ jQuery(document).ready( function($) {
 		jQuery('.easymail-filter-subscribers-by-lists').live( "click", function() {
 			jQuery( "#easymail-filter-ul-lists" ).toggle(); 
 			return false;		
-		});	
+		});
+		jQuery('.easymail-filter-regusers-by-roles').live( "click", function() {
+			jQuery( "#easymail-filter-ul-roles" ).toggle(); 
+			return false;		
+		});			
 		
 		jQuery( "#easymail-recipients-all-subscribers" ).live( "click", function() {
 			var status = jQuery( this ).is(':checked');
 			jQuery( ".check_list" ).prop( "checked", status );
 		});
+
+		jQuery( "#easymail-recipients-all-regusers" ).live( "click", function() {
+			var status = jQuery( this ).is(':checked');
+			jQuery( ".check_role" ).prop( "checked", status );
+		});		
 	
 		jQuery( "#easymail-theme-select-preview" ).live( "click", function() {
 			var theme = jQuery( '#easymail-theme-select' ).val();

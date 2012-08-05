@@ -47,12 +47,11 @@ if ( $action == "easymail_do_ajaxloop" ) :
 	}
 	
 	$response['n_done'] = alo_em_count_newsletter_recipients( $newsletter );
-	$response['n_tot'] =  alo_em_count_recipients_from_meta( $newsletter );
+	$response['n_tot'] =  alo_em_count_recipients_from_meta( $newsletter /*, true */ );
 	$response['perc'] =  ( $response['n_done'] > 0 && $response['n_tot'] > 0 ) ? round ( $response['n_done'] * 100 / $response['n_tot'] ) : 0;
-	
-	echo json_encode ( $response );
-	
- 	exit;
+
+	header( "Content-Type: application/json" );
+	die( json_encode ( $response ) );
  	
 endif; // "easymail_do_ajaxloop"
 
@@ -71,8 +70,7 @@ if ( alo_em_get_newsletter_status( $newsletter ) ) wp_die( __('The required news
 $arr_recipients = alo_em_get_recipients_from_meta( $newsletter );
 if ( !$arr_recipients ) wp_die( __( 'No recipients selected yet', "alo-easymail") . $button_exit ); 
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
@@ -100,9 +98,12 @@ var easymailJs = {
 </script>
 <link rel='stylesheet' id='global-css'  href="<?php echo ALO_EM_PLUGIN_URL ?>/inc/alo-easymail-backend.css" type='text/css'/>
 
-<?php elseif ( get_option('alo_em_js_rec_list') == "ajax_periodicalupdater" ) : // 2) otherwise load alternative js: jquery.periodicalupdater.js
+<?php
+// 2) otherwise load alternative js: jquery.periodicalupdater.js
+elseif ( get_option('alo_em_js_rec_list') == "ajax_periodicalupdater" ) : 
 
-	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'json2' );
+	wp_enqueue_script( 'jquery', false, array( 'json2' ) );
 	wp_enqueue_script( 'thickbox' );
 	wp_enqueue_script( 'alo-easymail-periodicalupdater', ALO_EM_PLUGIN_URL . '/inc/jquery.periodicalupdater.js', array('jquery'), '3.1.00' );
 	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
@@ -129,7 +130,8 @@ var easymailJs = {
 	
 else : // 3) otherwise load default js: smartupdater.js
 
-	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'json2' );
+	wp_enqueue_script( 'jquery', false, array( 'json2' ) );
 	wp_enqueue_script( 'thickbox' );
 	wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater.js', array('jquery'), '3.2.00' );
 	wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
@@ -175,7 +177,7 @@ $lang = ( isset($_REQUEST['lang'])) ? $_REQUEST['lang'] : false;
 <div id="ajaxloop-response">
 	<p><?php _e("You have to prepare the list of recipients to send the newsletter to", "alo-easymail") ?>.</p>
 	<p><?php _e("You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)", "alo-easymail") ?>.</p>
-	<p><?php _e("Warning: do not close or reload the browser window during process", "alo-easymail") ?>.</p>
+	<p><em><?php _e("Warning: do not close or reload the browser window during process", "alo-easymail") ?>.</em></p>
 	<br /><br />
 	<p><?php _e("You can send the newsletter as test to", "alo-easymail") ?>:</strong>
 		<input type="text" id="easymail-testmail" name="easymail-testmail" size="20" value="<?php echo $user_email; ?>" />

@@ -4,7 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 2.4.9
+Stable tag: 2.4.10
+License: GPLv2 or later
 
 To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
 
@@ -36,7 +37,7 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 *Available in more than 20 languages.*
 
 You can add or update the translation in your language. To make the plugin package lighter you can find only the .MO files inside it.
-You can visit [http://code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files (.MO and .PO files) and to join the translation group.
+You can visit [code.google.com/p/alo-easymail/](http://code.google.com/p/alo-easymail/) to look for the most updated language files (.MO and .PO files) and to join the translation group. There is also a glotpress collaborative site to translate the plugin: [www.translators.hunstart.hu/projects/alo-easymail](http://www.translators.hunstart.hu/projects/alo-easymail) 
 
 
 == Installation ==
@@ -71,6 +72,14 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.10 =
+* Added: role filter for registered user recipients
+* Added: some debug info about wp cron in batch sending settings
+* Added: the 'alo_easymail_newsletter_headers' filter to customise newsletter headers
+* Added: check for newsletter themes also in 'wp-content/alo-easymail-themes'
+* Fixed: a potential issue on definition of batch interval
+* Fixed: now all links in newsletters now really made trackable (using PHP Simple HTML DOM Parser)
 
 = 2.4.9 =
 * Added: option to append campaign vars to newsletter links (e.g. Google Analytics)
@@ -427,3 +436,6 @@ Security update! Fixed XSS vulnerabilities
 
 = 2.4.9 =
 Some little improvements
+
+= 2.4.10 =
+Role filter for registered user recipients. Some little improvements. Some fixes.

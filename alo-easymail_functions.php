@@ -253,7 +253,16 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 		if ( $registered ) : foreach ( $registered as $reg ) :
 			if ( !in_array( $reg->user_email, $count ) )  array_push( $count, $reg->user_email );
 		endforeach; endif;
+	} else if ( isset( $recipients['role'] ) ) {
+		global $wp_roles;
+		$registered = alo_em_get_recipients_registered();
+		if ( $registered ) : foreach ( $registered as $reg ) :
+			$compare_roles = array_intersect( $reg->roles, $recipients['role'] );
+			if ( empty($compare_roles) ) continue;
+			if ( !in_array( $reg->user_email, $count ) )  array_push( $count, $reg->user_email );
+		endforeach; endif;		
 	}
+	
 	if ( isset( $recipients['subscribers'] ) && isset( $recipients['lang'] ) )  {
 		$subscribers = alo_em_get_recipients_subscribers();
 		if ( $subscribers ) : foreach ( $subscribers as $sub ) :
@@ -285,12 +294,14 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 
 /**
  * Count the Recipients from meta
+ * @param	int
+ * @param	bol		if the cached value, or count the real number
  * @return	int	 
  */
-function alo_em_count_recipients_from_meta ( $newsletter ) {
+function alo_em_count_recipients_from_meta ( $newsletter, $not_cached=false ) {
 	$recipients = alo_em_get_recipients_from_meta ( $newsletter );
 	// If exists, use cached value, otherwise count
-	if ( isset( $recipients['total'] ) ) {
+	if ( isset( $recipients['total'] ) && ! $not_cached ) {
 		return $recipients['total'];
 	} else {
 		return count( alo_em_get_all_recipients_from_meta ( $newsletter ) );
@@ -304,7 +315,15 @@ function alo_em_count_recipients_from_meta ( $newsletter ) {
  */
 function alo_em_recipients_short_summary ( $recipients ) {
 	$output = "<ul>";
-	if ( isset( $recipients['registered'] ) ) $output .= "<li>" . __( 'All registered users', "alo-easymail") . "</li>";
+	if ( isset( $recipients['registered'] ) ) {
+		$output .= "<li>" . __( 'All registered users', "alo-easymail") . "</li>";
+	} else {
+		if ( isset( $recipients['role'] ) ) {
+			$role_str = implode( ", ", $recipients['role'] );
+			$output .= "<li title=\"". esc_attr( $role_str )."\">" . count( $recipients['role'] ) ." ". __( 'User Roles' ) . alo_em_help_tooltip( $role_str ) . "</li>";
+		}
+	}
+	
 	if ( isset( $recipients['subscribers'] ) ) {
 		$output .= "<li>" . __( 'All subscribers', "alo-easymail") . "</li>";
 	} else {
@@ -339,7 +358,17 @@ function alo_em_create_cache_recipients ( $newsletter ) {
 	$recipients = alo_em_get_recipients_from_meta ( $newsletter );
 	//echo "<pre>". print_r ( $recipients, true ). "</pre>";
 	$cache = array();
-	if ( isset( $recipients['registered'] ) && $recipients['registered'] == 1 ) $cache['registered'] = "0";
+	if ( isset( $recipients['registered'] ) && $recipients['registered'] == 1 ) {
+		$cache['registered'] = "0";
+	} else {
+		if ( isset( $recipients['role'] ) ) {
+			$cache['role'] = array();
+			foreach ( $recipients['role'] as $index => $id ) {
+				$cache['role'][$id] = "0";
+			}
+		}
+	}
+	
 	if ( isset( $recipients['subscribers'] ) && $recipients['subscribers'] == 1 ) {
 		$cache['subscribers'] = "0";
 	} else {
@@ -352,7 +381,7 @@ function alo_em_create_cache_recipients ( $newsletter ) {
 	}
 	if ( isset( $recipients['lang'] ) ) $cache['lang'] = $recipients['lang'];
 
-	// Prepare total of recipients, if 1st time
+	// Prepare total of recipients on cache creation
 	$cache['total'] = 0;
 			
 	delete_post_meta ( $newsletter, "_easymail_cache_recipients" );
@@ -388,13 +417,15 @@ function alo_em_delete_cache_recipients ( $newsletter ) {
 
 
 /**
- * Get the Recipients cache for Newsletter
+ * Add Recipients from db into cache
+ * @param	int		newsletter id
  * @param	int		limit: how many	 
  * @param	bol		if send now or add to queue
  */
 function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendnow=false ) {
 	$cache = alo_em_get_cache_recipients( $newsletter );
-	//echo "CACHE BEFORE\n<pre>". print_r ( $cache, true ). "</pre>"; // DEBUG
+	$debug_response = FALSE; // set to TRUE to debug ajax responses
+	if ( $debug_response ) echo "CACHE BEFORE\n<pre>". print_r ( $cache, true ). "</pre>"; // DEBUG
 	if ( $cache && is_array( $cache ) ) {
 		//$recipients = array();
 		
@@ -407,25 +438,71 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			$recipients = alo_em_get_recipients_registered();
 			$now_doing = "registered";
 			$start = $cache['registered'];
+			
+		} else if ( isset( $cache['role'] ) ) {
+			foreach ( $cache['role'] as $id => $role_start ) {
+				
+				$recipients = alo_em_get_recipients_registered();
+				// Filter users according on role
+				if ( is_array($recipients) ) : foreach ( $recipients as $rec_id => $rec ) :
+					if ( !in_array( $id, $rec->roles ) ) unset( $recipients[$rec_id] );
+				endforeach; endif;
+	
+				// If no recipients for required role, unset it and try the next
+				if ( is_array($recipients) && count($recipients) > 0 ) {
+					/*$now_doing = "list";
+					$now_doing_list = $id;
+					$start = $list_start;*/
+					$now_doing = "role";
+					$now_doing_role = $id;
+					$start = $role_start;
+					break;
+				} else {
+					$now_doing = false;
+					unset( $cache['role'][$id] );
+					$finished = 'role';
+					$now_doing_role = $id;
+				}
+			}
+			
+			//if ( empty($cache['role']) ) unset( $cache['role'] );
 		}
+		
 		if ( isset( $cache['subscribers'] ) && !$now_doing )  {
 			$recipients = alo_em_get_recipients_subscribers();
 			$now_doing = "subscribers";
 			$start = $cache['subscribers'];
+			
 		} else if ( isset( $cache['list'] ) && !$now_doing ) {
-			$lists = array();
 			foreach ( $cache['list'] as $id => $list_start ) {
 				$recipients = alo_em_get_recipients_subscribers( $id );
+
 				$now_doing = "list";
 				$now_doing_list = $id;
 				$start = $list_start;
-				break; // the 1st list
+				$finished = false;
+				
+				if ( is_array($recipients) && !empty($recipients[0]) ) {
+					/*$now_doing = "list";
+					$now_doing_list = $id;
+					$start = $list_start;*/
+					break; // ok
+				} else {
+					//unset( $cache['list'][$id] );
+					//$now_doing = false;
+					//if ( !empty($cache['list']) ) {
+						$now_doing = false;
+						//unset($now_doing_list);
+						//unset($start);
+						$finished = 'list';
+					//}					
+				}
 			}
-			//$recipients = alo_em_get_recipients_subscribers( $lists );
+			//if ( empty($cache['list']) ) unset( $cache['list'] );
 		}
 		
 		// If not registered round, check languages
-		if ( $now_doing && $now_doing != "registered" && isset ( $cache['lang'] ) && is_array( $cache['lang'] ) ) {
+		if ( $now_doing && $now_doing != "registered" && $now_doing != "role" && isset ( $cache['lang'] ) && is_array( $cache['lang'] ) ) {
 			foreach ( $recipients as $index => $rec ) {			
 				/*
 				$search_lang = ( !empty( $rec->lang ) ) ? $rec->lang : "UNKNOWN"; // if subscriber has not specified lang
@@ -442,7 +519,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			}
 		}
 		
-		//echo "RECIPIENTS\n<pre>". print_r ( $recipients, true ). "</pre>"; // DEBUG
+		if ( $debug_response ) echo "RECIPIENTS\n<pre>". print_r ( $recipients, true ). "</pre>"; // DEBUG
 		
 		if ( $now_doing && $recipients ) {
 		
@@ -461,7 +538,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 					continue;
 				}
 				
-				$email = ( $now_doing == "registered" ) ? $recipients[$i]->user_email : $recipients[$i]->email;
+				$email = ( $now_doing == "registered" || $now_doing =="role" ) ? $recipients[$i]->user_email : $recipients[$i]->email;
 				if ( alo_em_get_recipient_by_email_and_newsletter( $email, $newsletter ) ) continue; // if already added, skip
 				
 				$user_id = ( email_exists( $email ) ) ? email_exists( $email ) : false;
@@ -500,25 +577,33 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 				// Update the offset for next
 				switch ( $now_doing ) {
 					case "registered":		$cache['registered'] 	= $i; 			break;
+					case "role":  			$cache['role'][$now_doing_role] = $i; 	break;					
 					case "subscribers":		$cache['subscribers'] 	= $i; 			break;
 					case "list":  			$cache['list'][$now_doing_list] = $i; 	break;
 				}
-				
-				//echo "NOW $i\n<pre>". print_r ( $cache, true ). "</pre>"; // DEBUG
+
+				if ( $debug_response ) echo "NOW $i\n<pre>". print_r ( $cache, true ). "</pre>"; // DEBUG
 			}						
 		}
 				
 		// If group finished, delete it from cache
 		if ( $finished ) : switch ( $finished ) :
 			case "registered":		unset ( $cache['registered'] ); 			break;
+			case "role":  			unset ( $cache['role'][$now_doing_role] );
+									//if ( ! reset($cache['role']) ) unset( $cache['role'] );
+									break;			
 			case "subscribers":		unset ( $cache['subscribers'] ); 			break;
-			case "list":  			unset ( $cache['list'][$now_doing_list] ); 	break;
+			case "list":  			unset ( $cache['list'][$now_doing_list] );
+									if ( ! reset( $cache['list'] ) ) unset( $cache['list'] );
+									break;
 		endswitch; endif;
 		
-		//echo "NEW CACHE $i\n<pre>". print_r ( $cache, true ). "</pre>"; // DEBUG
+		if ( $debug_response ) echo "NEW CACHE\n<pre>". print_r ( $cache, true ). "</pre>\nNOW DOING:".$now_doing; // DEBUG
 		
-		// If completed ALL groups, delete cache and mark newsletter as "sendable"
-		if ( !isset( $cache['registered'] ) && !isset( $cache['subscribers'] ) && empty( $cache['list'] ) ) {
+		// If completed ALL groups (of total sent = supposed total), delete cache and mark newsletter as "sendable"
+		if ( !isset( $cache['registered'] ) && !isset( $cache['subscribers'] ) && empty( $cache['list'] ) && empty( $cache['role'] )
+			|| ( $cache['total'] == alo_em_count_recipients_from_meta($newsletter,true) ) ) {
+			
 			if ( count( alo_em_get_recipients_in_queue( 1, $newsletter ) ) == 0 && $sendnow ) {
 				alo_em_set_newsletter_as_completed ( $newsletter );
 			} else {
@@ -534,7 +619,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			alo_em_delete_cache_recipients( $newsletter );
 		} else {
 			alo_em_save_cache_recipients ( $newsletter, $cache );
-		}		
+		}
 	}
 }
 
@@ -1728,6 +1813,9 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	$headers = "From: ". $from_name ." <".$mail_sender.">\n";
 	$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";		
 
+	// Custon newsletter headers
+	$headers = apply_filters( 'alo_easymail_newsletter_headers', $headers, $newsletter, $recipient );
+
     // ---- Send MAIL (or DEBUG) ----
     $send_mode = ( $force_send ) ? "" : get_option('alo_em_debug_newsletters');
     switch ( $send_mode ) {
@@ -1962,7 +2050,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				
 		foreach( $attachments as $index => $attachment ) {
 			$src = wp_get_attachment_image_src( $attachment->ID, $size );
-			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
+			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" />'."\n";
 		}
 		
 		$gallery = apply_filters( 'alo_easymail_placeholder_newsletter_gallery', $gallery,  $attachments, $size, $newsletter->ID );
@@ -1992,7 +2080,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 							
 			foreach( $attachments as $index => $attachment ) {
 				$src = wp_get_attachment_image_src( $post_id, $size );
-				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" >';
+				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" />'."\n";
 			}
 		
 			$post_gallery = apply_filters( 'alo_easymail_placeholder_post_gallery', $post_gallery,  $attachments, $size, $post_id );
@@ -2271,7 +2359,7 @@ function alo_em_make_links_trackable_in_content ( $content, $newsletter, $recipi
 	if ( !is_object( $recipient ) ) $recipient = new stdClass();
 	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
 
-
+	/*
 	if ( preg_match_all('/<a(.*)href=[\'|"]([^"]+)[\'|"] (.*)>(.*)<\/a>/i', $content, $matches, PREG_SET_ORDER)) {
 		if ( is_array($matches) ) : foreach($matches as $match) :
 			//print_r($match);
@@ -2285,8 +2373,17 @@ function alo_em_make_links_trackable_in_content ( $content, $newsletter, $recipi
 			$content = str_replace( $found, "<a $pre_href href=\"$new_url\" $post_href>$text_link</a>", $content );
 		endforeach; endif;
 	}
-    
-	return $content;	
+	return $content;
+    */
+
+    $html = str_get_html( $content ); // it's simple_html_dom
+	if ( is_object( $html ) ) {
+		foreach($html->find('a') as $e) {
+			$e->href = alo_em_make_url_trackable ( $recipient, $e->href );
+		}
+	}
+
+	return $html;	
 }
 add_filter ( 'alo_easymail_newsletter_content',  'alo_em_make_links_trackable_in_content', 3, 4 );
 
@@ -2319,7 +2416,7 @@ function alo_em_get_subscriber_by_id ( $ID ) {
 
 /**
  * Get all registered users of the blog 
- * return object with info as in table column
+ * return arr of object with info as in table column
  */
 function alo_em_get_recipients_registered () {
 	global $wpdb, $blog_id;    
@@ -2328,13 +2425,24 @@ function alo_em_get_recipients_registered () {
    	} else { // For WP < 3.1
    		$get_users = get_users_of_blog();
    	}
+   	
+   	$default_role = get_option('default_role', 'subscriber');
    	for ( $i = 0; $i < count ($get_users); $i ++ ) {
 		$get_users[$i]->lang = $wpdb->get_var ( $wpdb->prepare( "SELECT lang FROM {$wpdb->prefix}easymail_subscribers WHERE email = %s", $get_users[$i]->user_email ) );
 		$get_users[$i]->UID = $get_users[$i]->ID;
+
+		// Role
+		$user = new WP_User( $get_users[$i]->ID );
+		if ( !empty( $user->roles ) && is_array( $user->roles ) ) {
+			$get_users[$i]->roles = $user->roles;
+		} else {
+			$get_users[$i]->roles = array( $default_role );
+		}
 	} 
     //echo "<pre>";print_r($get_users); echo "</pre>";
     return $get_users;
 }
+
 
 
 /**
@@ -3189,7 +3297,9 @@ add_shortcode('ALO-EASYMAIL-ARCHIVE', 'alo_easymail_print_archive');
  */
  
 function alo_easymail_get_all_themes () {
-	if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
+	if ( @file_exists( WP_CONTENT_DIR.'/alo-easymail-themes/' ) ) {
+		$dir = WP_CONTENT_DIR . '/alo-easymail-themes/';
+	} else if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
 		$dir = trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/';
 	} else {
 		$dir = ALO_EM_PLUGIN_ABS."/alo-easymail-themes/";
@@ -3220,7 +3330,9 @@ function alo_easymail_get_all_themes () {
  */
  
 function alo_easymail_get_themes_url () {
-	if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
+	if ( @file_exists( WP_CONTENT_DIR.'/alo-easymail-themes/' ) ) {
+		$url = content_url( '/alo-easymail-themes/' );
+	} else if ( @file_exists ( trailingslashit( get_stylesheet_directory() ) .'alo-easymail-themes/' ) ) {
 		$url = trailingslashit( get_stylesheet_directory_uri() ) .'alo-easymail-themes/';
 	} else {
 		$url = ALO_EM_PLUGIN_URL."/alo-easymail-themes/";

@@ -998,7 +998,7 @@ $page_links = paginate_links( array(
 	'base' => add_query_arg( $arr_params/*'paged', '%#%' */),
 	'format' => '',
 	'total' => $total_pages,
-	'show_all' => true,
+	//'show_all' => true,
 	'current' => $page
 ));
 
