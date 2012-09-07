@@ -2376,14 +2376,21 @@ function alo_em_make_links_trackable_in_content ( $content, $newsletter, $recipi
 	return $content;
     */
 
-    $html = str_get_html( $content ); // it's simple_html_dom
-	if ( is_object( $html ) ) {
-		foreach($html->find('a') as $e) {
-			$e->href = alo_em_make_url_trackable ( $recipient, $e->href );
+	if ( defined( 'ALO_EM_LOAD_SIMPLEHTMLDOM' ) ) {
+
+		$html = str_get_html( $content ); // it's simple_html_dom
+		if ( is_object( $html ) ) {
+			foreach($html->find('a') as $e) {
+				$e->href = alo_em_make_url_trackable ( $recipient, $e->href );
+			}
 		}
+		
+	} else {
+		
+		$html = $content;
 	}
 
-	return $html;	
+	return $html;
 }
 add_filter ( 'alo_easymail_newsletter_content',  'alo_em_make_links_trackable_in_content', 3, 4 );
 

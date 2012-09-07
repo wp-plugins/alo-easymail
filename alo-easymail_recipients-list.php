@@ -43,7 +43,8 @@ if ( $action == "easymail_do_ajaxloop" ) :
 	} else {
 		// Now add a part of recipients into the db table 
 		$sendnow = ( isset( $_REQUEST['sendnow'] ) && $_REQUEST['sendnow'] == "yes" ) ? true : false;
-		alo_em_add_recipients_from_cache_to_db( $newsletter, 10, $sendnow );
+		$limit = apply_filters ( 'alo_easymail_ajaxloop_recipient_limit', 10 );  // Hook
+		alo_em_add_recipients_from_cache_to_db( $newsletter, $limit, $sendnow );
 	}
 	
 	$response['n_done'] = alo_em_count_newsletter_recipients( $newsletter );
