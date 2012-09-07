@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.10
+Version: 2.4.11
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -48,7 +48,7 @@ global $wp_version;
 if ( version_compare ( $wp_version , '3.1', '<' ) ) require_once( ABSPATH . WPINC .'/registration.php' );
 require_once( 'alo-easymail_functions.php' );
 require_once( 'alo-easymail-widget.php' );
-if ( ! class_exists('simple_html_dom_node') ) require_once( 'inc/simple_html_dom.php' );
+if ( defined( 'ALO_EM_LOAD_SIMPLEHTMLDOM' ) && ! class_exists('simple_html_dom_node') ) require_once( 'inc/simple_html_dom.php' );
 
 /**
  * File including custom hooks. See plugin homepage or inside that file for more info.
