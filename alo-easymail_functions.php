@@ -134,15 +134,10 @@ function alo_em_show_credit_banners ( $all=false ) {
 			<input src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' name='submit' alt='Donate via PayPal' title='Donate via PayPal' border='0' type='image'>
 			<img src='https://www.paypal.com/it_IT/i/scr/pixel.gif' border='0' height='1' width='1'><br>	</form>
 		</li>
-		<?php if ( $all ) : ?>
+		<?php if ( $all ) : ?>		
 		<li class="alo-banner">
-			<a href="http://wpml.org/?aid=12251&affiliate_key=IhoLRJYetYNO" title="Turn your WordPress site multilingual"><img width="125" height="125" src="http://d2salfytceyqoe.cloudfront.net/wp-content/themes/sitepress/banners/images/wpml_banner_v1_125x125_en.jpeg" alt="Multilingual WordPress" width="125" height="125" style="float:right;margin-left:10px" /></a>
-			
-			<p><em>The <a href="http://wpml.org/?aid=12251&affiliate_key=IhoLRJYetYNO" title="Buy and Download WPML">WordPress Multilingual Plugin</a> makes it easy to build multilingual sites and run them.</em></p>
-		</li>			
-		<li class="alo-banner">
-			<a href="https://www.e-junkie.com/ecom/gb.php?cl=136641&c=ib&aff=152531" title="Original WP Themes by ThemeFuse"> <img border="0" src="http://themefuse.com/banners/125x125.jpg" alt="Original WP by ThemeFuse" width="125" height="125" style="float:right;margin-left:10px" /></a>		
-			<p><em>If you are interested in buying an original wp theme I would recommend <a href="https://www.e-junkie.com/ecom/gb.php?cl=136641&c=ib&aff=152531" title="Original WP Themes by ThemeFuse">ThemeFuse</a>.</em></p>
+			<a href="http://themefuse.com/amember/aff/go?r=6700&i=44" title="Original WP Themes by ThemeFuse"> <img border="0" src="http://themefuse.com/banners/125x125.jpg" alt="Original WP by ThemeFuse" width="125" height="125" style="float:right;margin-left:10px" /></a>		
+			<p><em>If you are interested in buying an original wp theme I would recommend <a href="http://themefuse.com/amember/aff/go?r=6700&i=44" title="Original WP Themes by ThemeFuse">ThemeFuse</a>.</em></p>
 		</li>			
 		<?php endif; ?>
 	</ul>
