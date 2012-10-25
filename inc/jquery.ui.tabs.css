@@ -68,7 +68,9 @@
     white-space: nowrap; /* required in IE 6 */    
     outline: 0; /* prevent dotted border in Firefox */
 }
-.ui-tabs-nav .ui-tabs-selected{
+.ui-tabs-nav .ui-tabs-selected,
+.ui-tabs-nav .ui-state-active
+{
 	background-color: #fff;
 	border-left: 1px solid #DFDFDF;
 	border-right: 1px solid #DFDFDF;
@@ -87,12 +89,18 @@
 }
 
 .ui-tabs-selected a,
-.ui-tabs-selected a:hover {
+.ui-tabs-selected a:hover,
+.ui-state-active a,
+.ui-state-active a:hover,
+ {
 	color:#D54E21 !important;
 }
 
 .ui-tabs-nav .ui-tabs-selected a,
-.ui-tabs-nav .ui-tabs-selected a:hover  {
+.ui-tabs-nav .ui-tabs-selected a:hover,
+.ui-tabs-nav .ui-state-active a,
+.ui-tabs-nav .ui-state-active a:hover,
+  {
     position: relative;
     top: 1px;
     z-index: 2;
@@ -115,22 +123,32 @@
     width: auto;
     height: auto;
 }
-.ui-tabs-nav .ui-tabs-selected a span {
+.ui-tabs-nav .ui-tabs-selected a span,
+.ui-tabs-nav .ui-state-active a span
+ {
     padding-bottom: 1px;
 }
-.ui-tabs-nav .ui-tabs-selected a, .ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active {
+.ui-tabs-nav .ui-tabs-selected a,
+.ui-tabs-nav .ui-state-active a,
+.ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active {
     background-position: 100% -150px;
 }
 .ui-tabs-nav a, .ui-tabs-nav .ui-tabs-disabled a:hover, .ui-tabs-nav .ui-tabs-disabled a:focus, .ui-tabs-nav .ui-tabs-disabled a:active {
     background-position: 100% -100px;
 }
-.ui-tabs-nav .ui-tabs-selected a span, .ui-tabs-nav a:hover span, .ui-tabs-nav a:focus span, .ui-tabs-nav a:active span {
+.ui-tabs-nav .ui-tabs-selected a span,
+.ui-tabs-nav .ui-state-active a span,
+.ui-tabs-nav a:hover span, .ui-tabs-nav a:focus span, .ui-tabs-nav a:active span {
     background-position: 0 -50px;
 }
 .ui-tabs-nav a span, .ui-tabs-nav .ui-tabs-disabled a:hover span, .ui-tabs-nav .ui-tabs-disabled a:focus span, .ui-tabs-nav .ui-tabs-disabled a:active span {
     background-position: 0 0;
 }
-.ui-tabs-nav .ui-tabs-selected a:link, .ui-tabs-nav .ui-tabs-selected a:visited, .ui-tabs-nav .ui-tabs-disabled a:link, .ui-tabs-nav .ui-tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+.ui-tabs-nav .ui-tabs-selected a:link,
+.ui-tabs-nav .ui-tabs-selected a:visited,
+.ui-tabs-nav .ui-state-active a:link,
+.ui-tabs-nav .ui-state-active a:visited,
+.ui-tabs-nav .ui-tabs-disabled a:link, .ui-tabs-nav .ui-tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
     cursor: text;
 }
 .ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active,
