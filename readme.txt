@@ -469,4 +469,4 @@ PHP Simple HTML DOM Parser (added in 2.4.10) is now disabled because it causes s
 Some improvements
 
 = 2.4.13 =
-Capability settings changed.
+Capability settings changed: you have to go to Newsletters → Settings → tab Permissions and update settings
