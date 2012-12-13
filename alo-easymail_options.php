@@ -147,8 +147,8 @@ if ( isset($_REQUEST['submit']) ) {
 		
 		// Tab BATCH SENDING
 		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_batch" ) {
-			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 300 && (int)$_POST['dayrate'] <= 10000 ) update_option('alo_em_dayrate', trim((int)$_POST['dayrate']));
-			if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 10 && (int)$_POST['batchrate'] <= 300 ) update_option('alo_em_batchrate', trim((int)$_POST['batchrate']));
+			if(isset($_POST['dayrate']) && (int)$_POST['dayrate'] >= 100 && (int)$_POST['dayrate'] <= 10000 ) update_option('alo_em_dayrate', trim((int)$_POST['dayrate']));
+			if(isset($_POST['batchrate']) && (int)$_POST['batchrate'] >= 5 && (int)$_POST['batchrate'] <= 200 ) update_option('alo_em_batchrate', trim((int)$_POST['batchrate']));
 			if(isset($_POST['sleepvalue']) && (int)$_POST['sleepvalue'] <= 5000 ) update_option('alo_em_sleepvalue', trim((int)$_POST['sleepvalue']));
 		} // end Tab BATCH SENDING
 
@@ -864,7 +864,7 @@ echo '</td></tr>';
 <tr valign="top">
 <th scope="row"><label for="dayrate"><?php _e("Maximum number of emails that can be sent in a 24-hr period", "alo-easymail") ?>:</label></th>
 <td><input type="text" name="dayrate" value="<?php echo get_option('alo_em_dayrate') ?>" id="dayrate" size="5" maxlength="5" />
-<span class="description">(300 - 10000)</span></td>
+<span class="description">(100 - 10000)</span></td>
 </tr>
 
 <tr valign="top">
@@ -873,7 +873,7 @@ echo '</td></tr>';
 	<?php echo " (". sprintf( __('every %s minutes', "alo-easymail"), ALO_EM_INTERVAL_MIN ) ."):"; ?>
 	</label></th>
 <td><input type="text" name="batchrate" value="<?php echo get_option('alo_em_batchrate') ?>" id="batchrate" size="5" maxlength="3" />
-<span class="description">(10 - 300) <?php _e("Recommended", "alo-easymail") ?>: &le; 30.</span></td>
+<span class="description">(5 - 200) <?php _e("Recommended", "alo-easymail") ?>: &le; 30.</span></td>
 </tr>
 
 <tr valign="top">
