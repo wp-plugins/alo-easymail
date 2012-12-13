@@ -514,7 +514,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 			}
 		}
 		
-		if ( $debug_response ) echo "RECIPIENTS\n<pre>". print_r ( $recipients, true ). "</pre>"; // DEBUG
+		//if ( $debug_response ) echo "RECIPIENTS\n<pre>". print_r ( $recipients, true ). "</pre>"; // DEBUG
 		
 		if ( $now_doing && $recipients ) {
 		
@@ -589,7 +589,7 @@ function alo_em_add_recipients_from_cache_to_db ( $newsletter, $limit=10, $sendn
 									break;			
 			case "subscribers":		unset ( $cache['subscribers'] ); 			break;
 			case "list":  			unset ( $cache['list'][$now_doing_list] );
-									if ( ! reset( $cache['list'] ) ) unset( $cache['list'] );
+									//if ( ! reset( $cache['list'] ) ) unset( $cache['list'] );
 									break;
 		endswitch; endif;
 		
@@ -1147,11 +1147,13 @@ function alo_em_user_form ( opt )
 {
   <?php
   $alo_em_cf = alo_easymail_get_custom_fields();
+
+  $classfeedback = apply_filters ( 'alo_easymail_widget_error_class', 'alo_easymail_widget_error' );  // Hook
   ?>
   
   // updating...
   document.getElementById('alo_easymail_widget_feedback').innerHTML = '';
-  document.getElementById('alo_easymail_widget_feedback').className = 'alo_easymail_widget_error';
+  document.getElementById('alo_easymail_widget_feedback').className = '<?php echo $classfeedback ?>';
   document.getElementById('alo_em_widget_loading').style.display = "inline";  
   
    var alo_em_sack = new sack( 
@@ -1328,7 +1330,7 @@ function alo_em_user_form_callback() {
 	// Nonce error make exit now
 	if ( ! wp_verify_nonce($_POST['alo_em_nonce'], 'alo_em_form') ) {
 		$output = esc_js($_POST['alo_easymail_txt_generic_error']) . ".<br />";
-		$classfeedback = "alo_easymail_widget_error";
+		$classfeedback = apply_filters ( 'alo_easymail_widget_error_class', 'alo_easymail_widget_error' );  // Hook
 		$feedback = "";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
@@ -1405,10 +1407,10 @@ function alo_em_user_form_callback() {
 		// Compose JavaScript for return
 		if ( $error_on_adding == false ) {
 			$output = esc_js($_POST['alo_easymail_txt_success']);
-			$classfeedback = "alo_easymail_widget_ok";
+			$classfeedback = apply_filters ( 'alo_easymail_widget_ok_class', 'alo_easymail_widget_ok' );  // Hook
 		} else {
 			$output = $error_on_adding;
-        	$classfeedback = "alo_easymail_widget_error";
+        	$classfeedback = apply_filters ( 'alo_easymail_widget_error_class', 'alo_easymail_widget_error' );  // Hook
 		}
 		$feedback = "";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
@@ -1443,7 +1445,7 @@ function alo_em_pubblic_form_callback() {
 	// Nonce error make exit now
 	if ( ! wp_verify_nonce($_POST['alo_em_nonce'], 'alo_em_form') ) {
 		$output = esc_js($_POST['alo_easymail_txt_generic_error']) . ".<br />";
-		$classfeedback = "alo_easymail_widget_error";
+		$classfeedback = apply_filters ( 'alo_easymail_widget_error_class', 'alo_easymail_widget_error' );  // Hook
 		$feedback = "";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').innerHTML = '". $output ."';";
 		$feedback .= "document.getElementById('alo_easymail_widget_feedback').className = '".$classfeedback."';";
@@ -1513,10 +1515,10 @@ function alo_em_pubblic_form_callback() {
         } 
         if ($just_added == true) {
 			$output = esc_js($_POST['alo_em_txt_ok']);   
-       		$classfeedback = "alo_easymail_widget_ok";
+       		$classfeedback = apply_filters ( 'alo_easymail_widget_ok_class', 'alo_easymail_widget_ok' );  // Hook
         } else {
 			$output = $error_on_adding;
-        	$classfeedback = "alo_easymail_widget_error";
+        	$classfeedback = apply_filters ( 'alo_easymail_widget_error_class', 'alo_easymail_widget_error' );  // Hook
        	}
 
 		// Compose JavaScript for return

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.4.13
+Stable tag: 2.4.14
 License: GPLv2 or later
 
 To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
@@ -56,6 +56,7 @@ You can visit [code.google.com/p/alo-easymail/](http://code.google.com/p/alo-eas
 = MORE OPTIONS =
 1. Go to `Newsletters > Settings` to setup options
 1. Go to `Newsletters > Subscribers` to manage subscribers
+1. Go to `Pages > All Pages` to customize the Newsletter page
 
 Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newsletter/) | [guide](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-guide/) | [faq](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/) | [for developers](http://www.eventualo.net/blog/easymail-newsletter-for-developers/) | [forum](http://www.eventualo.net/forum/) | [news](http://www.eventualo.net/blog/category/alo-easymail-newsletter/)
 
@@ -72,6 +73,12 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.14 =
+* Fixed: newsletters were sent only to one mailing list though more lists were chosen, now send to all selected lists 
+* Updated: some limits in batch sending settings
+* Added: yes/no texts in report
+* Added: some hook filters: 'alo_easymail_widget_ok_class', 'alo_easymail_widget_error_class', 'alo_easymail_placeholders_title_easymail_post_vars'
 
 = 2.4.13 =
 * Added: new capabilities for newsletter post type and new permission settings
@@ -470,3 +477,6 @@ Some improvements
 
 = 2.4.13 =
 Capability settings changed: you have to go to Newsletters → Settings → tab Permissions and update settings
+
+= 2.4.14 =
+Fixed a bug about sending to more than one mailing list.

@@ -277,14 +277,14 @@ elseif ( !alo_em_is_newsletter_recipients_archived ( $newsletter ) ) : 	?>
 					echo "<td class='center'>";
 					if ( isset( $recipient->lang ) ) echo alo_em_get_lang_flag( $recipient->lang, 'name' ) ;
 					echo "</td>";
-					echo "<td class='center'><img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" ) ? "yes.png":"no.png" ) ."' alt='". ( ( $recipient->result == "1" ) ? __("Yes", "alo-easymail" ) : __("No", "alo-easymail" ) ) ."' /></td>";
+					echo "<td class='center'>".( ( $recipient->result == "1" ) ? __("Yes", "alo-easymail" ) : __("No", "alo-easymail" ) )." <img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" ) ? "yes.png":"no.png" ) ."' alt='". ( ( $recipient->result == "1" ) ? __("Yes", "alo-easymail" ) : __("No", "alo-easymail" ) ) ."' /></td>";
 					echo "<td class='center'>";
-					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_recipient_is_tracked ( $recipient->ID, '' ) )? "yes.png":"no.png" ) ."' />";
+					echo ( ( $recipient->result == "1" && alo_em_recipient_is_tracked ( $recipient->ID, '' ) ) ? __("Yes", "alo-easymail" ) : __("No", "alo-easymail" ) )." <img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_recipient_is_tracked ( $recipient->ID, '' ) )? "yes.png":"no.png" ) ."' />";
 					if ( count( alo_em_get_recipient_trackings( $recipient->ID, '' ) ) > 1 ) echo " ". count( alo_em_get_recipient_trackings( $recipient->ID, '' ) );
 					echo "</td>";
 
 					echo "<td class='center'>";
-					echo "<img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_get_recipient_trackings_except_views ( $recipient->ID) )? "yes.png":"no.png" ) ."' />";
+					echo ( ( $recipient->result == "1" && alo_em_get_recipient_trackings_except_views ( $recipient->ID) ) ? __("Yes", "alo-easymail" ) : __("No", "alo-easymail" ) )." <img src='".ALO_EM_PLUGIN_URL."/images/".( ( $recipient->result == "1" && alo_em_get_recipient_trackings_except_views ( $recipient->ID) )? "yes.png":"no.png" ) ."' />";
 					if ( count( alo_em_get_recipient_trackings_except_views( $recipient->ID ) ) > 1 ) echo " ". count( alo_em_get_recipient_trackings_except_views( $recipient->ID ) );
 					echo "</td>";
 					 

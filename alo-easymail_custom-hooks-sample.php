@@ -272,6 +272,7 @@ add_action ( 'alo_easymail_subscriber_activated',  'custom_easymail_subscriber_a
  * 	sql_attr			: 	the attributes for the column in database table (default: "VARCHAR(100) DEFAULT NULL")
  * 	sql_key				:	the column in database table is an index (default: false): set up it to yes if you like to make custom queries
  * 							looking for the field. Note: if true, in subscribers list table, the column is ordinable by this field
+ *  input_mandatory		:	the field must be filled (default: false)
  * 	input_validation	:	a string rappresenting the name of a php function to be invoked to check the value
  * 							when submitted by subscriber. It must return a bolean true or false.
  * 							Leave false for no validation check (default: false).
