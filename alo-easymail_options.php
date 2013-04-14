@@ -109,7 +109,13 @@ if ( isset($_REQUEST['submit']) ) {
 				update_option('alo_em_publish_newsletters', "yes");
 			} else {
 				update_option('alo_em_publish_newsletters', "no") ;
-			}			
+			}
+			if ( isset($_POST['hide_widget_users']) ) {
+				update_option('alo_em_hide_widget_users', "yes");
+			} else {
+				update_option('alo_em_hide_widget_users', "no") ;
+			}
+			
 			
 		} // end Tab GENERAL
 
@@ -133,7 +139,7 @@ if ( isset($_REQUEST['submit']) ) {
 			} else {
 				update_option('alo_em_js_rec_list', "no") ;
 			}			
-			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","ajax_minimal","ajax_periodicalupdater","no_ajax_onsavepost") ) )
+			if(isset($_POST['js_rec_list']) && in_array( $_POST['js_rec_list'], array("ajax_normal","no_ajax_onsavepost") ) )
 				update_option('alo_em_js_rec_list', $_POST['js_rec_list']);
 
 			if(isset($_POST['campaign_vars']) && in_array( $_POST['campaign_vars'], array("no","google") ) )
@@ -319,6 +325,19 @@ if ( get_option('alo_em_no_activation_mail') == "yes" ) {
 
 
 <?php 
+if ( get_option('alo_em_hide_widget_users') == "yes" ) {
+	$checked_hide_widget_users = 'checked="checked"';
+} else {
+	$checked_hide_widget_users = "";
+}
+?>
+<tr valign="top">
+<th scope="row"><?php _e("Hide widget from users", "alo-easymail") ?>:</th>
+<td><input type="checkbox" name="hide_widget_users" id="hide_widget_users" value="yes" <?php echo $checked_hide_widget_users ?> /> <span class="description"><?php _e("If yes, the widget will be not shown to registered users", "alo-easymail") ?>. <?php _e("They can always edit newsletter subscription in profile page", "alo-easymail") ?>.</span></td>
+</tr>
+
+
+<?php 
 if ( get_option('alo_em_publish_newsletters') == "yes" ) {
 	$checked_publish_newsletters = 'checked="checked"';
 } else {
@@ -486,9 +505,7 @@ if ( get_option('alo_em_js_rec_list') ) {
 <td>
 <select name='js_rec_list' id='js_rec_list'>
 	<?php $values_js_rec_list = array ( 
-		"ajax_normal" 		=> __("ajax", "alo-easymail"). ": smartupdater.js (" . __("Default", "alo-easymail").")" ,
-		"ajax_minimal" 		=> __("ajax", "alo-easymail").": smartupdater.js " . " (" . __("loading only javascript of the plugin", "alo-easymail") .")",
-		"ajax_periodicalupdater" => __("ajax", "alo-easymail") . ": periodicalupdater.js", 
+		"ajax_normal" 		=> __("ajax", "alo-easymail") . " (" . __("Default", "alo-easymail") .")",
 		"no_ajax_onsavepost"=> __("no ajax", "alo-easymail"). ": " . __("creation when newsletter is saved", "alo-easymail")
 	);
 	foreach( $values_js_rec_list as $key => $label ) :
@@ -496,8 +513,6 @@ if ( get_option('alo_em_js_rec_list') ) {
 	endforeach; ?>
 </select>
 <br /><span class="description"><?php _e("If the standard and cool method does not work for you, you can try another option", "alo-easymail") ?>.
-<?php _e("You can load only javascript of the plugin, useful to prevent conflicts with javascripts of other plugins", "alo-easymail") ?>.
-<?php _e("You can try an alternative javascript library", "alo-easymail") ?>.
 <?php _e("Otherwise, you can create the list directly when the newsletter is saved, without use of ajax", "alo-easymail") ?>:
 <?php _e("this is the quickest and safest mode, but it could not work if case of several thousands of recipients", "alo-easymail") ?>.
 </span></td>

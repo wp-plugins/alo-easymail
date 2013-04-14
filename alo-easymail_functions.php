@@ -1136,6 +1136,9 @@ add_action('wp_head', 'alo_em_ajax_js' );
 
 function alo_em_ajax_js()
 {
+	// Do not include js if required
+	if ( get_option('alo_em_hide_widget_users') == "yes" && is_user_logged_in() ) return;
+	
   // use JavaScript SACK library for Ajax
   wp_print_scripts( array( 'sack' ));
 
@@ -2409,37 +2412,6 @@ add_filter ( 'the_content',  'alo_em_filter_content_in_site' );
 
 
 /**
- * DEPRECATED: use [CUSTOM-LINK] placeholder
- * 
- * Filter Newsletter Content when sending: search for links and replace with trackable links
- *
- * Priority 3: before than the placeholder replace
- */
-function alo_em_make_links_trackable_in_content ( $content, $newsletter, $recipient, $stop_recursive_the_content=false ) {
-	global $wp_version;
-	if ( !is_object( $recipient ) ) $recipient = new stdClass();
-	if ( empty( $recipient->lang ) ) $recipient->lang = alo_em_short_langcode ( get_locale() );
-
-	if ( defined( 'ALO_EM_LOAD_SIMPLEHTMLDOM' ) ) {
-
-		$html = str_get_html( $content ); // it's simple_html_dom
-		if ( is_object( $html ) ) {
-			foreach($html->find('a') as $e) {
-				$e->href = alo_em_make_url_trackable ( $recipient, $e->href );
-			}
-		}
-		
-	} else {
-		
-		$html = $content;
-	}
-
-	return $html;
-}
-add_filter ( 'alo_easymail_newsletter_content',  'alo_em_make_links_trackable_in_content', 3, 4 );
-
-
-/**
  * Add [CUSTOM-LINK] placeholder
  */
 function alo_em_customlink_placeholder ( $placeholders ) {
@@ -3597,8 +3569,14 @@ function alo_em_get_subscriber_table_row ( $subscriber_id, $row_index=0, $edit=f
 		}
 				
 		$html .= "<td>";
-		if ( $user_id = email_exists($subscriber->email) ) {
-			$user_info = get_userdata( $user_id );
+
+		$user_id = email_exists($subscriber->email);
+		if ( !$user_id ) {
+			$user_id = apply_filters ( 'alo_easymail_get_userid_by_subscriber', false, $subscriber );  // Hook
+		}
+		if ( $user_id ) {
+			$user_info = get_userdata( $user_id );		
+			
 			if ( get_current_user_id() == $user_id ) {
 				$profile_link = 'profile.php';
 			} else {
