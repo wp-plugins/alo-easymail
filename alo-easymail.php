@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.14
+Version: 2.4.15
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -49,8 +49,6 @@ if ( version_compare ( $wp_version , '3.1', '<' ) ) require_once( ABSPATH . WPIN
 require_once( 'alo-easymail_functions.php' );
 require_once( 'alo-easymail-widget.php' );
 
-// SimpleDom deprecated in 2.4.12: use [CUSTOM-LINK] instead
-if ( defined( 'ALO_EM_LOAD_SIMPLEHTMLDOM' ) && ! class_exists('simple_html_dom_node') ) require_once( ALO_EM_PLUGIN_ABS .'/inc/simple_html_dom.php' );
 
 /**
  * File including custom hooks. See plugin homepage or inside that file for more info.
@@ -118,12 +116,13 @@ function alo_em_install() {
 	if (!get_option('alo_em_show_subscripage')) add_option('alo_em_show_subscripage', 'no');
 	if (!get_option('alo_em_embed_css')) add_option('alo_em_embed_css', 'no');
 	if (!get_option('alo_em_no_activation_mail')) add_option('alo_em_no_activation_mail', 'no');
-	if (!get_option('alo_em_show_credit_banners')) add_option('alo_em_show_credit_banners', 'no');
+	if (!get_option('alo_em_show_credit_banners')) add_option('alo_em_show_credit_banners', 'yes');
 	if (!get_option('alo_em_filter_br')) add_option('alo_em_filter_br', 'no');
 	if (!get_option('alo_em_filter_the_content')) add_option('alo_em_filter_the_content', 'yes');
 	if (!get_option('alo_em_js_rec_list')) add_option('alo_em_js_rec_list', 'ajax_normal');
 	if (!get_option('alo_em_use_themes')) add_option('alo_em_use_themes', 'yes');
 	if (!get_option('alo_em_publish_newsletters')) add_option('alo_em_publish_newsletters', 'yes');
+	if (!get_option('alo_em_hide_widget_users')) add_option('alo_em_hide_widget_users', 'no');
 	
 	alo_em_setup_predomain_texts( false );
 		    	    
@@ -870,7 +869,7 @@ add_action ('manage_posts_custom_column', 'alo_em_table_column_value' );
  * Update status column after closing recipients thickbox
  */
 function alo_em_ajax_column_status () {
-	$newsletter = $_POST['post_id'];
+	$newsletter = (int)$_POST['post_id'];
 	if ( $newsletter ) alo_em_update_column_status( $newsletter );
 	die();
 }
@@ -1109,9 +1108,10 @@ function alo_em_update_column_status ( $newsletter ) {
 						
 					default:
 						if ( get_option('alo_em_js_rec_list') != "no_ajax_onsavepost" ) { // if required, no link to ajax
-							$rec_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_recipients-list.php?', 'alo-easymail_recipients-list');
+							//$rec_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_recipients-list.php?', 'alo-easymail_recipients-list');
 							if ( alo_em_user_can_edit_newsletter( $newsletter ) && current_user_can( "publish_newsletters" ) ) {
-								echo "<a href=\"#\" onclick=\"jQuery(this).easymailRecipientsGenPopup ( '$rec_url', $newsletter, '". alo_em_get_language () ."' );\">";
+								//echo "<a href=\"#\" onclick=\"jQuery(this).easymailRecipientsGenPopup ( '$rec_url', $newsletter, '". alo_em_get_language () ."' );\">";
+								echo "<a href=\"#\" class=\"easymail-reciepient-list-open\"  rel=\"".$newsletter."\">";
 								echo "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-arrow-right.png\" alt=\"\" /> <strong class=\"easymail-column-status-required-list-".$user_ID."\">" . __( 'Required', "alo-easymail") .":</strong> " . __( 'Create list of recipients', "alo-easymail");
 								echo "</a>";
 							} else {
@@ -1377,6 +1377,19 @@ function alo_em_add_admin_script () {
 		
 		wp_enqueue_script( 'alo-easymail-backend', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend.js' );
 		wp_localize_script( 'alo-easymail-backend', 'easymailJs', alo_em_localize_admin_script() );
+
+
+		wp_enqueue_script( 'json2' );
+		wp_enqueue_script( 'jquery', false, array( 'json2' ) );
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_script( 'alo-easymail-smartupdater', ALO_EM_PLUGIN_URL . '/inc/smartupdater.js', array('jquery'), '3.2.00' );
+		//wp_enqueue_script( 'alo-easymail-backend-recipients-list', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend-recipients-list.js' );
+		wp_enqueue_style( 'alo-easymail-backend-css', ALO_EM_PLUGIN_URL.'/inc/alo-easymail-backend.css' );
+
+		wp_enqueue_script ( 'jquery-ui-dialog' );
+		wp_enqueue_script ( 'jquery-ui-resizable' );
+		wp_enqueue_script ( 'jquery-ui-draggable' );
+		wp_enqueue_style (  'wp-jquery-ui-dialog');
 	}
 }
 add_action('admin_print_scripts', 'alo_em_add_admin_script' );
@@ -1395,11 +1408,16 @@ function alo_em_localize_admin_script () {
         'subscribersPopupTitle' => esc_js( __("Newsletter subscribers creation", "alo-easymail") ),
         'themePreviewUrl' => alo_easymail_get_themes_url(),
 		'nonce' => wp_create_nonce( 'alo-easymail' ),
+		'errGeneric' => esc_js( __("Error during operation.", "alo-easymail") ),
 		'errEmailNotValid' => esc_js( __("The e-email address is not correct", "alo-easymail") ),
 		'errNameIsBlank' => esc_js( __("The name field is empty", "alo-easymail") ),
 		'errEmailAlreadySubscribed'=> esc_js( __("There is already a subscriber with this e-email address", "alo-easymail") ),
 		'confirmDelSubscriber'=> esc_js( __("Do you really want to DELETE this subscriber?", "alo-easymail") ),
-		'confirmDelSubscriberAndUnsubscribe'=> esc_js( __("Do you really want to DELETE this subscriber?", "alo-easymail").' '. __("The email address will be added to the list of who unsubscribed", "alo-easymail") .": ". __("so you cannot add or import these email addresses using the tools in admin pages", "alo-easymail") )		
+		'confirmDelSubscriberAndUnsubscribe'=> esc_js( __("Do you really want to DELETE this subscriber?", "alo-easymail").' '. __("The email address will be added to the list of who unsubscribed", "alo-easymail") .": ". __("so you cannot add or import these email addresses using the tools in admin pages", "alo-easymail") ),
+		'txtClose' => esc_js( __("close", "alo-easymail") ),
+		'titleRecListModal' => esc_js( __( 'Create list of recipients', "alo-easymail") ),
+		'txt_success_added' => esc_js( __( 'Recipients successfully added', "alo-easymail" ) ),
+	   	'txt_success_sent' => esc_js( __( 'Newsletter successfully sent to recipients', "alo-easymail" ) ),
     );
 }
 
@@ -2021,7 +2039,7 @@ else if ( version_compare ( $wp_version , '3.3', '>=' ) )
  */
 function alo_em_send_mailtest () {
 	$result = "no";
-	check_ajax_referer( "alo-easymail_recipients-list" );
+	check_ajax_referer( "alo-easymail" );
 	$newsletter = ( isset( $_POST['newsletter'] ) && is_numeric( $_POST['newsletter'] ) ) ? (int) $_POST['newsletter'] : false;
 	$email = ( isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) ? $_POST['email'] : false;
 	if ( $email && $newsletter && current_user_can( "publish_newsletters" ) ) {
@@ -2438,4 +2456,143 @@ function alo_em_print_pointer_footer_scripts() {
 	endif; // In newsletter list screen	
 	
 }
+
+
+
+/**
+ * Button to preview in newsletter theme
+ */
+
+function alo_em_add_media_button() {
+	global $post;
+
+	if ( get_option('alo_em_use_themes') == 'no' ) return;
+	
+	if (is_object($post) && $post->post_type == 'newsletter') :
 ?>
+<a title="Newsletter preview"  id="easymail-open-preview" class="preview button" href="#"><img id="easymail-open-preview-loading" src="<?php echo ALO_EM_PLUGIN_URL ?>/images/wpspin_light" alt="" style="vertical-align: text-bottom;display: none;margin-right: 0.5em" /><?php echo __('Preview in newsletter theme', 'alo-easymail') ?></a>
+<?php
+	endif;
+}
+add_action('media_buttons', 'alo_em_add_media_button', 11);
+
+
+// When click Previe btn, save the content
+function alo_em_save_newsletter_content_transient () {
+	global $user_ID;
+	check_ajax_referer( "alo-easymail" );
+	$newsletter_id = ( isset( $_POST['newsletter'] ) && is_numeric( $_POST['newsletter'] ) ) ? (int) $_POST['newsletter'] : false;
+	$theme = ( isset( $_POST['theme'] ) && array_key_exists( $_POST['theme'], alo_easymail_get_all_themes() ) ) ? stripslashes(trim( $_POST['theme'] ) ) : '';
+
+	if ( $newsletter_id )
+	{
+		$data = array( 'theme' => $theme );
+		set_transient( 'alo_em_content_preview_'.$newsletter_id, $data, 60*3 );
+		die ( '1' );
+	}
+	die( '-1' );
+}
+add_action('wp_ajax_alo_easymail_save_newsletter_content_transient', 'alo_em_save_newsletter_content_transient');
+
+
+// When save newsletter, delete content in transient
+function alo_em_delete_newsletter_content_transient ( $post_id ) {
+	delete_transient( 'alo_em_content_preview_'.$post_id );
+} 
+add_action('alo_easymail_save_newsletter_meta_extra',  'alo_em_delete_newsletter_content_transient' );
+
+
+
+/**
+ * Genration of List of recipients in modal
+ */
+
+function alo_em_recipient_list_modal() {
+	global $post, $pagenow, $user_email;
+	if ( $pagenow == "post.php" || ( isset( $_GET['post_type'] ) && $_GET['post_type'] == "newsletter" ) ) { ?>
+
+<div id="easymail-recipient-list-modal" data-current-id="" data-previous-id="">
+
+
+	<div id='alo-easymail-bar-outer' style="display:none"><div id='alo-easymail-bar-inner'></div></div>
+
+	<div id="alo-easymail-list-disclaimer">
+		<p><?php _e("You have to prepare the list of recipients to send the newsletter to", "alo-easymail") ?>.</p>
+		<p><?php _e("You can add the recipients to the sending queue (best choice) or send them the newsletter immediately (suggested only if few recipients)", "alo-easymail") ?>.</p>
+		<p><em><?php _e("Warning: do not close or reload the browser window during process", "alo-easymail") ?>.</em></p>
+		<br /><br />
+		<p><?php _e("You can send the newsletter as test to", "alo-easymail") ?>: 
+			<input type="text" id="easymail-testmail" name="easymail-testmail" size="20" value="<?php echo $user_email; ?>" />
+			<button type="button" class="button easymail-navbutton easymail-send-testmail"><?php _e("Send", "alo-easymail") ?></button> 
+			<img src="<?php echo ALO_EM_PLUGIN_URL?>/images/wpspin_light.gif" style="display:none;vertical-align: middle;" id="easymail-testmail-loading" />
+			<img src="<?php echo ALO_EM_PLUGIN_URL?>/images/no.png" style="display:none;vertical-align: middle;"  id="easymail-testmail-no" alt="<?php _e("Yes", "alo-easymail") ?>" />
+			<img src="<?php echo ALO_EM_PLUGIN_URL?>/images/yes.png" style="display:none;vertical-align: middle;" id="easymail-testmail-yes" alt="<?php _e("No", "alo-easymail") ?>" />
+		</p>
+	</div>
+
+	<div id="ajaxloop-response"></div>
+
+	<!--[if lte IE 7]>
+	<div style="float: left;">
+	<![endif]-->
+	<div id="easymail-recipients-navbar">
+		<button type="button" class="button easymail-navbutton easymail-navbutton-primary easymail-recipients-start-loop"><?php _e("Add to sending queue", "alo-easymail") ?></button> 
+		
+		<button type="button" class="button easymail-navbutton easymail-recipients-start-loop-and-send"><?php _e("Send now", "alo-easymail") ?></button> 
+		<button type="button" class="button easymail-navbutton easymail-recipients-pause-loop" style="display:none"><?php _e("pause", "alo-easymail") ?></button> 
+		<button type="button" class="button easymail-navbutton easymail-recipients-restart-loop" style="display:none"><?php _e("continue", "alo-easymail") ?></button> 
+
+	</div>
+	<!--[if lte IE 7]>
+	</div>
+	<![endif]-->
+
+</div>
+<?php
+	}
+}
+add_action('admin_footer', 'alo_em_recipient_list_modal');
+
+
+function alo_em_ajax_recipient_list_ajaxloop () {
+	global $user_ID;
+	check_ajax_referer( "alo-easymail" );
+
+	$response = array();
+	$response['error'] = '';
+	
+	if ( isset( $_POST['newsletter'] ) ) {
+		$newsletter = (int)$_POST['newsletter'];
+		if ( get_post_type( $newsletter ) != "newsletter" ) $response['error'] = esc_js( __('The required newsletter does not exist', "alo-easymail") ); 
+		if ( !get_post( $newsletter ) ) $response['error'] = esc_js( __('The required newsletter does not exist', "alo-easymail")  );
+		if ( !alo_em_user_can_edit_newsletter( $newsletter ) ) $response['error'] = esc_js( __('Cheatin&#8217; uh?')  );
+
+		$post_status = get_post_status( $newsletter );
+		if ( $post_status == "draft" || $post_status == "pending" )  $response['error'] = esc_js( __('A newsletter cannot be sent if its status is draft or pending review') );
+	} else {
+		$response['error'] = esc_js( __('Cheatin&#8217; uh?')  ); 
+	}
+	
+	if ( $response['error'] == '' )
+	{
+		// If missing prepare cache 
+		if ( !alo_em_get_cache_recipients( $newsletter ) ) {
+			alo_em_create_cache_recipients( $newsletter );
+		} else {
+			// Now add a part of recipients into the db table 
+			$sendnow = ( isset( $_POST['sendnow'] ) && $_POST['sendnow'] == "yes" ) ? true : false;
+			$limit = apply_filters ( 'alo_easymail_ajaxloop_recipient_limit', 15 );  // Hook
+			alo_em_add_recipients_from_cache_to_db( $newsletter, $limit, $sendnow );
+		}
+		$response['n_done'] = alo_em_count_newsletter_recipients( $newsletter );
+		$response['n_tot'] =  alo_em_count_recipients_from_meta( $newsletter /*, true */ );
+		$response['perc'] =  ( $response['n_done'] > 0 && $response['n_tot'] > 0 ) ? round ( $response['n_done'] * 100 / $response['n_tot'] ) : 0;
+	}
+	
+	header( "Content-Type: application/json" );
+	die( json_encode ( $response ) );
+	
+}
+add_action('wp_ajax_alo_easymail_recipient_list_ajaxloop', 'alo_em_ajax_recipient_list_ajaxloop');
+
+

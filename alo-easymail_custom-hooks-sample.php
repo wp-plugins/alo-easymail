@@ -341,4 +341,78 @@ function custom_easymail_cf_check_number_5_digits ($data) {
 	}
 }
 
+
+
+/*******************************************************************************
+ * 
+ * EXAMPLE 
+ *
+ * Add an attachment to newsletters. In this sample there is only the same attach
+ * for every newsletter, but you can use $newsletter object to add different
+ * attachments for newsletters.
+ *
+ * @since: 2.4.15 
+ *
+ ******************************************************************************/
+ 
+function custom_easymail_newsletter_attachment ( $attachs, $newsletter ) {
+
+	$attach = WP_CONTENT_DIR . '/uploads/sample.pdf';
+	
+	return $attach;
+}
+// UNCOMMENT NEXT LINE TO ENABLE IT
+// add_filter ( 'alo_easymail_newsletter_attachments',  'custom_easymail_newsletter_attachment', 10, 2 );
+
+
+
+/*******************************************************************************
+ * 
+ * EXAMPLE 
+ *
+ * Add Category taxonomy to newsletters
+ *
+ * @since: 2.4.15 
+ *
+ ******************************************************************************/
+ 
+function custom_easymail_add_categories ( $args ) {
+	$args['taxonomies'] = array( 'category' );
+	return $args;
+}
+// UNCOMMENT NEXT LINE TO ENABLE IT
+//add_filter ( 'alo_easymail_register_newsletter_args', 'custom_easymail_add_categories' );
+
+
+
+/*******************************************************************************
+ * 
+ * EXAMPLE 
+ *
+ * Use newsletter author info as sender, instead of setting default
+ *
+ * @since: 2.4.15 
+ *
+ ******************************************************************************/
+
+function custom_easymail_headers_author ( $headers, $newsletter ) {
+
+	$user_info = get_userdata( $newsletter->post_author );
+
+	$from_name = $user_info->user_login; // or: $user_info->user_firstname, $user_info->user_lastname...
+	$mail_sender = $user_info->user_email;
+
+	$headers = "From: ". $from_name ." <".$mail_sender.">\n";
+	$headers .= "Content-Type: text/html; charset=\"" . strtolower( get_option('blog_charset') ) . "\"\n";
+	
+	return $headers;
+}
+// UNCOMMENT NEXT LINE TO ENABLE IT
+// add_filter( 'alo_easymail_newsletter_headers', 'custom_easymail_headers_author', 10, 2 );
+
+
+// Add "Author" meta box in newsletter edit screen to select another user as author
+add_post_type_support( 'newsletter', 'author' );
+
+
 ?>

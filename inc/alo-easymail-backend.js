@@ -39,7 +39,7 @@ jQuery(document).ready( function($) {
 			if ( theme != "" ) jQuery.fn.easymailThemePreviewPopup( theme );
 			return false;
 		});
-			
+
 	}
 
 	/*
@@ -80,7 +80,48 @@ jQuery(document).ready( function($) {
 		});		
 	
 	}	
-	
+
+	// Preview in newsletter theme
+	if ( jQuery("#easymail-open-preview").length > 0 ) {
+		jQuery("#easymail-open-preview")
+			.insertAfter('a#post-preview')
+			.click(function(event) {
+				event.preventDefault();
+
+				jQuery("#easymail-open-preview-loading").show();
+				
+				var theme = jQuery( '#easymail-theme-select' ).val();
+							
+				var data = {
+					action			: 	'alo_easymail_save_newsletter_content_transient',
+					newsletter		:	easymailJs.postID,
+					theme			:	theme,
+					_ajax_nonce		: 	easymailJs.nonce
+				};				
+				
+				jQuery.post( easymailJs.ajaxurl, data, function(response) {
+					jQuery( '#easymail-modal-preview-loading' ).hide();
+					
+					if ( response == "-1" ) {
+						// error
+						alert( easymailJs.errGeneric );
+						jQuery("#easymail-open-preview-loading").hide();
+						
+					} else {
+
+						autosave();
+
+						setTimeout(function(){
+							jQuery("#easymail-open-preview-loading").hide();
+							window.open ( easymailJs.pluginPath + 'alo-easymail_preview.php?newsletter=' + easymailJs.postID + '&_wpnonce=' + easymailJs.nonce, 'easymail-preview-'+ easymailJs.postID ); 
+						}, 1000);
+				
+					}
+				});
+
+			});
+	}
+			
 
 	/*
 	 * Subscribers' Table page
@@ -292,8 +333,53 @@ jQuery(document).ready( function($) {
 		});		
 				
 	}	
-	
 
+
+	/*
+	 * List of recipient modal
+	 */
+	var $listModal = jQuery("#easymail-recipient-list-modal");
+
+	if ( $listModal.length > 0 ) {
+		
+		$listModal.dialog({                   
+			dialogClass   : 'wp-dialog',           
+			modal         : true,
+			autoOpen      : false, 
+			closeOnEscape : false,
+			width			: 700,
+			height		: 400,
+			title			: easymailJs.titleRecListModal,
+			resizable		: true,
+			buttons       : [{
+									text: easymailJs.txtClose,
+									click: function() { $(this).dialog("close"); },
+									class: 'button'
+								}],
+			beforeClose	:	function( event, ui ) {
+									if ( jQuery('.easymail-recipients-pause-loop').is(':visible') ) {
+										jQuery('.easymail-recipients-pause-loop').trigger( "click" );
+									}
+									jQuery(this).easymailUpdateColumStatus( jQuery(this).data('current-id') );
+								},
+			open			:	function( event, ui ) {
+									// Modal about a new newsletter recipient list: clear bar and response and show disclaimer
+									if ( jQuery(this).data('previous-id') != jQuery(this).data('current-id') ) {
+										jQuery('#alo-easymail-list-disclaimer').show();
+
+										jQuery('#ajaxloop-response').html('');
+										jQuery('#alo-easymail-bar-outer').hide();
+										jQuery('#alo-easymail-bar-inner').css( 'width', "0" );
+
+										jQuery('.easymail-recipients-start-loop').show();
+										jQuery('.easymail-recipients-start-loop-and-send').show();
+										jQuery('.easymail-recipients-pause-loop').hide();
+										jQuery('.easymail-recipients-restart-loop').hide();																
+									}
+								}								
+		});
+		
+	}
 	
 	/*
 	 * Functions
@@ -303,11 +389,13 @@ jQuery(document).ready( function($) {
 		tb_show ( easymailJs.reportPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&TB_iframe=true&height=570&width=800", false );
 		return false;
 	}	
-	
-	jQuery.fn.easymailRecipientsGenPopup = function ( url, newsletter, lang ){
-		tb_show ( easymailJs.subscribersPopupTitle, url +"&newsletter=" + newsletter + "&lang=" + lang + "&action=open_popup&TB_iframe=true&height=400&width=700&modal=true", false );
-		return false;
-    }
+
+	jQuery('.easymail-reciepient-list-open').live( "click", function(event) {
+		event.preventDefault();
+		$listModal.data('previous-id', $listModal.data('current-id') );
+		$listModal.data('current-id', jQuery(this).attr('rel') );
+		$listModal.dialog('open');
+	});
     
 	jQuery.fn.easymailThemePreviewPopup = function( theme ) {
 		window.open ( easymailJs.themePreviewUrl + theme );
@@ -329,6 +417,146 @@ jQuery(document).ready( function($) {
 		});
 		return false;
 	}	   
-		   	
+
+
+	/*
+	 * Recipient list modal
+	 */
+	if ( $listModal.length > 0 ) {
+			
+		jQuery.fn.easymailStartRecipientsLoop = function( send ) {
+			var sendnow = false;
+			if ( send == true ) sendnow = "yes";
+
+			jQuery('#ajaxloop-response').smartupdater( {
+					url : easymailJs.ajaxurl,
+					data: { 
+						action: 			'alo_easymail_recipient_list_ajaxloop', 
+						newsletter:			$listModal.data('current-id'), 
+						_ajax_nonce: 		easymailJs.nonce, 
+						txt_success_added: 	easymailJs.txt_success_added, 
+						txt_success_sent: 	easymailJs.txt_success_sent, 
+						sendnow: 			sendnow 
+					},
+					type: 'POST',
+					dataType: 'json',
+					minTimeout: 100
+				},
+				function ( data ) {
+					jQuery(this).easymailReturnFromUpdate( data, sendnow, false );
+			});
+			
+			jQuery('.easymail-recipients-start-loop').hide();
+			jQuery('.easymail-recipients-start-loop-and-send').hide();
+			jQuery('.easymail-recipients-pause-loop').show();
+			jQuery('.easymail-recipients-restart-loop').hide();
+			jQuery('#alo-easymail-list-disclaimer').hide();
+
+			jQuery('#alo-easymail-bar-outer').show();
+			jQuery('#ajaxloop-response').html( "<p>0% ...</p>" );
+		}
+		
+		// After each periodic update...
+		jQuery.fn.easymailReturnFromUpdate = function( data, sendnow, handle ) {
+			if ( data.error == '' )
+			{
+				jQuery('#alo-easymail-bar-outer').show();
+				jQuery('#alo-easymail-bar-inner').css( 'width', data.perc + "%" );
+				jQuery('#ajaxloop-response').empty();
+				if ( data.n_done >= data.n_tot ) {
+					var txt_succ = ( sendnow == "yes" ) ? easymailJs.txt_success_sent : easymailJs.txt_success_added ;
+					jQuery('#ajaxloop-response').html( "<p>"+ txt_succ + "!</p>" );
+					jQuery( '#alo-easymail-bar-inner').addClass ( 'stopped' );
+					jQuery('.easymail-recipients-start-loop').hide();
+					jQuery('.easymail-recipients-start-loop-and-send').hide();
+					jQuery('.easymail-recipients-pause-loop').hide();
+					jQuery('.easymail-recipients-restart-loop').hide();					
+					jQuery(this).easymailUpdateColumStatus( $listModal.attr('rel') );
+
+					jQuery('#ajaxloop-response').smartupdaterStop();
+				} else {
+					jQuery('#ajaxloop-response').html( data.perc + "% <small>(" + data.n_done + "/" + data.n_tot + ")</small>" );
+				}
+			}
+			else
+			{
+				jQuery('#ajaxloop-response').html( '<strong>' + data.error + '</strong>' );
+			}
+		}
+		
+		
+		jQuery.fn.easymailSendMailTest = function() {
+			var email = jQuery('#easymail-testmail').val();
+			jQuery('#easymail-testmail-yes,#easymail-testmail-no').hide();
+			jQuery('#easymail-testmail-loading').show();
+			jQuery.post( easymailJs.ajaxurl, {
+				action:			'easymail_send_mailtest',
+				newsletter:		$listModal.attr('rel'), 
+				_ajax_nonce: 	easymailJs.nonce, 
+				email: 			email
+			   }, 
+			   function ( response ) {
+					jQuery('#easymail-testmail-loading').hide();
+					if ( response == 'yes' ) {
+						jQuery('#easymail-testmail-yes').show();
+					} else {
+						jQuery('#easymail-testmail-no').show();
+					}
+			   }
+			);
+		};
+
+		jQuery.fn.easymailUpdateColumStatus = function( postId ) {
+			jQuery( '#easymail-refresh-column-status-loading-'+ postId ).show();
+			jQuery( '#alo-easymail-column-status-'+postId).html('');		
+			var data = {
+				action: 'alo_easymail_update_column_status',
+				post_id: postId
+			};
+			jQuery.post( easymailJs.ajaxurl, data, function(response) {
+				jQuery( '#easymail-refresh-column-status-loading-'+ postId ).hide();
+				jQuery( '#alo-easymail-column-status-'+postId).html( response );
+			});
+			return false;
+		};
+		
+		// Click Send Test Mail button
+		jQuery('.easymail-send-testmail').live( "click", function(event) {
+			event.preventDefault();
+			jQuery(this).easymailSendMailTest();
+		});	
+			
+		// Click Start "Put in queue" loop button
+		jQuery('.easymail-recipients-start-loop').live( "click", function(event) {
+			event.preventDefault();
+			jQuery(this).easymailStartRecipientsLoop( false );
+		});	
+
+		// Click Start "Send now" loop button
+		jQuery('.easymail-recipients-start-loop-and-send').live( "click", function(event) {
+			event.preventDefault();
+			jQuery(this).easymailStartRecipientsLoop( true );
+		});	
+			
+		jQuery('.easymail-recipients-restart-loop').live( "click", function(event) {
+			event.preventDefault();
+			jQuery('#ajaxloop-response').smartupdaterRestart();
+
+			jQuery('.easymail-recipients-pause-loop').show();
+			jQuery('.easymail-recipients-restart-loop').hide();
+			jQuery( '#alo-easymail-bar-inner').removeClass ( 'stopped' );
+		});
+
+		jQuery('.easymail-recipients-pause-loop').live( "click", function(event) {
+			event.preventDefault();
+			jQuery('#ajaxloop-response').smartupdaterStop();
+
+			jQuery('.easymail-recipients-restart-loop').show();
+			jQuery('.easymail-recipients-pause-loop').hide();
+			jQuery( '#alo-easymail-bar-inner').addClass ( 'stopped' );		
+		});
+
+	}  // if $modal
+			   	
 });
 

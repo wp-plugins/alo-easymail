@@ -183,7 +183,10 @@ class ALO_Easymail_Widget extends WP_Widget {
         if ( is_page( get_option('alo_em_subsc_page') ) ) return;
         if ( is_page( alo_em_get_subscrpage_id( alo_em_get_language() ) ) ) return;
         //if ( is_page() ) return;
-        
+
+		// Hide widget to users, if required in setting
+        if ( get_option('alo_em_hide_widget_users') == "yes" && is_user_logged_in() ) return;
+         
  		// Our variables from the widget settings.
 		$title = apply_filters('widget_title', $instance['title'] );
 		
