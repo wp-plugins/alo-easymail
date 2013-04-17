@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.15
+Version: 2.4.16
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -1040,7 +1040,7 @@ function alo_em_update_column_status ( $newsletter ) {
 		$status = alo_em_get_newsletter_status( $newsletter );
 		
 		$report_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_report.php?', 'alo-easymail_report');		
-		$goto_report = "<a href=\"#\" onclick=\"jQuery(this).easymailReportPopup ( '$report_url', $newsletter, '". alo_em_get_language () ."' );\" title=\"". __( 'Report', "alo-easymail") ."\">";
+		$goto_report = "<a href=\"#\" onclick=\"aloEM(this).easymailReportPopup ( '$report_url', $newsletter, '". alo_em_get_language () ."' );\" title=\"". __( 'Report', "alo-easymail") ."\">";
 		$goto_report .= "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-report.png\" alt=\"\" /> ". __( 'Report', "alo-easymail") ."</a>"; 
 		if ( alo_em_is_newsletter_recipients_archived ( $newsletter ) ) $goto_report .= " <em>(". __( 'archived', "alo-easymail") . ")</em>"; 
 
@@ -1061,7 +1061,7 @@ function alo_em_update_column_status ( $newsletter ) {
 						echo __("Progress", "alo-easymail"). ": ". alo_em_newsletter_recipients_percentuage_already_sent( $newsletter ) . "%<br />";
 						if ( alo_em_user_can_edit_newsletter( $newsletter ) && current_user_can( "publish_newsletters" ) ) {
 							echo ' <img src="'. ALO_EM_PLUGIN_URL. '/images/16-refresh.png" class="easymail-refresh-column-status" alt="'. __( 'refresh', "alo-easymail"). '" title="'. __( 'refresh', "alo-easymail"). '" rel="'. $newsletter. '" />';
-							echo "<a href=\"#\" onclick=\"jQuery(this).easymailPausePlay ( $newsletter, 'pause' );return false;\">";
+							echo "<a href=\"#\" onclick=\"aloEM(this).easymailPausePlay ( $newsletter, 'pause' );return false;\">";
 							echo ' <img src="'. ALO_EM_PLUGIN_URL. '/images/16-pause.png" class="easymail-pause-column-status" alt="'. __( 'pause', "alo-easymail"). '" title="'. __( 'pause the sending', "alo-easymail"). '" rel="'. $newsletter. '" />';
 							echo "</a>";
 						}
@@ -1090,7 +1090,7 @@ function alo_em_update_column_status ( $newsletter ) {
 				echo __("Progress", "alo-easymail"). ": ". alo_em_newsletter_recipients_percentuage_already_sent( $newsletter ) . "%<br />";
 				//if ( alo_em_count_newsletter_recipients_already_sent ( $newsletter ) > 0 ) echo " <small>(".alo_em_count_newsletter_recipients_already_sent ( $newsletter ) ."/". alo_em_count_newsletter_recipients ( $newsletter ). ")</small><br />";
 				if ( alo_em_user_can_edit_newsletter( $newsletter ) ) {
-					echo "<a href=\"#\" onclick=\"jQuery(this).easymailPausePlay ( $newsletter, 'play' );return false;\">";
+					echo "<a href=\"#\" onclick=\"aloEM(this).easymailPausePlay ( $newsletter, 'play' );return false;\">";
 					echo ' <img src="'. ALO_EM_PLUGIN_URL. '/images/16-play.png" class="easymail-pause-column-status" alt="'. __( 'continue', "alo-easymail"). '" title="'. __( 'continue the sending', "alo-easymail"). '" rel="'. $newsletter. '" />';
 					echo "</a>";
 				}
@@ -1110,7 +1110,7 @@ function alo_em_update_column_status ( $newsletter ) {
 						if ( get_option('alo_em_js_rec_list') != "no_ajax_onsavepost" ) { // if required, no link to ajax
 							//$rec_url = wp_nonce_url( ALO_EM_PLUGIN_URL . '/alo-easymail_recipients-list.php?', 'alo-easymail_recipients-list');
 							if ( alo_em_user_can_edit_newsletter( $newsletter ) && current_user_can( "publish_newsletters" ) ) {
-								//echo "<a href=\"#\" onclick=\"jQuery(this).easymailRecipientsGenPopup ( '$rec_url', $newsletter, '". alo_em_get_language () ."' );\">";
+								//echo "<a href=\"#\" onclick=\"aloEM(this).easymailRecipientsGenPopup ( '$rec_url', $newsletter, '". alo_em_get_language () ."' );\">";
 								echo "<a href=\"#\" class=\"easymail-reciepient-list-open\"  rel=\"".$newsletter."\">";
 								echo "<img src=\"". ALO_EM_PLUGIN_URL. "/images/16-arrow-right.png\" alt=\"\" /> <strong class=\"easymail-column-status-required-list-".$user_ID."\">" . __( 'Required', "alo-easymail") .":</strong> " . __( 'Create list of recipients', "alo-easymail");
 								echo "</a>";
