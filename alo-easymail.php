@@ -622,6 +622,8 @@ function alo_em_init_method() {
 		}
 	}
 
+	// Delete obsolete values of option: if no ajax, update to normal ajax mode
+	if ( get_option('alo_em_js_rec_list') != "no_ajax_onsavepost" )  update_option('alo_em_js_rec_list', "ajax_normal");
 }
 add_action( 'init', 'alo_em_init_method' );
 
