@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 2.4.16
+Stable tag: 2.4.17
 License: GPLv2 or later
 
 To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
@@ -73,6 +73,9 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.17 =
+* Fixed: now the "send a test newsletter" email goes out properly.
 
 = 2.4.16 =
 * Updated: jQuery.noConflict() in backend javascript, to decrease opportunity of issues and conflicts
@@ -494,3 +497,6 @@ Added preview in newsletter theme. Updated recipient list in modal (maybe javasc
 
 = 2.4.16 =
 Added jQuery.noConflict() in backend javascript, to decrease opportunity of issues and conflicts.
+
+= 2.4.17 =
+Fixed a bug about "send a test newsletter": now it goes out properly.

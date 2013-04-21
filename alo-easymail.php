@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.16
+Version: 2.4.17
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -1353,7 +1353,6 @@ function alo_em_add_admin_script () {
 		echo '<link rel="stylesheet" href="'.ALO_EM_PLUGIN_URL.'/inc/jquery.ui.tabs.css" type="text/css" media="print, projection, screen" />'."\n";
 	}
 	if ( $pagenow == "post.php" || ( isset( $_GET['post_type'] ) && $_GET['post_type'] == "newsletter" ) ) {
-		wp_enqueue_script('thickbox');
 
 		//edit : added all this "$code" related lines
 		$alo_em_cf = alo_easymail_get_custom_fields();
@@ -1377,10 +1376,6 @@ function alo_em_add_admin_script () {
 
 		echo $code;
 		
-		wp_enqueue_script( 'alo-easymail-backend', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend.js' );
-		wp_localize_script( 'alo-easymail-backend', 'easymailJs', alo_em_localize_admin_script() );
-
-
 		wp_enqueue_script( 'json2' );
 		wp_enqueue_script( 'jquery', false, array( 'json2' ) );
 		wp_enqueue_script( 'thickbox' );
@@ -1392,6 +1387,9 @@ function alo_em_add_admin_script () {
 		wp_enqueue_script ( 'jquery-ui-resizable' );
 		wp_enqueue_script ( 'jquery-ui-draggable' );
 		wp_enqueue_style (  'wp-jquery-ui-dialog');
+
+		wp_enqueue_script( 'alo-easymail-backend', ALO_EM_PLUGIN_URL . '/inc/alo-easymail-backend.js', array( 'jquery' ) );
+		wp_localize_script( 'alo-easymail-backend', 'easymailJs', alo_em_localize_admin_script() );		
 	}
 }
 add_action('admin_print_scripts', 'alo_em_add_admin_script' );

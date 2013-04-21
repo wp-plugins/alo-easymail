@@ -3179,7 +3179,7 @@ function alo_em_get_language ( $detect_from_browser=false ) {
 		
 	// Last choice: get from browser only if requested and the lang .mo is available on blog
 	if ( $detect_from_browser ) {
-		$lang = alo_em_short_langcode ( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		if ( !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) $lang = alo_em_short_langcode ( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		if ( !empty($lang) && in_array($lang, alo_em_get_all_languages(false)) ) {
 			return $lang;
 		} else {

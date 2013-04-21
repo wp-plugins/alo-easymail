@@ -471,7 +471,7 @@ aloEM (document).ready ( function(){
 					aloEM('.easymail-recipients-start-loop-and-send').hide();
 					aloEM('.easymail-recipients-pause-loop').hide();
 					aloEM('.easymail-recipients-restart-loop').hide();					
-					aloEM(this).easymailUpdateColumStatus( $listModal.attr('rel') );
+					aloEM(this).easymailUpdateColumStatus( $listModal.data('current-id') );
 
 					aloEM('#ajaxloop-response').smartupdaterStop();
 				} else {
@@ -491,7 +491,7 @@ aloEM (document).ready ( function(){
 			aloEM('#easymail-testmail-loading').show();
 			aloEM.post( easymailJs.ajaxurl, {
 				action:			'easymail_send_mailtest',
-				newsletter:		$listModal.attr('rel'), 
+				newsletter:		$listModal.data('current-id'), 
 				_ajax_nonce: 	easymailJs.nonce, 
 				email: 			email
 			   }, 
