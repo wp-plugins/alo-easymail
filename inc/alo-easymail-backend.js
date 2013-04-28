@@ -354,7 +354,7 @@ aloEM (document).ready ( function(){
 			buttons       : [{
 									text: easymailJs.txtClose,
 									click: function() { aloEM(this).dialog("close"); },
-									class: 'button'
+									"class": 'button'
 								}],
 			beforeClose	:	function( event, ui ) {
 									if ( aloEM('.easymail-recipients-pause-loop').is(':visible') ) {
