@@ -11,30 +11,30 @@ aloEM (document).ready ( function(){
 	 	aloEM( "#easymail-filter-ul-lists" ).hide(); 	
 	 	aloEM( "#easymail-filter-ul-roles" ).hide();
 	 	
-		aloEM('.easymail-filter-subscribers-by-languages').live( "click", function() {
+		aloEM('.easymail-filter-subscribers-by-languages').on( "click", function() {
 			aloEM( "#easymail-filter-ul-languages" ).toggle(); 
 			return false;
 		});
-		aloEM('.easymail-filter-subscribers-by-lists').live( "click", function() {
+		aloEM('.easymail-filter-subscribers-by-lists').on( "click", function() {
 			aloEM( "#easymail-filter-ul-lists" ).toggle(); 
 			return false;		
 		});
-		aloEM('.easymail-filter-regusers-by-roles').live( "click", function() {
+		aloEM('.easymail-filter-regusers-by-roles').on( "click", function() {
 			aloEM( "#easymail-filter-ul-roles" ).toggle(); 
 			return false;		
 		});			
 		
-		aloEM( "#easymail-recipients-all-subscribers" ).live( "click", function() {
+		aloEM( "#easymail-recipients-all-subscribers" ).on( "click", function() {
 			var status = aloEM( this ).is(':checked');
 			aloEM( ".check_list" ).prop( "checked", status );
 		});
 
-		aloEM( "#easymail-recipients-all-regusers" ).live( "click", function() {
+		aloEM( "#easymail-recipients-all-regusers" ).on( "click", function() {
 			var status = aloEM( this ).is(':checked');
 			aloEM( ".check_role" ).prop( "checked", status );
 		});		
 	
-		aloEM( "#easymail-theme-select-preview" ).live( "click", function() {
+		aloEM( "#easymail-theme-select-preview" ).on( "click", function() {
 			var theme = aloEM( '#easymail-theme-select' ).val();
 			if ( theme != "" ) aloEM.fn.easymailThemePreviewPopup( theme );
 			return false;
@@ -50,7 +50,7 @@ aloEM (document).ready ( function(){
 	
 		aloEM( ".easymail-column-short-summary" ).hide();
 		
-		aloEM('.easymail-toggle-short-summary').live( "click", function() {
+		aloEM('.easymail-toggle-short-summary').on( "click", function() {
 			var postId = aloEM( this ).attr( 'rel' );
 			aloEM( "#easymail-column-short-summary-"+ postId ).toggle(); 
 			return false;
@@ -58,7 +58,9 @@ aloEM (document).ready ( function(){
 		
 		
 		// Column status: Refresh
-		aloEM('.easymail-refresh-column-status').live( "click", function() {
+		//aloEM('.easymail-refresh-column-status').on( "click", function(e) {
+		aloEM('body').on( "click", '.easymail-refresh-column-status', function(e) {
+			e.preventDefault();
 			var postId = aloEM( this ).attr( 'rel' );
 			var data = {
 				action: 'alo_easymail_update_column_status',
@@ -71,11 +73,10 @@ aloEM (document).ready ( function(){
 				aloEM( '#easymail-refresh-column-status-loading-'+ postId ).hide();
 				aloEM( '#alo-easymail-column-status-'+postId).html( response ).show();
 			});
-			return false;
 		});
 
 		// Column status: Pause
-		aloEM('.easymail-pause-column-status').live( "click", function() {
+		aloEM('.easymail-pause-column-status').on( "click", function() {
 
 		});		
 	
@@ -130,7 +131,7 @@ aloEM (document).ready ( function(){
 	if ( easymailJs.pagenow == 'edit.php' && easymailJs.screenID == 'alo-easymail/alo-easymail_subscribers' ) {
 		
 		// Start inline-editing a subscriber
-		aloEM('.easymail-subscriber-edit-inline').live( "click", function() {
+		aloEM('.easymail-subscriber-edit-inline').on( "click", function() {
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 			
@@ -164,7 +165,9 @@ aloEM (document).ready ( function(){
 		
 		
 		// Save inline-editing subscriber
-		aloEM('.easymail-subscriber-edit-inline-save').live( "click", function() {
+		//aloEM('.easymail-subscriber-edit-inline-save').on( "click", function() {
+		aloEM('body').on( "click", '.easymail-subscriber-edit-inline-save', function(e) {
+			e.preventDefault();
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 			
@@ -241,7 +244,9 @@ aloEM (document).ready ( function(){
 		});	
 		
 		// Cancel inline-editing subscriber
-		aloEM('.easymail-subscriber-edit-inline-cancel').live( "click", function() {
+		aloEM('body').on( "click", '.easymail-subscriber-edit-inline-cancel', function(e) {
+		//aloEM('.easymail-subscriber-edit-inline-cancel').on( "click", function() {
+			e.preventDefault();
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 			
@@ -273,7 +278,7 @@ aloEM (document).ready ( function(){
 		});	
 
 		// Delete a subscriber
-		aloEM('.easymail-subscriber-delete').live( "click", function() {
+		aloEM('.easymail-subscriber-delete').on( "click", function() {
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 
@@ -328,7 +333,7 @@ aloEM (document).ready ( function(){
 		for( k in alo_cf_array ){
 			disable_classes = disable_classes + ', .subscriber-' + alo_cf_array[k] + '-new';
 		}
-		aloEM( disable_classes ).live("keypress", function(e) { //edit : orig : aloEM('.subscriber-email-new, .subscriber-name-new, .subscriber-active-new, .subscriber-lists-new').live("keypress", function(e) {
+		aloEM( disable_classes ).on("keypress", function(e) { //edit : orig : aloEM('.subscriber-email-new, .subscriber-name-new, .subscriber-active-new, .subscriber-lists-new').on("keypress", function(e) {
 		 	if (e.keyCode == 13) return false;
 		});		
 				
@@ -390,7 +395,8 @@ aloEM (document).ready ( function(){
 		return false;
 	}	
 
-	aloEM('.easymail-reciepient-list-open').live( "click", function(event) {
+	//aloEM('.easymail-reciepient-list-open').on( "click", function(event) {
+	aloEM('body').on( "click", '.easymail-reciepient-list-open', function(event) {
 		event.preventDefault();
 		$listModal.data('previous-id', $listModal.data('current-id') );
 		$listModal.data('current-id', aloEM(this).attr('rel') );
@@ -521,24 +527,24 @@ aloEM (document).ready ( function(){
 		};
 		
 		// Click Send Test Mail button
-		aloEM('.easymail-send-testmail').live( "click", function(event) {
+		aloEM('.easymail-send-testmail').on( "click", function(event) {
 			event.preventDefault();
 			aloEM(this).easymailSendMailTest();
 		});	
 			
 		// Click Start "Put in queue" loop button
-		aloEM('.easymail-recipients-start-loop').live( "click", function(event) {
+		aloEM('.easymail-recipients-start-loop').on( "click", function(event) {
 			event.preventDefault();
 			aloEM(this).easymailStartRecipientsLoop( false );
 		});	
 
 		// Click Start "Send now" loop button
-		aloEM('.easymail-recipients-start-loop-and-send').live( "click", function(event) {
+		aloEM('.easymail-recipients-start-loop-and-send').on( "click", function(event) {
 			event.preventDefault();
 			aloEM(this).easymailStartRecipientsLoop( true );
 		});	
 			
-		aloEM('.easymail-recipients-restart-loop').live( "click", function(event) {
+		aloEM('.easymail-recipients-restart-loop').on( "click", function(event) {
 			event.preventDefault();
 			aloEM('#ajaxloop-response').smartupdaterRestart();
 
@@ -547,7 +553,7 @@ aloEM (document).ready ( function(){
 			aloEM( '#alo-easymail-bar-inner').removeClass ( 'stopped' );
 		});
 
-		aloEM('.easymail-recipients-pause-loop').live( "click", function(event) {
+		aloEM('.easymail-recipients-pause-loop').on( "click", function(event) {
 			event.preventDefault();
 			aloEM('#ajaxloop-response').smartupdaterStop();
 

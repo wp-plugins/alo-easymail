@@ -88,20 +88,29 @@ function alo_em_html2plain ( $text ) {
             "\n\$0" 
         ),
         $text );
-    // from <br> to \n
-   	$text = preg_replace('/<br(\s+)?\/?>/i', "\n", $text );
-	
-    // Next lines added by sanderbontje
-    
+        
+	// Next lines added by sanderbontje, patched by Thomas Heinen
+
 	// Try to preserve links before stripping all tags
 	// by rewriting '<a id="123" href="url" rel="bookmark" target="_blank" style="mystyle">link</a>' to 'link (url)'
-	//$text = preg_replace('/<a(.*)href=\"([^"]+)\"(.*)>(.*)<\/a>/', "$4 ($2)", $text );
-	$text = preg_replace('/<a(.*)href=[\'|"]([^"]+)[\'|"](.*)>(.*)<\/a>/', "$4 ($2)", $text );
-	
-    $text = strip_tags( $text );
+	//$text = preg_replace('/<a(.*)href=\"([^"]+)\"(.*)>(.*)<\/a>/', " ()", $text );
+	$text = preg_replace('/<a(.*)href=[\'|"]([^"]+)[\'|"](.*)>(.*)<\/a>/', "$0 ($2)", $text );
+
+	// from <br> to \n - do this after rewriting links, so that links with <br> in them are still recognized by the regex
+	$text = preg_replace('/<br(\s+)?\/?>/i', "\n", $text );
+
+	$text = strip_tags( $text );
 
 	// remove excessive spaces and tabs
 	$text = preg_replace("/[ \t]+/", " ", $text);
+
+	// replace quotes by their plain-text variants
+	$text = preg_replace("/“/", "\"", $text);
+	$text = preg_replace("/”/", "\"", $text);
+
+	// replace dashes by =
+	$text = preg_replace("/–/", "=", $text);
+	$text = preg_replace("/—/", "=", $text);
 
 	// strip blank lines (blank, with tabs or spaces)
 	$text = preg_replace("/[\r\n]+[\s\t]*[\r\n]+/", "\n\n", $text );
@@ -765,7 +774,7 @@ function alo_em_count_newsletter_recipients_already_sent_with_success ( $newslet
  */
 function alo_em_count_newsletter_recipients_already_sent_with_error ( $newsletter ) {
 	global $wpdb;
-	$sent = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_recipients WHERE newsletter=%d AND result = '-1' ", $newsletter ) );
+	$sent = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->prefix}easymail_recipients WHERE newsletter=%d AND result < 0", $newsletter ) );
 	return count( $sent );
 }
 
@@ -1160,7 +1169,7 @@ function alo_em_user_form ( opt )
   document.getElementById('alo_em_widget_loading').style.display = "inline";  
   
    var alo_em_sack = new sack( 
-       "<?php echo admin_url() ?>admin-ajax.php" );       
+       "<?php echo admin_url( 'admin-ajax.php', is_ssl() ? 'admin' : 'http' ) ?>" );
 
   alo_em_sack.execute = 1;
   alo_em_sack.method = 'POST';
@@ -1265,7 +1274,7 @@ function alo_em_pubblic_form ()
   document.getElementById('alo_em_widget_loading').style.display = "inline";
   document.getElementById('alo_easymail_widget_feedback').innerHTML = "";
   
-   var alo_em_sack = new sack("<?php echo admin_url() ?>admin-ajax.php" );    
+  var alo_em_sack = new sack("<?php echo admin_url( 'admin-ajax.php', is_ssl() ? 'admin' : 'http' ) ?>" );
 
   alo_em_sack.execute = 1;
   alo_em_sack.method = 'POST';
@@ -1738,6 +1747,13 @@ function alo_em_alt_mail_body( $phpmailer ) {
 			$plain_text .= get_option ('siteurl');
 		}		
 		$phpmailer->AltBody = $plain_text;
+		
+		// Return-Path if bounce settings
+		$bounce_settings = alo_em_bounce_settings();
+		if ( is_email($bounce_settings['bounce_email']) )
+		{
+			$phpmailer->Sender = $bounce_settings['bounce_email'];
+		}
 	}
 }
 add_action( 'phpmailer_init', 'alo_em_alt_mail_body' );
@@ -1860,7 +1876,7 @@ function alo_em_get_recipients_in_queue ( $limit=false, $newsletter=false ) {
 	$headers = apply_filters( 'alo_easymail_newsletter_headers', $headers, $newsletter, $recipient );
 
 	// Custom newsletter attachs
-	$attachs = apply_filters( 'alo_easymail_newsletter_attachments', false, $newsletter );
+	$attachs = apply_filters( 'alo_easymail_newsletter_attachments', array(), $newsletter );
 	
     // ---- Send MAIL (or DEBUG) ----
     $send_mode = ( $force_send ) ? "" : get_option('alo_em_debug_newsletters');
@@ -3366,6 +3382,66 @@ function alo_em_assign_subscriber_to_lang ( $subscriber, $lang ) {
 }
 
 
+/**
+ * Polylang integration
+ **/
+function alo_em_polylang_set_plugin( $multilang_plugin ){
+
+	if ( defined('POLYLANG_VERSION') )
+		$multilang_plugin = 'polylang';
+	return $multilang_plugin;
+}
+add_filter ( 'alo_easymail_multilang_enabled_plugin', 'alo_em_polylang_set_plugin' );
+
+function alo_em_polylang_get_language( $lang, $detect_from_browser ){
+
+	if ( function_exists('pll_current_language') )
+		$lang = pll_current_language('slug');
+	return $lang;
+}
+add_filter ( 'alo_easymail_multilang_get_language', 'alo_em_polylang_get_language', 10, 2 );
+
+function alo_em_polylang_get_all_languages( $langs, $fallback_by_users  ){
+
+	if ( function_exists('pll_the_languages') )
+	{
+		global $polylang;
+		if (isset($polylang))
+		{
+			$pl_languages = $polylang->get_languages_list();
+			if ( is_array($pl_languages) ) foreach( $pl_languages as $i =>$pl_lang )
+				$langs[] = $pl_lang->slug;
+		}
+	}
+	return $langs;
+}
+add_filter ( 'alo_easymail_multilang_get_all_languages', 'alo_em_polylang_get_all_languages', 10, 2 );
+
+function alo_em_polylang_translate_url( $filtered_url, $post, $lang ){
+
+	if ( function_exists('pll_get_post') )
+	{
+		if ( $translated_id = pll_get_post( $post, $lang ) )
+		{
+			$filtered_url = get_permalink( $translated_id );
+		}
+	}
+	return $filtered_url;
+}
+add_filter ( 'alo_easymail_multilang_translate_url', 'alo_em_polylang_translate_url', 10, 3 );
+
+function alo_em_polylang_get_subscrpage_id( $translated_id, $lang ){
+
+	if ( function_exists('pll_get_post') )
+	{
+		$original = get_option('alo_em_subsc_page');
+		$translated_id = pll_get_post( $original, $lang );
+	}
+	return $translated_id;
+}
+add_filter ( 'alo_easymail_multilang_get_subscrpage_id', 'alo_em_polylang_get_subscrpage_id', 10, 2 );
+
+
 
 /*************************************************************************
  * FUNCTIONS FOR FRONTEND 
@@ -3488,7 +3564,7 @@ function alo_easymail_get_themes_url () {
 	} else {
 		$url = ALO_EM_PLUGIN_URL."/alo-easymail-themes/";
 	}
-	return $url;
+	return ( ! is_ssl() ) ? str_replace('https://', 'http://', $url) : $url;
 }
 
 
@@ -3841,4 +3917,177 @@ function alo_em_role_checkboxes ( $name='roles', $search_caps=array(), $attrs=''
 	return $html;
 }
 
-?>
+
+/*************************************************************************
+ * BOUNCES
+ *************************************************************************/ 
+
+/**
+ * Get bounce settings
+ * 
+ * @return array
+ */
+function alo_em_bounce_settings () {
+	$bounce_defaults = array(
+		'bounce_email'		=> '',
+		'bounce_host' 		=> '',
+		'bounce_port'		=> 143,
+		'bounce_protocol'	=> 'imap', // or 'pop3'
+		'bounce_folder'		=> '',
+		'bounce_username' 	=> '',
+		'bounce_password' 	=> '',
+		'bounce_flags' 		=> '', 	// optional: e.g.: /ssl/novalidate-cert
+		'bounce_maxmsg'		=> 30,	// max number of msgs will be examinated per batch
+		'bounce_interval'	=> 6,	// auto check bounces every N hours
+	);
+	$bounce_saved = get_option('alo_em_bounce_settings');
+	
+	return wp_parse_args( $bounce_saved, $bounce_defaults );
+}
+
+
+/**
+ * Add custom headers for bounce purpose in newsletters
+ * 
+ * @return str
+ */
+function alo_em_add_custom_headers ( $headers, $newsletter, $recipient ) {
+	
+	if ( !empty($newsletter->ID) ) $headers .= "X-ALO-EM-Newsletter: " . $newsletter->ID . "\n";
+	if ( !empty($recipient->ID) ) $headers .= "X-ALO-EM-Recipient: " . $recipient->ID . "\n";
+
+	return $headers;
+}
+add_filter( 'alo_easymail_newsletter_headers', 'alo_em_add_custom_headers', 100, 3 );
+
+
+/**
+ * Make an IMAP connection using settings
+ * 
+ * @return mix		the IMAP stream or FALSE if connection attempt fails
+ */
+function alo_em_bounce_connect () {
+	$bounce_settings = alo_em_bounce_settings ();
+	return @imap_open("{" . $bounce_settings['bounce_host'] .':'.$bounce_settings['bounce_port']. "/". $bounce_settings['bounce_protocol'] . $bounce_settings['bounce_flags'] . "}" . $bounce_settings['bounce_folder'], $bounce_settings['bounce_username'], $bounce_settings['bounce_password'] );
+}
+	
+
+/**
+ * Handle bounces (manually or via cron)
+ * 
+ * The function is pluggable: you can write your better function, and pleas share it :)
+ * 
+ * @param	str		type of final rerport: none, a text msg, an email
+ */
+
+if ( ! function_exists('alo_em_handle_bounces') )
+{
+	function alo_em_handle_bounces ( $report=false ) 
+	{
+		global $wpdb;
+		
+		$output = '';
+		
+		$bounce_settings = alo_em_bounce_settings ();
+		
+		$conn = alo_em_bounce_connect();
+
+		if ( ! $conn ) return FALSE;
+		
+		$num_msgs = imap_num_msg($conn);
+
+		// start bounce class
+		require_once('inc/bouncehandler/bounce_driver.class.php');
+		
+		$bouncehandler = new Bouncehandler();
+
+		// get the failures
+		$email_addresses = array();
+		$delete_addresses = array();
+		
+		$max_msgs = min( $num_msgs, $bounce_settings['bounce_maxmsg'] );
+		
+		if ( $report ) $output .= 'Bounces handled in: '. $bounce_settings['bounce_email'];
+		
+		for ( $n=1; $n <= $max_msgs; $n++ ) 
+		{
+			$msg_headers = imap_fetchheader($conn, $n);
+			$msg_body = imap_body($conn, $n);
+			
+			$bounce = $msg_headers . $msg_body; //entire message
+			
+			$multiArray = $bouncehandler->get_the_facts($bounce);
+			
+			if (!empty($multiArray[0]['action']) && !empty($multiArray[0]['status']) && !empty($multiArray[0]['recipient']) ) 
+			{
+				if ( $report ) $output .= '<br /> - MSG #'. $n .' - Bounce response: '. $multiArray[0]['action'];
+				
+				// If delivery permanently failed, unsubscribe
+				if ( $multiArray[0]['action']=='failed' ) 
+				{
+					$email = trim( $multiArray[0]['recipient'] );
+
+					// Unsubscribe email address
+					if ( $s_id = alo_em_is_subscriber( $email ) ) alo_em_delete_subscriber_by_id( $s_id );	
+					
+					if ( $report ) $output .= ' - '. $email .' UNSUBSCRIBED';			
+				}
+				
+				// If delivery temporary or permanently failed, mark recipient as bounced
+				if ( $multiArray[0]['action']=='failed' || $multiArray[0]['action']=='transient' || $multiArray[0]['action']=='autoreply' ) 	
+				{
+					
+					// TODO maybe use: $bouncehandler->x_header_search_1 = 'ALO-EM-Newsletter';
+					
+					
+					// Look fo EasyMail custom headers: Newsletter and Recipient
+					// NOTE: searching in body because IDs are inside original message included in body
+					$newsletter_id = 0;
+					$recipient_id = 0;
+					if ( preg_match('/X-ALO-EM-Newsletter: (\d+)/i', $bounce, $matches) )
+					{ 
+						if ( !empty($matches[1]) && is_numeric( $matches[1] ) ) $newsletter_id = (int)$matches[1];
+					}
+					if ( preg_match('/X-ALO-EM-Recipient: (\d+)/i', $bounce, $matches) )
+					{ 
+						if ( !empty($matches[1]) && is_numeric( $matches[1] ) ) $recipient_id = (int)$matches[1];
+					}
+					
+					// Mark recipient as bounced only if not a debug to author
+					if ( $newsletter_id > 0 && $recipient_id > 0 && strpos($msg_headers, "( DEBUG - TO: ") === false) 
+					{					
+						$wpdb->update( "{$wpdb->prefix}easymail_recipients",
+							array ( 'result' => -3 ),
+							array ( 'ID' => $recipient_id, 'newsletter' => $newsletter_id, 'email' => $email )
+						);
+					}
+					
+					if ( $report ) $output .= ' - Recipient ID #'. $recipient_id .' marked as not delivered';
+					
+					// mark msg for deletion
+					imap_delete($conn, $n);
+				}
+								
+			} //if passed parsing as bounce
+			else
+			{
+				if ( $report ) $output .= '<br /><span class="description"> - MSG #'. $n .' - Not a bounce</span>';
+			}
+			
+		} //for loop
+		
+
+		// delete messages
+		imap_expunge($conn);
+
+		// close
+		imap_close($conn);
+		
+		if ( $report ) return $output;
+		
+	}
+
+} // ( ! function_exists('alo_em_handle_bounces') )
+
+
+/* EOF */
