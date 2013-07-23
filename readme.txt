@@ -1,7 +1,7 @@
 === ALO EasyMail Newsletter ===
 Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
-Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
+Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, bounce, mail throttling, signup, multilanguage
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 2.4.18
