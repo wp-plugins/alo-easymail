@@ -3,8 +3,8 @@ Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, mail throttling, signup, multilanguage
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 2.4.17
+Tested up to: 3.6
+Stable tag: 2.4.18
 License: GPLv2 or later
 
 To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
@@ -29,7 +29,8 @@ ALO EasyMail Newsletter is a plugin for WordPress that allows to write and send 
 * **manage subscribers**: search, delete, edit subscription to mailing lists 
 * **manage capabilities**: choose the roles that can send newsletter, manage subscribers and settings
 * **view sending report**: how many subscribers have opened the newsletter and clicked on links inside it
-* **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [WPML](http://wpml.org/), [qTranslate](http://wordpress.org/extend/plugins/qtranslate/)
+* **bounce management**: the bounced email addresses are automatically unsubscribed
+* **multilanguage**: set all texts and options, you can write multilanguage newsletters - full integration with [WPML](http://wpml.org/), [qTranslate](http://wordpress.org/plugins/qtranslate/), [Polylang](http://wordpress.org/plugins/polylang/)
 * **debug tool**: rather than the recipients, you can send all emails of a newsletter to the author or you can have them recorded into a log file
 
 **Internationalization**
@@ -46,7 +47,6 @@ You can visit [code.google.com/p/alo-easymail/](http://code.google.com/p/alo-eas
 1. Upload `alo-easymail` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the `Plugins` menu in WordPress
 1. If you are **upgrading** an EasyMail previous version, be sure to **upload all files** and to **activate the plugin again**
-1. If you are upgrading from plugin version **1.x to 2.x**, make a backup of plugin db tables and [read this info](http://www.eventualo.net/blog/wp-alo-easymail-newsletter-faq/#faq-upgrade-2)
 
 = QUICK START =
 1. Go to `Appearance > Widget` to add subscription widget
@@ -73,6 +73,14 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.4.18 =
+* Added: bounce management (thanks to: https://github.com/cfortune/PHP-Bounce-Handler)
+* Added: compatibility with Polylang (multilingual plugin)
+* Updated: the script that creates the newsletter plain text (thanks to Thomas Heinen)
+* Updated: the priority of cron schedule filter now is very low so it could works also if other plugins break the schedule array
+* Updated: some javascript code to be compatible with jquery 1.9
+* Fixed: the ajax admin url used in frontend should work if FORCE_SSL_ADMIN is enabled and admin side is not https
 
 = 2.4.17 =
 * Fixed: now the "send a test newsletter" email goes out properly.
@@ -202,7 +210,7 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 * Fixed: now query that gets recipients in queue should be very faster
 
 = 2.2 =
-* Added: compatubility with WPML (WordPress Multilingual Plugin)
+* Added: compatibility with WPML (WordPress Multilingual Plugin)
 * Fixed: now html theme loaded also when recipient is a registered user
 * Fixed: now translation of text in html theme file
 * Added: 'updates from plugin developer' in dashboard only for administrators
@@ -500,3 +508,6 @@ Added jQuery.noConflict() in backend javascript, to decrease opportunity of issu
 
 = 2.4.17 =
 Fixed a bug about "send a test newsletter": now it goes out properly.
+
+= 2.4.18 =
+Added bounce management and compatibility with Polylang.

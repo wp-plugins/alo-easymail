@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.17
+Version: 2.4.18
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -68,9 +68,20 @@ function alo_em_more_reccurences( $schedules ) {
 		'interval' => 59*(ALO_EM_INTERVAL_MIN),
 		'display' => 'EasyMail every ' .ALO_EM_INTERVAL_MIN. ' minutes'
 	);
+	
+	// Set bounce schedule only if some bounce options are set
+	$bounce_settings = alo_em_bounce_settings ();
+	$bounce_interval = (int)$bounce_settings['bounce_interval'];
+	if ( $bounce_interval > 0 && is_email($bounce_settings['bounce_email']) && !empty($bounce_settings['bounce_host']) )
+	{
+		$schedules['alo_em_bounce'] =	array(
+			'interval' => 59 * 60 * $bounce_interval,
+			'display' => 'EasyMail every ' .$bounce_interval. ' hours'
+		);
+	}
 	return $schedules;
 }
-add_filter('cron_schedules', 'alo_em_more_reccurences');
+add_filter('cron_schedules', 'alo_em_more_reccurences', 300);
 
 
 /**
@@ -83,8 +94,21 @@ function alo_em_check_cron_scheduled() {
     if( !wp_next_scheduled( 'alo_em_schedule' ) ) {
 		wp_schedule_event(time(), 'twicedaily', 'alo_em_schedule');
 	}
+		
+	// Schedule bounce events, if bounce schedule key exists
+	if ( array_key_exists( 'alo_em_bounce', wp_get_schedules() ) )
+	{
+	   if( !wp_next_scheduled( 'alo_em_bounce_handle' ) ) {
+			wp_schedule_event(time()+60, 'alo_em_bounce', 'alo_em_bounce_handle');
+		}
+	}
+	
 }
 add_action('wp', 'alo_em_check_cron_scheduled');
+
+
+// Schedule bounce events
+add_action('alo_em_bounce_handle', 'alo_em_handle_bounces');
 
 
 /**
@@ -341,6 +365,8 @@ function alo_em_uninstall() {
     // delete cron batch sending
     wp_clear_scheduled_hook('alo_em_batch');
     wp_clear_scheduled_hook('ALO_em_batch'); // old versions
+    // delete optional bounce cron
+    wp_clear_scheduled_hook('alo_em_bounce_handle');
     
     // if required delete all plugin data (options, db tables, page)
    	if ( get_option('alo_em_delete_on_uninstall') == "yes" ) {

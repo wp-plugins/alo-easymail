@@ -5,9 +5,13 @@ if ( !current_user_can('manage_newsletter_options') ) 	wp_die(__('Cheatin&#8217;
 
 // Base link
 $link_base = "edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_options.php";
-
 	
 global $wp_version, $wpdb, $user_ID, $wp_roles;
+
+
+// Check IMAP extension is installed
+$imap_installed = ( function_exists('imap_open') ) ? true : false;
+
 
 // delete welcome setting alert
 if ( isset($_REQUEST['timeout_alert']) && $_REQUEST['timeout_alert'] == "stop" ) {
@@ -34,9 +38,13 @@ $languages = alo_em_get_all_languages( false );
 $text_fields = array ( "optin_msg", "optout_msg", "lists_msg", "preform_msg", "disclaimer_msg" );
 
 
-if ( isset($_REQUEST['submit']) ) {
+// If require to check bounce connection or manually check bounces, first submit form and save options
+if ( isset( $_POST['test_bounce_connection'] ) || isset( $_POST['check_bounces_now'] ) ) $_POST['submit'] = true;	
+
+
+if ( isset($_POST['submit']) ) {
 	flush_rewrite_rules( false ); // reset for newsletter permalink 
-	
+
 	// -------- Options permitted to all ('manage_newsletter_options')
 	// Tab TEXTS
 	if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_texts" ) {
@@ -199,11 +207,41 @@ if ( isset($_REQUEST['submit']) ) {
 			}
 			
 		} // end Tab PERMISSIONS
+
+		// Tab BOUNCES
+		if ( isset($_REQUEST['task']) && $_REQUEST['task'] == "tab_bounces" ) {
 		
-	} // end if Submit
+			$bounce_keys = array(
+				"bounce_email",
+				"bounce_host",
+				"bounce_port",
+				"bounce_protocol",
+				"bounce_folder",
+				"bounce_username",
+				"bounce_password",
+				"bounce_flags",
+				"bounce_interval",
+				"bounce_maxmsg",
+			);
+			
+			$new_bounce_settings = array();
+			foreach( $bounce_keys AS $bounce_key )
+			{
+				if ( !empty($_POST[$bounce_key]) ) 
+				{
+					$new_bounce_settings[$bounce_key] = stripslashes(trim(strip_tags($_POST[$bounce_key])));
+				}
+			}
+			update_option('alo_em_bounce_settings', $new_bounce_settings);
+			
+		} // end Tab BOUNCES
+				
+	} 
 	// --------
     echo '<div id="message" class="updated fade"><p>'. __("Updated", "alo-easymail") .'</p></div>';
-}?>
+} // end if Submit
+
+?>
 
 <script type="text/javascript">
 	var $em = jQuery.noConflict();
@@ -239,6 +277,7 @@ if ( isset($_REQUEST['submit']) ) {
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#batchsending">' . __("Batch sending", "alo-easymail") .'</a></li>'; ?>
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#permissions">' . __("Permissions", "alo-easymail") .'</a></li>'; ?>
 	<li><a href="#mailinglists"><?php _e("Mailing Lists", "alo-easymail") ?></a></li>
+	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#bounces">' . __("Bounces", "alo-easymail") .'</a></li>'; ?>	
 </ul>
 
 
@@ -579,7 +618,8 @@ if ( alo_em_multilang_enabled_plugin() == false ) {
 		echo '<p>'. __('No multilanguage plugin is enabled, so you will only see texts in the main language of the site', 'alo-easymail') .'.</p>';
 		echo '<p>'. __('Recommended plugins, fully compatible with EasyMail, for a complete multilingual functionality', 'alo-easymail') .': ';
 		echo '<a href="http://wpml.org/" target="_blank">WPML</a>, ';
-		echo '<a href="http://wordpress.org/extend/plugins/qtranslate/" target="_blank">qTranslate</a>';		
+		echo '<a href="http://wordpress.org/plugins/qtranslate/" target="_blank">qTranslate</a>, ';
+		echo '<a href="http://wordpress.org/plugins/polylang/" target="_blank">Polylang</a>';	
 		echo '.</p>';
 		//echo '<p>'. sprintf( __('Type the texts in all available languages (they are found in %s)', 'alo-easymail'), '<em>'.WP_LANG_DIR.'</em>' ) .".</p>";
 		echo '<p>'. __('If you like here you can list the languages available', 'alo-easymail') .':<br />';
@@ -1271,6 +1311,232 @@ if ($tab_mailinglists) {
 <?php //echo "<pre style='font-size:80%'>"; print_r( $tab_mailinglists ); echo "</pre>"; // DEBUG ?>
 
 </div> <!-- end Mailing Lists -->
+
+
+
+<!-- --------------------------------------------
+BOUNCES
+--------------------------------------------  -->
+
+<?php if ( current_user_can('manage_options') ) : /* only admin can */ ?>
+
+<div id="bounces">
+
+<form action="#bounces" method="post">
+<h2><?php _e("Bounces", "alo-easymail") ?></h2>
+
+<table class="form-table"><tbody>
+
+<?php 
+// Get array of saved settings
+$bounce_settings = alo_em_bounce_settings();
+
+// IMAP not installed
+if ( ! $imap_installed ) {
+	echo '<tr valign="top">';
+	echo '<td colspan="2">';
+		echo '<div class="text-alert"><p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> ';
+		echo '<strong>' . sprintf( __('PHP %s extension was not detected', 'alo-easymail'), 'IMAP' ) .'.</strong><br />';
+		echo __( 'This plugin feature can not work now.', 'alo-easymail' ) .' ';
+		echo sprintf( __( 'Ask your hosting provider to enable %s for PHP', 'alo-easymail' ), '<code>IMAP</code>' ).'.';
+		echo '</p></div>';
+	echo '</td></tr>';	
+}
+// Test bounce connection
+else if ( isset( $_POST['test_bounce_connection'] ) )
+{
+	$bounce_connection = alo_em_bounce_connect();
+
+	echo '<tr valign="top">';
+	echo '<td colspan="2">';	
+	if ( ! $bounce_connection ) { // connection error
+		echo '<div class="text-alert"><p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> ';
+		echo '<strong>' . @imap_last_error() .'.</strong><br />';
+		echo '</p></div>';
+	}
+	else
+	{
+		echo '<div class="easymail-alert" style="background-color:#99FF66">';
+		echo '<img src="'.ALO_EM_PLUGIN_URL.'/images/yes.png" style="vertical-align: text-bottom;" /> ';
+		echo __('The connection test has been successfully completed', 'alo-easymail') . '</div>';
+	}
+	echo '</td></tr>';	
+}	
+// Manually check bounces now
+else if ( isset( $_POST['check_bounces_now'] ) )
+{
+	$bounce_connection = alo_em_bounce_connect();
+
+	echo '<tr valign="top">';
+	echo '<td colspan="2">';	
+	if ( ! $bounce_connection ) { // connection error
+		echo '<div class="text-alert"><p><img src="'.ALO_EM_PLUGIN_URL.'/images/12-exclamation.png" /> ';
+		echo '<strong>' . @imap_last_error() .'.</strong><br />';
+		echo '</p></div>';
+	}
+	else
+	{
+
+		echo '<div class="easymail-alert" style="background-color:#99FF66">';
+		echo '<img src="'.ALO_EM_PLUGIN_URL.'/images/yes.png" style="vertical-align: text-bottom;" /> ';
+		echo '<strong>'. __('The bounces has been successfully handled', 'alo-easymail') .'</strong><br />';
+		// Manually check bounce now!
+		$bounce_report = alo_em_handle_bounces( true );
+		echo '<div style="overflow: auto;max-height: 150px">'. $bounce_report .'</div>';
+		echo '</div>';		
+	}
+	echo '</td></tr>';	
+}	
+?>
+
+<tr valign="top">
+<th scope="row">
+	<h3 style="margin-bottom: 0"><?php _e("Email address", "alo-easymail");?></h3>
+	</th>
+	<td></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_email"><?php _e("Email address", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_email" value="<?php echo $bounce_settings['bounce_email'] ?>" id="bounce_email" size="30" maxlength="100" />
+<span class="description"><?php _e("The email address to which bounce messages are delivered", "alo-easymail");?>
+</span></td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+	<h3 style="margin-bottom: 0"><?php _e("Connection settings", "alo-easymail");?></h3>
+	</th>
+	<td></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_host"><?php _e("Server host", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_host" value="<?php echo $bounce_settings['bounce_host'] ?>" id="bounce_host" size="30" maxlength="100" />
+<span class="description"><?php _e("The host remote server", "alo-easymail");?>.
+<?php echo __("E.g.", "alo-easymail").': imap.example.com' ;?>
+</span></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_port"><?php _e("Port number", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_port" value="<?php echo $bounce_settings['bounce_port'] ?>" id="bounce_port"  size="5" maxlength="5" /></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php _e("Protocol", "alo-easymail") ?>:</th>
+<td>
+<?php $protocol_vars_list = array (
+	"imap"	=>	'IMAP',
+	"pop3" 	=> 	'POP3',
+);
+foreach( $protocol_vars_list as $key => $label ) :
+	echo '<input type="radio" name="bounce_protocol" value="'.$key.'" id="bounce_protocol_'.$key.'" '. ( ( $key == $bounce_settings['bounce_protocol'] )? 'checked="checked"': "") .' />';
+	echo ' <label for="bounce_protocol_'.$key.'" style="margin-right: 20px">'. $label .'</label>';
+endforeach; ?>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_folder"><?php _e("Folder", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_folder" value="<?php echo $bounce_settings['bounce_folder'] ?>" id="bounce_folder" size="30" maxlength="100" />
+<span class="description"><?php _e("The host remote folder", "alo-easymail");?>.
+<?php echo __("Default", "alo-easymail").': '.__("empty", "alo-easymail");?>
+</span></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_username"><?php _e("Username") ?>:</label></th>
+<td><input type="text" name="bounce_username" value="<?php echo $bounce_settings['bounce_username'] ?>" id="bounce_username" size="30" maxlength="100" />
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_password"><?php _e("Password") ?>:</label></th>
+<td><input type="password" name="bounce_password" value="<?php echo $bounce_settings['bounce_password'] ?>" id="bounce_password" size="30" maxlength="100" />
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_flags"><?php _e("Optional flags", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_flags" value="<?php echo $bounce_settings['bounce_flags'] ?>" id="bounce_flags" size="30" maxlength="100" />
+<span class="description"><?php echo __("Default", "alo-easymail").': '.__("empty", "alo-easymail");?>.
+<?php echo __("E.g.", "alo-easymail").': /ssl/novalidate-cert' ;?>
+</span>
+</td>
+</tr>
+
+<?php if ( $imap_installed ) : ?>
+<tr valign="top">
+<th scope="row"><label for=""><em><?php _e("Test the connection now", "alo-easymail") ?>:</em></label></th>
+<td><input type="submit" name="test_bounce_connection" class="button" value="<?php echo esc_attr(__("Save settings and test now", "alo-easymail") ); ?>" />
+</td>
+</tr>
+<?php endif; ?>
+
+
+<tr valign="top">
+<th scope="row">
+	<h3 style="margin-bottom: 0"><?php _e("Bounce policy", "alo-easymail");?></h3>
+	</th>
+	<td></td>
+</tr>
+
+<?php if ( $imap_installed ) : ?>
+<tr valign="top">
+<th scope="row"><label for="bounce_interval"><?php _e("Handle automatically bounces", "alo-easymail") ?>:</label></th>
+<td>
+<select name='bounce_interval' id='bounce_interval'>
+	<?php $values_bounce_interval = array ( 
+		"" => __("never", "alo-easymail"),
+		1 => sprintf( __("every %s hour(s)", "alo-easymail"), 1 ),
+		2 => sprintf( __("every %s hour(s)", "alo-easymail"), 2 ),
+		3 => sprintf( __("every %s hour(s)", "alo-easymail"), 3 ),
+		4 => sprintf( __("every %s hour(s)", "alo-easymail"), 4 ),
+		6 => sprintf( __("every %s hour(s)", "alo-easymail"), 6 ),
+		8 => sprintf( __("every %s hour(s)", "alo-easymail"), 8 ),
+		12 => sprintf( __("every %s hour(s)", "alo-easymail"), 12 ),
+		24 => sprintf( __("every %s hour(s)", "alo-easymail"), 24 ),
+	);
+	foreach( $values_bounce_interval as $key => $label ) :
+		echo "<option value='$key' ". ( ( $key == $bounce_settings['bounce_interval'] )? " selected='selected'": "") .">". esc_html( $label ). "</option>";
+	endforeach; ?>
+</select>	
+<span class="description"><?php _e("If you select *never* you can handle bounces only manually", "alo-easymail"); ?>
+</span>
+</td>
+</tr>
+<?php endif; ?>
+
+<tr valign="top">
+<th scope="row"><label for="bounce_maxmsg"><?php _e("Maximum number of emails that can be check per bounce batch", "alo-easymail") ?>:</label></th>
+<td><input type="text" name="bounce_maxmsg" value="<?php echo $bounce_settings['bounce_maxmsg'] ?>" id="bounce_maxmsg"  size="3" maxlength="3" />
+</td>
+</tr>
+
+<?php if ( $imap_installed ) : ?>
+<tr valign="top">
+<th scope="row"><label for=""><em><?php _e("Handle manually bounces now", "alo-easymail") ?>:</em></label></th>
+<td><input type="submit" name="check_bounces_now" class="button" value="<?php echo esc_attr(__("Save settings and handle manually bounces now", "alo-easymail") ); ?>" />
+</td>
+</tr>
+<?php endif; ?>
+
+
+</tbody> </table>
+
+<p class="submit">
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
+<input type="hidden" name="task" value="tab_bounces" /> <?php // reset task ?>
+<!--<span id="autosave"></span>-->
+<input type="submit" name="submit" value="<?php _e('Update', 'alo-easymail') ?>" class="button-primary" />
+</p>
+</form>
+
+</div> <!-- end bounces -->
+
+<?php endif; /* only admin can */ ?>
+
 
 <p><?php alo_em_show_credit_banners( true ); ?></p>
 
