@@ -2,9 +2,9 @@
 Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, bounce, mail throttling, signup, multilanguage
-Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 2.4.18
+Requires at least: 3.5
+Tested up to: 3.7.1
+Stable tag: 2.5.0
 License: GPLv2 or later
 
 To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
@@ -73,6 +73,13 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.5 =
+* Added: a /mu-plugins folder containing custom hooks, the alo-easymail_custom-hooks.php is now deprecated
+* Added: a hook: 'alo_easymail_bounce_email_unsubscribed'
+* Fixed: some missing alt attribute in image tags
+* Some fixes and improvements by Wojtek Szałkiewicz
+* New post placeholders by Wojtek Szałkiewicz: /mu-plugins/alo-easymail_multiple-posts-placeholder.php
 
 = 2.4.18 =
 * Added: bounce management (thanks to: https://github.com/cfortune/PHP-Bounce-Handler)
@@ -511,3 +518,6 @@ Fixed a bug about "send a test newsletter": now it goes out properly.
 
 = 2.4.18 =
 Added bounce management and compatibility with Polylang.
+
+= 2.5 =
+Some improvements
