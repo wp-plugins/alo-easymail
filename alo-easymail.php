@@ -4,7 +4,7 @@
 Plugin Name: ALO EasyMail Newsletter
 Plugin URI: http://www.eventualo.net/blog/wp-alo-easymail-newsletter/
 Description: To send newsletters. Features: collect subcribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage.
-Version: 2.4.18
+Version: 2.5.0
 Author: Alessandro Massasso
 Author URI: http://www.eventualo.net
 
@@ -21,6 +21,9 @@ Author URI: http://www.eventualo.net
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+/*
+	Modified by Wojtek Szałkiewicz (wojtek@szalkiewicz.pl)
 */
 
 /*
@@ -51,6 +54,7 @@ require_once( 'alo-easymail-widget.php' );
 
 
 /**
+ * DEPRECATED: use files in /alo-easymail/mu-plugins folder
  * File including custom hooks. See plugin homepage or inside that file for more info.
  */
 if ( @file_exists ( ALO_EM_PLUGIN_ABS.'/alo-easymail_custom-hooks.php' ) ) include ( ALO_EM_PLUGIN_ABS. '/alo-easymail_custom-hooks.php' );
@@ -1517,7 +1521,7 @@ function alo_em_newsletter_add_custom_box() {
     if ( get_option('alo_em_use_themes') == 'yes' || get_option('alo_em_use_themes') == '' ) add_meta_box( "alo_easymail_newsletter_themes", __("Themes", "alo-easymail"), "alo_em_meta_themes", "newsletter", "normal", "high" );
     add_meta_box( "alo_easymail_newsletter_placeholders", __("Placeholders", "alo-easymail"), "alo_em_meta_placeholders", "newsletter", "normal", "high" );
 }
-add_action('add_meta_boxes', 'alo_em_newsletter_add_custom_box');
+add_action('add_meta_boxes', 'alo_em_newsletter_add_custom_box', 8);
 
 
 /**
@@ -2496,7 +2500,7 @@ function alo_em_add_media_button() {
 	
 	if (is_object($post) && $post->post_type == 'newsletter') :
 ?>
-<a title="Newsletter preview"  id="easymail-open-preview" class="preview button" href="#"><img id="easymail-open-preview-loading" src="<?php echo ALO_EM_PLUGIN_URL ?>/images/wpspin_light" alt="" style="vertical-align: text-bottom;display: none;margin-right: 0.5em" /><?php echo __('Preview in newsletter theme', 'alo-easymail') ?></a>
+<a title="Newsletter preview"  id="easymail-open-preview" class="preview button" href="#"><img id="easymail-open-preview-loading" src="<?php echo ALO_EM_PLUGIN_URL ?>/images/wpspin_light.gif" alt="" style="vertical-align: text-bottom;display: none;margin-right: 0.5em" /><?php echo __('Preview in newsletter theme', 'alo-easymail') ?></a>
 <?php
 	endif;
 }

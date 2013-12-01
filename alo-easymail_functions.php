@@ -266,7 +266,7 @@ function alo_em_get_all_recipients_from_meta ( $newsletter ) {
 			if ( !in_array( $reg->user_email, $count ) )  array_push( $count, $reg->user_email );
 		endforeach; endif;		
 	}
-	
+
 	if ( isset( $recipients['subscribers'] ) && isset( $recipients['lang'] ) )  {
 		$subscribers = alo_em_get_recipients_subscribers();
 		if ( $subscribers ) : foreach ( $subscribers as $sub ) :
@@ -2123,7 +2123,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 				
 		foreach( $attachments as $index => $attachment ) {
 			$src = wp_get_attachment_image_src( $attachment->ID, $size );
-			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" />'."\n";
+			$gallery .= '<img class="alo-easymail-gallery-newsletter" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" alt="" />'."\n";
 		}
 		
 		$gallery = apply_filters( 'alo_easymail_placeholder_newsletter_gallery', $gallery,  $attachments, $size, $newsletter->ID );
@@ -2153,7 +2153,7 @@ function alo_em_zirkuss_newsletter_content( $content, $newsletter, $recipient, $
 							
 			foreach( $attachments as $index => $attachment ) {
 				$src = wp_get_attachment_image_src( $post_id, $size );
-				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" />'."\n";
+				$post_gallery .= '<img class="alo-easymail-gallery-post" src="' . $src[0] . '" width="' . $src[1] . '" height="' . $src[2] . '" border="0" alt="" />'."\n";
 			}
 		
 			$post_gallery = apply_filters( 'alo_easymail_placeholder_post_gallery', $post_gallery,  $attachments, $size, $post_id );
@@ -3246,7 +3246,7 @@ function alo_em_get_lang_flag ( $lang_code, $fallback=false ) {
 		} else {
 			$img_code = $lang_code;
 		}
-		$flag = "<img src='". trailingslashit(WP_CONTENT_URL).$q_config['flag_location']. $img_code .".png' alt='".$q_config['language_name'][$lang_code]."' title='".$q_config['language_name'][$lang_code]."' />" ;
+		$flag = "<img src='". trailingslashit(WP_CONTENT_URL).$q_config['flag_location']. $img_code .".png' alt='".$q_config['language_name'][$lang_code]."' title='".$q_config['language_name'][$lang_code]."' alt='' />" ;
 	} else { // default
 		if ( $fallback == "code" ) $flag = $lang_code;
 		if ( $fallback == "name" ) $flag = alo_em_get_lang_name ( $lang_code );
@@ -3260,54 +3260,58 @@ function alo_em_get_lang_flag ( $lang_code, $fallback=false ) {
  * param 	by_users	if true and no other translation plugins get all langs chosen by users, if not only langs installed on blog
  */
 function alo_em_get_all_languages ( $fallback_by_users=false ) {
-	global $wp_version;
-	
-	// Choice by custom filters
-	$langs_by_filter = apply_filters ( 'alo_easymail_multilang_get_all_languages', false, $fallback_by_users ); // Hook
-	if ( !empty( $langs_by_filter ) && is_array( $langs_by_filter ) ) return $langs_by_filter;
-	
-	// Case 1: using qTranslate
-	if( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getSortedLanguages') ) {
-		return qtrans_getSortedLanguages();
-	}
+	global $wp_version, $alo_em_all_languages;
 
-	// Case 2: using WPML
-	if( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_get_languages') ) {
-		$languages = icl_get_languages('skip_missing=0&orderby=code');
-		if ( is_array( $languages ) ) return array_keys( $languages );
-	}	
+	if(empty($alo_em_all_languages)){
 	
-	// Case: search for setting
-	if ( get_option( 'alo_em_langs_list' ) != "" ) {
-		$languages = explode ( ",", get_option( 'alo_em_langs_list' ) );
-	} 
-	/* // Disabled to avoid auto-loading languages...
-	else {
-		// Case: wp default detection
-		$languages = array();
-		// WP_CONTENT_DIR. '/languages/' instead of WP_LANG_DIR: if qtranslate previously installed and then de-activated, the WP_LANG_DIR will remain 'wp-includes/languages/'
-		foreach( (array)glob( WP_CONTENT_DIR. '/languages/*.mo' ) as $lang_file ) {
-			$lang_file = basename($lang_file, '.mo');
-			if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) )
-				$languages[] = alo_em_short_langcode( $lang_file );
+		// Choice by custom filters
+		$langs_by_filter = apply_filters ( 'alo_easymail_multilang_get_all_languages', false, $fallback_by_users ); // Hook
+		if ( !empty( $langs_by_filter ) && is_array( $langs_by_filter ) ) $alo_em_all_languages = $langs_by_filter;
+	
+		// Case 1: using qTranslate
+		elseif( alo_em_multilang_enabled_plugin() == "qTrans" && function_exists( 'qtrans_getSortedLanguages') ) {
+			$alo_em_all_languages = qtrans_getSortedLanguages();
+		}
+
+		// Case 2: using WPML
+		elseif( alo_em_multilang_enabled_plugin() == "WPML" && function_exists( 'icl_get_languages') ) {
+			$languages = icl_get_languages('skip_missing=0&orderby=code');
+			if ( is_array( $languages ) ) $alo_em_all_languages = array_keys( $languages );
+		}	
+	
+		// Case: search for setting
+		elseif ( get_option( 'alo_em_langs_list' ) != "" ) {
+			$languages = explode ( ",", get_option( 'alo_em_langs_list' ) );
+	
+			// If languages, add locale lang (if not yet) and return
+			if ( !empty ($languages[0]) ) {
+				$default = alo_em_short_langcode ( get_locale() );
+				if ( !in_array( $default, $languages ) ) $languages[] = $default;
+				$alo_em_all_languages = $languages;
+			}
+		} 
+		/* // Disabled to avoid auto-loading languages...
+		else {
+			// Case: wp default detection
+			$languages = array();
+			// WP_CONTENT_DIR. '/languages/' instead of WP_LANG_DIR: if qtranslate previously installed and then de-activated, the WP_LANG_DIR will remain 'wp-includes/languages/'
+			foreach( (array)glob( WP_CONTENT_DIR. '/languages/*.mo' ) as $lang_file ) {
+				$lang_file = basename($lang_file, '.mo');
+				if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) )
+					$languages[] = alo_em_short_langcode( $lang_file );
+			}
+		}
+		*/
+	
+		// Last case: return all langs chosen by users or default
+		elseif ( $fallback_by_users ) {
+			$alo_em_all_languages = alo_em_get_all_languages_by_users();
+		} else {
+			$alo_em_all_languages = array( alo_em_short_langcode ( get_locale() ) );
 		}
 	}
-	*/
-	
-	// If languages, add locale lang (if not yet) and return
-	if ( !empty ($languages[0]) ) {
-		$default = alo_em_short_langcode ( get_locale() );
-		if ( !in_array( $default, $languages ) ) $languages[] = $default;
-		return $languages;
-	}
-	
-	
-	// Last case: return all langs chosen by users or default
-	if ( $fallback_by_users ) {
-		return alo_em_get_all_languages_by_users();
-	} else {
-		return array( alo_em_short_langcode ( get_locale() ) );
-	}	
+
+	return $alo_em_all_languages;
 }
 
 
@@ -4028,9 +4032,13 @@ if ( ! function_exists('alo_em_handle_bounces') )
 					$email = trim( $multiArray[0]['recipient'] );
 
 					// Unsubscribe email address
-					if ( $s_id = alo_em_is_subscriber( $email ) ) alo_em_delete_subscriber_by_id( $s_id );	
-					
-					if ( $report ) $output .= ' - '. $email .' UNSUBSCRIBED';			
+					if ( $s_id = alo_em_is_subscriber( $email ) )
+					{
+						alo_em_delete_subscriber_by_id( $s_id );	
+
+						do_action ( 'alo_easymail_bounce_email_unsubscribed', $email ); // Hook
+						if ( $report ) $output .= ' - '. $email .' UNSUBSCRIBED';			
+					}
 				}
 				
 				// If delivery temporary or permanently failed, mark recipient as bounced

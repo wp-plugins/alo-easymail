@@ -8,7 +8,7 @@ Feature inspired by phplist: http://www.phplist.com/
 Many thanks to those are working on it!
 
 eg. link in email:
-'<img src="{...path_to_easymail_dir...}tr.php?v={base-64-vars}" width="1" height="1" border="0" >';
+'<img src="{...path_to_easymail_dir...}tr.php?v={base-64-vars}" width="1" height="1" border="0" alt="">';
 */
 
 ob_start();
