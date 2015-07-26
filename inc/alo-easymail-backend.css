@@ -191,7 +191,7 @@ td.column-easymail_status .status-paused {
  * Recipients List Table
  */
 
-body.alo-easymail-alo-easymail_subscribers-php img.clock {
+body.alo-easymail-pages-alo-easymail-admin-subscribers-php img.clock {
 	vertical-align: middle;
 }
 
@@ -225,4 +225,31 @@ body.alo-easymail-alo-easymail_subscribers-php img.clock {
 
 i.easymail-tinymce-icon {
 	background-image: url('../images/16-email-letter.png');
+}
+
+
+/*
+ * Subscribers list table
+ */
+table#alo-easymailsubscriber-table input[type=text] {
+	width: 80px;
+	padding: 1px 6px;
+}
+
+table#alo-easymailsubscriber-table.widefat td,
+table#alo-easymailsubscriber-table.widefat th {
+	padding: 5px;
+}
+
+table#alo-easymailsubscriber-table select {
+	width: 80px;
+}
+
+@media only screen and (max-width: 480px) {
+
+	/* phones */
+	table#alo-easymailsubscriber-table th:not(.row-important-column),
+	table#alo-easymailsubscriber-table td:not(.row-important-column){
+		display: none;
+	}
 }

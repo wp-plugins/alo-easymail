@@ -3,8 +3,8 @@ Contributors: eventualo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9E6BPXEZVQYHA
 Tags: send, mail, newsletter, widget, subscription, mailing list, subscribe, cron, batch sending, bounce, mail throttling, signup, multilanguage
 Requires at least: 3.6
-Tested up to: 4.2
-Stable tag: 2.5.06
+Tested up to: 4.3
+Stable tag: 2.6.00
 License: GPLv2 or later
 
 To send newsletters. Features: collect subscribers on registration or with an ajax widget, mailing lists, cron batch sending, multilanguage, bounces.
@@ -82,6 +82,19 @@ Plugin links: [homepage](http://www.eventualo.net/blog/wp-alo-easymail-newslette
 5. The list of subscribers in administration
 
 == Changelog ==
+
+= 2.6.00 =
+* Updated: refactoring of php files to clean and organize the code in a better way, including several minor fixes
+* Updated: the widget constructor in PHP5 style
+* Updated: the tracking script does not load WP theme but only environment
+* Updated: some improvement in dashboard css of plugin screens
+* Updated: the [LATEST-POSTS] placeholder now has loaded by default
+* Added: the checkbox type in custom field
+* Added: filter 'alo_easymail_clean_no_activated_after'
+* Fixed: the custom field validation in user profile
+* Fixed: the size in recipient list modal
+* Fixed: a bug of the inline edit buttons in subscriber table
+* Removed: the "predomain" language file
 
 = 2.5.06 =
 * Added: the Name field now can be disabled in subscription form.
@@ -571,3 +584,6 @@ Fixed a bug and added some minor updates.
 
 = 2.5.05 =
 The Name field now can be disabled in subscription form.
+
+= 2.6.00 =
+General refactoring to improve code organization.
