@@ -1,4 +1,11 @@
-<?php // No direct access, only through WP
+<?php
+/**
+ * Plugin dashboard page to manage subscribers
+ *
+ * @package WordPress
+ * @subpackage ALO EasyMail plugin
+ */
+
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('You can\'t call this page directly.'); 
 if ( !current_user_can('manage_newsletter_subscribers') ) 	wp_die(__('Cheatin&#8217; uh?'));
 global $user_ID;
@@ -8,7 +15,7 @@ global $user_ID;
 <?php // action and feedback
 
 // Base link
-$link_base = "edit.php?post_type=newsletter&page=alo-easymail/alo-easymail_subscribers.php";
+$link_base = "edit.php?post_type=newsletter&page=alo-easymail/pages/alo-easymail-admin-subscribers.php";
 
 
 // change state activity of subscriber
@@ -113,7 +120,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					
 					<form method="get" action="" id="posts-filter">
 					<input  type="hidden" name="s"  value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" />
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 					<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 					<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
@@ -176,7 +183,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					
 					<form method="get" action="" id="posts-filter">
 					<input  type="hidden" name="s"  value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" />
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 					<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 					<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
@@ -345,7 +352,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 					</tbody></table>
 					<input type="hidden" name="post_type"  value="newsletter" />
 					<input type="hidden" name="action"  value="addsingle_step2" /> <?php // the action ?>
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input type="submit" value="<?php _e('Add', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>					 	
 			 	<hr class="break" />
@@ -358,7 +365,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<form action="" method="get">			 	
 					<input type="hidden" name="action"  value="wpusers_step2" /> <?php // the action ?>
 					<input type="hidden" name="post_type"  value="newsletter" />
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input type="submit" value="<?php _e('Import from WP members', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>			 	
 			 	<hr class="break" />
@@ -409,7 +416,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<form action="" method="get">			 	
 			 		<input type="hidden" name="post_type"  value="newsletter" />
 					<input type="hidden" name="action"  value="export_step2" /> <?php // the action ?>
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input type="submit" value="<?php _e('Export', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>		
 			 	<hr class="break" />
@@ -419,7 +426,7 @@ if ( isset($_REQUEST['doaction_step1']) ) {
 			 	<form action="" method="get">			 	
 			 		<input type="hidden" name="post_type"  value="newsletter" />
 					<input type="hidden" name="action"  value="export_unsubscribers_step2" /> <?php // the action ?>
-					<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+					<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 					<input type="submit" value="<?php _e('Export', 'alo-easymail') ?>" class="button" name="doaction_step2" />
 				</form>		
 			 	<hr class="break" />
@@ -752,7 +759,7 @@ if ( isset($_REQUEST['doaction_step2']) ) {
 	<p class="search-box">
 	<input type="text" name="s" value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" class="search-input" id="s" />
 	<input  type="hidden" name="post_type"   value="newsletter"/>
-	<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+	<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 	<input  type="hidden" name="paged"  value="1" />
 	<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 	<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
@@ -900,7 +907,7 @@ function checkBulkForm (form, field) {
 		
 		<input  type="hidden" name="s"  value="<?php if (!empty( $s )) echo stripslashes( $s ) ; ?>" />
 		<input  type="hidden" name="post_type"   value="newsletter"/>
-		<input  type="hidden" name="page"   value="alo-easymail/alo-easymail_subscribers.php"/>
+		<input  type="hidden" name="page"   value="alo-easymail/pages/alo-easymail-admin-subscribers.php"/>
 		<input  type="hidden" name="paged"  value="<?php echo $page ?>" />
 		<input  type="hidden" name="num"    value="<?php echo $items_per_page ?>" />
 		<input  type="hidden" name="sortby" value="<?php echo $_GET['sortby'] ?>" />
@@ -972,13 +979,13 @@ $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}easymail_subs
 </div><!-- tablenav -->
 
 
-<table class="widefat" style='margin-top:10px'>
+<table class="widefat" id="alo-easymailsubscriber-table" style='margin-top:10px'>
 	<thead>
 	<tr>
-		<th scope="col"> </th>
-		<th scope="col"><input type="checkbox" name="checkall_subscribers" value="" onclick="toggleCheckboxes(this, 'posts-filter', 'subscribers');" style="margin:1px" /></th>
+		<th scope="col" class="row-important-column"> </th>
+		<th scope="col" class="row-important-column"><input type="checkbox" name="checkall_subscribers" value="" onclick="toggleCheckboxes(this, 'posts-filter', 'subscribers');" style="margin:1px" /></th>
 		<?php if ( get_option('show_avatars') ) : ?> <th scope="col"><div style="text-align: center;"><!-- Avatar --></div></th><?php endif; ?>
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=email".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by e-mail", "alo-easymail")."'>".__("E-mail", "alo-easymail")."</a>"; ?>	</th>
+		<th scope="col" class="row-important-column"><?php echo "<a href='".$link_string."&amp;sortby=email".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".__("Order by e-mail", "alo-easymail")."'>".__("E-mail", "alo-easymail")."</a>"; ?>	</th>
 		<th scope="col"><?php _e("Name", "alo-easymail") ?></th>
         
         <?php
@@ -999,7 +1006,7 @@ $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}easymail_subs
 		<th scope="col"><?php echo __("Username", "alo-easymail") . alo_em_help_tooltip( __("The username of registered users. It is blank for public subscribers.", "alo-easymail") ) ?></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=join_date".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".esc_attr(__("Order by join date", "alo-easymail"))."'>".__("Join date", "alo-easymail")."</a>"; ?></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=last_act".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".esc_attr(__("Order by date of last activity", "alo-easymail"))."'>".__("Last activity", "alo-easymail")."</a>" . alo_em_help_tooltip( __("The most recent date when the subcriber made an action", "alo-easymail") ." (". __("e.g. open a newsletter, click a newsletter link, update info in subscription form", "alo-easymail").")" ); ?></th>		
-		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=active".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".esc_attr(__("Order by activation state", "alo-easymail"))."'>".__("Activated", "alo-easymail")."</a>" .alo_em_help_tooltip( __("For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail.", "alo-easymail") ." ". __("A subscriber will be deleted if not activated in 5 days.", "alo-easymail") ); ?></th>
+		<th scope="col" class="row-important-column"><?php echo "<a href='".$link_string."&amp;sortby=active".( ( isset($_GET['order']) && $_GET['order'] == 'DESC' )? "&amp;order=ASC": "&amp;order=DESC")."' title='".esc_attr(__("Order by activation state", "alo-easymail"))."'>".__("Activated", "alo-easymail")."</a>" .alo_em_help_tooltip( __("For registered users the dafault state is activated. For public subscribers the default state is deactivated: it will be activated by clicking on the activation link in the e-mail.", "alo-easymail") ." ". __("A subscriber will be deleted if not activated in 5 days.", "alo-easymail") ); ?></th>
 		<th scope="col"><?php _e("Mailing Lists", "alo-easymail"); ?></th>
 		<th scope="col"><?php echo "<a href='".$link_string."&amp;sortby=lang".( ( isset($_GET['order']) && $_GET['order'] == 'ASC' )? "&amp;order=DESC": "&amp;order=ASC")."' title='".esc_attr(__("Order by language", "alo-easymail"))."'>".__("Language", "alo-easymail")."</a>"; ?></th>				
 		<th scope="col"><?php _e("Actions", "alo-easymail") ?></th>

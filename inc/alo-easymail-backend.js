@@ -114,7 +114,7 @@ aloEM (document).ready ( function(){
 
 						setTimeout(function(){
 							aloEM("#easymail-open-preview-loading").hide();
-							window.open ( easymailJs.pluginPath + 'alo-easymail_preview.php?newsletter=' + easymailJs.postID + '&_wpnonce=' + easymailJs.nonce, 'easymail-preview-'+ easymailJs.postID ); 
+							window.open ( easymailJs.pluginPath + 'pages/alo-easymail-admin-preview.php?newsletter=' + easymailJs.postID + '&_wpnonce=' + easymailJs.nonce, 'easymail-preview-'+ easymailJs.postID );
 						}, 1000);
 				
 					}
@@ -122,16 +122,16 @@ aloEM (document).ready ( function(){
 
 			});
 	}
-			
+
 
 	/*
 	 * Subscribers' Table page
 	 */
 
-	if ( easymailJs.pagenow == 'edit.php' && easymailJs.screenID == 'alo-easymail/alo-easymail_subscribers' ) {
+	if ( easymailJs.pagenow == 'edit.php' && easymailJs.screenID == 'alo-easymail/pages/alo-easymail-admin-subscribers' ) {
 		
 		// Start inline-editing a subscriber
-		aloEM('.easymail-subscriber-edit-inline').on( "click", function() {
+		aloEM('#alo-easymailsubscriber-table').on( "click", '.easymail-subscriber-edit-inline', function() {
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 			
@@ -165,8 +165,7 @@ aloEM (document).ready ( function(){
 		
 		
 		// Save inline-editing subscriber
-		//aloEM('.easymail-subscriber-edit-inline-save').on( "click", function() {
-		aloEM('body').on( "click", '.easymail-subscriber-edit-inline-save', function(e) {
+		aloEM('#alo-easymailsubscriber-table').on( "click", '.easymail-subscriber-edit-inline-save', function(e) {
 			e.preventDefault();
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
@@ -179,7 +178,16 @@ aloEM (document).ready ( function(){
 			//edit : added all this for
 			var alo_cf_array_val = new Array();
 			for( k in alo_cf_array ){
-				alo_cf_array_val[ k ] = aloEM('#subscriber-' + id + '-' + alo_cf_array[k] + '-new').val();
+				var cf = aloEM('#subscriber-' + id + '-' + alo_cf_array[k] + '-new');
+				if ( cf.is('[type=checkbox]') ) {
+					if ( cf.is(':checked') ) {
+						alo_cf_array_val[ k ] = 1;
+					} else {
+						alo_cf_array_val[ k ] = 0;
+					}
+				} else {
+					alo_cf_array_val[ k ] = cf.val();
+				}
 			}
 			var lists = "";
 			aloEM('.subscriber-'+ id +'-lists-new:checked').each ( function () { 
@@ -244,7 +252,7 @@ aloEM (document).ready ( function(){
 		});	
 		
 		// Cancel inline-editing subscriber
-		aloEM('body').on( "click", '.easymail-subscriber-edit-inline-cancel', function(e) {
+		aloEM('#alo-easymailsubscriber-table').on( "click", '.easymail-subscriber-edit-inline-cancel', function(e) {
 		//aloEM('.easymail-subscriber-edit-inline-cancel').on( "click", function() {
 			e.preventDefault();
 			var id = aloEM( this ).attr('rel');
@@ -278,7 +286,7 @@ aloEM (document).ready ( function(){
 		});	
 
 		// Delete a subscriber
-		aloEM('.easymail-subscriber-delete').on( "click", function() {
+		aloEM('#alo-easymailsubscriber-table').on( "click", '.easymail-subscriber-delete', function() {
 			var id = aloEM( this ).attr('rel');
 			var row_index = aloEM.trim( aloEM('tr#subscriber-row-'+ id +' th.subscriber-row-index').html() );
 
@@ -346,14 +354,14 @@ aloEM (document).ready ( function(){
 	var $listModal = aloEM("#easymail-recipient-list-modal");
 
 	if ( $listModal.length > 0 ) {
-		
+
 		$listModal.dialog({                   
 			dialogClass   : 'wp-dialog',           
 			modal         : true,
 			autoOpen      : false, 
 			closeOnEscape : false,
-			width			: 700,
-			height			: 400,
+			width			: (aloEM(window).width()) * 0.8,
+			height			: (aloEM(window).height()) * 0.8,
 			title			: easymailJs.titleRecListModal,
 			resizable		: true,
 			buttons       : [{
